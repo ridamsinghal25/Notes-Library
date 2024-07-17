@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { AvailableUserRoles, UserRolesEnum } from "../constants.js ";
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,6 +26,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "fullname is required"],
       trim: true,
+    },
+    role: {
+      type: String,
+      enum: AvailableUserRoles,
+      default: UserRolesEnum.USER,
+      required: true,
     },
     isVerified: {
       type: Boolean,
