@@ -78,19 +78,11 @@ export default function MobileSidebar({ sidebarMobileItems }) {
               <DrawerTitle></DrawerTitle>
               <DrawerContent className="mb-2 p-2">
                 <div className="flex flex-col space-y-2 mt-2">
-                  <Link to="/profile">
-                    <SidebarButton
-                      size="sm"
-                      icon={Settings}
-                      className="w-full text-[0.98rem]"
-                    >
-                      Account Settings
-                    </SidebarButton>
-                  </Link>
                   <SidebarButton
+                    variant="outline"
                     size="sm"
-                    icon={LogOut}
-                    className="w-full text-[0.98rem]"
+                    Icon={LogOut}
+                    className="w-full text-sm p-3"
                   >
                     Log Out
                   </SidebarButton>

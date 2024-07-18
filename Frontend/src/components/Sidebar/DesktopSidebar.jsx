@@ -52,10 +52,11 @@ function DesktopSidebar({ sidebarDesktopItems }) {
               </PopoverTrigger>
               <PopoverContent className="mb-2 w-56 p-3 rounded-[1rem]">
                 <div className="space-y-1">
-                  <SidebarButton size="sm" Icon={Settings} className="w-full">
-                    Account Settings
-                  </SidebarButton>
-                  <SidebarButton size="sm" Icon={LogOut} className="w-full">
+                  <SidebarButton
+                    size="sm"
+                    Icon={LogOut}
+                    className="w-full text-sm"
+                  >
                     Log Out
                   </SidebarButton>
                 </div>
