@@ -15,74 +15,88 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
+import {
+  BUTTONS,
+  LABELS,
+  TABS,
+  TEXT_CONTENT,
+} from "../constants/account.constants";
 
 export function AccountPage() {
   return (
     <Tabs
-      defaultValue="account"
+      defaultValue={TABS.DEFAULT_VALUE}
       className="mx-20 flex items-center flex-col mt-10" //
     >
       <TabsList className="grid w-full justify-center grid-cols-2">
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
+        <TabsTrigger value={TABS.ACCOUNT}>
+          {TEXT_CONTENT.ACCOUNT_TAB}
+        </TabsTrigger>
+        <TabsTrigger value={TABS.PASSWORD}>
+          {TEXT_CONTENT.PASSWORD_TAB}
+        </TabsTrigger>
       </TabsList>
-      <TabsContent value="account" className="w-full">
+      <TabsContent value={TABS.ACCOUNT} className="w-full">
         <Card>
           <CardHeader>
-            <CardTitle className="md:text-xl">Account</CardTitle>
+            <CardTitle className="md:text-xl">
+              {TEXT_CONTENT.ACCOUNT_TITLE}
+            </CardTitle>
             <CardDescription className="md:text-sm">
-              Make changes to your account here. Click save when you're done.
+              {TEXT_CONTENT.ACCOUNT_DESCRIPTION}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1 ">
               <Label htmlFor="name" className="md:text-lg">
-                Name
+                {LABELS.NAME}
               </Label>
               <Input id="name" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="email" className="md:text-lg">
-                Email
+                {LABELS.EMAIL}
               </Label>
               <Input id="email" disabled />
             </div>
             <div className="space-y-1">
               <Label htmlFor="rollNumber" className="md:text-lg">
-                Roll No.
+                {LABELS.ROLL_NUMBER}
               </Label>
               <Input id="rollNumber" disabled />
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Save changes</Button>
+            <Button>{BUTTONS.SAVE_CHANGES}</Button>
           </CardFooter>
         </Card>
       </TabsContent>
-      <TabsContent value="password" className="w-full">
+      <TabsContent value={TABS.PASSWORD} className="w-full">
         <Card>
           <CardHeader>
-            <CardTitle className="md:text-xl">Password</CardTitle>
+            <CardTitle className="md:text-xl">
+              {TEXT_CONTENT.PASSWORD_TAB}
+            </CardTitle>
             <CardDescription className="md:text-sm">
-              Change your password here. After saving, you'll be logged out.
+              {TEXT_CONTENT.PASSWORD_DESCRIPTION}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
               <Label htmlFor="current" className="md:text-lg">
-                Current password
+                {LABELS.CURRENT_PASSWORD}
               </Label>
               <Input id="current" type="password" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="new" className="md:text-lg">
-                New password
+                {LABELS.NEW_PASSWORD}
               </Label>
               <Input id="new" type="password" />
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Save password</Button>
+            <Button>{BUTTONS.SAVE_PASSWORD}</Button>
           </CardFooter>
         </Card>
       </TabsContent>
