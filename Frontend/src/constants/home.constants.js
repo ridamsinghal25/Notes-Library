@@ -7,7 +7,7 @@ export const LOOP_INFO = true;
 
 export const TEXT_CONTENT = {
   MAIN_TITLE: "Stay Ahead Of The Curve",
-  SUB_TITLE_PREFIX: "With Our &nbsp;",
+  SUB_TITLE_PREFIX: "With Our ",
   SUB_TITLE_SUFFIX: "Notes",
   DESCRIPTION_ONE:
     "Notes Library is a project dedicated to my friends to help them with their notes.",
