@@ -1,11 +1,15 @@
 import React from "react";
 import { SidebarButton } from "./SidebarButton";
-import { LogOut, MoreHorizontal, Settings } from "lucide-react";
+import { LogOut, MoreHorizontal } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Separator } from "../ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import {
+  LOGOUT_BUTTON_LABEL,
+  PROJECT_NAME,
+} from "../../constants/sidebar.constants";
 
 function DesktopSidebar({ sidebarDesktopItems }) {
   const location = useLocation();
@@ -14,7 +18,7 @@ function DesktopSidebar({ sidebarDesktopItems }) {
     <aside className="w-[270px] max-w-xs h-screen fixed left-0 top-0 z-40 border-r">
       <div className="h-full px-3 py-4">
         <h3 className="mx-3 text-2xl font-semibold text-foreground text-black">
-          Notes Library
+          {PROJECT_NAME}
         </h3>
         <div className="mt-5">
           <div className="flex flex-col gap-4 w-full text-xl">
@@ -57,7 +61,7 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                     Icon={LogOut}
                     className="w-full text-sm"
                   >
-                    Log Out
+                    {LOGOUT_BUTTON_LABEL}
                   </SidebarButton>
                 </div>
               </PopoverContent>

@@ -20,6 +20,10 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  LOGOUT_BUTTON_LABEL,
+  PROJECT_NAME,
+} from "../../constants/sidebar.constants";
 
 export default function MobileSidebar({ sidebarMobileItems }) {
   const location = useLocation();
@@ -35,7 +39,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
         <SheetHeader className="flex flex-row justify-between items-center space-y-0">
           <SheetTitle>
             <span className="text-lg font-semibold text-foreground mx-3">
-              Notes Library
+              {PROJECT_NAME}
             </span>
           </SheetTitle>
           <SheetClose asChild>
@@ -84,7 +88,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                     Icon={LogOut}
                     className="w-full text-sm p-3"
                   >
-                    Log Out
+                    {LOGOUT_BUTTON_LABEL}
                   </SidebarButton>
                 </div>
               </DrawerContent>
