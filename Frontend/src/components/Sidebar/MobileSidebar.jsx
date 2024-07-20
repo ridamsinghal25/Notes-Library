@@ -1,4 +1,4 @@
-import { LogOut, Menu, MoreHorizontal, Settings, X } from "lucide-react";
+import { LogOut, Menu, MoreHorizontal, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -6,6 +6,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -48,6 +49,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
             </Button>
           </SheetClose>
         </SheetHeader>
+        <SheetDescription></SheetDescription>
         <div className="h-full">
           <div className="mt-5 flex flex-col w-full gap-1">
             {sidebarMobileItems.map((item) => (
