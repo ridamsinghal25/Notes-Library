@@ -25,7 +25,7 @@ const sideBarItems = [
 ];
 
 export default function Sidebar() {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const isDesktop = useMediaQuery("(min-width: 1170px)");
 
   if (isDesktop) {
     return <DesktopSidebar sidebarDesktopItems={sideBarItems} />;
