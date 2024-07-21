@@ -1,37 +1,9 @@
-// Signup constant
+// Auth constant
 
 // Dialog and Form Titles
 export const SIGNUP_TITLE = "Join Notes Library";
 export const SIGNUP_DESCRIPTION = "Sign up to deep dive into the notes world";
-
-// Form Field Labels and Placeholders
-export const FORM_FIELD_LABELS = {
-  fullName: "Full Name",
-  email: "Email",
-  rollNumber: "Roll No.",
-  password: "Password",
-  year: "Year",
-  semester: "Semester",
-};
-
-export const FORM_FIELD_PLACEHOLDERS = {
-  fullName: "Enter your full name",
-  email: "Enter your email",
-  rollNumber: "Enter your roll number",
-  password: "Enter your password",
-  year: "Select your year",
-  semester: "Select your semester",
-};
-
-// Form Field Names
-export const FORM_FIELD_NAMES = {
-  fullName: "fullName",
-  email: "email",
-  rollNumber: "rollNumber",
-  password: "password",
-  year: "year",
-  semester: "semester",
-};
+export const SIGNIN_DESCRIPTION = "Sign in to deep dive into the notes world";
 
 export const SEMESTER_OPTIONS = [
   { value: 1, name: "First Semester" },
@@ -46,5 +18,6 @@ export const SEMESTER_OPTIONS = [
 
 // Button Text
 export const SIGNUP_BUTTON_TEXT = "Sign up";
-export const SIGNIN_LINK_TEXT = "Sign in";
+export const SIGNIN_BUTTON_TEXT = "Sign in";
 export const SIGNIN_PROMPT_TEXT = "Already a member?";
+export const SIGNUP_PROMPT_TEXT = "Don't have an account";
