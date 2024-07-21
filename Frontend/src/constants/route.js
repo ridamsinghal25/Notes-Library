@@ -5,4 +5,6 @@ export const ROUTES = {
   SETTING: "/settings",
   PROFILE: "/profile",
   NOTES: "/notes",
+  SIGNUP: "/sign-up",
+  SIGNIN: "/sign-in",
 };

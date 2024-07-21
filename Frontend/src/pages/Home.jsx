@@ -6,11 +6,11 @@ import {
   TEXT_CONTENT,
   TYPE_SPEED,
   TYPED_STRINGS,
-} from "../constants/home.constants";
+} from "../constants/home";
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Typed from "typed.js";
-import { ROUTES } from "../constants/route.constants";
+import { ROUTES } from "../constants/route";
 
 function Home() {
   const typeElement = useRef(null);

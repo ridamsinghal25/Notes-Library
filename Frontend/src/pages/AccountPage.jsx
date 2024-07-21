@@ -15,12 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
-import {
-  BUTTONS,
-  LABELS,
-  TABS,
-  TEXT_CONTENT,
-} from "../constants/account.constants";
+import { BUTTONS, LABELS, TABS, TEXT_CONTENT } from "../constants/account";
 
 export function AccountPage() {
   return (

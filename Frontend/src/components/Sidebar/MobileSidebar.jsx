@@ -21,10 +21,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import {
-  LOGOUT_BUTTON_LABEL,
-  PROJECT_NAME,
-} from "../../constants/sidebar.constants";
+import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/sidebar";
 
 export default function MobileSidebar({ sidebarMobileItems }) {
   const location = useLocation();

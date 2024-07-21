@@ -15,8 +15,8 @@ import {
   SIGNUP_BUTTON_TEXT,
   SIGNIN_LINK_TEXT,
   SIGNIN_PROMPT_TEXT,
-} from "../constants/signup.constants";
-import { ROUTES } from "../constants/route.constants";
+} from "../constants/auth";
+import { ROUTES } from "../constants/route";
 
 function SignupPage() {
   const signupForm = useForm({

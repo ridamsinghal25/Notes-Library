@@ -20,7 +20,7 @@ import {
   FIELD_NAMES,
   FORM_FIELD_LABELS,
   FORM_FIELD_PLACEHOLDERS,
-} from "../constants/uploadPage.constants";
+} from "../constants/uploadPage";
 
 function UploadNotes({ showDialog, setShowDialog }) {
   const uploadNotesForm = useForm({

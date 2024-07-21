@@ -6,10 +6,7 @@ import { Separator } from "../ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import {
-  LOGOUT_BUTTON_LABEL,
-  PROJECT_NAME,
-} from "../../constants/sidebar.constants";
+import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/sidebar";
 
 function DesktopSidebar({ sidebarDesktopItems }) {
   const location = useLocation();
