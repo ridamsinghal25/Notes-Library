@@ -8,12 +8,9 @@ import FormFieldSelect from "../components/FormFieldSelect";
 import {
   SIGNUP_TITLE,
   SIGNUP_DESCRIPTION,
-  FORM_FIELD_LABELS,
-  FORM_FIELD_PLACEHOLDERS,
-  FORM_FIELD_NAMES,
   SEMESTER_OPTIONS,
   SIGNUP_BUTTON_TEXT,
-  SIGNIN_LINK_TEXT,
+  SIGNIN_BUTTON_TEXT,
   SIGNIN_PROMPT_TEXT,
 } from "../constants/auth";
 import { ROUTES } from "../constants/route";
@@ -21,11 +18,11 @@ import { ROUTES } from "../constants/route";
 function SignupPage() {
   const signupForm = useForm({
     defaultValues: {
-      [FORM_FIELD_NAMES.fullName]: "",
-      [FORM_FIELD_NAMES.email]: "",
-      [FORM_FIELD_NAMES.rollNumber]: "",
-      [FORM_FIELD_NAMES.password]: "",
-      [FORM_FIELD_NAMES.semester]: "",
+      fullName: "",
+      email: "",
+      rollNumber: "",
+      password: "",
+      semester: "",
     },
   });
 
@@ -49,34 +46,34 @@ function SignupPage() {
           >
             <FormFieldInput
               form={signupForm}
-              label={FORM_FIELD_LABELS.fullName}
-              name={FORM_FIELD_NAMES.fullName}
-              placeholder={FORM_FIELD_PLACEHOLDERS.fullName}
+              label="Full Name"
+              name="fullName"
+              placeholder="Enter your fullname"
             />
             <FormFieldInput
               form={signupForm}
-              label={FORM_FIELD_LABELS.email}
-              name={FORM_FIELD_NAMES.email}
-              placeholder={FORM_FIELD_PLACEHOLDERS.email}
+              label="Email"
+              name="email"
+              placeholder="Enter your email"
             />
             <FormFieldInput
               form={signupForm}
-              label={FORM_FIELD_LABELS.rollNumber}
-              name={FORM_FIELD_NAMES.rollNumber}
-              placeholder={FORM_FIELD_PLACEHOLDERS.rollNumber}
+              label="Roll No."
+              name="rollNumber"
+              placeholder="Enter your roll number"
             />
             <FormFieldInput
               form={signupForm}
-              label={FORM_FIELD_LABELS.password}
-              name={FORM_FIELD_NAMES.password}
-              placeholder={FORM_FIELD_PLACEHOLDERS.password}
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
             />
             <FormFieldSelect
               form={signupForm}
-              label={FORM_FIELD_LABELS.semester}
-              name={FORM_FIELD_NAMES.semester}
+              label="Semester"
+              name="semester"
               values={SEMESTER_OPTIONS}
-              placeholder={FORM_FIELD_PLACEHOLDERS.semester}
+              placeholder="Select your semester"
             />
             <Button type="submit">{SIGNUP_BUTTON_TEXT}</Button>
           </form>
@@ -88,7 +85,7 @@ function SignupPage() {
               to={ROUTES.SIGNIN}
               className="text-blue-600 hover:text-blue-800"
             >
-              {SIGNIN_LINK_TEXT}
+              {SIGNIN_BUTTON_TEXT}
             </Link>
           </p>
         </div>
