@@ -17,18 +17,15 @@ import {
   BUTTON_TEXTS,
   DIALOG_DESCRIPTION,
   DIALOG_TITLE,
-  FIELD_NAMES,
-  FORM_FIELD_LABELS,
-  FORM_FIELD_PLACEHOLDERS,
 } from "../constants/uploadPage";
 
 function UploadNotes({ showDialog, setShowDialog }) {
   const uploadNotesForm = useForm({
     defaultValues: {
-      [FIELD_NAMES.subject]: "",
-      [FIELD_NAMES.chapterNumber]: "",
-      [FIELD_NAMES.chapterName]: "",
-      [FIELD_NAMES.notes]: "",
+      subject: "",
+      chapterNumber: "",
+      chapterName: "",
+      notes: "",
     },
   });
 
@@ -62,27 +59,27 @@ function UploadNotes({ showDialog, setShowDialog }) {
           >
             <FormFieldInput
               form={uploadNotesForm}
-              label={FORM_FIELD_LABELS.subject}
-              name={FIELD_NAMES.subject}
-              placeholder={FORM_FIELD_PLACEHOLDERS.subject}
+              label="Subject Name"
+              name="subject"
+              placeholder="Enter the subject name"
             />
             <FormFieldInput
               form={uploadNotesForm}
-              label={FORM_FIELD_LABELS.chapterNumber}
-              name={FIELD_NAMES.chapterNumber}
-              placeholder={FORM_FIELD_PLACEHOLDERS.chapterNumber}
+              label="Chapter No."
+              name="chapterNumber"
+              placeholder="Enter the chapter number"
             />
             <FormFieldInput
               form={uploadNotesForm}
-              label={FORM_FIELD_LABELS.chapterName}
-              name={FIELD_NAMES.chapterName}
-              placeholder={FORM_FIELD_PLACEHOLDERS.chapterName}
+              label="Chapter Name"
+              name="chapterName"
+              placeholder="Enter the chapter name"
             />
             <FormFieldInput
               form={uploadNotesForm}
-              label={FORM_FIELD_LABELS.notes}
-              name={FIELD_NAMES.notes}
-              placeholder={FORM_FIELD_PLACEHOLDERS.notes}
+              label="Notes"
+              name="notes"
+              placeholder="Upload your notes"
               type="file"
               accept=".pdf"
             />
