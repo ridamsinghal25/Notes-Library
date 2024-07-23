@@ -7,4 +7,5 @@ export const ROUTES = {
   NOTES: "/notes",
   SIGNUP: "/sign-up",
   SIGNIN: "/sign-in",
+  VERIFYCODE: "/verify-code",
 };
