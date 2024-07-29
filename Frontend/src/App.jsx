@@ -1,10 +1,15 @@
-import { Button } from "./components/ui/button";
+import { Outlet } from "react-router-dom";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
   return (
     <div>
-      <h1 className="text-3xl bg-blue-400 font-bold underline">Hello world!</h1>
-      <Button>Button</Button>
+      <Sidebar />
+      <main className="mx-5 mt-16 lgl:ml-[300px] lgl:mt-3">
+        <div>
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 }
