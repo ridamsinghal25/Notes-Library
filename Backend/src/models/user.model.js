@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import {
-  AvailableUserRoles,
-  UserRolesEnum,
-  USER_TEMPORARY_TOKEN_EXPIRY,
-} from "../constants.js ";
+import { AvailableUserRoles, UserRolesEnum } from "../constants.js ";
 
 const userSchema = new mongoose.Schema(
   {
@@ -96,24 +92,6 @@ userSchema.methods.generateRefreshToken = function () {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     }
   );
-};
-
-userSchema.methods.generateTemporaryOTPToken = function () {
-  // Generate a 6-digit OTP
-  const min = 100000;
-  const max = 999999;
-  const unHashedOTP = crypto.randomInt(min, max + 1).toString();
-
-  // Hash the OTP for storage
-  const hashedOTP = crypto
-    .createHash("sha256")
-    .update(unHashedOTP)
-    .digest("hex");
-
-  // Set the expiry time for the OTP (20 minutes)
-  const tokenExpiry = Date.now() + USER_TEMPORARY_TOKEN_EXPIRY;
-
-  return { unHashedOTP, hashedOTP, tokenExpiry };
 };
 
 export const User = mongoose.model("User", userSchema);
