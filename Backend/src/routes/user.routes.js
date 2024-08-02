@@ -6,6 +6,7 @@ import {
   userForgotPasswordValidator,
   userLoginValidator,
   userRegisterValidator,
+  userResendEmailValidator,
   userResetForgottenPasswordValidator,
   userVerifyEmailValidator,
 } from "../validators/user.validators.js";
@@ -51,7 +52,9 @@ router
     resetForgottenPassword
   );
 
-router.route("/resend-email").get(resendVerificationEmail);
+router
+  .route("/resend-email")
+  .get(userResendEmailValidator(), validate, resendVerificationEmail);
 
 router
   .route("/change-password")
