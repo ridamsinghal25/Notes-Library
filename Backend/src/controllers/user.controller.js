@@ -13,6 +13,7 @@ import {
   forgotPasswordEmailTemplate,
   forgotPasswordPlainTextTemplate,
 } from "../utils/emails/forgotPasswordTemplate.js";
+import crypto from "crypto";
 
 function generateTemporaryOTPToken() {
   const min = 100000;
@@ -76,7 +77,7 @@ const registerUser = asyncHandler(async (req, res) => {
       fullName,
       email,
       password,
-      rollNumber,
+      rollNumber, // role
       isEmailVerified: false,
       emailVerificationToken: hashedOTP,
       emailVerificationExpiry: tokenExpiry,
@@ -134,7 +135,9 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid user password");
   }
 
-  const { accessToken, refreshToken } = generateAccessAndRefreshToken(user._id);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user._id
+  );
 
   const options = {
     httpOnly: true,
@@ -208,7 +211,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 
   const { accessToken, refreshToken: newRefreshToken } =
-    generateAccessAndRefreshToken(user._id);
+    await generateAccessAndRefreshToken(user._id);
 
   const options = {
     httpOnly: true,
@@ -282,8 +285,8 @@ const forgotPasswordRequest = asyncHandler(async (req, res) => {
   const forgotEmail = await sendEmail({
     email,
     subject: "Password reset request",
-    htmlContent: forgotPasswordEmailTemplate(user?.fullName, hashedOTP),
-    textContent: forgotPasswordPlainTextTemplate(user?.email, hashedOTP),
+    htmlContent: forgotPasswordEmailTemplate(user?.fullName, unHashedOTP),
+    textContent: forgotPasswordPlainTextTemplate(user?.email, unHashedOTP),
   });
 
   if (!forgotEmail.success) {
@@ -295,7 +298,13 @@ const forgotPasswordRequest = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(200, {}, "Password reset mail has been sent on your mail id");
+    .json(
+      new ApiResponse(
+        200,
+        {},
+        "Password reset mail has been sent on your mail id"
+      )
+    );
 });
 
 const resetForgottenPassword = asyncHandler(async (req, res) => {
@@ -304,7 +313,7 @@ const resetForgottenPassword = asyncHandler(async (req, res) => {
   const hashedOTP = crypto.createHash("sha256").update(resetCode).digest("hex");
 
   const user = await User.findOne({
-    forgotPasswordToken: resetCode,
+    forgotPasswordToken: hashedOTP,
     forgotPasswordExpiry: { $gt: Date.now() },
   });
 
@@ -325,9 +334,9 @@ const resetForgottenPassword = asyncHandler(async (req, res) => {
 });
 
 const resendVerificationEmail = asyncHandler(async (req, res) => {
-  const userId = req.user?._id;
+  const { email } = req.body;
 
-  const user = await User.findById(userId);
+  const user = await User.findOne({ email });
 
   if (!user) {
     throw new ApiError(404, "user not found");
