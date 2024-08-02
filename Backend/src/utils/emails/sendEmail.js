@@ -1,4 +1,4 @@
-import { resend } from "../utils/resend.js";
+import { resend } from "../resend.js";
 
 export async function sendEmail(options) {
   try {
