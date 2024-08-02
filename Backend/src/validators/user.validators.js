@@ -75,8 +75,8 @@ const userResetForgottenPasswordValidator = () => {
       .isLength({ min: 6, max: 6 })
       .withMessage("Verification code must be exactly 6 characters long")
       .isNumeric()
-      .withMessage("verify code must be a 6 digit number"),
-    body("password")
+      .withMessage("reset code must be a 6 digit number"),
+    body("newPassword")
       .trim()
       .notEmpty()
       .withMessage("Password is required")
@@ -85,20 +85,31 @@ const userResetForgottenPasswordValidator = () => {
   ];
 };
 
+const userResendEmailValidator = () => {
+  return [
+    body("email")
+      .trim()
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is invalid"),
+  ];
+};
+
 const userChangeCurrentPasswordValidator = () => {
   return [
     body("oldPassword")
       .trim()
       .notEmpty()
-      .withMessage("Password is required")
+      .withMessage("old Password is required")
       .isLength({ min: 6 })
-      .withMessage("Password must be atleast 6 characters"),
+      .withMessage("old Password must be atleast 6 characters"),
     body("newPassword")
       .trim()
       .notEmpty()
-      .withMessage("Password is required")
+      .withMessage("new Password is required")
       .isLength({ min: 6 })
-      .withMessage("Password must be atleast 6 characters"),
+      .withMessage("new Password must be atleast 6 characters"),
   ];
 };
 
@@ -125,6 +136,7 @@ export {
   userVerifyEmailValidator,
   userForgotPasswordValidator,
   userResetForgottenPasswordValidator,
+  userResendEmailValidator,
   userChangeCurrentPasswordValidator,
   userAssignRoleValidator,
 };
