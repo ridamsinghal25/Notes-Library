@@ -33,17 +33,21 @@ const userSchema = new mongoose.Schema(
       default: UserRolesEnum.USER,
       required: true,
     },
-    isVerified: {
+    isEmailVerified: {
       type: Boolean,
       default: false,
     },
-    verifyCode: {
+    emailVerificationToken: {
       type: String,
-      required: [true, "verify code is required"],
     },
-    verifyCodeExpiry: {
+    emailVerificationExpiry: {
       type: Date,
-      required: [true, "verify code expiry is required"],
+    },
+    forgotPasswordToken: {
+      type: String,
+    },
+    forgotPasswordExpiry: {
+      type: Date,
     },
     refreshToken: {
       type: String,
