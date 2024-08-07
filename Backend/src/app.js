@@ -20,9 +20,11 @@ import { errorHandler } from "./middlewares/error.middleware.js";
 // import routes
 import healthcheckRouter from "./routes/healthcheck.routes.js";
 import userRouter from "./routes/user.routes.js";
+import courseRouter from "./routes/course.route.js";
 
 app.use("/api/v1/healthcheck", healthcheckRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/courses", courseRouter);
 
 app.use(errorHandler);
 
