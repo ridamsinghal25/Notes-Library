@@ -68,7 +68,14 @@ const createCourse = asyncHandler(async (req, res) => {
 });
 
 const updateCourse = asyncHandler(async (req, res) => {
-  const { courseName, semester, startDate, endDate } = req.body;
+  const {
+    oldCourseName,
+    oldSemester,
+    newCourseName,
+    newSemester,
+    startDate,
+    endDate,
+  } = req.body;
 
   const isStartDateValid = validateDate(startDate);
   const isEndDateValid = validateDate(endDate);
@@ -82,8 +89,8 @@ const updateCourse = asyncHandler(async (req, res) => {
   }
 
   const isCourseExists = await Course.findOne({
-    courseName,
-    semester,
+    courseName: oldCourseName,
+    semester: oldSemester,
   });
 
   if (!isCourseExists) {
@@ -94,10 +101,10 @@ const updateCourse = asyncHandler(async (req, res) => {
     isCourseExists._id,
     {
       $set: {
-        courseName,
-        semester,
-        startDate,
-        endDate,
+        courseName: newCourseName,
+        semester: newSemester,
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
       },
     },
     { new: true }
