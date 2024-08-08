@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
       default: UserRolesEnum.USER,
       required: true,
     },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    },
     isEmailVerified: {
       type: Boolean,
       default: false,
