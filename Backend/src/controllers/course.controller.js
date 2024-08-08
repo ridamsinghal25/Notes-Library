@@ -54,8 +54,8 @@ const createCourse = asyncHandler(async (req, res) => {
   const newCourse = await Course.create({
     courseName,
     semester,
-    startDate,
-    endDate,
+    startDate: new Date(startDate),
+    endDate: new Date(endDate),
   });
 
   if (!newCourse) {
