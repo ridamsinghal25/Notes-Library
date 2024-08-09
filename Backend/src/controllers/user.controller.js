@@ -15,6 +15,7 @@ import {
 } from "../utils/emails/forgotPasswordTemplate.js";
 import crypto from "crypto";
 import { Course } from "../models/course.model.js";
+import mongoose from "mongoose";
 
 function generateTemporaryOTPToken() {
   const min = 100000;
@@ -421,9 +422,31 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
+  const user = await User.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(`${req.user._id}`),
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "course",
+        foreignField: "_id",
+        as: "course",
+      },
+    },
+    {
+      $project: {
+        password: 0,
+        refreshToken: 0,
+      },
+    },
+  ]);
+
   return res
     .status(200)
-    .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
+    .json(new ApiResponse(200, user[0], "Current user fetched successfully"));
 });
 
 const assignRole = asyncHandler(async (req, res) => {
