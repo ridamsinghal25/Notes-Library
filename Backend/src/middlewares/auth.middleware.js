@@ -23,6 +23,10 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
       throw new ApiError(401, "Invalid Access token");
     }
 
+    if (!user.isEmailVerified) {
+      throw new ApiError(403, "Please verify your email");
+    }
+
     req.user = user;
     next();
   } catch (error) {
