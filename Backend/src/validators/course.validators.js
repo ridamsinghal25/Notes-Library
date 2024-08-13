@@ -66,7 +66,16 @@ const updateCourseValidator = () => {
       .notEmpty()
       .withMessage("Expiry date is required")
       .isISO8601()
-      .withMessage("Invalid end date. Date must be in ISO8601 format"),
+      .withMessage("Invalid end date. Date must be in ISO8601 format")
+      .custom((value, { req }) => {
+        const startDate = new Date(req.body.startDate);
+        const endDate = new Date(value);
+        if (startDate >= endDate) {
+          throw new ApiError(400, "End date must be after start date");
+        }
+        return true;
+      }),
+    ,
     body("subjects")
       .isArray()
       .withMessage("Subjects must be an array")

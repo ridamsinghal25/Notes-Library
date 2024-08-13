@@ -21,12 +21,6 @@ const courseSchema = new mongoose.Schema({
   endDate: {
     type: Date,
     required: [true, "End date is required"],
-    validate: {
-      validator: function (value) {
-        return this.startDate < value;
-      },
-      message: "End date must be after start date",
-    },
   },
 });
 
