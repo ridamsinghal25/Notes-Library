@@ -10,6 +10,10 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, "Course semester is required"],
   },
+  subjects: {
+    type: [String],
+    required: [true, "course subjects are required"],
+  },
   startDate: {
     type: Date,
     required: [true, "Start date is required"],
@@ -17,12 +21,6 @@ const courseSchema = new mongoose.Schema({
   endDate: {
     type: Date,
     required: [true, "End date is required"],
-    validate: {
-      validator: function (value) {
-        return this.startDate < value;
-      },
-      message: "End date must be after start date",
-    },
   },
 });
 
