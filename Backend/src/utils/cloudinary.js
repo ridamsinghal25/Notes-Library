@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import { ApiError } from "./ApiError.js";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -12,7 +13,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     if (!localFilePath) return null;
     // upload file on cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: "raw",
+      resource_type: auto,
     });
 
     fs.unlinkSync(localFilePath);
@@ -25,9 +26,13 @@ const uploadOnCloudinary = async (localFilePath) => {
   }
 };
 
-const deleteFromCloudinary = async (publicId, resourceType = "image") => {
+const deleteFromCloudinary = async (publicId, resourceType) => {
   try {
     if (!publicId) return null;
+
+    if (!resourceType) {
+      throw new ApiError(400, "File resource type is required");
+    }
 
     // delete from cloudinary
     const response = await cloudinary.uploader.destroy(publicId, {
