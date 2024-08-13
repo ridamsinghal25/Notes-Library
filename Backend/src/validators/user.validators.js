@@ -22,6 +22,11 @@ const userRegisterValidator = () => {
       .withMessage("Roll Number is required")
       .isLength({ min: 11, max: 11 })
       .withMessage("Roll Number must be exactly 11 characters long"),
+    body("courseName").trim().notEmpty().withMessage("course name is required"),
+    body("semester")
+      .trim()
+      .notEmpty()
+      .withMessage("course semester is required"),
   ];
 };
 
@@ -130,6 +135,15 @@ const userAssignRoleValidator = () => {
   ];
 };
 
+const userUpdateCourseValidator = () => {
+  return [
+    body("semester")
+      .trim()
+      .notEmpty()
+      .withMessage("course semester is required"),
+  ];
+};
+
 export {
   userRegisterValidator,
   userLoginValidator,
@@ -139,4 +153,5 @@ export {
   userResendEmailValidator,
   userChangeCurrentPasswordValidator,
   userAssignRoleValidator,
+  userUpdateCourseValidator,
 };

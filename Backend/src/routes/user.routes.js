@@ -8,6 +8,7 @@ import {
   userRegisterValidator,
   userResendEmailValidator,
   userResetForgottenPasswordValidator,
+  userUpdateCourseValidator,
   userVerifyEmailValidator,
 } from "../validators/user.validators.js";
 import { validate } from "../validators/validate.js";
@@ -22,6 +23,7 @@ import {
   registerUser,
   resendVerificationEmail,
   resetForgottenPassword,
+  updateCourseByUser,
   verifyEmail,
 } from "../controllers/user.controller.js";
 import { UserRolesEnum } from "../constants.js";
@@ -76,5 +78,9 @@ router
     validate,
     assignRole
   );
+
+router
+  .route("/update-course")
+  .post(verifyJWT, userUpdateCourseValidator(), validate, updateCourseByUser);
 
 export default router;

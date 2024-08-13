@@ -14,6 +14,8 @@ import {
   forgotPasswordPlainTextTemplate,
 } from "../utils/emails/forgotPasswordTemplate.js";
 import crypto from "crypto";
+import { Course } from "../models/course.model.js";
+import mongoose from "mongoose";
 
 function generateTemporaryOTPToken() {
   const min = 100000;
@@ -53,10 +55,32 @@ async function generateAccessAndRefreshToken(userId) {
 }
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { email, rollNumber, fullName, password } = req.body;
+  const { email, rollNumber, fullName, password, semester, courseName } =
+    req.body;
+
+  const isCourseExists = await Course.findOne({
+    semester,
+    courseName,
+  });
+
+  if (!isCourseExists) {
+    throw new ApiError(
+      404,
+      `Sorry, we currently do not support ${courseName} course and ${semester} semester`
+    );
+  }
+
+  const userExistsByRollNumber = await User.findOne({
+    rollNumber,
+    isEmailVerified: true,
+  });
+
+  if (userExistsByRollNumber) {
+    throw new ApiError(400, "user already exists with roll number");
+  }
 
   const userExists = await User.findOne({
-    $or: [{ email }, { rollNumber }],
+    email,
   });
 
   const { unHashedOTP, hashedOTP, tokenExpiry } = generateTemporaryOTPToken();
@@ -69,6 +93,7 @@ const registerUser = asyncHandler(async (req, res) => {
       userExists.fullName = fullName;
       userExists.emailVerificationToken = hashedOTP;
       userExists.emailVerificationExpiry = tokenExpiry;
+      userExists.course = isCourseExists._id;
 
       await userExists.save();
     }
@@ -78,6 +103,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email,
       password,
       rollNumber, // role
+      course: isCourseExists?._id,
       isEmailVerified: false,
       emailVerificationToken: hashedOTP,
       emailVerificationExpiry: tokenExpiry,
@@ -396,9 +422,31 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
+  const user = await User.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(`${req.user._id}`),
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "course",
+        foreignField: "_id",
+        as: "course",
+      },
+    },
+    {
+      $project: {
+        password: 0,
+        refreshToken: 0,
+      },
+    },
+  ]);
+
   return res
     .status(200)
-    .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
+    .json(new ApiResponse(200, user[0], "Current user fetched successfully"));
 });
 
 const assignRole = asyncHandler(async (req, res) => {
@@ -418,6 +466,60 @@ const assignRole = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "user role updated successfully"));
 });
 
+const updateCourseByUser = asyncHandler(async (req, res) => {
+  const { semester } = req.body;
+  const courseId = req.user?.course;
+
+  const course = await Course.findById(courseId);
+
+  if (!course) {
+    throw new ApiError(404, "course not found");
+  }
+
+  if (!(new Date() > new Date(course.endDate))) {
+    throw new ApiError(
+      400,
+      `Your semester ends on ${new Date(course.endDate).toLocaleDateString()}`
+    );
+  }
+
+  const newCourse = await Course.find({
+    courseName: course.courseName,
+    semester,
+  });
+
+  if (!newCourse) {
+    throw new ApiError(404, "course not found with new semester");
+  }
+
+  if (
+    !(
+      new Date() > new Date(newCourse.startDate) &&
+      new Date() < new Date(newCourse.endDate)
+    )
+  ) {
+    throw new ApiError(400, "Your previous semester has not completed");
+  }
+
+  const updatedUserDetails = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        course: newCourse?._id,
+      },
+    },
+    { new: true }
+  );
+
+  if (!updatedUserDetails) {
+    throw new ApiError(500, "Failed to update course details");
+  }
+
+  return res
+    .status(200)
+    .json(200, updatedUserDetails, "course updated successfully");
+});
+
 export {
   registerUser,
   loginUser,
@@ -430,6 +532,7 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   assignRole,
+  updateCourseByUser,
 };
 
 /**
