@@ -27,7 +27,7 @@ function validateDate(dateStr) {
 }
 
 const createCourse = asyncHandler(async (req, res) => {
-  const { courseName, semester, startDate, endDate } = req.body;
+  const { courseName, semester, startDate, endDate, subjects } = req.body;
 
   const isStartDateValid = validateDate(startDate);
   const isEndDateValid = validateDate(endDate);
@@ -56,6 +56,7 @@ const createCourse = asyncHandler(async (req, res) => {
     semester,
     startDate: new Date(startDate),
     endDate: new Date(endDate),
+    subjects,
   });
 
   if (!newCourse) {
@@ -75,6 +76,7 @@ const updateCourse = asyncHandler(async (req, res) => {
     newSemester,
     startDate,
     endDate,
+    subjects,
   } = req.body;
 
   const isStartDateValid = validateDate(startDate);
@@ -105,6 +107,7 @@ const updateCourse = asyncHandler(async (req, res) => {
         semester: newSemester,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
+        subjects,
       },
     },
     { new: true }
