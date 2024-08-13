@@ -10,6 +10,10 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, "Course semester is required"],
   },
+  subjects: {
+    type: [String],
+    required: [true, "course subjects are required"],
+  },
   startDate: {
     type: Date,
     required: [true, "Start date is required"],

@@ -1,4 +1,5 @@
 import { body } from "express-validator";
+import { ApiError } from "../utils/ApiError.js";
 
 const createCourseValidator = () => {
   return [
@@ -19,6 +20,20 @@ const createCourseValidator = () => {
       .withMessage("Expiry date is required")
       .isISO8601()
       .withMessage("Invalid end date. Date must be in ISO8601 format"),
+    body("subjects")
+      .isArray()
+      .withMessage("Subjects must be an array")
+      .custom((subjects) => {
+        if (subjects.length === 0) {
+          throw new Error("Subjects cannot be an empty array");
+        }
+        subjects.forEach((subject) => {
+          if (typeof subject !== "string") {
+            throw new ApiError(400, "Each subject must be a string");
+          }
+        });
+        return true;
+      }),
   ];
 };
 
@@ -52,6 +67,20 @@ const updateCourseValidator = () => {
       .withMessage("Expiry date is required")
       .isISO8601()
       .withMessage("Invalid end date. Date must be in ISO8601 format"),
+    body("subjects")
+      .isArray()
+      .withMessage("Subjects must be an array")
+      .custom((subjects) => {
+        if (subjects.length === 0) {
+          throw new Error("Subjects cannot be an empty array");
+        }
+        subjects.forEach((subject) => {
+          if (typeof subject !== "string") {
+            throw new ApiError(400, "Each subject must be a string");
+          }
+        });
+        return true;
+      }),
   ];
 };
 
