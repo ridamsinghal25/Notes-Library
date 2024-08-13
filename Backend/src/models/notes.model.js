@@ -1,13 +1,18 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const notesSchema = new mongoose.Schema(
   {
-    chapterName: {
+    chapterNumber: {
       type: String,
-      required: [true, "name is required"],
+      required: [true, "chapter number is required"],
       trim: true,
     },
-    creator: {
+    chapterName: {
+      type: String,
+      required: [true, "chapter name is required"],
+      trim: true,
+    },
+    owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "creator of notes is required"],
@@ -19,6 +24,10 @@ const notesSchema = new mongoose.Schema(
     subject: {
       type: String,
       required: [true, "subject is required"],
+    },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
     },
   },
   { timestamps: true }
