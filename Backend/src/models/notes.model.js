@@ -13,9 +13,8 @@ const notesSchema = new mongoose.Schema(
       trim: true,
     },
     owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "creator of notes is required"],
+      type: String,
+      required: [true, "owner of notes is required"],
     },
     pdf: {
       public_id: String,
