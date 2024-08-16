@@ -1,6 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import { ApiError } from "./ApiError.js";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -8,12 +7,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadOnCloudinary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath, fileName) => {
   try {
     if (!localFilePath) return null;
     // upload file on cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: auto,
+      public_id: fileName,
+      resource_type: "auto",
     });
 
     fs.unlinkSync(localFilePath);
@@ -21,27 +21,21 @@ const uploadOnCloudinary = async (localFilePath) => {
     return response;
   } catch (error) {
     fs.unlinkSync(localFilePath); // remove the locally saved temporary file as the upload operation got failed
-
+    console.log(error);
     return null;
   }
 };
 
-const deleteFromCloudinary = async (publicId, resourceType) => {
+const deleteFromCloudinary = async (publicId) => {
   try {
     if (!publicId) return null;
 
-    if (!resourceType) {
-      throw new ApiError(400, "File resource type is required");
-    }
-
     // delete from cloudinary
-    const response = await cloudinary.uploader.destroy(publicId, {
-      resource_type: resourceType,
-    });
+    const response = await cloudinary.uploader.destroy(publicId);
 
     return response;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return null;
   }
 };
