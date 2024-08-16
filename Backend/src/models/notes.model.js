@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const notesSchema = new mongoose.Schema(
   {
     chapterNumber: {
-      type: String,
+      type: Number,
       required: [true, "chapter number is required"],
       trim: true,
     },
