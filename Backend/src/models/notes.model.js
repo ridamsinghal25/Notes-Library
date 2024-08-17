@@ -1,16 +1,20 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const notesSchema = new mongoose.Schema(
   {
-    chapterName: {
-      type: String,
-      required: [true, "name is required"],
+    chapterNumber: {
+      type: Number,
+      required: [true, "chapter number is required"],
       trim: true,
     },
-    creator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "creator of notes is required"],
+    chapterName: {
+      type: String,
+      required: [true, "chapter name is required"],
+      trim: true,
+    },
+    owner: {
+      type: String,
+      required: [true, "owner of notes is required"],
     },
     pdf: {
       public_id: String,
@@ -19,6 +23,10 @@ const notesSchema = new mongoose.Schema(
     subject: {
       type: String,
       required: [true, "subject is required"],
+    },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
     },
   },
   { timestamps: true }

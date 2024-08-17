@@ -7,12 +7,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadOnCloudinary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath, fileName) => {
   try {
     if (!localFilePath) return null;
     // upload file on cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: "raw",
+      public_id: fileName,
+      resource_type: "auto",
     });
 
     fs.unlinkSync(localFilePath);
@@ -20,23 +21,21 @@ const uploadOnCloudinary = async (localFilePath) => {
     return response;
   } catch (error) {
     fs.unlinkSync(localFilePath); // remove the locally saved temporary file as the upload operation got failed
-
+    console.log(error);
     return null;
   }
 };
 
-const deleteFromCloudinary = async (publicId, resourceType = "image") => {
+const deleteFromCloudinary = async (publicId) => {
   try {
     if (!publicId) return null;
 
     // delete from cloudinary
-    const response = await cloudinary.uploader.destroy(publicId, {
-      resource_type: resourceType,
-    });
+    const response = await cloudinary.uploader.destroy(publicId);
 
     return response;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return null;
   }
 };
