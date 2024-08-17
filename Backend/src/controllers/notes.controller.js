@@ -1,4 +1,5 @@
 import { Notes } from "../models/notes.model.js";
+import { Course } from "../models/course.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -6,18 +7,30 @@ import {
   deleteFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
+import fs from "fs";
 
 const uploadNotes = asyncHandler(async (req, res) => {
   const { chapterNumber, chapterName, subject, owner } = req.body;
 
   const pdfFileLocalPath = req?.file?.path;
-  const pdfFileName = req?.file?.filename;
 
-  if (!pdfFileLocalPath || !pdfFileName) {
+  if (!pdfFileLocalPath) {
     throw new ApiError(400, "PDF file is required");
   }
 
-  const pdfFile = await uploadOnCloudinary(pdfFileLocalPath, pdfFileName);
+  const course = await Course.findById(req.user?.course);
+
+  if (!course) {
+    fs.unlinkSync(pdfFileLocalPath);
+    throw new ApiError(404, "course does not exists");
+  }
+
+  if (!course.subjects.includes(subject)) {
+    fs.unlinkSync(pdfFileLocalPath);
+    throw new ApiError(400, "Your course does not have this subject");
+  }
+
+  const pdfFile = await uploadOnCloudinary(pdfFileLocalPath);
 
   if (!pdfFile) {
     throw new ApiError(500, "Failed to upload pdf file");
@@ -49,15 +62,27 @@ const updateNotes = asyncHandler(async (req, res) => {
   const { chapterNumber, chapterName, subject, owner } = req.body;
 
   const pdfFileLocalPath = req?.file?.path;
-  const pdfFileName = req?.file?.filename;
 
-  if (!pdfFileLocalPath || !pdfFileName) {
+  if (!pdfFileLocalPath) {
     throw new ApiError(400, "PDF file is required");
+  }
+
+  const course = await Course.findById(req.user?.course);
+
+  if (!course) {
+    fs.unlinkSync(pdfFileLocalPath);
+    throw new ApiError(404, "course does not exists");
+  }
+
+  if (!course.subjects.includes(subject)) {
+    fs.unlinkSync(pdfFileLocalPath);
+    throw new ApiError(400, "Your course does not have this subject");
   }
 
   const notes = await Notes.findById(notesId);
 
   if (!notes) {
+    fs.unlinkSync(pdfFileLocalPath);
     throw new ApiError(404, "notes not found");
   }
 
@@ -67,10 +92,7 @@ const updateNotes = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Internal server error");
   }
 
-  const uploadNewPdfFile = await uploadOnCloudinary(
-    pdfFileLocalPath,
-    pdfFileName
-  );
+  const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath);
 
   if (!uploadNewPdfFile) {
     throw new ApiError(500, "Failed to upload pdf file");
@@ -147,12 +169,37 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
       },
     },
     {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "notesId",
+        as: "likes",
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        isLiked: {
+          $cond: {
+            if: {
+              $in: [req.user?._id, "$likes.likedBy"],
+            },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
       $unwind: "$course",
     },
     {
       $project: {
         "course.endDate": 0,
         "course.startDate": 0,
+        likes: 0,
       },
     },
   ]);
