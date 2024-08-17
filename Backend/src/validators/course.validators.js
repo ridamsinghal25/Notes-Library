@@ -75,7 +75,6 @@ const updateCourseValidator = () => {
         }
         return true;
       }),
-    ,
     body("subjects")
       .isArray()
       .withMessage("Subjects must be an array")
