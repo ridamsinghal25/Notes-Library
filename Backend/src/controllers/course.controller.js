@@ -140,7 +140,6 @@ const deleteCourse = asyncHandler(async (req, res) => {
     isCourseExists._id
   );
 
-  console.log(deleteRegisteredCourse);
   if (!deleteRegisteredCourse) {
     throw new ApiError(500, "failed to delete");
   }
