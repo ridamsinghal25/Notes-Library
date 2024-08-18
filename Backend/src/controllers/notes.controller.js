@@ -7,7 +7,6 @@ import {
   deleteFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
-import fs from "fs";
 
 const uploadNotes = asyncHandler(async (req, res) => {
   const { chapterNumber, chapterName, subject, owner } = req.body;
@@ -21,12 +20,10 @@ const uploadNotes = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.user?.course);
 
   if (!course) {
-    fs.unlinkSync(pdfFileLocalPath);
     throw new ApiError(404, "course does not exists");
   }
 
   if (!course.subjects.includes(subject)) {
-    fs.unlinkSync(pdfFileLocalPath);
     throw new ApiError(400, "Your course does not have this subject");
   }
 
@@ -70,19 +67,16 @@ const updateNotes = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.user?.course);
 
   if (!course) {
-    fs.unlinkSync(pdfFileLocalPath);
     throw new ApiError(404, "course does not exists");
   }
 
   if (!course.subjects.includes(subject)) {
-    fs.unlinkSync(pdfFileLocalPath);
     throw new ApiError(400, "Your course does not have this subject");
   }
 
   const notes = await Notes.findById(notesId);
 
   if (!notes) {
-    fs.unlinkSync(pdfFileLocalPath);
     throw new ApiError(404, "notes not found");
   }
 
