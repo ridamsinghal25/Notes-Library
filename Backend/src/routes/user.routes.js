@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { verifyJWT, verifyPermission } from "../middlewares/auth.middleware.js";
 import {
+  checkRollNumberExistsValidator,
   userAssignRoleValidator,
   userChangeCurrentPasswordValidator,
   userForgotPasswordValidator,
@@ -15,6 +16,7 @@ import { validate } from "../validators/validate.js";
 import {
   assignRole,
   changeCurrentPassword,
+  checkRollNumberExists,
   forgotPasswordRequest,
   getCurrentUser,
   loginUser,
@@ -110,5 +112,9 @@ router
 router
   .route("/update-course")
   .post(verifyJWT, userUpdateCourseValidator(), validate, updateCourseByUser);
+
+router
+  .route("/verify-rollnumber")
+  .post(checkRollNumberExistsValidator(), validate, checkRollNumberExists);
 
 export default router;

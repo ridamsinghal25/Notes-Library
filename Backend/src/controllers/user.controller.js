@@ -16,6 +16,7 @@ import {
 import crypto from "crypto";
 import { Course } from "../models/course.model.js";
 import mongoose from "mongoose";
+import { isValidRollNumber } from "../utils/rollNumbers.js";
 
 function generateTemporaryOTPToken() {
   const min = 100000;
@@ -57,6 +58,12 @@ async function generateAccessAndRefreshToken(userId) {
 const registerUser = asyncHandler(async (req, res) => {
   const { email, rollNumber, fullName, password, semester, courseName } =
     req.body;
+
+  const isRollNumberExist = isValidRollNumber(rollNumber);
+
+  if (!isRollNumberExist) {
+    throw new ApiError(404, "Roll number does not exists");
+  }
 
   const isCourseExists = await Course.findOne({
     semester,
@@ -520,6 +527,22 @@ const updateCourseByUser = asyncHandler(async (req, res) => {
     .json(200, updatedUserDetails, "course updated successfully");
 });
 
+const checkRollNumberExists = asyncHandler(async (req, res) => {
+  const { rollNumber } = req.body;
+
+  const isRollNumberExist = isValidRollNumber(rollNumber);
+
+  if (!isRollNumberExist) {
+    throw new ApiError(404, "Roll number does not exists");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, { isRollNumberExist: true }, "Roll number is unique")
+    );
+});
+
 export {
   registerUser,
   loginUser,
@@ -533,6 +556,7 @@ export {
   getCurrentUser,
   assignRole,
   updateCourseByUser,
+  checkRollNumberExists,
 };
 
 /**

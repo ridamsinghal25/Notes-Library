@@ -144,6 +144,19 @@ const userUpdateCourseValidator = () => {
   ];
 };
 
+const checkRollNumberExistsValidator = () => {
+  return [
+    body("rollNumber")
+      .trim()
+      .notEmpty()
+      .withMessage("Roll Number is required")
+      .isString()
+      .withMessage("Roll number must be string")
+      .isLength({ min: 11, max: 11 })
+      .withMessage("Roll Number must be exactly 11 characters long"),
+  ];
+};
+
 export {
   userRegisterValidator,
   userLoginValidator,
@@ -154,4 +167,5 @@ export {
   userChangeCurrentPasswordValidator,
   userAssignRoleValidator,
   userUpdateCourseValidator,
+  checkRollNumberExistsValidator,
 };
