@@ -27,8 +27,31 @@ import {
   verifyEmail,
 } from "../controllers/user.controller.js";
 import { UserRolesEnum } from "../constants.js";
+import { rateLimit } from "express-rate-limit";
+import { ApiError } from "../utils/ApiError.js";
+import requestIp from "request-ip";
 
 const router = Router();
+
+router.use(requestIp.mw());
+
+const resendEmailLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req, _) => {
+    return req.clientIp;
+  },
+  handler: (_, __, ___, options) => {
+    throw new ApiError(
+      options.statusCode || 500,
+      `There are too many requests. You are only allowed ${
+        options.limit
+      } requests per ${options.windowMs / 60000} minutes`
+    );
+  },
+});
 
 router.route("/register").post(userRegisterValidator(), validate, registerUser);
 
@@ -56,7 +79,12 @@ router
 
 router
   .route("/resend-email")
-  .get(userResendEmailValidator(), validate, resendVerificationEmail);
+  .get(
+    resendEmailLimiter,
+    userResendEmailValidator(),
+    validate,
+    resendVerificationEmail
+  );
 
 router
   .route("/change-password")
