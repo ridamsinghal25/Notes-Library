@@ -6,14 +6,21 @@ export const SIGNUP_DESCRIPTION = "Sign up to deep dive into the notes world";
 export const SIGNIN_DESCRIPTION = "Sign in to deep dive into the notes world";
 
 export const SEMESTER_OPTIONS = [
-  { value: 1, name: "First Semester" },
-  { value: 2, name: "Second Semester" },
-  { value: 3, name: "Third Semester" },
-  { value: 4, name: "Fourth Semester" },
-  { value: 5, name: "Fifth Semester" },
-  { value: 6, name: "Sixth Semester" },
-  { value: 7, name: "Seventh Semester" },
-  { value: 8, name: "Eighth Semester" },
+  { id: 1, name: "First Semester" },
+  { id: 2, name: "Second Semester" },
+  { id: 3, name: "Third Semester" },
+  { id: 4, name: "Fourth Semester" },
+  { id: 5, name: "Fifth Semester" },
+  { id: 6, name: "Sixth Semester" },
+  { id: 7, name: "Seventh Semester" },
+  { id: 8, name: "Eighth Semester" },
+];
+
+export const COURSE_OPTIONS = [
+  {
+    id: 1,
+    name: "B.Tech-CSE",
+  },
 ];
 
 // Button Text

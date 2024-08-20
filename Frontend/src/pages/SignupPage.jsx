@@ -32,7 +32,7 @@ function SignupPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md my-10">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight mb-6">
             {SIGNUP_TITLE}
@@ -67,6 +67,13 @@ function SignupPage() {
               label="Password"
               name="password"
               placeholder="Enter your password"
+            />
+            <FormFieldSelect
+              form={signupForm}
+              label="Course Name"
+              name="courseName"
+              values={COURSE_OPTIONS}
+              placeholder="Select your course"
             />
             <FormFieldSelect
               form={signupForm}
