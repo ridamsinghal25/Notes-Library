@@ -1,10 +1,11 @@
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form } from "../components/ui/form";
-import { Button } from "../components/ui/button";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import FormFieldInput from "../components/FormFieldInput";
-import FormFieldSelect from "../components/FormFieldSelect";
+import FormFieldInput from "@/components/FormFieldInput";
+import FormFieldSelect from "@/components/FormFieldSelect";
 import {
   TITLE,
   SIGNUP_DESCRIPTION,
@@ -13,11 +14,13 @@ import {
   SIGNIN_BUTTON_TEXT,
   SIGNIN_PROMPT_TEXT,
   COURSE_OPTIONS,
-} from "../constants/auth";
-import { ROUTES } from "../constants/route";
+} from "@/constants/auth";
+import { ROUTES } from "@/constants/route";
+import { signupFormValidation } from "@/validation/zodValidation";
 
 function SignupPage() {
   const signupForm = useForm({
+    resolver: zodResolver(signupFormValidation),
     defaultValues: {
       fullName: "",
       email: "",
@@ -73,7 +76,7 @@ function SignupPage() {
             <FormFieldSelect
               form={signupForm}
               label="Course Name"
-              name="courseName"
+              name="course"
               values={COURSE_OPTIONS}
               placeholder="Select your course"
             />

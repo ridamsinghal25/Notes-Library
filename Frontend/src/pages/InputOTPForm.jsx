@@ -20,9 +20,12 @@ import {
   INPUT_OTP_FORM_TITLE,
   SUBMIT_BUTTON,
 } from "@/constants/auth";
+import { inputOTPValidation } from "@/validation/zodValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function InputOTPForm() {
   const inputOTPForm = useForm({
+    resolver: zodResolver(inputOTPValidation),
     defaultValues: {
       code: "",
     },

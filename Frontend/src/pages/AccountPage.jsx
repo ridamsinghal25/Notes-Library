@@ -1,24 +1,21 @@
-import { Button } from "../components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
+} from "@/components/ui/card";
 import { useForm } from "react-hook-form";
-import { Form } from "../components/ui/form";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../components/ui/tabs";
-import { BUTTONS, TABS, TEXT_CONTENT, TITLE } from "../constants/account";
-import FormFieldInput from "../components/FormFieldInput";
+import { Form } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BUTTONS, TABS, TEXT_CONTENT, TITLE } from "@/constants/account";
+import FormFieldInput from "@/components/FormFieldInput";
 import { Upload } from "lucide-react";
 import { UpdateSemester } from "@/components/UpdateSemester";
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { newPasswordFormValidation } from "@/validation/zodValidation";
 
 export function AccountPage() {
   const [showDialog, setShowDialog] = useState(false);
@@ -27,13 +24,8 @@ export function AccountPage() {
     setShowDialog(true);
   }
 
-  const accountForm = useForm({
-    defaultValues: {
-      semester: "",
-    },
-  });
-
   const newPasswordForm = useForm({
+    resolver: zodResolver(newPasswordFormValidation),
     defaultValues: {
       currentPassword: "",
       newPassword: "",

@@ -1,20 +1,23 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Form } from "../components/ui/form";
-import { Button } from "../components/ui/button";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import FormFieldInput from "../components/FormFieldInput";
+import FormFieldInput from "@/components/FormFieldInput";
 import {
   TITLE,
   SIGNUP_BUTTON_TEXT,
   SIGNUP_PROMPT_TEXT,
   SIGNIN_BUTTON_TEXT,
   SIGNIN_DESCRIPTION,
-} from "../constants/auth";
-import { ROUTES } from "../constants/route";
+} from "@/constants/auth";
+import { ROUTES } from "@/constants/route";
+import { signinFormValidation } from "@/validation/zodValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function SigninPage() {
   const signinForm = useForm({
+    resolver: zodResolver(signinFormValidation),
     defaultValues: {
       email: "",
       password: "",

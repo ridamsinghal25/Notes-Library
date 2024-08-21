@@ -11,16 +11,19 @@ import {
 import { X } from "lucide-react";
 
 import { useForm } from "react-hook-form";
-import { Form } from "./ui/form";
-import FormFieldInput from "./FormFieldInput";
+import { Form } from "@/components/ui/form";
+import FormFieldInput from "@/components/FormFieldInput";
 import {
   BUTTON_TEXTS,
   DIALOG_DESCRIPTION,
   DIALOG_TITLE,
-} from "../constants/uploadPage";
+} from "@/constants/uploadPage";
+import { uploadNotesValidation } from "@/validation/zodValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function UploadNotes({ showDialog, setShowDialog }) {
   const uploadNotesForm = useForm({
+    resolver: zodResolver(uploadNotesValidation),
     defaultValues: {
       subject: "",
       chapterNumber: "",
