@@ -15,6 +15,11 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import {
+  INPUT_OTP_FORM_DESCRITION,
+  INPUT_OTP_FORM_TITLE,
+  SUBMIT_BUTTON,
+} from "@/constants/auth";
 
 function InputOTPForm() {
   const inputOTPForm = useForm({
@@ -39,7 +44,7 @@ function InputOTPForm() {
               name="code"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>One-Time Password</FormLabel>
+                  <FormLabel>{INPUT_OTP_FORM_TITLE}</FormLabel>
                   <FormControl>
                     <InputOTP maxLength={6} {...field}>
                       <InputOTPGroup>
@@ -52,15 +57,12 @@ function InputOTPForm() {
                       </InputOTPGroup>
                     </InputOTP>
                   </FormControl>
-                  <FormDescription>
-                    Please enter the one-time password sent to your phone.
-                  </FormDescription>
+                  <FormDescription>{INPUT_OTP_FORM_DESCRITION}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
-            <Button type="submit">Submit</Button>
+            <Button type="submit">{SUBMIT_BUTTON}</Button>
           </form>
         </Form>
       </div>
