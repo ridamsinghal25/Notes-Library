@@ -1,9 +1,6 @@
 // Home constants
 
 export const TYPED_STRINGS = ["Efficient", "Easy", "and", "Affordable"];
-export const BACK_DELAY = 400;
-export const TYPE_SPEED = 150;
-export const LOOP_INFO = true;
 
 export const TEXT_CONTENT = {
   MAIN_TITLE: "Stay Ahead Of The Curve",
