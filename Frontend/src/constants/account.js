@@ -1,5 +1,7 @@
 // Account constants
 
+export const TITLE = "Account Page";
+
 export const TABS = {
   DEFAULT_VALUE: "account",
   ACCOUNT: "account",
@@ -17,15 +19,14 @@ export const TEXT_CONTENT = {
     "Change your password here. After saving, you'll be logged out.",
 };
 
-export const LABELS = {
-  NAME: "Name",
-  EMAIL: "Email",
-  ROLL_NUMBER: "Roll No.",
-  CURRENT_PASSWORD: "Current password",
-  NEW_PASSWORD: "New password",
+export const UPDATE_SEMESTER_TEXT_CONTENT = {
+  TITLE: "Update Semester",
+  DESCRIPTION:
+    "Update your semester here. Click udpate button when you're done.",
 };
 
 export const BUTTONS = {
   SAVE_CHANGES: "Save changes",
   SAVE_PASSWORD: "Save password",
+  UPDATE_SEMESTER: "Update",
 };
