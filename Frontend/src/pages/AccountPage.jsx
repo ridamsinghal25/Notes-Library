@@ -32,6 +32,15 @@ export function AccountPage() {
     },
   });
 
+  const accountForm = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      rollNumber: "",
+      course: "",
+    },
+  });
+
   return (
     <div>
       <h1 className="flex items-start mx-20 my-10 text-3xl font-bold text-gray-800 underline">
