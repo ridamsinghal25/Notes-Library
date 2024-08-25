@@ -81,7 +81,7 @@ router
 
 router
   .route("/resend-email")
-  .get(
+  .post(
     resendEmailLimiter,
     userResendEmailValidator(),
     validate,
