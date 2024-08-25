@@ -111,7 +111,7 @@ router
 
 router
   .route("/update-course")
-  .patch(verifyJWT, userUpdateCourseValidator(), validate, updateCourseByUser);
+  .post(verifyJWT, userUpdateCourseValidator(), validate, updateCourseByUser);
 
 router
   .route("/verify-rollnumber")
