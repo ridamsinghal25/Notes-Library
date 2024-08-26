@@ -6,8 +6,6 @@ export const asyncHandler = async (func) => {
     .then((data) => {
       const responseData = data.data;
 
-      console.log("In asyncHandler data: ", data);
-
       return new ApiResponse(
         responseData.statusCode,
         responseData.data,
@@ -16,8 +14,6 @@ export const asyncHandler = async (func) => {
       );
     })
     .catch((error) => {
-      console.log("In asyncHandler error: ", error);
-
       return new ApiError(error.message, error, error?.response?.data);
     });
 };
