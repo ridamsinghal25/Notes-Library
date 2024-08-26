@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import ToastConfig from "./components/ToastConfig";
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URI;
 axios.defaults.withCredentials = true;
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Provider store={store}>
         <App />
+        <ToastConfig />
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
