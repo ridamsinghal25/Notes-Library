@@ -8,12 +8,12 @@ export const SIGNIN_DESCRIPTION = "Sign in to deep dive into the notes world";
 export const INPUT_OTP_FORM_DESCRITION =
   "Please enter the one-time password sent to your email.";
 
-export const SEMESTER_OPTIONS = [{ id: 1, name: "Fifth Semester" }];
+export const SEMESTER_OPTIONS = [{ id: 1, name: "Fifth" }];
 
 export const COURSE_OPTIONS = [
   {
     id: 1,
-    name: "B.Tech-CSE",
+    name: "B.Tech-CS",
   },
 ];
 
