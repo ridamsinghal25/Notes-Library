@@ -9,16 +9,14 @@ export const signupFormValidation = z.object({
   email: z.string().email("Invalid email address"),
   rollNumber: z
     .string()
-    .regex(
-      /^[a-zA-Z0-9]{11}$/,
-      "Roll number can only contain digits and numbers"
-    )
+    .trim()
+    .regex(/^[0-9]{11}$/, "Roll number can only contain digits and numbers")
     .length(11, "Roll number must be exactly 11 digits"),
   password: z
     .string()
     .min(8, "Password must be atleast 8 characters")
     .max(40, "Password must not be more than 40 characters"),
-  course: z
+  courseName: z
     .string()
     .regex(/^[a-zA-Z\s.-]+$/, "course must contain only alphabets and spaces")
     .min(1, "Course is required"),
