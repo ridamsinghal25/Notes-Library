@@ -20,7 +20,7 @@ class NotesService {
     });
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
@@ -45,7 +45,7 @@ class NotesService {
     });
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
@@ -75,7 +75,7 @@ class NotesService {
     const response = await apiRequest.postRequest(subject);
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {

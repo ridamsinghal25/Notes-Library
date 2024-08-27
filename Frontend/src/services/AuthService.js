@@ -8,11 +8,10 @@ class AuthService {
   async loginService(email, password) {
     const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/login`);
 
-    console.log("apiRequest: ", apiRequest);
     const response = await apiRequest.postRequest({ email, password });
-    console.log("response: ", response);
+
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
@@ -26,7 +25,7 @@ class AuthService {
     const response = await apiRequest.getRequest();
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
@@ -48,27 +47,20 @@ class AuthService {
     }
   }
 
-  async signupService(
-    fullName,
-    email,
-    password,
-    rollNumber,
-    courseName,
-    semester
-  ) {
+  async signupService(fields) {
     const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/register`);
 
     const response = await apiRequest.postRequest({
-      fullName,
-      email,
-      password,
-      rollNumber,
-      courseName,
-      semester,
+      fullName: fields.fullName,
+      email: fields.email,
+      password: fields.password,
+      rollNumber: fields.rollNumber,
+      courseName: fields.courseName,
+      semester: fields.semester,
     });
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
@@ -127,7 +119,7 @@ class AuthService {
     const response = await apiRequest.postRequest({ verifyCode });
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
@@ -169,7 +161,7 @@ class AuthService {
     const response = await apiRequest.postRequest({ semester });
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
@@ -185,7 +177,7 @@ class AuthService {
     const response = await apiRequest.postRequest({ rollNumber });
 
     if (response instanceof ApiResponse && response.success) {
-      return response.data;
+      return response;
     } else if (response instanceof ApiResponse) {
       return new ApiError(response.message);
     } else {
