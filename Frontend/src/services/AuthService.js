@@ -116,7 +116,7 @@ class AuthService {
   async verifyUser(verifyCode) {
     const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/verify-email`);
 
-    const response = await apiRequest.postRequest({ verifyCode });
+    const response = await apiRequest.postRequest(verifyCode);
 
     if (response instanceof ApiResponse && response.success) {
       return response;
