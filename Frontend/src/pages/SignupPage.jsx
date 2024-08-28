@@ -85,7 +85,7 @@ function SignupPage() {
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "User registered successfully");
-      navigate(`${ROUTES.VERIFYCODE}`);
+      navigate(`${ROUTES.VERIFYCODE}`, { state: { email: data.email } });
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }
