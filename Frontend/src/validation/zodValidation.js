@@ -36,7 +36,7 @@ export const signinFormValidation = z.object({
 });
 
 export const inputOTPValidation = z.object({
-  code: z
+  verifyCode: z
     .string()
     .regex(/^\d{6}$/, "Verification code must contain only digits")
     .length(6, "verification code must be 6 digit"),

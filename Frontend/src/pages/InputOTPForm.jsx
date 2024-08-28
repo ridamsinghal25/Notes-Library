@@ -27,7 +27,7 @@ function InputOTPForm() {
   const inputOTPForm = useForm({
     resolver: zodResolver(inputOTPValidation),
     defaultValues: {
-      code: "",
+      verifyCode: "",
     },
   });
 
