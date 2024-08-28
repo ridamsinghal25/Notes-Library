@@ -351,7 +351,7 @@ const resetForgottenPassword = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(401, "code is invalid or expired");
+    throw new ApiError(400, "code is invalid or expired");
   }
 
   user.forgotPasswordToken = undefined;
@@ -417,7 +417,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   const isPasswordValid = await user.isPasswordCorrect(oldPassword);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid password");
+    throw new ApiError(400, "Invalid password");
   }
 
   user.password = newPassword;

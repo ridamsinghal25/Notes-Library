@@ -26,7 +26,7 @@ router
 
 router
   .route("/update-course")
-  .post(updateCourseValidator(), validate, updateCourse);
+  .patch(updateCourseValidator(), validate, updateCourse);
 
 router
   .route("/delete-course")

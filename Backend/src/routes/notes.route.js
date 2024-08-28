@@ -32,7 +32,7 @@ router
 
 router
   .route("/update-notes/:notesId")
-  .post(
+  .patch(
     verifyPermission([UserRolesEnum.ADMIN]),
     upload.single("pdfFile"),
     handleMulterError,
