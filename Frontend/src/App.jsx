@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import LayoutWithSidebar from "./components/Sidebar/LayoutWithSidebar";
+import PageLayout from "./components/PageLayout";
 import Home from "./pages/Home";
 import { AccountPage } from "./pages/AccountPage";
 import { ROUTES } from "./constants/route";
@@ -12,8 +12,8 @@ import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 function App() {
   return (
     <Routes>
-      <Route element={<ForLoggedInUsers />}>
-        <Route element={<LayoutWithSidebar />}>
+      <Route element={<PageLayout />}>
+        <Route element={<ForLoggedInUsers />}>
           <Route path={ROUTES.HOME} element={<Home />} />
           <Route path={ROUTES.SETTING} element={<AccountPage />} />
           <Route path={ROUTES.NOTES} element={<NotesPage />} />
