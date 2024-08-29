@@ -15,11 +15,7 @@ function PublicRoutes() {
     }
   }, [isLoggedIn, isLoginCheckDone, navigate]);
 
-  if (isLoginCheckDone) {
-    return <Outlet />;
-  }
-
-  return <></>;
+  return <Outlet />;
 }
 
 export default PublicRoutes;

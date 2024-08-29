@@ -11,20 +11,40 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SidebarButtonSheet as SidebarButton } from "./SidebarButton";
 import { Separator } from "../ui/separator";
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/sidebar";
+import AuthService from "@/services/AuthService";
+import ApiError from "@/services/ApiError";
+import { ROUTES } from "@/constants/route";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { logout } from "@/store/AuthSlice";
 
 export default function MobileSidebar({ sidebarMobileItems }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logoutHandler = async () => {
+    const response = await AuthService.logoutService();
+
+    if (!(response instanceof ApiError)) {
+      dispatch(logout());
+      navigate(`${ROUTES.SIGNIN}`);
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+  };
 
   return (
     <Sheet>
@@ -86,11 +106,13 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                     size="sm"
                     Icon={LogOut}
                     className="w-full text-sm p-3"
+                    onClick={logoutHandler}
                   >
                     {LOGOUT_BUTTON_LABEL}
                   </SidebarButton>
                 </div>
               </DrawerContent>
+              <DrawerDescription></DrawerDescription>
             </Drawer>
           </div>
         </div>
