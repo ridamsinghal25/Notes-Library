@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar/Sidebar";
 import { useDispatch } from "react-redux";
 import { useCallback, useEffect } from "react";
 import AuthService from "@/services/AuthService";
@@ -25,16 +24,7 @@ function PageLayout() {
     fetchUser();
   }, [fetchUser]);
 
-  return (
-    <div>
-      <Sidebar />
-      <main className="mx-5 mt-16 lgl:ml-[300px] lgl:mt-3">
-        <div>
-          <Outlet />
-        </div>
-      </main>
-    </div>
-  );
+  return <Outlet />;
 }
 
 export default PageLayout;
