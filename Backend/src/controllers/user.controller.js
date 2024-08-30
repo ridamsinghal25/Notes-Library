@@ -77,6 +77,16 @@ const registerUser = asyncHandler(async (req, res) => {
     );
   }
 
+  if (
+    new Date() < new Date(isCourseExists.startDate) ||
+    new Date() > new Date(isCourseExists.endDate)
+  ) {
+    throw new ApiError(
+      400,
+      "The semester you entered has either not started yet or has already ended."
+    );
+  }
+
   const userExistsByRollNumber = await User.findOne({
     rollNumber,
     isEmailVerified: true,
