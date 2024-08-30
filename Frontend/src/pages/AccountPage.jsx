@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BUTTONS, TABS, TEXT_CONTENT, TITLE } from "@/constants/account";
 import FormFieldInput from "@/components/FormFieldInput";
 import { Upload } from "lucide-react";
-import { UpdateSemester } from "@/components/UpdateSemester";
+import { UpdateSemester } from "@/components/modals/UpdateSemester";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newPasswordFormValidation } from "@/validation/zodValidation";

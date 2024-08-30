@@ -1,7 +1,7 @@
 import { Button } from "../components/ui/button";
 import { Upload } from "lucide-react";
 import { useState } from "react";
-import UploadNotes from "../components/UploadNotes";
+import UploadNotes from "../components/modals/UploadNotes";
 
 function NotesPage() {
   const [showDialog, setShowDialog] = useState(false);
