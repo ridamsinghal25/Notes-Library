@@ -77,6 +77,16 @@ const registerUser = asyncHandler(async (req, res) => {
     );
   }
 
+  if (
+    new Date() < new Date(isCourseExists.startDate) ||
+    new Date() > new Date(isCourseExists.endDate)
+  ) {
+    throw new ApiError(
+      400,
+      "The semester you entered has either not started yet or has already ended."
+    );
+  }
+
   const userExistsByRollNumber = await User.findOne({
     rollNumber,
     isEmailVerified: true,
@@ -534,6 +544,15 @@ const checkRollNumberExists = asyncHandler(async (req, res) => {
 
   if (!isRollNumberExist) {
     throw new ApiError(404, "Roll number does not exists");
+  }
+
+  const userExistsByRollNumber = await User.findOne({
+    rollNumber,
+    isEmailVerified: true,
+  });
+
+  if (userExistsByRollNumber) {
+    throw new ApiError(400, "user already exists with roll number");
   }
 
   return res
