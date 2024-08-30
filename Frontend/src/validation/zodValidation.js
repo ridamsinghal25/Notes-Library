@@ -76,7 +76,7 @@ export const uploadNotesValidation = z.object({
 });
 
 export const newPasswordFormValidation = z.object({
-  currentPassword: z
+  oldPassword: z
     .string()
     .trim()
     .min(8, "Password must be atleast 8 characters")

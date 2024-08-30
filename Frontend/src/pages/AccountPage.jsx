@@ -11,14 +11,30 @@ import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BUTTONS, TABS, TEXT_CONTENT, TITLE } from "@/constants/account";
 import FormFieldInput from "@/components/FormFieldInput";
-import { Upload } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { UpdateSemester } from "@/components/modals/UpdateSemester";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newPasswordFormValidation } from "@/validation/zodValidation";
+import AuthService from "@/services/AuthService";
+import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
+import { ROUTES } from "@/constants/route";
+import { logout } from "@/store/AuthSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export function AccountPage() {
   const [showDialog, setShowDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    toast.info(
+      "You will be logout when you update anything in your account settings"
+    );
+  }, []);
 
   function handleClick() {
     setShowDialog(true);
@@ -27,7 +43,7 @@ export function AccountPage() {
   const newPasswordForm = useForm({
     resolver: zodResolver(newPasswordFormValidation),
     defaultValues: {
-      currentPassword: "",
+      oldPassword: "",
       newPassword: "",
     },
   });
@@ -40,6 +56,31 @@ export function AccountPage() {
       course: "",
     },
   });
+
+  const onPasswordUpdate = async (data) => {
+    setIsSubmitting(true);
+
+    const response = await AuthService.changePassword(data);
+    console.log(response instanceof ApiError);
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message);
+
+      const LogoutResponse = await AuthService.logoutService();
+
+      if (!(LogoutResponse instanceof ApiError)) {
+        dispatch(logout());
+        navigate(`${ROUTES.SIGNIN}`);
+      } else {
+        toast.error(
+          LogoutResponse?.errorResponse?.message || LogoutResponse?.errorMessage
+        );
+      }
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+  };
 
   return (
     <div>
@@ -140,22 +181,32 @@ export function AccountPage() {
             <CardContent className="space-y-2">
               <Form {...newPasswordForm}>
                 <form
-                  onSubmit={accountForm.handleSubmit(() => {})}
+                  onSubmit={newPasswordForm.handleSubmit(onPasswordUpdate)}
                   className="space-y-6"
                 >
                   <FormFieldInput
                     form={newPasswordForm}
-                    label="Current Password"
-                    name="currentPassword"
+                    label="Old Password"
+                    name="oldPassword"
                     placeholder="Enter your current password"
+                    type="password"
                   />
                   <FormFieldInput
                     form={newPasswordForm}
                     label="New Password"
                     name="newPassword"
                     placeholder="Enter your new password"
+                    type="password"
                   />
-                  <Button>{BUTTONS.SAVE_PASSWORD}</Button>
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      </>
+                    ) : (
+                      BUTTONS.SAVE_PASSWORD
+                    )}
+                  </Button>
                 </form>
               </Form>
             </CardContent>
