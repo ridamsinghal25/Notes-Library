@@ -37,9 +37,8 @@ axios.interceptors.response.use(
       if (!(response instanceof ApiError)) {
         return axios(error.config);
       }
-
-      return Promise.reject(error);
     }
+    return Promise.reject(error);
   }
 );
 
