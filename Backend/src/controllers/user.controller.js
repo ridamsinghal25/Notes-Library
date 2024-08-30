@@ -546,6 +546,15 @@ const checkRollNumberExists = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Roll number does not exists");
   }
 
+  const userExistsByRollNumber = await User.findOne({
+    rollNumber,
+    isEmailVerified: true,
+  });
+
+  if (userExistsByRollNumber) {
+    throw new ApiError(400, "user already exists with roll number");
+  }
+
   return res
     .status(200)
     .json(
