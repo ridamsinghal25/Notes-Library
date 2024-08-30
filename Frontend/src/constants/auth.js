@@ -10,7 +10,10 @@ export const INPUT_OTP_FORM_DESCRITION =
 export const RESEND_EMAIL_DESCRIPTION =
   "Didn’t receive the verification email?";
 
-export const SEMESTER_OPTIONS = [{ id: 1, name: "Fifth" }];
+export const SEMESTER_OPTIONS = [
+  { id: 1, name: "Fifth" },
+  { id: 2, name: "Sixth" },
+];
 
 export const COURSE_OPTIONS = [
   {
