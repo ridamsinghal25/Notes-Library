@@ -31,11 +31,8 @@ import {
 import { UserRolesEnum } from "../constants.js";
 import { rateLimit } from "express-rate-limit";
 import { ApiError } from "../utils/ApiError.js";
-import requestIp from "request-ip";
 
 const router = Router();
-
-router.use(requestIp.mw());
 
 const resendEmailLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
