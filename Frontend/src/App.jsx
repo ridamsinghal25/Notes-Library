@@ -10,6 +10,7 @@ import InputOTPForm from "./pages/InputOTPForm";
 import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/Sidebar/LayoutWithSidebar";
+import NotesSubjectPage from "./pages/NotesSubjectPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.SETTING} element={<AccountPage />} />
             <Route path={ROUTES.NOTES} element={<NotesPage />} />
+            <Route path={ROUTES.NOTES_SUBJECT} element={<NotesSubjectPage />} />
             <Route path={ROUTES.PROFILE} element={<h1>Profile Page</h1>} />
           </Route>
         </Route>
