@@ -44,9 +44,9 @@ function SigninPage() {
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "User login successfully");
 
-      const userDetails = response.data?.user;
+      const currentUser = await AuthService.getCurrentUser();
 
-      dispatch(login({ userDetails }));
+      dispatch(login(currentUser?.data));
 
       navigate(`${ROUTES.HOME}`);
     } else {
