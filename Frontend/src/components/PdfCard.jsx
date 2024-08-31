@@ -37,7 +37,7 @@ const PDFCard = ({
         setLikeCount(likeCount + 1);
       }
     } else {
-      toast.success(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
     }
   };
 

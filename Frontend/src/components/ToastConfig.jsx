@@ -9,6 +9,7 @@ function ToastConfig() {
       position={isDesktop ? "bottom-right" : "top-center"}
       autoClose={4000}
       hideProgressBar={false}
+      limit={4}
       newestOnTop={false}
       closeOnClick
       rtl={false}
