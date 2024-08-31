@@ -204,10 +204,10 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
 
   if (notes.length === 0) {
     return res
-      .status(200)
+      .status(404)
       .json(
         new ApiResponse(
-          200,
+          404,
           {},
           "Notes does not exists with the following subject"
         )
