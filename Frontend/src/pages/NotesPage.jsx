@@ -2,9 +2,20 @@ import { Button } from "../components/ui/button";
 import { Upload } from "lucide-react";
 import { useState } from "react";
 import UploadNotes from "../components/modals/UploadNotes";
+import {
+  NOTES_PAGE_DESCRIPTION_ONE,
+  NOTES_PAGE_DESCRIPTION_TWO,
+  NOTES_PAGE_HEADING,
+} from "@/constants/notes";
+import NotesCard from "@/components/NotesCard";
+import { useSelector } from "react-redux";
 
 function NotesPage() {
   const [showDialog, setShowDialog] = useState(false);
+
+  const userSubjects = useSelector(
+    (state) => state.auth.userDetails?.course[0]?.subjects
+  );
 
   function handleClick() {
     setShowDialog(true);
@@ -20,18 +31,26 @@ function NotesPage() {
       <UploadNotes showDialog={showDialog} setShowDialog={setShowDialog} />
 
       <header className="p-4 lg:p-6">
-        <h1 className="text-lg font-semibold md:text-2xl">Notes</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">
+          {NOTES_PAGE_HEADING}
+        </h1>
       </header>
 
       <main className="flex-grow flex p-4 lg:p-6">
         <div className="w-full flex items-center justify-center rounded-lg border border-dashed shadow-sm">
           <div className="flex flex-col items-center gap-4 text-center p-8">
             <h3 className="text-2xl font-bold tracking-tight">
-              Select the notes that suites you
+              {NOTES_PAGE_DESCRIPTION_ONE}
             </h3>
             <p className="text-sm text-muted-foreground">
-              You can start learning as soon as you download the notes.
+              {NOTES_PAGE_DESCRIPTION_TWO}
             </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+              {userSubjects?.map((subject) => {
+                return <NotesCard subject={subject} key={subject} />;
+              })}
+            </div>
           </div>
         </div>
       </main>
