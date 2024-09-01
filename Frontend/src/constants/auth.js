@@ -29,3 +29,7 @@ export const SIGNIN_PROMPT_TEXT = "Already a member?";
 export const SIGNUP_PROMPT_TEXT = "Don't have an account";
 export const SUBMIT_BUTTON = "Submit";
 export const RESEND_EMAIL_BUTTON_TEXT = "Resend Verification Email";
+export const USER_ROLE = {
+  ADMIN: "ADMIN",
+  USER: "USER",
+};
