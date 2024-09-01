@@ -66,10 +66,13 @@ export const uploadNotesValidation = z.object({
     .regex(/^[a-zA-Z\s]+$/, "chapter name must contain only alphabets")
     .min(1, "Chapter name is required")
     .max(20, "Chapter name must not be more than 20 characters"),
-  notes: z
+  pdfFile: z.instanceof(File),
+  owner: z
     .string()
     .trim()
-    .max(100, "Notes cannot must not be more than 100 characters"),
+    .regex(/^[a-zA-Z\s.]+$/, "owner name must contain only alphabets")
+    .min(1, "owner name is required")
+    .max(20, "owner name must not be more than 20 characters"),
 });
 
 export const newPasswordFormValidation = z.object({
