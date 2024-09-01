@@ -8,15 +8,18 @@ export const fetchNotes = createAsyncThunk(
     const response = await NotesService.getNotesBySubject(subject);
 
     if (!(response instanceof ApiError)) {
-      return response;
+      return response?.data;
     } else {
-      return null;
+      throw new Error(
+        response?.errorResponse?.message || response?.errorMessage
+      );
     }
   }
 );
 
 const initialState = {
   userNotes: [],
+  error: null,
 };
 
 const notesSlice = createSlice({
@@ -25,6 +28,11 @@ const notesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchNotes.fulfilled, (state, action) => {
       state.userNotes = action.payload;
+      state.error = null;
+    });
+    builder.addCase(fetchNotes.rejected, (state, action) => {
+      state.error = action.error.message;
+      state.userNotes = [];
     });
   },
 });
