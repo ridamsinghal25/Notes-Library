@@ -9,6 +9,7 @@ import {
 } from "@/constants/notes";
 import NotesCard from "@/components/NotesCard";
 import { useSelector } from "react-redux";
+import { USER_ROLE } from "@/constants/auth";
 
 function NotesPage() {
   const [showDialog, setShowDialog] = useState(false);
@@ -17,18 +18,28 @@ function NotesPage() {
     (state) => state.auth.userDetails?.course[0]?.subjects
   );
 
+  const userRole = useSelector((state) => state.auth.userDetails?.role);
+
   function handleClick() {
     setShowDialog(true);
   }
 
   return (
     <div className="min-h-screen w-full flex flex-col">
-      <div className="fixed top-4 right-4 z-10">
-        <Button onClick={handleClick}>
-          <Upload />
-        </Button>
-      </div>
-      <UploadNotes showDialog={showDialog} setShowDialog={setShowDialog} />
+      {userRole === USER_ROLE.ADMIN ? (
+        <>
+          <div className="fixed top-4 right-4 z-10">
+            <Button onClick={handleClick}>
+              <Upload />
+            </Button>
+          </div>
+          <UploadNotes
+            showDialog={showDialog}
+            setShowDialog={setShowDialog}
+            title={"Upload"}
+          />
+        </>
+      ) : null}
 
       <header className="p-4 lg:p-6">
         <h1 className="text-lg font-semibold md:text-2xl">

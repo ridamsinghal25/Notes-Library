@@ -4,15 +4,13 @@ import PDFModal from "./modals/PDFModal";
 import { toast } from "react-toastify";
 import LikeService from "@/services/LikeService";
 import ApiError from "@/services/ApiError";
+import { FilePen, Trash2Icon } from "lucide-react";
+import { Button } from "./ui/button";
 
-const PDFCard = ({
-  pdfUrl,
-  owner,
-  chapterName,
-  isLiked,
-  likesCount,
-  notesId,
-}) => {
+const PDFCard = ({ notes }) => {
+  const { pdf, owner, chapterName, isLiked, likesCount } = notes;
+  const pdfUrl = pdf?.url;
+
   const [showPDF, setShowPDF] = useState(false);
   const [like, setLike] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(likesCount);
@@ -22,7 +20,7 @@ const PDFCard = ({
   };
 
   const toggleLike = async () => {
-    const response = await LikeService.likeOrUnlikeNotes(notesId);
+    const response = await LikeService.likeOrUnlikeNotes(notes?._id);
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "Liked successfully", {
@@ -109,4 +107,31 @@ const PDFCard = ({
   );
 };
 
+const withActionButtons = (WrappedComponent) => {
+  return (props) => {
+    return (
+      <div className="relative">
+        <div className="absolute top-2 right-1 flex items-center gap-2 z-10 mt-2">
+          <Button
+            variant="outline"
+            className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300 cursor-pointer"
+            onClick={() => props.updateButtonHandler(props.notes)}
+          >
+            <FilePen className="text-gray-600 w-6 h-6" />
+          </Button>
+          <Button
+            variant="outline"
+            className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300 cursor-pointer"
+            onClick={() => console.log("Delete button clicked")}
+          >
+            <Trash2Icon className="text-red-600 w-6 h-6" />
+          </Button>
+        </div>
+        <WrappedComponent notes={props.notes} />
+      </div>
+    );
+  };
+};
+
 export default PDFCard;
+export { withActionButtons };

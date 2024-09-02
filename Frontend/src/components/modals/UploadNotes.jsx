@@ -8,43 +8,65 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/FormFieldInput";
-import {
-  BUTTON_TEXTS,
-  DIALOG_DESCRIPTION,
-  DIALOG_TITLE,
-} from "@/constants/uploadPage";
+import { SUBMIT_BUTTON } from "@/constants/auth";
 import { uploadNotesValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import NotesService from "@/services/NotesService";
+import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
 
-function UploadNotes({ showDialog, setShowDialog }) {
+function UploadNotes({ showDialog, setShowDialog, title, notesInfo }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const uploadNotesForm = useForm({
     resolver: zodResolver(uploadNotesValidation),
     defaultValues: {
-      subject: "",
-      chapterNumber: "",
-      chapterName: "",
-      notes: "",
+      subject: notesInfo?.subject || "",
+      chapterNumber: `${notesInfo?.chapterNumber || ""}`,
+      chapterName: notesInfo?.chapterName || "",
+      pdfFile: {},
+      owner: notesInfo?.owner || "",
     },
   });
 
-  function onSubmit(data) {
-    console.log(data);
-  }
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    let response;
+
+    if (notesInfo?._id) {
+      response = await NotesService.updateNotes(notesInfo._id, data);
+    } else {
+      response = await NotesService.uploadNotes(data);
+    }
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message, {
+        autoClose: 2000,
+      });
+      setShowDialog(false);
+
+      if (notesInfo?._id) {
+        setTimeout(() => window.location.reload(), 2000);
+      }
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      setShowDialog(false);
+    }
+  };
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
-      <DialogContent
-        className="w-[95vw] max-w-[425px] sm:max-w-[550px] md:max-w-[650px] lg:max-w-[750px] xl:max-w-[900px] sm:w-full p-4 sm:p-6 md:p-8"
-        hideClose
-      >
+      <DialogContent className="max-h-[80vh] overflow-y-auto" hideClose>
         <DialogHeader className="flex flex-row justify-between items-center space-y-0">
           <DialogTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
-            {DIALOG_TITLE}
+            {title} Notes
           </DialogTitle>
           <DialogClose asChild>
             <Button className="h-7 w-7 p-0" variant="ghost">
@@ -53,7 +75,7 @@ function UploadNotes({ showDialog, setShowDialog }) {
           </DialogClose>
         </DialogHeader>
         <DialogDescription className="text-sm sm:text-base md:text-lg mb-4">
-          {DIALOG_DESCRIPTION}
+          {title} Notes to website
         </DialogDescription>
         <Form {...uploadNotesForm}>
           <form
@@ -81,12 +103,26 @@ function UploadNotes({ showDialog, setShowDialog }) {
             <FormFieldInput
               form={uploadNotesForm}
               label="Notes"
-              name="notes"
+              name="pdfFile"
               placeholder="Upload your notes"
               type="file"
               accept=".pdf"
             />
-            <Button type="submit">{BUTTON_TEXTS}</Button>
+            <FormFieldInput
+              form={uploadNotesForm}
+              label="Owner"
+              name="owner"
+              placeholder="Notes owner"
+            />
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
+                </>
+              ) : (
+                SUBMIT_BUTTON
+              )}
+            </Button>
           </form>
         </Form>
       </DialogContent>
