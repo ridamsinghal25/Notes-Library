@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { fetchNotes } from "@/store/NotesSlice";
 import UploadNotes from "@/components/modals/UploadNotes";
 import { USER_ROLE } from "@/constants/auth";
+import DeleteNotes from "@/components/modals/DeleteNotes";
 
 function NotesSubjectPage() {
   const [showUpdateNotesModal, setShowUpdateNotesModal] = useState(false);
@@ -58,18 +59,32 @@ function NotesSubjectPage() {
                   <div className="flex flex-col items-center gap-4">
                     <div className="flex justify-between items-start gap-4 w-full max-w-4xl">
                       <div className="flex-1">
-                        <RestaurantCardWithButtons
-                          notes={notes}
-                          updateButtonHandler={(notes) =>
-                            toggleUpdateModal(notes)
-                          }
-                        />
+                        {userRole === USER_ROLE.ADMIN ? (
+                          <RestaurantCardWithButtons
+                            notes={notes}
+                            updateButtonHandler={(notes) =>
+                              toggleUpdateModal(notes)
+                            }
+                            deleteButtonHandler={(notes) => {
+                              toggleDeleteModal(notes);
+                            }}
+                          />
+                        ) : (
+                          <PDFCard notes={notes} />
+                        )}
                         {showUpdateNotesModal && (
                           <UploadNotes
                             showDialog={showUpdateNotesModal}
                             setShowDialog={setShowUpdateNotesModal}
                             title={"Update"}
                             notesInfo={notesInfo}
+                          />
+                        )}
+                        {showDeleteNotesModal && (
+                          <DeleteNotes
+                            showDialog={showDeleteNotesModal}
+                            setShowDialog={setShowDeleteNotesModal}
+                            notesId={notesInfo?._id}
                           />
                         )}
                       </div>

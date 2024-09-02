@@ -122,7 +122,7 @@ const withActionButtons = (WrappedComponent) => {
           <Button
             variant="outline"
             className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300 cursor-pointer"
-            onClick={() => console.log("Delete button clicked")}
+            onClick={() => props.deleteButtonHandler(props.notes)}
           >
             <Trash2Icon className="text-red-600 w-6 h-6" />
           </Button>

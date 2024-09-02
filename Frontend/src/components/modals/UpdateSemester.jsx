@@ -92,6 +92,7 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
               {isUpdating ? (
                 <>
                   <Loader2 className="mr-4 h-4 w-4 animate-spin" />
+                  Updating...
                 </>
               ) : (
                 BUTTONS.UPDATE_SEMESTER
