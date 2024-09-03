@@ -83,13 +83,13 @@ export function AccountPage() {
   };
 
   return (
-    <div>
-      <h1 className="flex items-start mx-20 my-10 text-3xl font-bold text-gray-800 underline">
+    <div className="w-full">
+      <h1 className="flex items-start sm:mx-20 my-10 text-3xl font-bold text-gray-800 underline">
         {TITLE}
       </h1>
       <Tabs
         defaultValue={TABS.DEFAULT_VALUE}
-        className="mx-20 flex items-center flex-col mt-10"
+        className="sm:mx-20 flex items-center flex-col mt-10"
       >
         <TabsList className="grid w-full justify-center grid-cols-2">
           <TabsTrigger value={TABS.ACCOUNT}>

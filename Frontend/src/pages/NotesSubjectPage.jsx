@@ -44,12 +44,12 @@ function NotesSubjectPage() {
       <div className="flex flex-col items-center sm:block">
         {notesData.length > 0 ? (
           notesData?.map((notes) => (
-            <div key={notes._id} className="mb-8 ml-8">
+            <div key={notes._id} className="mb-8 sm:ml-8">
               <div className="flex items-center mb-4 flex-col sm:flex-row justify-center sm:justify-normal">
                 <div className="bg-violet-600 text-white font-bold py-2 px-4 rounded-lg mr-4">
                   Unit {notes.chapterNumber}
                 </div>
-                <h2 className="text-2xl font-semibold underline">
+                <h2 className="text-2xl mt-3 text-center font-semibold underline">
                   {notes.chapterName}
                 </h2>
               </div>

@@ -29,11 +29,11 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (showDialog) {
-      toast.info("You will be logout when you update course semester");
-    }
-  }, [setShowDialog, showDialog]);
+  // useEffect(() => {
+  //   if (showDialog) {
+  //     toast.info("You will be logout when you update course semester");
+  //   }
+  // }, [setShowDialog, showDialog]);
 
   const updateSemesterForm = useForm({
     resolver: zodResolver(updateSemesterFormValidation),
@@ -69,8 +69,8 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
+      <DialogContent className="max-w-96 sm:max-w-[425px] rounded-lg">
+        <DialogHeader className="text-start">
           <DialogTitle>{UPDATE_SEMESTER_TEXT_CONTENT.TITLE}</DialogTitle>
           <DialogDescription>
             {UPDATE_SEMESTER_TEXT_CONTENT.DESCRIPTION}
