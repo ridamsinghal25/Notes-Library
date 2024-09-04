@@ -22,13 +22,14 @@ import { toast } from "react-toastify";
 import { ROUTES } from "@/constants/route";
 import { logout } from "@/store/AuthSlice";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export function AccountPage() {
   const [showDialog, setShowDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userDetails);
 
   useEffect(() => {
     toast.info(
@@ -50,10 +51,11 @@ export function AccountPage() {
 
   const accountForm = useForm({
     defaultValues: {
-      fullName: "",
-      email: "",
-      rollNumber: "",
-      course: "",
+      fullName: userInfo?.fullName || "",
+      email: userInfo?.email || "",
+      rollNumber: userInfo?.rollNumber || "",
+      courseName: userInfo?.course[0]?.courseName || "",
+      semester: userInfo?.course[0]?.semester || "",
     },
   });
 
@@ -139,7 +141,7 @@ export function AccountPage() {
                   <FormFieldInput
                     form={accountForm}
                     label="Course"
-                    name="course"
+                    name="courseName"
                     placeholder="Course"
                     disabled
                   />
@@ -162,7 +164,11 @@ export function AccountPage() {
                       setShowDialog={setShowDialog}
                     />
                   </div>
-                  <Button>{BUTTONS.SAVE_CHANGES}</Button>
+                  <div className="w-full flex justify-end">
+                    <Button className="mt-7" disabled>
+                      {BUTTONS.SAVE_CHANGES}
+                    </Button>
+                  </div>
                 </form>
               </Form>
             </CardContent>
@@ -198,15 +204,17 @@ export function AccountPage() {
                     placeholder="Enter your new password"
                     type="password"
                   />
-                  <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      </>
-                    ) : (
-                      BUTTONS.SAVE_PASSWORD
-                    )}
-                  </Button>
+                  <div className="w-full flex justify-end">
+                    <Button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        BUTTONS.SAVE_PASSWORD
+                      )}
+                    </Button>
+                  </div>
                 </form>
               </Form>
             </CardContent>

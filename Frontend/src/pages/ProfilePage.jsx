@@ -16,7 +16,13 @@ import {
 function ProfilePage() {
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
 
-  const subjects = [];
+  const subjects = [
+    "OOAD",
+    "Computer Network",
+    "Software Engineering",
+    "DAA",
+    "Compiler Desing",
+  ];
 
   const url = [];
 
@@ -92,9 +98,9 @@ function ProfilePage() {
                 </h3>
               </div>
             </div>
-            <div className="mt-8 bg-gray-50 rounded-lg p-4 sm:p-6 shadow-inner">
+            <div className="mt-2 bg-gray-50 rounded-lg p-2 lg:p-6 shadow-inner">
               <Collapsible>
-                <CollapsibleTrigger>
+                <CollapsibleTrigger className="w-full">
                   <h4 className="text-xl font-semibold text-gray-800">
                     Academic Information
                   </h4>
@@ -128,7 +134,7 @@ function ProfilePage() {
                           {subjects.map((subject, index) => (
                             <li
                               key={index}
-                              className="flex items-center bg-white p-4 lg:-mx-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
+                              className="flex items-center bg-white p-2 lg:-mx-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
                             >
                               <div className="flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full mr-4 flex-shrink-0">
                                 <span className="w-3 h-3 bg-indigo-500 rounded-full"></span>

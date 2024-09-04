@@ -177,15 +177,18 @@ function SignupPage() {
               values={SEMESTER_OPTIONS}
               placeholder="Select your semester"
             />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
-                </>
-              ) : (
-                SIGNUP_BUTTON_TEXT
-              )}
-            </Button>
+            <div className="w-full flex justify-end">
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    Wait
+                  </>
+                ) : (
+                  SIGNUP_BUTTON_TEXT
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
         <div className="text-center mt-4">

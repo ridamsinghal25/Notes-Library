@@ -40,7 +40,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
 
     if (!(response instanceof ApiError)) {
       dispatch(logout());
-      navigate(`${ROUTES.SIGNIN}`);
+      navigate(`${ROUTES.SIGNIN}`, { replace: true });
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

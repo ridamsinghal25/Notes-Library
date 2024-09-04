@@ -29,12 +29,6 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (showDialog) {
-  //     toast.info("You will be logout when you update course semester");
-  //   }
-  // }, [setShowDialog, showDialog]);
-
   const updateSemesterForm = useForm({
     resolver: zodResolver(updateSemesterFormValidation),
     defaultValues: {
@@ -88,16 +82,18 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
               values={SEMESTER_OPTIONS}
               placeholder="Select your semester"
             />
-            <Button type="submit" disabled={isUpdating}>
-              {isUpdating ? (
-                <>
-                  <Loader2 className="mr-4 h-4 w-4 animate-spin" />
-                  Updating...
-                </>
-              ) : (
-                BUTTONS.UPDATE_SEMESTER
-              )}
-            </Button>
+            <div className="w-full flex justify-end">
+              <Button type="submit" disabled={isUpdating}>
+                {isUpdating ? (
+                  <>
+                    <Loader2 className="mr-4 h-4 w-4 animate-spin" />
+                    Updating...
+                  </>
+                ) : (
+                  BUTTONS.UPDATE_SEMESTER
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
         <DialogFooter></DialogFooter>

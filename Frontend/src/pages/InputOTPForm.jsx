@@ -80,11 +80,11 @@ function InputOTPForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+      <div className="max-w-sm w-full p-8 space-y-8 bg-white rounded-lg shadow-md">
         <Form {...inputOTPForm}>
           <form
             onSubmit={inputOTPForm.handleSubmit(onSubmit)}
-            className="w-2/3 space-y-6"
+            className="space-y-6"
           >
             <FormField
               control={inputOTPForm.control}
@@ -109,15 +109,18 @@ function InputOTPForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
-                </>
-              ) : (
-                SUBMIT_BUTTON
-              )}
-            </Button>
+            <div className="w-full flex justify-center">
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    Wait
+                  </>
+                ) : (
+                  SUBMIT_BUTTON
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
         <div className="text-center mt-4">

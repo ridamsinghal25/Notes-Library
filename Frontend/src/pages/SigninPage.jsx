@@ -81,15 +81,18 @@ function SigninPage() {
               type="password"
               placeholder="Enter your password"
             />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
-                </>
-              ) : (
-                SIGNIN_BUTTON_TEXT
-              )}
-            </Button>
+            <div className="w-full flex justify-end">
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    Wait
+                  </>
+                ) : (
+                  SIGNIN_BUTTON_TEXT
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
         <div className="text-center mt-4">
