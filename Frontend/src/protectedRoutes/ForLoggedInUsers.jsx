@@ -11,7 +11,7 @@ function ForLoggedInUsers() {
 
   useEffect(() => {
     if (isLoginCheckDone && !isLoggedIn) {
-      navigate(`${ROUTES.SIGNIN}`);
+      navigate(`${ROUTES.SIGNIN}`, { replace: true });
     }
   }, [isLoggedIn, isLoginCheckDone, navigate]);
 

@@ -9,7 +9,12 @@ function PageLayout() {
   const dispatch = useDispatch();
 
   const fetchUser = useCallback(async () => {
-    const response = await AuthService.getCurrentUser();
+    const response = await AuthService.getCurrentUser(
+      {},
+      {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+      }
+    );
 
     if (!(response instanceof ApiError)) {
       dispatch(login(response?.data));

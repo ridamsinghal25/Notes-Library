@@ -19,10 +19,10 @@ class AuthService {
     }
   }
 
-  async getCurrentUser() {
+  async getCurrentUser(queryParams = {}, headers = {}) {
     const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/current-user`);
 
-    const response = await apiRequest.getRequest();
+    const response = await apiRequest.getRequest(queryParams, headers);
 
     if (response instanceof ApiResponse && response.success) {
       return response;
