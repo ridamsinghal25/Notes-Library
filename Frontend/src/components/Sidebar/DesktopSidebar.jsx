@@ -6,7 +6,7 @@ import { Separator } from "../ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/sidebar";
+import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/constants";
 import { useDispatch } from "react-redux";
 import AuthService from "@/services/AuthService";
 import { ROUTES } from "@/constants/route";

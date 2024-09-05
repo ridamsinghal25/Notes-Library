@@ -10,7 +10,7 @@ import {
   SIGNUP_PROMPT_TEXT,
   SIGNIN_BUTTON_TEXT,
   SIGNIN_DESCRIPTION,
-} from "@/constants/auth";
+} from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
 import { signinFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";

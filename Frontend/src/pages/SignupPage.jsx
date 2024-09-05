@@ -22,7 +22,7 @@ import {
   SIGNIN_BUTTON_TEXT,
   SIGNIN_PROMPT_TEXT,
   COURSE_OPTIONS,
-} from "@/constants/auth";
+} from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
 import { signupFormValidation } from "@/validation/zodValidation";
 import { useDebounceValue } from "usehooks-ts";

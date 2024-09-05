@@ -6,10 +6,10 @@ import {
   NOTES_PAGE_DESCRIPTION_ONE,
   NOTES_PAGE_DESCRIPTION_TWO,
   NOTES_PAGE_HEADING,
-} from "@/constants/notes";
+} from "@/constants/constants";
 import NotesCard from "@/components/NotesCard";
 import { useSelector } from "react-redux";
-import { USER_ROLE } from "@/constants/auth";
+import { USER_ROLE } from "@/constants/constants";
 
 function NotesPage() {
   const [showDialog, setShowDialog] = useState(false);

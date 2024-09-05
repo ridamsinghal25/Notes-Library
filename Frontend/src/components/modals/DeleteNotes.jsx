@@ -13,7 +13,7 @@ import {
   DELETE_MODAL_CONTINUE_BUTTON,
   DELETE_MODAL_DESCRIPTION,
   DELETE_MODAL_HEADING,
-} from "@/constants/notes";
+} from "@/constants/constants";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";

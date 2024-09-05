@@ -22,7 +22,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/sidebar";
+import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/constants";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { ROUTES } from "@/constants/route";

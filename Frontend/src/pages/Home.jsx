@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import {
   EXPLORE_BUTTON_TEXT,
-  TEXT_CONTENT,
+  HOME_TEXT_CONTENT,
   TYPED_STRINGS,
-} from "../constants/home";
+} from "../constants/constants";
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Typed from "typed.js";
@@ -33,7 +33,7 @@ function Home() {
             <div className="text-center mdl:text-left mdl:w-2/3">
               <div className="px-4 sm:px-6 mdl:px-8 lg:px-12 xl:px-16">
                 <h1 className="text-2xl sm:text-3xl mdl:text-4xl lg:text-4xl font-bold text-gray-850 font-inter mb-2 leading-tight">
-                  {TEXT_CONTENT.MAIN_TITLE}
+                  {HOME_TEXT_CONTENT.MAIN_TITLE}
                 </h1>
                 <h1 className="text-xl sm:text-2xl mdl:text-3xl lg:text-4xl font-bold text-gray-850 font-inter mb-2 leading-tight">
                   {TEXT_CONTENT.SUB_TITLE_PREFIX}

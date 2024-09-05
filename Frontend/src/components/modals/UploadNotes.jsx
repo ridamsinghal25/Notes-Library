@@ -13,7 +13,7 @@ import { Loader2, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/FormFieldInput";
-import { SUBMIT_BUTTON } from "@/constants/auth";
+import { SUBMIT_BUTTON } from "@/constants/constants";
 import { uploadNotesValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";

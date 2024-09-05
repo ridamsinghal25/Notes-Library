@@ -10,11 +10,14 @@ import {
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import FormFieldSelect from "@/components/FormFieldSelect";
-import { SEMESTER_OPTIONS } from "@/constants/auth";
-import { BUTTONS, UPDATE_SEMESTER_TEXT_CONTENT } from "@/constants/account";
+import {
+  BUTTONS,
+  UPDATE_SEMESTER_TEXT_CONTENT,
+  SEMESTER_OPTIONS,
+} from "@/constants/constants";
 import { updateSemesterFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import AuthService from "@/services/AuthService";

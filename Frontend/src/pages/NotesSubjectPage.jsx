@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchNotes } from "@/store/NotesSlice";
 import UploadNotes from "@/components/modals/UploadNotes";
-import { USER_ROLE } from "@/constants/auth";
+import { USER_ROLE } from "@/constants/constants";
 import DeleteNotes from "@/components/modals/DeleteNotes";
 
 function NotesSubjectPage() {

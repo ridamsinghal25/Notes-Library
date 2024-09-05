@@ -9,7 +9,12 @@ import {
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BUTTONS, TABS, TEXT_CONTENT, TITLE } from "@/constants/account";
+import {
+  BUTTONS,
+  TABS,
+  ACCOUNT_TEXT_CONTENT,
+  TITLE,
+} from "@/constants/constants";
 import FormFieldInput from "@/components/FormFieldInput";
 import { Loader2, Upload } from "lucide-react";
 import { UpdateSemester } from "@/components/modals/UpdateSemester";
@@ -63,7 +68,7 @@ export function AccountPage() {
     setIsSubmitting(true);
 
     const response = await AuthService.changePassword(data);
-    console.log(response instanceof ApiError);
+
     setIsSubmitting(false);
 
     if (!(response instanceof ApiError)) {
@@ -95,7 +100,7 @@ export function AccountPage() {
       >
         <TabsList className="grid w-full justify-center grid-cols-2">
           <TabsTrigger value={TABS.ACCOUNT}>
-            {TEXT_CONTENT.ACCOUNT_TAB}
+            {ACCOUNT_TEXT_CONTENT.ACCOUNT_TAB}
           </TabsTrigger>
           <TabsTrigger value={TABS.PASSWORD}>
             {TEXT_CONTENT.PASSWORD_TAB}

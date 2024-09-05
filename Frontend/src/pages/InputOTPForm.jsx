@@ -21,7 +21,7 @@ import {
   RESEND_EMAIL_BUTTON_TEXT,
   RESEND_EMAIL_DESCRIPTION,
   SUBMIT_BUTTON,
-} from "@/constants/auth";
+} from "@/constants/constants";
 import { inputOTPValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "@/constants/route";
