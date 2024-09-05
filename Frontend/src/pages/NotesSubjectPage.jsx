@@ -17,7 +17,7 @@ function NotesSubjectPage() {
   const dispatch = useDispatch();
   const notesData = useSelector((state) => state.notes.userNotes);
   const notesError = useSelector((state) => state.notes.error);
-  const userRole = useSelector((state) => state.auth.userDetails?.role);
+  const userInfo = useSelector((state) => state.auth.userDetails);
 
   useEffect(() => {
     dispatch(fetchNotes(subject));
@@ -33,7 +33,7 @@ function NotesSubjectPage() {
     setNotesInfo(notes);
   };
 
-  const RestaurantCardWithButtons = withActionButtons(PDFCard);
+  const NotesCardWithButtons = withActionButtons(PDFCard);
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -59,8 +59,9 @@ function NotesSubjectPage() {
                   <div className="flex flex-col items-center gap-4">
                     <div className="flex justify-between items-start gap-4 w-full max-w-4xl">
                       <div className="flex-1">
-                        {userRole === USER_ROLE.ADMIN ? (
-                          <RestaurantCardWithButtons
+                        {userInfo?.role === USER_ROLE.ADMIN &&
+                        userInfo?._id === notes?.createdBy ? (
+                          <NotesCardWithButtons
                             notes={notes}
                             updateButtonHandler={(notes) =>
                               toggleUpdateModal(notes)
