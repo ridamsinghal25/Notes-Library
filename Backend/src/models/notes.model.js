@@ -16,6 +16,11 @@ const notesSchema = new mongoose.Schema(
       type: String,
       required: [true, "owner of notes is required"],
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "created by field is required"],
+    },
     pdf: {
       public_id: String,
       url: String,

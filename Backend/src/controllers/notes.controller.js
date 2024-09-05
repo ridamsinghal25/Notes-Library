@@ -39,10 +39,11 @@ const uploadNotes = asyncHandler(async (req, res) => {
     subject,
     pdf: {
       public_id: pdfFile.public_id,
-      url: pdfFile.url, // secure_url
+      url: pdfFile.secure_url,
     },
     owner,
     course: req.user.course,
+    createdBy: req.user._id,
   });
 
   if (!notes) {
@@ -101,10 +102,11 @@ const updateNotes = asyncHandler(async (req, res) => {
         subject,
         pdf: {
           public_id: uploadNewPdfFile.public_id,
-          url: uploadNewPdfFile.url, // secure_url
+          url: uploadNewPdfFile.secure_url,
         },
         owner,
         course: req?.user?.course,
+        createdBy: req.user._id,
       },
     },
     { new: true }
