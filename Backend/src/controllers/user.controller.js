@@ -17,6 +17,7 @@ import crypto from "crypto";
 import { Course } from "../models/course.model.js";
 import mongoose from "mongoose";
 import { isValidRollNumber } from "../utils/rollNumbers.js";
+import { Notes } from "../models/notes.model.js";
 
 function generateTemporaryOTPToken() {
   const min = 100000;
@@ -562,6 +563,85 @@ const checkRollNumberExists = asyncHandler(async (req, res) => {
     );
 });
 
+const getUserProfileInfo = asyncHandler(async (req, res) => {
+  /**
+   * 1. get request
+   * 2. will find in db based on user req.user._id
+   * 3. if not found response 200 with empty object
+   * 4. otherwise response 200 with notes object
+   */
+
+  const notes = await Notes.aggregate([
+    {
+      $match: {
+        createdBy: new mongoose.Types.ObjectId(`${req.user?._id}`),
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "course",
+        foreignField: "_id",
+        as: "course",
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "notesId",
+        as: "likes",
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        isLiked: {
+          $cond: {
+            if: {
+              $in: [req.user?._id, "$likes.likedBy"],
+            },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $unwind: "$course",
+    },
+    {
+      $project: {
+        "course.endDate": 0,
+        "course.startDate": 0,
+        likes: 0,
+      },
+    },
+  ]);
+
+  if (!notes) {
+    throw new ApiError(404, "notes not found");
+  }
+
+  if (notes?.length === 0) {
+    return res
+      .status(404)
+      .json(
+        new ApiResponse(
+          404,
+          {},
+          "Notes does not exists with the following subject"
+        )
+      );
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, notes, "notes fetched successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -576,6 +656,7 @@ export {
   assignRole,
   updateCourseByUser,
   checkRollNumberExists,
+  getUserProfileInfo,
 };
 
 /**

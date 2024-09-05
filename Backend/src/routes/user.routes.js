@@ -19,6 +19,7 @@ import {
   checkRollNumberExists,
   forgotPasswordRequest,
   getCurrentUser,
+  getUserProfileInfo,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -113,5 +114,7 @@ router
 router
   .route("/verify-rollnumber")
   .post(checkRollNumberExistsValidator(), validate, checkRollNumberExists);
+
+router.route("/get-user-profile").get(verifyJWT, getUserProfileInfo);
 
 export default router;
