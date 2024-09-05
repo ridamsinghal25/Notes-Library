@@ -26,18 +26,16 @@ import { inputOTPValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "@/constants/route";
 import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
+import { EmailModal } from "@/components/modals/EmailModal";
 
 function InputOTPForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isEmailSend, setIsEmailSend] = useState(false);
-  const location = useLocation();
+  const [showEmailModal, setShowEmailModal] = useState(false);
   const navigate = useNavigate();
-
-  const email = location.state?.email;
 
   const inputOTPForm = useForm({
     resolver: zodResolver(inputOTPValidation),
@@ -62,20 +60,8 @@ function InputOTPForm() {
     }
   };
 
-  const onClickResendEmail = async () => {
-    setIsEmailSend(true);
-
-    const response = await AuthService.resendVerificationEmail(email);
-
-    setIsEmailSend(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(
-        response?.message || "verification email send successfully"
-      );
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
+  const toggleEmailModal = () => {
+    setShowEmailModal(!showEmailModal);
   };
 
   return (
@@ -126,19 +112,18 @@ function InputOTPForm() {
         <div className="text-center mt-4">
           <p className="mb-2">{RESEND_EMAIL_DESCRIPTION}</p>
           <Button
-            onClick={onClickResendEmail}
+            onClick={toggleEmailModal}
             variant="outline"
-            disabled={isEmailSend}
             className="inline-flex items-center"
           >
-            {isEmailSend ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...
-              </>
-            ) : (
-              RESEND_EMAIL_BUTTON_TEXT
-            )}
+            {RESEND_EMAIL_BUTTON_TEXT}
           </Button>
+          {showEmailModal && (
+            <EmailModal
+              showDialog={showEmailModal}
+              setShowDialog={setShowEmailModal}
+            />
+          )}
         </div>
       </div>
     </div>

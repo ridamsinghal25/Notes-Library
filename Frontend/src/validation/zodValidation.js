@@ -96,3 +96,7 @@ export const updateSemesterFormValidation = z.object({
     .min(1, "Semester is required")
     .max(20, "Semester must not be more than 20 characters"),
 });
+
+export const emailModalValidation = z.object({
+  email: z.string().trim().email("Invalid email address"),
+});

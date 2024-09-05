@@ -36,7 +36,7 @@ function Home() {
                   {HOME_TEXT_CONTENT.MAIN_TITLE}
                 </h1>
                 <h1 className="text-xl sm:text-2xl mdl:text-3xl lg:text-4xl font-bold text-gray-850 font-inter mb-2 leading-tight">
-                  {TEXT_CONTENT.SUB_TITLE_PREFIX}
+                  {HOME_TEXT_CONTENT.SUB_TITLE_PREFIX}
                   <span className="text-purple-500">
                     <strong>&lt;</strong>
                     <span ref={typeElement}> </span>
@@ -44,10 +44,11 @@ function Home() {
                   </span>
                 </h1>
                 <h1 className="text-xl sm:text-2xl mdl:text-3xl lg:text-4xl font-bold text-gray-850 font-inter mb-4 leading-tight">
-                  {TEXT_CONTENT.SUB_TITLE_SUFFIX}
+                  {HOME_TEXT_CONTENT.SUB_TITLE_SUFFIX}
                 </h1>
                 <p className="text-sm sm:text-base text-gray-850 mb-6 max-w-3xl">
-                  {TEXT_CONTENT.DESCRIPTION_ONE} {TEXT_CONTENT.DESCRIPTION_TWO}
+                  {HOME_TEXT_CONTENT.DESCRIPTION_ONE}{" "}
+                  {HOME_TEXT_CONTENT.DESCRIPTION_TWO}
                 </p>
                 <Link to={ROUTES.NOTES} className="inline-block">
                   <Button>{EXPLORE_BUTTON_TEXT}</Button>

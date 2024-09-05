@@ -144,7 +144,7 @@ class AuthService {
   async resendVerificationEmail(email) {
     const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/resend-email`);
 
-    const response = await apiRequest.postRequest({ email });
+    const response = await apiRequest.postRequest(email);
 
     if (response instanceof ApiResponse && response.success) {
       return response;
