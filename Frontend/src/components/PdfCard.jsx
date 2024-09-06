@@ -6,6 +6,7 @@ import LikeService from "@/services/LikeService";
 import ApiError from "@/services/ApiError";
 import { FilePen, Trash2Icon } from "lucide-react";
 import { Button } from "./ui/button";
+import { getPreviewImageUrl } from "@/utils/getImageUrl";
 
 const PDFCard = ({ notes }) => {
   const { pdf, owner, chapterName, isLiked, likesCount } = notes;
@@ -39,13 +40,7 @@ const PDFCard = ({ notes }) => {
     }
   };
 
-  const transformation = "upload/c_thumb,w_400,h_600,pg_1/";
-
-  const splitPdfUrl = pdfUrl?.split("upload/");
-
-  const previewImageUrl = splitPdfUrl
-    ?.join(transformation)
-    ?.replace(".pdf", ".jpg");
+  const previewImageUrl = getPreviewImageUrl(pdfUrl);
 
   return (
     <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden">

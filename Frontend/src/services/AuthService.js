@@ -184,6 +184,20 @@ class AuthService {
       return response;
     }
   }
+
+  async getUserProfile() {
+    const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/get-user-profile`);
+
+    const response = await apiRequest.getRequest();
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
 }
 
 export default new AuthService();

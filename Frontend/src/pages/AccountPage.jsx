@@ -103,17 +103,17 @@ export function AccountPage() {
             {ACCOUNT_TEXT_CONTENT.ACCOUNT_TAB}
           </TabsTrigger>
           <TabsTrigger value={TABS.PASSWORD}>
-            {TEXT_CONTENT.PASSWORD_TAB}
+            {ACCOUNT_TEXT_CONTENT.PASSWORD_TAB}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={TABS.ACCOUNT} className="w-full my-5 mb-20">
           <Card>
             <CardHeader>
               <CardTitle className="md:text-xl">
-                {TEXT_CONTENT.ACCOUNT_TITLE}
+                {ACCOUNT_TEXT_CONTENT.ACCOUNT_TITLE}
               </CardTitle>
               <CardDescription className="md:text-sm">
-                {TEXT_CONTENT.ACCOUNT_DESCRIPTION}
+                {ACCOUNT_TEXT_CONTENT.ACCOUNT_DESCRIPTION}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -183,10 +183,10 @@ export function AccountPage() {
           <Card>
             <CardHeader>
               <CardTitle className="md:text-xl">
-                {TEXT_CONTENT.PASSWORD_TAB}
+                {ACCOUNT_TEXT_CONTENT.PASSWORD_TAB}
               </CardTitle>
               <CardDescription className="md:text-sm">
-                {TEXT_CONTENT.PASSWORD_DESCRIPTION}
+                {ACCOUNT_TEXT_CONTENT.PASSWORD_DESCRIPTION}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
