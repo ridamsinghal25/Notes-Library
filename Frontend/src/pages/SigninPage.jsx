@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import FormFieldInput from "@/components/FormFieldInput";
@@ -20,9 +28,13 @@ import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/AuthSlice";
+import { Input } from "@/components/ui/input";
+import { EmailModal } from "@/components/modals/EmailModal";
 
 function SigninPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,10 +43,11 @@ function SigninPage() {
     defaultValues: {
       email: "",
       password: "",
+      username: "",
     },
   });
 
-  const onSubmit = async (data) => {
+  const onSignIn = async (data) => {
     setIsSubmitting(true);
 
     const response = await AuthService.loginService(data.email, data.password);
@@ -54,6 +67,30 @@ function SigninPage() {
     }
   };
 
+  const onForgotPassword = async (data) => {
+    setIsSendingEmail(true);
+
+    const response = await AuthService.forgotPassword(data);
+
+    setIsSendingEmail(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(
+        response?.message || "Forgot password code send successfully"
+      );
+
+      navigate(`${ROUTES.RESET_PASSWORD}`);
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+
+    setShowEmailModal(false);
+  };
+
+  const toggleEmailModal = () => {
+    setShowEmailModal(!showEmailModal);
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
       <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 bg-white rounded-lg shadow-md my-6 sm:my-10">
@@ -65,7 +102,7 @@ function SigninPage() {
         </div>
         <Form {...signinForm}>
           <form
-            onSubmit={signinForm.handleSubmit(onSubmit)}
+            onSubmit={signinForm.handleSubmit(onSignIn)}
             className="space-y-6"
           >
             <FormFieldInput
@@ -74,13 +111,37 @@ function SigninPage() {
               name="email"
               placeholder="Enter your email"
             />
-            <FormFieldInput
-              form={signinForm}
-              label="Password"
+            <FormField
+              control={signinForm.control}
               name="password"
-              type="password"
-              placeholder="Enter your password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription
+                    className="text-red-600 hover:text-red-800 hover:underline text-right cursor-pointer"
+                    onClick={toggleEmailModal}
+                  >
+                    Forgot your password?
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
+            {showEmailModal && (
+              <EmailModal
+                showDialog={showEmailModal}
+                setShowDialog={setShowEmailModal}
+                onSubmit={onForgotPassword}
+                isSendingEmail={isSendingEmail}
+              />
+            )}
             <div className="w-full flex justify-end">
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (

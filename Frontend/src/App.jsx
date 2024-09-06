@@ -12,6 +12,7 @@ import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/Sidebar/LayoutWithSidebar";
 import NotesSubjectPage from "./pages/NotesSubjectPage";
 import ProfilePage from "./pages/ProfilePage";
+import ForgotPassword from "./pages/ForgotPasswordPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
           <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
           <Route path={ROUTES.VERIFYCODE} element={<InputOTPForm />} />
+          <Route path={ROUTES.RESET_PASSWORD} element={<ForgotPassword />} />
         </Route>
       </Route>
     </Routes>

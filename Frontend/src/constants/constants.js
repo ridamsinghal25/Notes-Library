@@ -113,3 +113,10 @@ export const SIDEBAR_TABS = {
 export const PROJECT_NAME = "Notes Library";
 
 export const LOGOUT_BUTTON_LABEL = "Logout";
+
+// Forgot Password constants
+
+export const FORGOT_PASSWORD_TITLE = "Reset Your Password";
+export const FORGOT_PASSWORD_DESCRIPTION =
+  "Use the reset code below to set a new password.";
+export const FORGOT_PASSWORD_BUTTON_TEXT = "Reset Password";

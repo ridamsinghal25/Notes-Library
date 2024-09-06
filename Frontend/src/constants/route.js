@@ -9,4 +9,5 @@ export const ROUTES = {
   SIGNIN: "/sign-in",
   VERIFYCODE: "/verify-code",
   NOTES_SUBJECT: "/notes/:subject",
+  RESET_PASSWORD: "/reset-password",
 };
