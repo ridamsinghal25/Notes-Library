@@ -35,6 +35,7 @@ import { EmailModal } from "@/components/modals/EmailModal";
 function InputOTPForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const navigate = useNavigate();
 
   const inputOTPForm = useForm({
@@ -44,7 +45,7 @@ function InputOTPForm() {
     },
   });
 
-  const onSubmit = async (data) => {
+  const onVerifyCodeSubmit = async (data) => {
     setIsSubmitting(true);
 
     const response = await AuthService.verifyUser(data);
@@ -60,6 +61,24 @@ function InputOTPForm() {
     }
   };
 
+  const onResendVerificationEmail = async (data) => {
+    setIsSendingEmail(true);
+
+    const response = await AuthService.resendVerificationEmail(data);
+
+    setIsSendingEmail(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(
+        response?.message || "verification email send successfully"
+      );
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+
+    setShowEmailModal(false);
+  };
+
   const toggleEmailModal = () => {
     setShowEmailModal(!showEmailModal);
   };
@@ -69,7 +88,7 @@ function InputOTPForm() {
       <div className="max-w-sm w-full p-8 space-y-8 bg-white rounded-lg shadow-md">
         <Form {...inputOTPForm}>
           <form
-            onSubmit={inputOTPForm.handleSubmit(onSubmit)}
+            onSubmit={inputOTPForm.handleSubmit(onVerifyCodeSubmit)}
             className="space-y-6"
           >
             <FormField
@@ -122,6 +141,8 @@ function InputOTPForm() {
             <EmailModal
               showDialog={showEmailModal}
               setShowDialog={setShowEmailModal}
+              onSubmit={onResendVerificationEmail}
+              isSendingEmail={isSendingEmail}
             />
           )}
         </div>

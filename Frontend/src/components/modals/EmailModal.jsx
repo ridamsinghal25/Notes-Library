@@ -24,38 +24,18 @@ import ApiError from "@/services/ApiError";
 import { useNavigate } from "react-router-dom";
 import FormFieldInput from "../FormFieldInput";
 
-export function EmailModal({ showDialog, setShowDialog, route }) {
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const navigate = useNavigate();
-
+export function EmailModal({
+  showDialog,
+  setShowDialog,
+  onSubmit,
+  isSendingEmail,
+}) {
   const sendVerificationEmailForm = useForm({
     resolver: zodResolver(emailModalValidation),
     defaultValues: {
       email: "",
     },
   });
-
-  const onSubmit = async (data) => {
-    setIsSendingEmail(true);
-
-    const response = await AuthService.resendVerificationEmail(data);
-
-    setIsSendingEmail(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(
-        response?.message || "verification email send successfully"
-      );
-
-      if (route) {
-        navigate(route);
-      }
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-
-    setShowDialog(false);
-  };
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
