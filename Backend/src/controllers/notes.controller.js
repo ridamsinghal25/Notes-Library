@@ -158,14 +158,6 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
     },
     {
       $lookup: {
-        from: "courses",
-        localField: "course",
-        foreignField: "_id",
-        as: "course",
-      },
-    },
-    {
-      $lookup: {
         from: "likes",
         localField: "_id",
         foreignField: "notesId",
@@ -189,12 +181,7 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
       },
     },
     {
-      $unwind: "$course",
-    },
-    {
       $project: {
-        "course.endDate": 0,
-        "course.startDate": 0,
         likes: 0,
       },
     },
