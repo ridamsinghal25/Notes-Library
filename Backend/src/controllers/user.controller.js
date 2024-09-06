@@ -564,13 +564,6 @@ const checkRollNumberExists = asyncHandler(async (req, res) => {
 });
 
 const getUserProfileInfo = asyncHandler(async (req, res) => {
-  /**
-   * 1. get request
-   * 2. will find in db based on user req.user._id
-   * 3. if not found response 200 with empty object
-   * 4. otherwise response 200 with notes object
-   */
-
   const notes = await Notes.aggregate([
     {
       $match: {
