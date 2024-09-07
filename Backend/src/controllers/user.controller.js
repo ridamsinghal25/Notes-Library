@@ -179,6 +179,10 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid user password");
   }
 
+  if (!user.isEmailVerified) {
+    throw new ApiError(400, "Please verify your email");
+  }
+
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
