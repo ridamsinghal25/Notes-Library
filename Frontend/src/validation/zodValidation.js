@@ -5,7 +5,7 @@ export const signupFormValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z.,_-]+$/,
+      /^[a-zA-Z\s.,_-]+$/,
       "Full name must contain only alphabets and , . _ - characters"
     )
     .min(6, "Full name must be atleast 6 characters")

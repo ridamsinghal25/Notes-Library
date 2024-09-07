@@ -10,4 +10,5 @@ export const ROUTES = {
   VERIFYCODE: "/verify-code",
   NOTES_SUBJECT: "/notes/:subject",
   RESET_PASSWORD: "/reset-password",
+  OVERVIEW: "/overview",
 };

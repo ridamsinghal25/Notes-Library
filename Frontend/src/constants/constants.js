@@ -1,6 +1,10 @@
 // Auth constant
 
 // Dialog and Form Titles
+export const OVERVIEW_TITLE = "Notes Library";
+export const OVERVIEW_HEADER_TITLE = "Dive into the World of Notes";
+export const OVERVIEW_HEADER_SUBTITLE =
+  "Notes Library: Your go-to platform for effortlessly storing and accessing all your notes!";
 export const TITLE = "Join Notes Library";
 export const INPUT_OTP_FORM_TITLE = "One-Time Password";
 export const EMAIL_MODAL_TITLE = "Enter your email address";

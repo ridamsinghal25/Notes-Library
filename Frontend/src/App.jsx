@@ -13,6 +13,8 @@ import LayoutWithSidebar from "./components/Sidebar/LayoutWithSidebar";
 import NotesSubjectPage from "./pages/NotesSubjectPage";
 import ProfilePage from "./pages/ProfilePage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
+import PageNotFound from "./pages/PageNotFound";
+import OverviewPage from "./pages/OverviewPage";
 
 function App() {
   return (
@@ -28,11 +30,13 @@ function App() {
           </Route>
         </Route>
         <Route element={<PublicRoutes />}>
+          <Route path={ROUTES.OVERVIEW} element={<OverviewPage />} />
           <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
           <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
           <Route path={ROUTES.VERIFYCODE} element={<InputOTPForm />} />
           <Route path={ROUTES.RESET_PASSWORD} element={<ForgotPassword />} />
         </Route>
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
   );
