@@ -23,8 +23,14 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import FormFieldSelect from "../FormFieldSelect";
 
-function UploadNotes({ showDialog, setShowDialog, title, notesInfo }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+function UploadNotes({
+  showDialog,
+  setShowDialog,
+  title,
+  notesInfo,
+  onSubmit,
+  isSubmitting,
+}) {
   const userSubjects = useSelector((state) => state.auth.userDetails);
 
   const uploadNotesForm = useForm({
@@ -37,32 +43,6 @@ function UploadNotes({ showDialog, setShowDialog, title, notesInfo }) {
       owner: notesInfo?.owner || "",
     },
   });
-
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    let response;
-
-    if (notesInfo?._id) {
-      response = await NotesService.updateNotes(notesInfo._id, data);
-    } else {
-      response = await NotesService.uploadNotes(data);
-    }
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message, {
-        autoClose: 2000,
-      });
-      setShowDialog(false);
-
-      if (notesInfo?._id) {
-        setTimeout(() => window.location.reload(), 2000);
-      }
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-      setShowDialog(false);
-    }
-  };
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>

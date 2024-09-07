@@ -10,9 +10,13 @@ import {
 import NotesCard from "@/components/NotesCard";
 import { useSelector } from "react-redux";
 import { USER_ROLE } from "@/constants/constants";
+import NotesService from "@/services/NotesService";
+import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
 
 function NotesPage() {
-  const [showDialog, setShowDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   const userSubjects = useSelector(
     (state) => state.auth.userDetails?.course[0]?.subjects
@@ -21,8 +25,26 @@ function NotesPage() {
   const userRole = useSelector((state) => state.auth.userDetails?.role);
 
   function handleClick() {
-    setShowDialog(true);
+    setShowUploadModal(true);
   }
+
+  const onNotesUpload = async (data) => {
+    setIsSubmitting(true);
+
+    const response = await NotesService.uploadNotes(data);
+
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message, {
+        autoClose: 2000,
+      });
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+
+    setShowUploadModal(false);
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col">
@@ -34,9 +56,11 @@ function NotesPage() {
             </Button>
           </div>
           <UploadNotes
-            showDialog={showDialog}
-            setShowDialog={setShowDialog}
+            showDialog={showUploadModal}
+            setShowDialog={setShowUploadModal}
             title={"Upload"}
+            onSubmit={onNotesUpload}
+            isSubmitting={isSubmitting}
           />
         </>
       ) : null}

@@ -8,9 +8,13 @@ import { fetchNotes } from "@/store/NotesSlice";
 import UploadNotes from "@/components/modals/UploadNotes";
 import { USER_ROLE } from "@/constants/constants";
 import DeleteNotes from "@/components/modals/DeleteNotes";
+import NotesService from "@/services/NotesService";
+import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
 
 function NotesSubjectPage() {
-  const [showUpdateNotesModal, setShowUpdateNotesModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showUploadNotesModal, setShowUploadNotesModal] = useState(false);
   const [showDeleteNotesModal, setShowDeleteNotesModal] = useState(false);
   const [notesInfo, setNotesInfo] = useState(null);
   const subject = useParams();
@@ -29,11 +33,31 @@ function NotesSubjectPage() {
   };
 
   const toggleUpdateModal = (notes) => {
-    setShowUpdateNotesModal(!showUpdateNotesModal);
+    setShowUploadNotesModal(!showUploadNotesModal);
     setNotesInfo(notes);
   };
 
   const NotesCardWithButtons = withActionButtons(PDFCard);
+
+  const onNotesUpdate = async (data) => {
+    setIsSubmitting(true);
+
+    const response = await NotesService.updateNotes(notesInfo._id, data);
+
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message, {
+        autoClose: 2000,
+      });
+
+      setTimeout(() => window.location.reload(), 2000);
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+
+    setShowUploadNotesModal(false);
+  };
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -73,12 +97,14 @@ function NotesSubjectPage() {
                         ) : (
                           <PDFCard notes={notes} />
                         )}
-                        {showUpdateNotesModal && (
+                        {showUploadNotesModal && (
                           <UploadNotes
-                            showDialog={showUpdateNotesModal}
-                            setShowDialog={setShowUpdateNotesModal}
+                            showDialog={showUploadNotesModal}
+                            setShowDialog={setShowUploadNotesModal}
                             title={"Update"}
                             notesInfo={notesInfo}
+                            onSubmit={onNotesUpdate}
+                            isSubmitting={isSubmitting}
                           />
                         )}
                         {showDeleteNotesModal && (
