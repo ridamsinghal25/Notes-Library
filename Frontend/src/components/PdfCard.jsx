@@ -24,9 +24,7 @@ const PDFCard = ({ notes }) => {
     const response = await LikeService.likeOrUnlikeNotes(notes?._id);
 
     if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "Liked successfully", {
-        autoClose: 2000,
-      });
+      toast.success(response?.message || "Liked successfully");
 
       if (likeCount > likesCount) {
         setLike(false);

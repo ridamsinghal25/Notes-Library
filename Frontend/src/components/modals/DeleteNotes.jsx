@@ -32,9 +32,8 @@ function DeleteNotes({ showDialog, setShowDialog, notesId }) {
     setIsDeleting(false);
 
     if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "Notes deleted successfully", {
-        autoClose: 2000,
-      });
+      toast.success(response?.message || "Notes deleted successfully");
+
       setShowDialog(false);
 
       setTimeout(() => {

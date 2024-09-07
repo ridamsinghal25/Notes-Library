@@ -47,9 +47,7 @@ function NotesSubjectPage() {
     setIsSubmitting(false);
 
     if (!(response instanceof ApiError)) {
-      toast.success(response?.message, {
-        autoClose: 2000,
-      });
+      toast.success(response?.message);
 
       setTimeout(() => window.location.reload(), 2000);
     } else {

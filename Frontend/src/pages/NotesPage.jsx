@@ -36,9 +36,7 @@ function NotesPage() {
     setIsSubmitting(false);
 
     if (!(response instanceof ApiError)) {
-      toast.success(response?.message, {
-        autoClose: 2000,
-      });
+      toast.success(response?.message);
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

@@ -7,9 +7,9 @@ function ToastConfig() {
   return (
     <ToastContainer
       position={isDesktop ? "bottom-right" : "top-center"}
-      autoClose={4000}
+      autoClose={2000}
       hideProgressBar={false}
-      limit={4}
+      limit={3}
       newestOnTop={false}
       closeOnClick
       rtl={false}
