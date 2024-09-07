@@ -20,9 +20,12 @@ import { useState } from "react";
 import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import FormFieldSelect from "../FormFieldSelect";
 
 function UploadNotes({ showDialog, setShowDialog, title, notesInfo }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const userSubjects = useSelector((state) => state.auth.userDetails);
 
   const uploadNotesForm = useForm({
     resolver: zodResolver(uploadNotesValidation),
@@ -82,10 +85,11 @@ function UploadNotes({ showDialog, setShowDialog, title, notesInfo }) {
             onSubmit={uploadNotesForm.handleSubmit(onSubmit)}
             className="space-y-8"
           >
-            <FormFieldInput
+            <FormFieldSelect
               form={uploadNotesForm}
               label="Subject Name"
               name="subject"
+              values={userSubjects?.course[0]?.subjects}
               placeholder="Enter the subject name"
             />
             <FormFieldInput

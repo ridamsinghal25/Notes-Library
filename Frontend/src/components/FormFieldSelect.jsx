@@ -30,9 +30,12 @@ const FormFieldSelect = React.forwardRef(
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
-                  {values.map((item) => (
-                    <SelectItem value={item.name?.toString()} key={item.id}>
-                      {item.name}
+                  {values.map((item, index) => (
+                    <SelectItem
+                      value={item.name?.toString() || item}
+                      key={item.id || index}
+                    >
+                      {item.name || item}
                     </SelectItem>
                   ))}
                 </SelectContent>
