@@ -6,7 +6,9 @@ services:
     buildCommand: "npm install"
     startCommand: "node -r dotenv/config src/server.js"
     autoDeploy: false
-    directory: Backend
+    plan: free
+    repository: https://github.com/ridamsinghal25/Notes-Library.git
+    branch: main
 
   - type: web
     name: Notes-Library-Frontend
@@ -14,4 +16,6 @@ services:
     buildCommand: "npm install; npm run build"
     publishDirectory: "./dist"
     autoDeploy: false
-    directory: Frontend
+    plan: free
+    repository: https://github.com/ridamsinghal25/Notes-Library.git
+    branch: main
