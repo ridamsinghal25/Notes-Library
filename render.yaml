@@ -1,0 +1,17 @@
+version: 1
+services:
+  - type: web
+    name: Notes-Library-Backend
+    env: node
+    buildCommand: "npm install"
+    startCommand: "node -r dotenv/config src/server.js"
+    autoDeploy: false
+    directory: Backend
+
+  - type: web
+    name: Notes-Library-Frontend
+    env: static
+    buildCommand: "npm install; npm run build"
+    publishDirectory: "./dist"
+    autoDeploy: false
+    directory: Frontend
