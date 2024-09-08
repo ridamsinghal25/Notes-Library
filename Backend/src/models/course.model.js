@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoDBManager from "../db/db.js";
 
 const courseSchema = new mongoose.Schema({
   courseName: {
@@ -24,4 +25,14 @@ const courseSchema = new mongoose.Schema({
   },
 });
 
-export const Course = mongoose.model("Course", courseSchema);
+const getCourseModel = async () => {
+  const authConnection = await mongoDBManager.getAuthConnection();
+
+  const CourseModel =
+    authConnection.models.Course ||
+    authConnection.model("Course", courseSchema);
+
+  return CourseModel;
+};
+
+export const getCourse = async () => await getCourseModel();

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoDBManager from "../db/db.js";
 
 const notesSchema = new mongoose.Schema(
   {
@@ -42,4 +43,15 @@ notesSchema.pre("save", function (next) {
   next();
 });
 
-export const Notes = mongoose.model("Notes", notesSchema);
+const getNotesModel = async () => {
+  const notesLibraryConnection =
+    await mongoDBManager.getNotesLibraryConnection();
+
+  const NotesModel =
+    notesLibraryConnection.models.Notes ||
+    notesLibraryConnection.model("Notes", notesSchema);
+
+  return NotesModel;
+};
+
+export const getNotes = async () => await getNotesModel();

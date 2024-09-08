@@ -1,4 +1,5 @@
-export const DB_Name = "notes-library";
+export const MAIN_DB = "notes-library";
+export const AUTH_DB = "auth-db";
 
 export const UserRolesEnum = {
   ADMIN: "ADMIN",

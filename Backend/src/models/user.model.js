@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AvailableUserRoles, UserRolesEnum } from "../constants.js ";
+import mongoDBManager from "../db/db.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -98,4 +99,13 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const User = mongoose.model("User", userSchema);
+const getUserModel = async () => {
+  const authConnection = await mongoDBManager.getAuthConnection();
+
+  const UserModel =
+    authConnection.models.User || authConnection.model("User", userSchema);
+
+  return UserModel;
+};
+
+export const getUser = async () => await getUserModel();

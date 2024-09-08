@@ -1,11 +1,13 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { Notes } from "../models/notes.model.js";
-import { Like } from "../models/like.model.js";
-import mongoose from "mongoose";
+import { getNotes } from "../models/notes.model.js";
+import { getLike } from "../models/like.model.js";
 
 const toggleNotesLike = asyncHandler(async (req, res) => {
+  const Notes = await getNotes();
+  const Like = await getLike();
+
   const { notesId } = req.params;
 
   const notes = await Notes.findById(notesId);

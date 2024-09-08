@@ -1,5 +1,5 @@
-import { Notes } from "../models/notes.model.js";
-import { Course } from "../models/course.model.js";
+import { getNotes } from "../models/notes.model.js";
+import { getCourse } from "../models/course.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -9,6 +9,9 @@ import {
 } from "../utils/cloudinary.js";
 
 const uploadNotes = asyncHandler(async (req, res) => {
+  const Course = await getCourse();
+  const Notes = await getNotes();
+
   const { chapterNumber, chapterName, subject, owner } = req.body;
 
   const pdfFileLocalPath = req?.file?.path;
@@ -56,6 +59,9 @@ const uploadNotes = asyncHandler(async (req, res) => {
 });
 
 const updateNotes = asyncHandler(async (req, res) => {
+  const Course = await getCourse();
+  const Notes = await getNotes();
+
   const { notesId } = req.params;
   const { chapterNumber, chapterName, subject, owner } = req.body;
 
@@ -121,7 +127,9 @@ const updateNotes = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, newNotes, "notes updated successfully"));
 });
 
-const deleteNotes = asyncHandler(async (req, res) => {
+const deleteNotes = await asyncHandler(async (req, res) => {
+  const Notes = await getNotes();
+
   const { notesId } = req.params;
 
   const notesExists = await Notes.findById(notesId);
@@ -148,6 +156,8 @@ const deleteNotes = asyncHandler(async (req, res) => {
 });
 
 const getNotesBySubject = asyncHandler(async (req, res) => {
+  const Notes = await getNotes();
+
   const { subject } = req.body;
 
   const notes = await Notes.aggregate([

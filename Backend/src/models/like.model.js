@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoDBManager from "../db/db.js";
 
 const likeSchema = new mongoose.Schema({
   likedBy: {
@@ -11,4 +12,15 @@ const likeSchema = new mongoose.Schema({
   },
 });
 
-export const Like = mongoose.model("Like", likeSchema);
+const getLikeModel = async () => {
+  const notesLibraryConnection =
+    await mongoDBManager.getNotesLibraryConnection();
+
+  const LikeModel =
+    notesLibraryConnection.models.Like ||
+    notesLibraryConnection.model("Like", likeSchema);
+
+  return LikeModel;
+};
+
+export const getLike = async () => await getLikeModel();
