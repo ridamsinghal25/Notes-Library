@@ -1,15 +1,35 @@
 import React from "react";
 import { SidebarButton } from "./SidebarButton";
 import { LogOut, MoreHorizontal } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Separator } from "../ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/sidebar";
+import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/constants";
+import { useDispatch } from "react-redux";
+import AuthService from "@/services/AuthService";
+import { ROUTES } from "@/constants/route";
+import { logout } from "@/store/AuthSlice";
+import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
 
 function DesktopSidebar({ sidebarDesktopItems }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logoutHandler = async () => {
+    const response = await AuthService.logoutService();
+
+    if (!(response instanceof ApiError)) {
+      dispatch(logout());
+
+      navigate(`${ROUTES.SIGNIN}`, { replace: true });
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+  };
 
   return (
     <aside className="w-[270px] max-w-xs h-screen fixed left-0 top-0 z-40 border-r">
@@ -57,6 +77,7 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                     size="sm"
                     Icon={LogOut}
                     className="w-full text-sm"
+                    onClick={logoutHandler}
                   >
                     {LOGOUT_BUTTON_LABEL}
                   </SidebarButton>

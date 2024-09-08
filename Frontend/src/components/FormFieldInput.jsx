@@ -27,12 +27,24 @@ function FormFieldInput({
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Input
-                placeholder={placeholder}
-                type={type}
-                {...field}
-                {...props}
-              />
+              {type === "file" ? (
+                <Input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files;
+
+                    field.onChange(file[0]);
+                  }}
+                  {...props}
+                />
+              ) : (
+                <Input
+                  placeholder={placeholder}
+                  type={type}
+                  {...field}
+                  {...props}
+                />
+              )}
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
             <FormMessage />

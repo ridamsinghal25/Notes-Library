@@ -2,54 +2,53 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AccountPage } from "./pages/AccountPage.jsx";
-import { ROUTES } from "./constants/route.js";
-import Home from "./pages/Home.jsx";
-import NotesPage from "./pages/NotesPage.jsx";
-import SignupPage from "./pages/SignupPage.jsx";
-import SigninPage from "./pages/SigninPage.jsx";
-import InputOTPForm from "./pages/InputOTPForm.jsx";
+import { BrowserRouter } from "react-router-dom";
+import axios from "axios";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
+import ToastConfig from "./components/ToastConfig";
+import AuthService from "./services/AuthService.js";
+import ApiError from "./services/ApiError.js";
 
-const router = createBrowserRouter([
-  {
-    path: ROUTES.HOME,
-    element: <App />,
-    children: [
-      {
-        path: ROUTES.HOME,
-        element: <Home />,
-      },
-      {
-        path: ROUTES.SIGNUP,
-        element: <SignupPage />,
-      },
-      {
-        path: ROUTES.SIGNIN,
-        element: <SigninPage />,
-      },
-      {
-        path: ROUTES.PROFILE,
-        element: <h1>Profile Page</h1>,
-      },
-      {
-        path: ROUTES.NOTES,
-        element: <NotesPage />,
-      },
-      {
-        path: ROUTES.SETTING,
-        element: <AccountPage />,
-      },
-      {
-        path: ROUTES.VERIFYCODE,
-        element: <InputOTPForm />,
-      },
-    ],
-  },
-]);
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_URI;
+axios.defaults.withCredentials = true;
+axios.defaults.timeout = 60000;
+
+let refreshingTokenInProgress = false;
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error?.config?.url?.includes("refresh-token")) {
+      return Promise.reject(error);
+    }
+
+    if (
+      error?.response?.status === 401 &&
+      !error?.config?.url?.includes("login") &&
+      !refreshingTokenInProgress
+    ) {
+      refreshingTokenInProgress = true;
+
+      const response = await AuthService.refreshAccessToken();
+
+      refreshingTokenInProgress = false;
+
+      if (!(response instanceof ApiError)) {
+        return axios(error.config);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+        <ToastConfig />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );
