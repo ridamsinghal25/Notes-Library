@@ -22,7 +22,11 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/constants";
+import {
+  AVATAR_URL,
+  LOGOUT_BUTTON_LABEL,
+  PROJECT_NAME,
+} from "../../constants/constants";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { ROUTES } from "@/constants/route";
@@ -89,7 +93,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                   <div className="flex justify-between items-center w-full">
                     <div className="flex gap-2">
                       <Avatar className="h-5 w-5">
-                        <AvatarImage src="https://github.com/max-programming.png" />
+                        <AvatarImage src={AVATAR_URL} />
                         <AvatarFallback>Max Programming</AvatarFallback>
                       </Avatar>
                       <span>Max Programming</span>

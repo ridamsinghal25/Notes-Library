@@ -2,18 +2,28 @@
 
 // Dialog and Form Titles
 export const OVERVIEW_TITLE = "Notes Library";
+
 export const OVERVIEW_HEADER_TITLE = "Dive into the World of Notes";
+
 export const OVERVIEW_HEADER_SUBTITLE =
   "Notes Library: Your go-to platform for effortlessly storing and accessing all your notes!";
+
 export const TITLE = "Join Notes Library";
+
 export const INPUT_OTP_FORM_TITLE = "One-Time Password";
+
 export const EMAIL_MODAL_TITLE = "Enter your email address";
+
 export const SIGNUP_DESCRIPTION = "Sign up to deep dive into the notes world";
+
 export const SIGNIN_DESCRIPTION = "Sign in to deep dive into the notes world";
+
 export const INPUT_OTP_FORM_DESCRITION =
   "Please enter the one-time password sent to your email.";
+
 export const RESEND_EMAIL_DESCRIPTION =
   "Didn’t receive the verification email?";
+
 export const EMAIL_MODAL_DESCRIPTION =
   "You will receive a 6 digit OTP on your email address";
 
@@ -124,3 +134,5 @@ export const FORGOT_PASSWORD_TITLE = "Reset Your Password";
 export const FORGOT_PASSWORD_DESCRIPTION =
   "Use the reset code below to set a new password.";
 export const FORGOT_PASSWORD_BUTTON_TEXT = "Reset Password";
+
+export const AVATAR_URL = "https://github.com/shadcn.png";

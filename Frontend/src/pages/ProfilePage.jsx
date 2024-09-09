@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import ApiError from "@/services/ApiError";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { useSelector } from "react-redux";
+import { AVATAR_URL } from "@/constants/constants";
 
 function ProfilePage() {
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
@@ -65,7 +66,7 @@ function ProfilePage() {
               <div className="w-3/4">
                 <div className="flex items-center mb-4 mt-4">
                   <img
-                    src="https://github.com/shadcn.png"
+                    src={AVATAR_URL}
                     alt="Author Avatar"
                     className="w-9 h-9 rounded-full mr-3"
                   />
@@ -106,7 +107,7 @@ function ProfilePage() {
             <div className="flex lg:flex-col gap-4">
               <div>
                 <img
-                  src="https://github.com/shadcn.png"
+                  src={AVATAR_URL}
                   alt="Profile Image"
                   className="rounded-full mx-auto mb-4 w-16 h-16 lg:w-32 lg:h-32 shadow-lg hover:opacity-90 transition-opacity duration-300"
                 />

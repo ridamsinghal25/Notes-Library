@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import PageLayout from "./components/PageLayout";
 import Home from "./pages/Home";
 import { AccountPage } from "./pages/AccountPage";
@@ -15,8 +15,18 @@ import ProfilePage from "./pages/ProfilePage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 import PageNotFound from "./pages/PageNotFound";
 import OverviewPage from "./pages/OverviewPage";
+import { useEffect } from "react";
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== ROUTES.HOME) {
+      navigate(ROUTES.HOME);
+    }
+  }, []);
+
   return (
     <Routes>
       <Route element={<PageLayout />}>

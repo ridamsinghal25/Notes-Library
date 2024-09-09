@@ -6,7 +6,11 @@ import { Separator } from "../ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { LOGOUT_BUTTON_LABEL, PROJECT_NAME } from "../../constants/constants";
+import {
+  AVATAR_URL,
+  LOGOUT_BUTTON_LABEL,
+  PROJECT_NAME,
+} from "../../constants/constants";
 import { useDispatch } from "react-redux";
 import AuthService from "@/services/AuthService";
 import { ROUTES } from "@/constants/route";
@@ -59,10 +63,7 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                   <div className="flex justify-between items-center w-full">
                     <div className="flex gap-2">
                       <Avatar className="h-5 w-5">
-                        <AvatarImage
-                          className="rounded"
-                          src="https://github.com/shadcn.png"
-                        />
+                        <AvatarImage className="rounded" src={AVATAR_URL} />
                         <AvatarFallback>Max Programming</AvatarFallback>
                       </Avatar>
                       <span>Max Programming</span>

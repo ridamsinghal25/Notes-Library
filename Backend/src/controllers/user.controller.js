@@ -197,6 +197,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
   };
 
   const loggedInUser = await User.findById(user._id).select(
@@ -236,6 +237,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
   };
 
   return res
@@ -607,14 +609,6 @@ const getUserProfileInfo = asyncHandler(async (req, res) => {
     },
     {
       $lookup: {
-        from: "courses",
-        localField: "course",
-        foreignField: "_id",
-        as: "course",
-      },
-    },
-    {
-      $lookup: {
         from: "likes",
         localField: "_id",
         foreignField: "notesId",
@@ -638,31 +632,20 @@ const getUserProfileInfo = asyncHandler(async (req, res) => {
       },
     },
     {
-      $unwind: "$course",
-    },
-    {
       $project: {
-        "course.endDate": 0,
-        "course.startDate": 0,
         likes: 0,
       },
     },
   ]);
 
   if (!notes) {
-    throw new ApiError(404, "notes not found");
+    throw new ApiError(404, "notes does not exists");
   }
 
-  if (notes?.length === 0) {
+  if (Array.isArray(notes) && notes?.length === 0) {
     return res
-      .status(404)
-      .json(
-        new ApiResponse(
-          404,
-          {},
-          "Notes does not exists with the following subject"
-        )
-      );
+      .status(201)
+      .json(new ApiResponse(201, [], "you have not uploaded any notes yet"));
   }
 
   return res
