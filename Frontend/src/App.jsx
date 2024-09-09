@@ -19,7 +19,7 @@ import OverviewPage from "./pages/OverviewPage";
 function App() {
   return (
     <Routes>
-      <Route element={<PageLayout />}>
+      <Route element={<PageLayout />} errorElement={<PageNotFound />}>
         <Route element={<ForLoggedInUsers />}>
           <Route element={<LayoutWithSidebar />}>
             <Route path={ROUTES.HOME} element={<Home />} />

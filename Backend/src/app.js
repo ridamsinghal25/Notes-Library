@@ -44,6 +44,12 @@ app.use(cookieParser());
 
 app.use(morganMiddleware);
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
+
 import { errorHandler } from "./middlewares/error.middleware.js";
 // import routes
 import healthcheckRouter from "./routes/healthcheck.routes.js";
