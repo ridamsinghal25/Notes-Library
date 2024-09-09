@@ -5,8 +5,13 @@ import { rateLimit } from "express-rate-limit";
 import requestIp from "request-ip";
 import { ApiError } from "./utils/ApiError.js";
 import morganMiddleware from "./logger/morgan.logger.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(requestIp.mw());
 
