@@ -22,7 +22,9 @@ function DesktopSidebar({ sidebarDesktopItems }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userFullName = useSelector((state) => state.auth?.userDetails.fullName);
+  const userFullName = useSelector(
+    (state) => state.auth?.userDetails?.fullName
+  );
 
   const logoutHandler = async () => {
     const response = await AuthService.logoutService();
