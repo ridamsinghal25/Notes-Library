@@ -71,13 +71,12 @@ const PDFCard = ({ notes }) => {
         </div>
       </div>
 
-      {showPDF && (
-        <PDFModal
-          pdfUrl={pdfUrl}
-          togglePDFView={togglePDFView}
-          chapterName={chapterName}
-        />
-      )}
+      <PDFModal
+        pdfUrl={pdfUrl}
+        showDialog={showPDF}
+        setShowDialog={setShowPDF}
+        chapterName={chapterName}
+      />
 
       <div className="p-3 border-t border-gray-200 flex justify-between items-center">
         <div
