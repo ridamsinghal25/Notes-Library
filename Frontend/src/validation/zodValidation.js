@@ -6,7 +6,7 @@ export const signupFormValidation = z.object({
     .trim()
     .regex(
       /^[a-zA-Z\s.,_'-]+$/,
-      "Full name must contain only alphabets and , . _ - characters"
+      "Full name must contain only alphabets and , . _ - ' characters"
     )
     .min(6, "Full name must be atleast 6 characters")
     .max(20, "Full name must not be more than 20 characters"),
@@ -57,7 +57,7 @@ export const uploadNotesValidation = z.object({
     .trim()
     .regex(
       /^[a-zA-Z\s.,_'-]+$/,
-      "subjects must contain only alphabets and , . _ - characters"
+      "subjects must contain only alphabets and , . _ - ' characters"
     )
     .min(1, "Subject is required")
     .max(20, "Subject must not be more than 20 characters"),
@@ -71,7 +71,7 @@ export const uploadNotesValidation = z.object({
     .trim()
     .regex(
       /^[a-zA-Z\s.,_'-]+$/,
-      "chapter name must contain only alphabets and , . _ - characters"
+      "chapter name must contain only alphabets and , . _ - ' characters"
     )
     .min(1, "Chapter name is required")
     .max(20, "Chapter name must not be more than 20 characters"),
@@ -81,7 +81,7 @@ export const uploadNotesValidation = z.object({
     .trim()
     .regex(
       /^[a-zA-Z\s.,_'-]+$/,
-      "owner name must contain only alphabets and , . _ - characters"
+      "owner name must contain only alphabets and , . _ - ' characters"
     )
     .min(1, "owner name is required")
     .max(20, "owner name must not be more than 20 characters"),
