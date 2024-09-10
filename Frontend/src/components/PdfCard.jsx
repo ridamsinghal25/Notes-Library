@@ -7,14 +7,16 @@ import ApiError from "@/services/ApiError";
 import { FilePen, Trash2Icon } from "lucide-react";
 import { Button } from "./ui/button";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
+import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
+import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
 
 const PDFCard = ({ notes }) => {
   const { pdf, owner, chapterName, isLiked, likesCount } = notes;
   const pdfUrl = pdf?.url;
 
   const [showPDF, setShowPDF] = useState(false);
-  const [like, setLike] = useState(isLiked);
-  const [likeCount, setLikeCount] = useState(likesCount);
+  const [notesLike, setNotesLike] = useState(isLiked);
+  const [notesLikeCount, setNotesLikeCount] = useState(likesCount);
 
   const togglePDFView = () => {
     setShowPDF(!showPDF);
@@ -24,14 +26,14 @@ const PDFCard = ({ notes }) => {
     const response = await LikeService.likeOrUnlikeNotes(notes?._id);
 
     if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "Liked successfully");
+      toast.success(response?.message);
 
-      if (likeCount > likesCount) {
-        setLike(false);
-        setLikeCount(likeCount - 1);
+      if (response?.data?.isLiked) {
+        setNotesLike(true);
+        setNotesLikeCount(notesLikeCount + 1);
       } else {
-        setLike(true);
-        setLikeCount(likeCount + 1);
+        setNotesLike(false);
+        setNotesLikeCount(notesLikeCount - 1);
       }
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
@@ -82,13 +84,10 @@ const PDFCard = ({ notes }) => {
           onClick={toggleLike}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <ThumbsUp
-            className={`transition-colors duration-300 ml-3 ${
-              like ? "text-black" : "text-slate-400"
-            }`}
-          />
+          {notesLike ? <ThumbsUpDark /> : <ThumbsUpLight />}
+
           <span className="bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-1 px-3 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105">
-            {likeCount}
+            {notesLikeCount}
           </span>
         </div>
         <div>
