@@ -11,7 +11,7 @@ import {
   LOGOUT_BUTTON_LABEL,
   PROJECT_NAME,
 } from "../../constants/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AuthService from "@/services/AuthService";
 import { ROUTES } from "@/constants/route";
 import { logout } from "@/store/AuthSlice";
@@ -22,6 +22,7 @@ function DesktopSidebar({ sidebarDesktopItems }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userFullName = useSelector((state) => state.auth?.userDetails.fullName);
 
   const logoutHandler = async () => {
     const response = await AuthService.logoutService();
@@ -64,9 +65,9 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                     <div className="flex gap-2">
                       <Avatar className="h-5 w-5">
                         <AvatarImage className="rounded" src={AVATAR_URL} />
-                        <AvatarFallback>Max Programming</AvatarFallback>
+                        <AvatarFallback>{userFullName}</AvatarFallback>
                       </Avatar>
-                      <span>Max Programming</span>
+                      <span>{userFullName}</span>
                     </div>
                     <MoreHorizontal size={20} />
                   </div>

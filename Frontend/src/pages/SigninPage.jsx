@@ -27,7 +27,7 @@ import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { login } from "@/store/AuthSlice";
+import { login, logout } from "@/store/AuthSlice";
 import { Input } from "@/components/ui/input";
 import { EmailModal } from "@/components/modals/EmailModal";
 
@@ -55,13 +55,21 @@ function SigninPage() {
     setIsSubmitting(false);
 
     if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "User login successfully");
-
       const currentUser = await AuthService.getCurrentUser();
 
-      dispatch(login(currentUser?.data));
+      if (!(currentUser instanceof ApiError)) {
+        dispatch(login(currentUser?.data));
 
-      navigate(`${ROUTES.HOME}`);
+        toast.success(response?.message || "User login successfully");
+
+        navigate(`${ROUTES.HOME}`);
+      } else {
+        dispatch(logout());
+
+        toast.error(
+          currentUser?.errorResponse?.message || currentUser?.errorMessage
+        );
+      }
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

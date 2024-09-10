@@ -5,13 +5,8 @@ import { rateLimit } from "express-rate-limit";
 import requestIp from "request-ip";
 import { ApiError } from "./utils/ApiError.js";
 import morganMiddleware from "./logger/morgan.logger.js";
-import path from "path";
-import { fileURLToPath } from "url";
 
 const app = express();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(requestIp.mw());
 
@@ -48,12 +43,6 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 app.use(morganMiddleware);
-
-app.use(express.static(path.join(__dirname, "build")));
-
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "build", "index.html"));
-});
 
 import { errorHandler } from "./middlewares/error.middleware.js";
 // import routes

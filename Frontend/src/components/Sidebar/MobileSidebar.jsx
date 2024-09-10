@@ -31,13 +31,14 @@ import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { ROUTES } from "@/constants/route";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/AuthSlice";
 
 export default function MobileSidebar({ sidebarMobileItems }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userFullName = useSelector((state) => state.auth?.userDetails.fullName);
 
   const logoutHandler = async () => {
     const response = await AuthService.logoutService();
@@ -94,9 +95,9 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                     <div className="flex gap-2">
                       <Avatar className="h-5 w-5">
                         <AvatarImage src={AVATAR_URL} />
-                        <AvatarFallback>Max Programming</AvatarFallback>
+                        <AvatarFallback>{userFullName}</AvatarFallback>
                       </Avatar>
-                      <span>Max Programming</span>
+                      <span>{userFullName}</span>
                     </div>
                     <MoreHorizontal size={20} />
                   </div>
