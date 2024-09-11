@@ -16,6 +16,26 @@ axios.defaults.timeout = 60000;
 
 let refreshingTokenInProgress = false;
 
+axios.interceptors.request.use(
+  (config) => {
+    if (config?.url?.includes("login")) {
+      document.cookie = "test_cookie=1";
+
+      let cookiesEnabled = document.cookie.indexOf("test_cookie=") !== -1;
+
+      document.cookie =
+        "test_cookie=1; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
+      if (!cookiesEnabled) {
+        throw new Error("Please enable cookies to login");
+      }
+    }
+
+    return config;
+  },
+  (error) => console.log(error) || Promise.reject(error)
+);
+
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
