@@ -95,11 +95,15 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const userExistsByRollNumber = await User.findOne({
     rollNumber,
-    isEmailVerified: true,
   });
 
-  if (userExistsByRollNumber) {
+  if (userExistsByRollNumber.isEmailVerified) {
     throw new ApiError(400, "user already exists with roll number");
+  } else if (userExistsByRollNumber.email !== email) {
+    throw new ApiError(
+      409,
+      `This email (${userExistsByRollNumber.email}) is already registered. Contact admin if it's incorrect.`
+    );
   }
 
   const userExists = await User.findOne({
