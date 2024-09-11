@@ -27,17 +27,17 @@ function NotesSubjectPage() {
     dispatch(fetchNotes(subject));
   }, [dispatch, subject]);
 
-  const toggleDeleteModal = (notes) => {
+  const toggleDeleteNotesModal = (notes) => {
     setShowDeleteNotesModal(!showDeleteNotesModal);
     setNotesInfo(notes);
   };
 
-  const toggleUpdateModal = (notes) => {
+  const toggleUpdateNotesModal = (notes) => {
     setShowUploadNotesModal(!showUploadNotesModal);
     setNotesInfo(notes);
   };
 
-  const NotesCardWithButtons = withActionButtons(PDFCard);
+  const PDFCardWithButtons = withActionButtons(PDFCard);
 
   const onNotesUpdate = async (data) => {
     setIsSubmitting(true);
@@ -83,13 +83,13 @@ function NotesSubjectPage() {
                       <div className="flex-1">
                         {userInfo?.role === USER_ROLE.ADMIN &&
                         userInfo?._id === notes?.createdBy ? (
-                          <NotesCardWithButtons
+                          <PDFCardWithButtons
                             notes={notes}
                             updateButtonHandler={(notes) =>
-                              toggleUpdateModal(notes)
+                              toggleUpdateNotesModal(notes)
                             }
                             deleteButtonHandler={(notes) => {
-                              toggleDeleteModal(notes);
+                              toggleDeleteNotesModal(notes);
                             }}
                           />
                         ) : (

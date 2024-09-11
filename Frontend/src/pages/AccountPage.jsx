@@ -29,7 +29,7 @@ import { logout } from "@/store/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-export function AccountPage() {
+export default function AccountPage() {
   const [showDialog, setShowDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
