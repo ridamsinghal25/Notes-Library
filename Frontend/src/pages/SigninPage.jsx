@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -37,6 +37,12 @@ function SigninPage() {
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    toast.warn(
+      "Please enable cookies in your browser otherwise you will have (Invalid token) error"
+    );
+  }, []);
 
   const signinForm = useForm({
     resolver: zodResolver(signinFormValidation),
