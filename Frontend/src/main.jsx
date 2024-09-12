@@ -16,21 +16,23 @@ axios.defaults.timeout = 60000;
 
 let refreshingTokenInProgress = false;
 
+const areCookiesEnabled = () => {
+  document.cookie = "test_cookie=1";
+  const cookiesEnabled = document.cookie.indexOf("test_cookie=") !== -1;
+
+  document.cookie =
+    "test_cookie=1; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"; // Cleanup
+
+  return cookiesEnabled;
+};
+
 axios.interceptors.request.use(
   (config) => {
     if (config?.url?.includes("login")) {
-      document.cookie = "test_cookie=1";
-
-      let cookiesEnabled = document.cookie.indexOf("test_cookie=") !== -1;
-
-      document.cookie =
-        "test_cookie=1; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-
-      if (!cookiesEnabled) {
-        throw new Error("Please enable cookies to login");
+      if (!areCookiesEnabled()) {
+        throw new Error("Cookies are not enabled");
       }
     }
-
     return config;
   },
   (error) => console.log(error) || Promise.reject(error)
