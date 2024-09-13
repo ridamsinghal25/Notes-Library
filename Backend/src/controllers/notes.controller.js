@@ -30,11 +30,15 @@ const uploadNotes = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
-  const pdfFile = await uploadOnCloudinary(pdfFileLocalPath);
+  const publicId = `${subject.replace(/\s+/g, "_")}_${chapterName.replace(/\s+/g, "_")}_${Date.now()}`;
+
+  const pdfFile = await uploadOnCloudinary(pdfFileLocalPath, publicId);
 
   if (!pdfFile) {
     throw new ApiError(500, "Failed to upload pdf file");
   }
+
+  console.log("pdfFile: ", pdfFile);
 
   const notes = await Notes.create({
     chapterName,
@@ -93,11 +97,15 @@ const updateNotes = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Internal server error");
   }
 
-  const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath);
+  const publicId = `${subject.replace(/\s+/g, "_")}_${chapterName.replace(/\s+/g, "_")}_${Date.now()}`;
+
+  const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath, publicId);
 
   if (!uploadNewPdfFile) {
     throw new ApiError(500, "Failed to upload pdf file");
   }
+
+  console.log("uploadNewPdfFile", uploadNewPdfFile);
 
   const newNotes = await Notes.findByIdAndUpdate(
     notesId,
