@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 
-export default function SkeletonUI({ isCard = false }) {
+export default function SkeletonUI({ isCard = true }) {
   return (
     <div className="container mx-auto py-8 px-4">
       {!isCard && <Skeleton className="h-10 w-3/4 mx-auto mb-6" />}
@@ -14,7 +14,7 @@ export default function SkeletonUI({ isCard = false }) {
               <Skeleton className="h-8 w-48" />
             </div>
             <Separator className="mb-4" />
-            <div className="flex justify-between items-start gap-4">
+            <div className="flex sm:justify-between items-start justify-center gap-4">
               <div className="flex flex-col items-center gap-4 w-72">
                 <div className="flex justify-between items-start gap-4 w-full">
                   <div className="flex-1 w-full">
@@ -26,7 +26,7 @@ export default function SkeletonUI({ isCard = false }) {
                           <Skeleton className="h-4 w-24" />
                         </div>
                       </div>
-                      <Skeleton className="h-48 w-full mb-4" />
+                      <Skeleton className="h-52 w-full mb-4" />
                       <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                           <Skeleton className="h-8 w-8 rounded-full" />
