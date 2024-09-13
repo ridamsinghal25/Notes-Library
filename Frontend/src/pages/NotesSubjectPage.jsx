@@ -11,6 +11,7 @@ import DeleteNotes from "@/components/modals/DeleteNotes";
 import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
+import SkeletonUI from "@/components/Skeleton";
 
 function NotesSubjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,8 +20,7 @@ function NotesSubjectPage() {
   const [notesInfo, setNotesInfo] = useState(null);
   const subject = useParams();
   const dispatch = useDispatch();
-  const notesData = useSelector((state) => state.notes.userNotes);
-  const notesError = useSelector((state) => state.notes.error);
+  const notesData = useSelector((state) => state.notes);
   const userInfo = useSelector((state) => state.auth.userDetails);
 
   useEffect(() => {
@@ -64,8 +64,10 @@ function NotesSubjectPage() {
       </h1>
 
       <div className="flex flex-col items-center sm:block">
-        {notesData.length > 0 ? (
-          notesData?.map((notes) => (
+        {notesData?.status === "loading" ? (
+          <SkeletonUI />
+        ) : notesData?.userNotes?.length > 0 ? (
+          notesData?.userNotes?.map((notes) => (
             <div key={notes._id} className="mb-8 sm:ml-8">
               <div className="flex items-center mb-4 flex-col sm:flex-row justify-center sm:justify-normal">
                 <div className="bg-violet-600 text-white font-bold py-2 px-4 rounded-lg mr-4">
@@ -124,7 +126,7 @@ function NotesSubjectPage() {
             className="flex items-center p-4 mb-4 text-sm text-red-700 bg-red-100 border border-red-300 rounded-lg gap-2"
             role="alert"
           >
-            <CircleAlert /> <span>{notesError}</span>
+            <CircleAlert /> <span>{notesData?.error}</span>
           </div>
         )}
       </div>

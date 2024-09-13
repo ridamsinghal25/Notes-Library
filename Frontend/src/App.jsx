@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/ForgotPasswordPage";
 import PageNotFound from "./pages/PageNotFound";
 import OverviewPage from "./pages/OverviewPage";
 import { lazy, Suspense } from "react";
+import SkeletonUI from "./components/Skeleton";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
@@ -30,7 +31,7 @@ function App() {
             <Route
               path={ROUTES.NOTES_SUBJECT}
               element={
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<SkeletonUI />}>
                   <NotesSubjectPage />
                 </Suspense>
               }
