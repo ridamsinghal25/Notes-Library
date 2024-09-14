@@ -27,7 +27,7 @@ import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { login, logout } from "@/store/AuthSlice";
+import { login } from "@/store/AuthSlice";
 import { Input } from "@/components/ui/input";
 import { EmailModal } from "@/components/modals/EmailModal";
 
@@ -37,12 +37,6 @@ function SigninPage() {
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    toast.warn(
-      "Please enable cookies in your browser otherwise you will have (Invalid token) error"
-    );
-  }, []);
 
   const signinForm = useForm({
     resolver: zodResolver(signinFormValidation),
@@ -61,23 +55,16 @@ function SigninPage() {
     setIsSubmitting(false);
 
     if (!(response instanceof ApiError)) {
-      const currentUser = await AuthService.getCurrentUser();
+      dispatch(login(response?.data?.user));
 
-      if (!(currentUser instanceof ApiError)) {
-        dispatch(login(currentUser?.data));
+      localStorage.setItem("accessToken", response?.data?.accessToken);
 
-        toast.success(response?.message || "User login successfully");
-
-        navigate(`${ROUTES.HOME}`);
-      } else {
-        dispatch(logout());
-
-        toast.error(
-          currentUser?.errorResponse?.message || currentUser?.errorMessage
-        );
-      }
+      navigate(`${ROUTES.HOME}`);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        // current user service toast error
+        response?.errorResponse?.message || response?.errorMessage
+      );
     }
   };
 

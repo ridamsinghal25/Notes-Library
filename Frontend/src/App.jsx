@@ -39,15 +39,15 @@ function App() {
             <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
           </Route>
         </Route>
-        <Route element={<PublicRoutes />}>
-          <Route path={ROUTES.OVERVIEW} element={<OverviewPage />} />
-          <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
-          <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
-          <Route path={ROUTES.VERIFYCODE} element={<InputOTPForm />} />
-          <Route path={ROUTES.RESET_PASSWORD} element={<ForgotPassword />} />
-        </Route>
-        <Route path="*" element={<PageNotFound />} />
       </Route>
+      <Route element={<PublicRoutes />}>
+        <Route path={ROUTES.OVERVIEW} element={<OverviewPage />} />
+        <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
+        <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
+        <Route path={ROUTES.VERIFYCODE} element={<InputOTPForm />} />
+        <Route path={ROUTES.RESET_PASSWORD} element={<ForgotPassword />} />
+      </Route>
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 }

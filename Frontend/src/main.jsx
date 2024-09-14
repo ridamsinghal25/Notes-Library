@@ -12,9 +12,21 @@ import ApiError from "./services/ApiError.js";
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URI;
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 60000;
+axios.defaults.timeout = 120000;
 
 let refreshingTokenInProgress = false;
+
+axios.interceptors.request.use(
+  function (config) {
+    const token = localStorage.getItem("accessToken");
+
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 
 axios.interceptors.response.use(
   (response) => response,
