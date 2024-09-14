@@ -2,7 +2,10 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { getUser } from "../models/user.model.js";
-import { USER_TEMPORARY_TOKEN_EXPIRY } from "../constants.js";
+import {
+  USER_COOKIE_EXPIRY,
+  USER_TEMPORARY_TOKEN_EXPIRY,
+} from "../constants.js";
 import { sendEmail } from "../utils/emails/sendEmail.js";
 import {
   verificationEmailTemplate,
@@ -205,6 +208,7 @@ const loginUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    maxAge: USER_COOKIE_EXPIRY,
   };
 
   const loggedInUser = await User.findById(user._id).select(
