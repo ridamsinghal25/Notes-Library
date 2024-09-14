@@ -65,7 +65,7 @@ function NotesSubjectPage() {
 
       <div className="flex flex-col items-center sm:block">
         {notesData?.status === "loading" ? (
-          <SkeletonUI />
+          <SkeletonUI isCard={true} />
         ) : notesData?.userNotes?.length > 0 ? (
           notesData?.userNotes?.map((notes) => (
             <div key={notes._id} className="mb-8 sm:ml-8">
@@ -90,9 +90,9 @@ function NotesSubjectPage() {
                             updateButtonHandler={(notes) =>
                               toggleUpdateNotesModal(notes)
                             }
-                            deleteButtonHandler={(notes) => {
-                              toggleDeleteNotesModal(notes);
-                            }}
+                            deleteButtonHandler={(notes) =>
+                              toggleDeleteNotesModal(notes)
+                            }
                           />
                         ) : (
                           <PDFCard notes={notes} />

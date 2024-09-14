@@ -36,7 +36,7 @@ export default function PdfModal({
 }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [scale, setScale] = useState(1.0);
+  const [scale, setScale] = useState(0.6);
   const [containerWidth, setContainerWidth] = useState(0);
 
   const handleDownload = () => {
