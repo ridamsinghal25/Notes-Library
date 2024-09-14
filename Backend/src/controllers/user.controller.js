@@ -181,6 +181,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const User = await getUser();
+  const Course = await getCourse();
 
   const { email, password } = req.body;
 
@@ -216,8 +217,16 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   if (!loggedInUser) {
-    throw new ApiError(404, "user not found");
+    throw new ApiError(404, "user does not exists");
   }
+
+  const course = await Course.findById(loggedInUser.course);
+
+  if (!course) {
+    throw new ApiError(404, "course does not exists");
+  }
+
+  loggedInUser.course = course;
 
   return res
     .status(200)
