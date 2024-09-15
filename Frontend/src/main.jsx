@@ -9,6 +9,7 @@ import store from "./store/store.js";
 import ToastConfig from "./components/ToastConfig";
 import AuthService from "./services/AuthService.js";
 import ApiError from "./services/ApiError.js";
+import { ThemeProvider } from "@/components/theme/theme-provider.jsx";
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URI;
 axios.defaults.withCredentials = true;
@@ -58,7 +59,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <ThemeProvider defaultTheme="dark" storageKey="notes-library-theme">
+          <App />
+        </ThemeProvider>
         <ToastConfig />
       </Provider>
     </BrowserRouter>

@@ -43,16 +43,16 @@ const PDFCard = ({ notes }) => {
   const previewImageUrl = getPreviewImageUrl(pdfUrl);
 
   return (
-    <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden">
+    <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:bg-black">
       <div className="p-4">
         <div className="flex items-center space-x-2 mb-3">
           <FileText className="w-8 h-8 text-red-500" />
           <div className="flex flex-col">
             <div className="flex flex-col">
-              <h2 className="text-lg font-semibold text-gray-800 truncate">
+              <h2 className="text-lg font-semibold text-gray-800 truncate  dark:text-gray-200">
                 {chapterName}
               </h2>
-              <p className="text-sm text-gray-500">PDF</p>
+              <p className="text-sm text-gray-500 dark:text-gray-200">PDF</p>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@ const PDFCard = ({ notes }) => {
           />
           <button
             onClick={togglePDFView}
-            className="absolute w-64 inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300 rounded"
+            className="absolute w-64 inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />
           </button>
@@ -78,7 +78,7 @@ const PDFCard = ({ notes }) => {
         chapterName={chapterName}
       />
 
-      <div className="p-3 border-t border-gray-200 flex justify-between items-center">
+      <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
         <div
           onClick={toggleLike}
           className="flex items-center gap-2 cursor-pointer"
@@ -90,8 +90,10 @@ const PDFCard = ({ notes }) => {
           </span>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Owner:</p>{" "}
-          <p className="text-sm font-semibold text-black">{owner}</p>
+          <p className="text-sm text-gray-500  dark:text-gray-200">Owner:</p>{" "}
+          <p className="text-sm font-semibold text-black dark:text-gray-200">
+            {owner}
+          </p>
         </div>
       </div>
     </div>

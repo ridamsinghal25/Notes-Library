@@ -30,6 +30,7 @@ import { useDispatch } from "react-redux";
 import { login } from "@/store/AuthSlice";
 import { Input } from "@/components/ui/input";
 import { EmailModal } from "@/components/modals/EmailModal";
+import Container from "@/components/Container";
 
 function SigninPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,83 +94,87 @@ function SigninPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 bg-white rounded-lg shadow-md my-6 sm:my-10">
-        <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-4 sm:mb-6">
-            {TITLE}
-          </h1>
-          <p className="mb-4">{SIGNIN_DESCRIPTION}</p>
-        </div>
-        <Form {...signinForm}>
-          <form
-            onSubmit={signinForm.handleSubmit(onSignIn)}
-            className="space-y-6"
-          >
-            <FormFieldInput
-              form={signinForm}
-              label="Email"
-              name="email"
-              placeholder="Enter your email"
-            />
-            <FormField
-              control={signinForm.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription
-                    className="text-red-600 hover:text-red-800 hover:underline text-right cursor-pointer"
-                    onClick={toggleEmailModal}
-                  >
-                    Forgot your password?
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {showEmailModal && (
-              <EmailModal
-                showDialog={showEmailModal}
-                setShowDialog={setShowEmailModal}
-                onSubmit={onForgotPassword}
-                isSendingEmail={isSendingEmail}
-              />
-            )}
-            <div className="w-full flex justify-end">
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
-                    Wait
-                  </>
-                ) : (
-                  SIGNIN_BUTTON_TEXT
-                )}
-              </Button>
-            </div>
-          </form>
-        </Form>
-        <div className="text-center mt-4">
-          <p>
-            {SIGNUP_PROMPT_TEXT}{" "}
-            <Link
-              to={ROUTES.SIGNUP}
-              className="text-blue-600 hover:text-blue-800"
+    <Container>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 rounded-lg shadow-md my-6 sm:my-10 dark:border-gray-500 dark:border-2">
+          <div className="text-center dark:text-gray-200">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-4 sm:mb-6">
+              {TITLE}
+            </h1>
+            <p className="mb-4">{SIGNIN_DESCRIPTION}</p>
+          </div>
+          <Form {...signinForm}>
+            <form
+              onSubmit={signinForm.handleSubmit(onSignIn)}
+              className="space-y-6"
             >
-              {SIGNUP_BUTTON_TEXT}
-            </Link>
-          </p>
+              <FormFieldInput
+                form={signinForm}
+                label="Email"
+                name="email"
+                placeholder="Enter your email"
+              />
+              <FormField
+                control={signinForm.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription className="text-right">
+                      <span
+                        className="text-red-600 hover:text-red-800 hover:underline cursor-pointer"
+                        onClick={toggleEmailModal}
+                      >
+                        Forgot your password?
+                      </span>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {showEmailModal && (
+                <EmailModal
+                  showDialog={showEmailModal}
+                  setShowDialog={setShowEmailModal}
+                  onSubmit={onForgotPassword}
+                  isSendingEmail={isSendingEmail}
+                />
+              )}
+              <div className="w-full flex justify-end">
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                      Wait
+                    </>
+                  ) : (
+                    SIGNIN_BUTTON_TEXT
+                  )}
+                </Button>
+              </div>
+            </form>
+          </Form>
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-600 dark:text-gray-200">
+              {SIGNUP_PROMPT_TEXT}{" "}
+              <Link
+                to={ROUTES.SIGNUP}
+                className="text-blue-600 hover:underline hover:text-blue-500 text-base"
+              >
+                {SIGNUP_BUTTON_TEXT}
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

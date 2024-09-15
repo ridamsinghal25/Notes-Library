@@ -28,6 +28,7 @@ import { ROUTES } from "@/constants/route";
 import { logout } from "@/store/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Container from "@/components/Container";
 
 export default function AccountPage() {
   const [showDialog, setShowDialog] = useState(false);
@@ -91,7 +92,7 @@ export default function AccountPage() {
 
   return (
     <div className="w-full">
-      <h1 className="flex items-start sm:mx-20 my-10 text-3xl font-bold text-gray-800 underline">
+      <h1 className="flex items-start sm:mx-20 my-10 text-3xl font-bold text-gray-800 underline dark:text-gray-200">
         {TITLE}
       </h1>
       <Tabs
@@ -108,88 +109,90 @@ export default function AccountPage() {
         </TabsList>
         <TabsContent value={TABS.ACCOUNT} className="w-full my-5 mb-20">
           <Card>
-            <CardHeader>
-              <CardTitle className="md:text-xl">
-                {ACCOUNT_TEXT_CONTENT.ACCOUNT_TITLE}
-              </CardTitle>
-              <CardDescription className="md:text-sm">
-                {ACCOUNT_TEXT_CONTENT.ACCOUNT_DESCRIPTION}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Form {...accountForm}>
-                <form
-                  onSubmit={accountForm.handleSubmit(() => {})}
-                  className="space-y-6"
-                >
-                  <FormFieldInput
-                    form={accountForm}
-                    label="Full Name"
-                    name="fullName"
-                    placeholder="Full name"
-                    disabled
-                  />
-                  <FormFieldInput
-                    form={accountForm}
-                    label="Email"
-                    name="email"
-                    placeholder="Email"
-                    disabled
-                  />
-                  <FormFieldInput
-                    form={accountForm}
-                    label="Roll Number"
-                    name="rollNumber"
-                    placeholder="Roll number"
-                    disabled
-                  />
-                  <FormFieldInput
-                    form={accountForm}
-                    label="Course"
-                    name="courseName"
-                    placeholder="Course"
-                    disabled
-                  />
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <FormFieldInput
-                        form={accountForm}
-                        label="Semester"
-                        name="semester"
-                        placeholder="Semester"
-                        className="w-full"
-                        disabled
+            <Container>
+              <CardHeader>
+                <CardTitle className="md:text-xl  dark:text-gray-200">
+                  {ACCOUNT_TEXT_CONTENT.ACCOUNT_TITLE}
+                </CardTitle>
+                <CardDescription className="md:text-sm dark:text-gray-200">
+                  {ACCOUNT_TEXT_CONTENT.ACCOUNT_DESCRIPTION}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2 dark:text-gray-200">
+                <Form {...accountForm}>
+                  <form
+                    onSubmit={accountForm.handleSubmit(() => {})}
+                    className="space-y-6"
+                  >
+                    <FormFieldInput
+                      form={accountForm}
+                      label="Full Name"
+                      name="fullName"
+                      placeholder="Full name"
+                      disabled
+                    />
+                    <FormFieldInput
+                      form={accountForm}
+                      label="Email"
+                      name="email"
+                      placeholder="Email"
+                      disabled
+                    />
+                    <FormFieldInput
+                      form={accountForm}
+                      label="Roll Number"
+                      name="rollNumber"
+                      placeholder="Roll number"
+                      disabled
+                    />
+                    <FormFieldInput
+                      form={accountForm}
+                      label="Course"
+                      name="courseName"
+                      placeholder="Course"
+                      disabled
+                    />
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <FormFieldInput
+                          form={accountForm}
+                          label="Semester"
+                          name="semester"
+                          placeholder="Semester"
+                          className="w-full"
+                          disabled
+                        />
+                      </div>
+                      <Button onClick={handleClick} className="ml-4 mt-8">
+                        <Upload />
+                      </Button>
+                      <UpdateSemester
+                        showDialog={showDialog}
+                        setShowDialog={setShowDialog}
                       />
                     </div>
-                    <Button onClick={handleClick} className="ml-4 mt-8">
-                      <Upload />
-                    </Button>
-                    <UpdateSemester
-                      showDialog={showDialog}
-                      setShowDialog={setShowDialog}
-                    />
-                  </div>
-                  <div className="w-full flex justify-end">
-                    <Button className="mt-7" disabled>
-                      {BUTTONS.SAVE_CHANGES}
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
+                    <div className="w-full flex justify-end">
+                      <Button className="mt-7" disabled>
+                        {BUTTONS.SAVE_CHANGES}
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              </CardContent>
+            </Container>
           </Card>
         </TabsContent>
         <TabsContent value={TABS.PASSWORD} className="w-full">
           <Card>
             <CardHeader>
-              <CardTitle className="md:text-xl">
+              <CardTitle className="md:text-xl dark:text-gray-200">
                 {ACCOUNT_TEXT_CONTENT.PASSWORD_TAB}
               </CardTitle>
-              <CardDescription className="md:text-sm">
+              <CardDescription className="md:text-sm  dark:text-gray-200">
                 {ACCOUNT_TEXT_CONTENT.PASSWORD_DESCRIPTION}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-2 dark:text-gray-300">
               <Form {...newPasswordForm}>
                 <form
                   onSubmit={newPasswordForm.handleSubmit(onPasswordUpdate)}

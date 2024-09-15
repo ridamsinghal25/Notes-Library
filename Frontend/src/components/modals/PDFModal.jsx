@@ -85,11 +85,11 @@ export default function PdfModal({
         hideClose
       >
         <DialogHeader className="p-4 bg-background/90 backdrop-blur-sm border-b border-border">
-          <DialogTitle className="text-2xl font-bold text-primary flex justify-between items-center">
+          <DialogTitle className="text-2xl font-bold text-primary flex justify-between items-center dark:text-violet-500">
             {chapterName}
             <DialogClose asChild>
               <Button variant="ghost" size="icon">
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4 dark:text-white" />
               </Button>
             </DialogClose>
           </DialogTitle>

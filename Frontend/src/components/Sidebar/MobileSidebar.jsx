@@ -33,6 +33,7 @@ import { ROUTES } from "@/constants/route";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/AuthSlice";
+import Container from "../Container";
 
 export default function MobileSidebar({ sidebarMobileItems }) {
   const location = useLocation();
@@ -60,69 +61,80 @@ export default function MobileSidebar({ sidebarMobileItems }) {
           <Menu size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="px-3 py-4" hideClose>
-        <SheetHeader className="flex flex-row justify-between items-center space-y-0">
-          <SheetTitle>
-            <span className="text-lg font-semibold text-foreground mx-3">
-              {PROJECT_NAME}
-            </span>
-          </SheetTitle>
-          <SheetClose asChild>
-            <Button className="h-7 w-7 p-0" variant="ghost">
-              <X size={15} />
-            </Button>
-          </SheetClose>
-        </SheetHeader>
-        <SheetDescription></SheetDescription>
-        <div className="h-full">
-          <div className="mt-5 flex flex-col w-full gap-1">
-            {sidebarMobileItems.map((item) => (
-              <Link key={item.label} to={item.href}>
-                <SidebarButton
-                  variant={location.pathname === item.href ? "custom" : "ghost"}
-                  Icon={item.icon}
-                  className="w-full"
-                >
-                  {item.label}
-                </SidebarButton>
-              </Link>
-            ))}
-          </div>
-          <div className="absolute w-full bottom-4 px-1 left-0">
-            <Separator className="absolute -top-3 left-0 w-full" />
-            <Drawer>
-              <DrawerTrigger asChild>
-                <Button variant="ghost" className="w-full justify-start">
-                  <div className="flex justify-between items-center w-full">
-                    <div className="flex gap-2">
-                      <Avatar className="h-5 w-5">
-                        <AvatarImage src={AVATAR_URL} />
-                        <AvatarFallback>{userFullName}</AvatarFallback>
-                      </Avatar>
-                      <span>{userFullName}</span>
-                    </div>
-                    <MoreHorizontal size={20} />
-                  </div>
-                </Button>
-              </DrawerTrigger>
-              <DrawerTitle></DrawerTitle>
-              <DrawerContent className="mb-2 p-2">
-                <div className="flex flex-col space-y-2 mt-2">
+      <SheetContent
+        side="left"
+        className="p-0 dark:border-gray-400 border-gray-500"
+        hideClose
+      >
+        <Container>
+          <SheetHeader className="flex flex-row justify-between items-center space-y-0">
+            <SheetTitle>
+              <span className="text-lg font-semibold text-foreground mx-3">
+                {PROJECT_NAME}
+              </span>
+            </SheetTitle>
+            <SheetClose asChild>
+              <Button className="h-7 w-7 p-0" variant="ghost">
+                <X size={15} />
+              </Button>
+            </SheetClose>
+          </SheetHeader>
+          <SheetDescription></SheetDescription>
+          <div className="h-full">
+            <div className="mt-5 flex flex-col w-full gap-1">
+              {sidebarMobileItems.map((item) => (
+                <Link key={item.label} to={item.href}>
                   <SidebarButton
-                    variant="outline"
-                    size="sm"
-                    Icon={LogOut}
-                    className="w-full text-sm p-3"
-                    onClick={logoutHandler}
+                    variant={
+                      location.pathname === item.href ? "custom" : "ghost"
+                    }
+                    Icon={item.icon}
+                    className="w-full"
                   >
-                    {LOGOUT_BUTTON_LABEL}
+                    {item.label}
                   </SidebarButton>
-                </div>
-              </DrawerContent>
-              <DrawerDescription></DrawerDescription>
-            </Drawer>
+                </Link>
+              ))}
+            </div>
+            <div className="absolute w-full bottom-4 px-1 left-0">
+              <Separator className="absolute -top-3 left-0 w-full bg-gray-600 dark:bg-gray-400" />
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start dark:hover:bg-violet-900 hover:bg-violet-400"
+                  >
+                    <div className="flex justify-between items-center w-full">
+                      <div className="flex gap-2">
+                        <Avatar className="h-5 w-5">
+                          <AvatarImage src={AVATAR_URL} />
+                          <AvatarFallback>{userFullName}</AvatarFallback>
+                        </Avatar>
+                        <span>{userFullName}</span>
+                      </div>
+                      <MoreHorizontal size={20} />
+                    </div>
+                  </Button>
+                </DrawerTrigger>
+                <DrawerTitle></DrawerTitle>
+                <DrawerContent className="mb-2 p-3 rounded-[1rem] bg-violet-400 dark:bg-violet-600 dark:hover:bg-violet-400">
+                  <div className="flex flex-col space-y-2 mt-2">
+                    <SidebarButton
+                      variant="outline"
+                      size="sm"
+                      Icon={LogOut}
+                      className="w-full text-sm p-3  hover:bg-violet-300 bg-violet-400"
+                      onClick={logoutHandler}
+                    >
+                      {LOGOUT_BUTTON_LABEL}
+                    </SidebarButton>
+                  </div>
+                </DrawerContent>
+                <DrawerDescription></DrawerDescription>
+              </Drawer>
+            </div>
           </div>
-        </div>
+        </Container>
       </SheetContent>
     </Sheet>
   );

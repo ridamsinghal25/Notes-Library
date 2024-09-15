@@ -17,6 +17,7 @@ import { ROUTES } from "@/constants/route";
 import { logout } from "@/store/AuthSlice";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
+import Container from "../Container";
 
 function DesktopSidebar({ sidebarDesktopItems }) {
   const location = useLocation();
@@ -40,7 +41,7 @@ function DesktopSidebar({ sidebarDesktopItems }) {
 
   return (
     <aside className="w-[270px] max-w-xs h-screen fixed left-0 top-0 z-40 border-r">
-      <div className="h-full px-3 py-4">
+      <div className="h-full px-3 py-4 border-r-2 dark:border-gray-400 border-gray-500">
         <h3 className="mx-3 text-2xl font-semibold text-foreground text-black">
           {PROJECT_NAME}
         </h3>
@@ -59,10 +60,13 @@ function DesktopSidebar({ sidebarDesktopItems }) {
             ))}
           </div>
           <div className="absolute left-0 bottom-4 w-full px-3">
-            <Separator className="absolute -top-3 left-0 w-full" />
+            <Separator className="absolute -top-3 left-0 w-full bg-gray-600 dark:bg-gray-400" />
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="ghost" className="w-full justify-start">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start dark:hover:bg-violet-900 hover:bg-violet-400"
+                >
                   <div className="flex justify-between items-center w-full">
                     <div className="flex gap-2">
                       <Avatar className="h-5 w-5">
@@ -75,12 +79,12 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                   </div>
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="mb-2 w-56 p-3 rounded-[1rem]">
+              <PopoverContent className="mb-2 w-56 p-3 rounded-[1rem] bg-violet-200 dark:bg-violet-600 dark:hover:bg-violet-400">
                 <div className="space-y-1">
                   <SidebarButton
                     size="sm"
                     Icon={LogOut}
-                    className="w-full text-sm"
+                    className="w-full text-sm hover:bg-violet-400"
                     onClick={logoutHandler}
                   >
                     {LOGOUT_BUTTON_LABEL}

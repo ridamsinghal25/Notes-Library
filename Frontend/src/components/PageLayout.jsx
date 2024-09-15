@@ -6,6 +6,7 @@ import ApiError from "@/services/ApiError";
 import { login, logout, updateLoginCheckDone } from "@/store/AuthSlice";
 import { toast } from "react-toastify";
 import { ROUTES } from "@/constants/route";
+import { ModeToggle } from "./theme/ModeToggle";
 
 function PageLayout() {
   const dispatch = useDispatch();
@@ -23,17 +24,11 @@ function PageLayout() {
       dispatch(login(response?.data));
 
       toast.success("user login successfully");
-    } else if (
-      response?.errorResponse?.message === "Invalid token" &&
-      response?.errorResponse?.statusCode === 404
-    ) {
-      toast.warn("Please enable cookies settings in your browser");
-
+    } else {
       dispatch(logout());
 
       navigate(`${ROUTES.SIGNIN}`);
-    } else {
-      dispatch(logout());
+      toast.info("Please sign in again");
     }
 
     dispatch(updateLoginCheckDone(true));
@@ -43,7 +38,14 @@ function PageLayout() {
     fetchUser();
   }, [fetchUser]);
 
-  return <Outlet />;
+  return (
+    <div className="relative min-h-screen">
+      <div className="absolute top-4 right-4 z-10">
+        <ModeToggle />
+      </div>
+      <Outlet />
+    </div>
+  );
 }
 
 export default PageLayout;

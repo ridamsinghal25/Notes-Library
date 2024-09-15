@@ -18,43 +18,34 @@ import {
   SIGNUP_BUTTON_TEXT,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
+import Container from "@/components/Container";
 
 function OverviewPage() {
   return (
-    <>
-      <nav className="p-4 md:p-6 shadow-md dark:shadow-gray-600 bg-gray-900 text-white">
-        <div className="container mx-auto flex flex-row md:flex-row items-center justify-between">
+    <Container>
+      <nav className="p-4 md:p-6 shadow-md dark:shadow-gray-600 dark:bg-gray-900 text-gray-800 dark:text-white">
+        <div className="container mx-auto flex items-center justify-between">
           <div>
-            <a
-              to="#"
-              className="text-xl font-bold mb-4 md:mb-0 dark:text-slate-200"
-            >
+            <a href="#" className="text-xl font-bold dark:text-slate-200">
               {OVERVIEW_TITLE}
             </a>
-          </div>
-          <div className="flex gap-2">
-            <Link to={ROUTES.SIGNUP} className="flex justify-end">
-              <Button>{SIGNUP_BUTTON_TEXT}</Button>
-            </Link>
-            <Link to={ROUTES.SIGNIN} className="flex justify-end">
-              <Button>{SIGNIN_BUTTON_TEXT}</Button>
-            </Link>
           </div>
         </div>
       </nav>
 
-      <main className="flex flex-col items-center justify-center py-44 sm:py-20 px-12 bg-gray-800 text-white">
-        <section className="text-center mb-8 md:mb-12 px-5">
-          <h1 className="text-3xl md:text-5xl font-bold">
+      <main className="flex flex-col items-center justify-center py-12 sm:py-20 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-white">
+        <section className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-5xl font-bold ">
             {OVERVIEW_HEADER_TITLE}
           </h1>
           <p className="mt-3 md:mt-4 text-base md:text-lg">
             {OVERVIEW_HEADER_SUBTITLE}
           </p>
         </section>
+
         <Carousel
           plugins={[AutoPlay({ delay: 2000 })]}
-          className="w-full max-w-sm"
+          className="w-full max-w-sm mb-8"
         >
           <CarouselContent>
             {messages.map((message, index) => (
@@ -78,15 +69,29 @@ function OverviewPage() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="text-black" />
-          <CarouselNext className="text-black" />
+          <CarouselPrevious className="text-black dark:text-white" />
+          <CarouselNext className="text-black dark:text-white" />
         </Carousel>
+
+        <div className="flex flex-col items-center w-full max-w-sm gap-4">
+          <Link to={ROUTES.SIGNUP} className="w-full">
+            <Button className="w-full py-6 text-lg font-semibold">
+              Create an account
+            </Button>
+          </Link>
+          <div className="text-lg">
+            Already have an account?{" "}
+            <Link to={ROUTES.SIGNIN} className="text-blue-500 hover:underline">
+              {SIGNIN_BUTTON_TEXT}
+            </Link>
+          </div>
+        </div>
       </main>
 
-      <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
+      <footer className="text-center p-4 md:p-6 text-black dark:text-gray-200">
         © {new Date().getFullYear()} Notes Library. All rights reserved.
       </footer>
-    </>
+    </Container>
   );
 }
 
