@@ -6,7 +6,6 @@ import ApiError from "@/services/ApiError";
 import { login, logout, updateLoginCheckDone } from "@/store/AuthSlice";
 import { toast } from "react-toastify";
 import { ROUTES } from "@/constants/route";
-import { ModeToggle } from "./theme/ModeToggle";
 
 function PageLayout() {
   const dispatch = useDispatch();
@@ -38,14 +37,7 @@ function PageLayout() {
     fetchUser();
   }, [fetchUser]);
 
-  return (
-    <div className="relative min-h-screen">
-      <div className="absolute top-4 right-4 z-10">
-        <ModeToggle />
-      </div>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 }
 
 export default PageLayout;

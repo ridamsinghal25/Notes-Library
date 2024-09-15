@@ -15,10 +15,10 @@ import {
   OVERVIEW_HEADER_TITLE,
   OVERVIEW_TITLE,
   SIGNIN_BUTTON_TEXT,
-  SIGNUP_BUTTON_TEXT,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
 import Container from "@/components/Container";
+import { ModeToggle } from "@/components/theme/ModeToggle";
 
 function OverviewPage() {
   return (
@@ -29,6 +29,9 @@ function OverviewPage() {
             <a href="#" className="text-xl font-bold dark:text-slate-200">
               {OVERVIEW_TITLE}
             </a>
+          </div>
+          <div>
+            <ModeToggle />
           </div>
         </div>
       </nav>

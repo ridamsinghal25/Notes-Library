@@ -13,7 +13,6 @@ import { USER_ROLE } from "@/constants/constants";
 import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
-import Container from "@/components/Container";
 
 function NotesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,7 +48,7 @@ function NotesPage() {
     <div className="min-h-screen w-full flex flex-col">
       {userRole === USER_ROLE.ADMIN ? (
         <>
-          <div className="fixed top-4 right-16 z-10">
+          <div className="absolute top-4 right-4 z-10">
             <Button onClick={handleClick}>
               <Upload />
             </Button>
