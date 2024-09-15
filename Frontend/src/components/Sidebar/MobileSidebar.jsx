@@ -58,7 +58,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
     <Sheet>
       <SheetTrigger asChild>
         <Button size="icon" variant="ghost" className="fixed top-3 left-3">
-          <Menu size={20} />
+          <Menu size={30} />
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -67,7 +67,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
         hideClose
       >
         <Container>
-          <SheetHeader className="flex flex-row justify-between items-center space-y-0">
+          <SheetHeader className="flex flex-row justify-between items-center space-y-0 mt-5">
             <SheetTitle>
               <span className="text-lg font-semibold text-foreground mx-3">
                 {PROJECT_NAME}
@@ -75,7 +75,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
             </SheetTitle>
             <SheetClose asChild>
               <Button className="h-7 w-7 p-0" variant="ghost">
-                <X size={15} />
+                <X size={20} />
               </Button>
             </SheetClose>
           </SheetHeader>

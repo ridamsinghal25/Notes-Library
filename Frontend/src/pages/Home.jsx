@@ -32,7 +32,7 @@ function Home() {
   }, []);
   return (
     <div className="relative min-h-screen">
-      <div className="absolute top-4 right-4 -mt-14 lg:mt-0">
+      <div className="absolute top-4 right-4 -mt-16 lg:mt-0">
         <ModeToggle />
       </div>
       <div className="flex items-center justify-center min-h-screen">
