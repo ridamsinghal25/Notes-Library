@@ -43,7 +43,7 @@ const PDFCard = ({ notes }) => {
   const previewImageUrl = getPreviewImageUrl(pdfUrl);
 
   return (
-    <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:bg-black">
+    <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black">
       <div className="p-4">
         <div className="flex items-center space-x-2 mb-3">
           <FileText className="w-8 h-8 text-red-500" />

@@ -119,7 +119,7 @@ function ProfilePage() {
                 </h3>
               </div>
             </div>
-            <div className="mt-2 shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg p-2 lg:p-6">
+            <div className="mt-2 shadow-md hover:shadow-xl transition-shadow dark:border-t-2 dark:shadow-gray-300 duration-300 rounded-lg p-2 lg:p-6">
               <Collapsible>
                 <CollapsibleTrigger className="w-full">
                   <h4 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
