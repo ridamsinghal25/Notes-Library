@@ -18,16 +18,21 @@ import ApiError from "@/services/ApiError";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { useSelector } from "react-redux";
 import { AVATAR_URL, UserRolesEnum } from "@/constants/constants";
-import Container from "@/components/Container";
+import SkeletonArticleList from "@/components/SkeletonArticleList";
 
 function ProfilePage() {
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
+  const [isFetchingNotes, setIsFetchingNotes] = useState(false);
   const [userNotesInfo, setUserNotesInfo] = useState([]);
   const userDetails = useSelector((state) => state.auth.userDetails);
 
   useEffect(() => {
     const fetchUserProfileInfo = async () => {
+      setIsFetchingNotes(true);
+
       const response = await AuthService.getUserProfile();
+
+      setIsFetchingNotes(false);
 
       if (!(response instanceof ApiError)) {
         toast.success(response?.message);
@@ -55,87 +60,83 @@ function ProfilePage() {
       </header>
 
       <main className="container mx-auto gap-10 px-4 lg:px-16 lg:py-8 flex flex-col-reverse lg:flex-row">
-        <div className="w-full lg:w-2/3">
-          {userDetails?.role === UserRolesEnum.ADMIN ? (
-            <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent dark:from-primary-foreground dark:to-secondary-foreground">
-              {userNotesInfo?.length > 0 ? (
-                <>
-                  Your Uploaded Notes
-                  <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
-                    You have {userNotesInfo.length} note
-                    {userNotesInfo.length !== 1 ? "s" : ""} available
-                  </span>
-                </>
-              ) : (
-                <>
-                  No Notes Uploaded Yet
-                  <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
-                    Start by adding your first note
-                  </span>
-                </>
-              )}
-            </h2>
-          ) : (
-            <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent dark:from-primary-foreground dark:to-secondary-foreground">
-              Welcome to Your Notes Dashboard
-              <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
+        {isFetchingNotes ? (
+          <SkeletonArticleList />
+        ) : (
+          <div className="w-full lg:w-2/3">
+            {userDetails?.role === UserRolesEnum.ADMIN ? (
+              <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent dark:from-primary-foreground dark:to-secondary-foreground">
                 {userNotesInfo?.length > 0 ? (
                   <>
-                    You have access to {userNotesInfo.length} note
-                    {userNotesInfo.length !== 1 ? "s" : ""}
+                    Your Uploaded Notes
+                    <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
+                      You have {userNotesInfo?.length} notes available
+                    </span>
                   </>
                 ) : (
-                  "No notes available at the moment"
+                  <>
+                    No Notes Uploaded Yet
+                    <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
+                      Start by adding your first note
+                    </span>
+                  </>
                 )}
-              </span>
-              <span className="block text-sm font-normal mt-2 text-muted-foreground dark:text-gray-300">
-                Note: Only administrators can upload new notes
-              </span>
-            </h2>
-          )}
-          {userNotesInfo?.map((user) => (
-            <article
-              key={user?._id}
-              className="border border-gray-200 dark:border-gray-400 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 pb-8 mt-4 flex justify-between items-start px-6 sm:p-6"
-            >
-              <div className="w-3/4">
-                <div className="flex items-center mb-4 mt-4">
-                  <img
-                    src={AVATAR_URL}
-                    alt="Author Avatar"
-                    className="w-9 h-9 rounded-full mr-3"
-                  />
-                  <div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
-                      {userDetails?.fullName}
-                    </p>
-                  </div>
-                </div>
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-gray-900 hover:text-gray-700 transition-colors duration-300 dark:text-gray-200">
-                  {user?.chapterName}
-                </h2>
-                <p className="text-gray-700 dark:text-gray-200 mb-4 font-medium">
-                  {user?.subject}
-                </p>
-                <div className="flex flex-wrap gap-4 md:gap-10 items-center mt-7">
-                  <div className="flex items-center gap-2 dark:text-gray-200">
+              </h2>
+            ) : (
+              <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent dark:from-primary-foreground dark:to-secondary-foreground">
+                Welcome to Your Notes Dashboard
+                <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
+                  No notes available at the moment
+                </span>
+                <span className="block text-sm font-normal mt-2 text-muted-foreground dark:text-gray-300">
+                  Note: Only administrators can upload new notes
+                </span>
+              </h2>
+            )}
+            {userNotesInfo?.map((user) => (
+              <article
+                key={user?._id}
+                className="border border-gray-200 dark:border-gray-400 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 pb-8 mt-4 flex justify-between items-start px-6 sm:p-6"
+              >
+                <div className="w-3/4">
+                  <div className="flex items-center mb-4 mt-4">
+                    <img
+                      src={AVATAR_URL}
+                      alt="Author Avatar"
+                      className="w-9 h-9 rounded-full mr-3"
+                    />
                     <div>
-                      <ThumbsUp />
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
+                        {userDetails?.fullName}
+                      </p>
                     </div>
-                    {user?.likesCount}
+                  </div>
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-gray-900 hover:text-gray-700 transition-colors duration-300 dark:text-gray-200">
+                    {user?.chapterName}
+                  </h2>
+                  <p className="text-gray-700 dark:text-gray-200 mb-4 font-medium">
+                    {user?.subject}
+                  </p>
+                  <div className="flex flex-wrap gap-4 md:gap-10 items-center mt-7">
+                    <div className="flex items-center gap-2 dark:text-gray-200">
+                      <div>
+                        <ThumbsUp />
+                      </div>
+                      {user?.likesCount}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <img
-                  src={getPreviewImageUrl(user?.pdf?.url)}
-                  alt="Notes Image"
-                  className="max-w-28 sm:max-w-36 h-auto rounded-lg mt-8 sm:mt-0 sm:ml-4 shadow-lg object-cover border border-gray-300 hover:opacity-90 transition-opacity duration-300"
-                />
-              </div>
-            </article>
-          ))}
-        </div>
+                <div>
+                  <img
+                    src={getPreviewImageUrl(user?.pdf?.url)}
+                    alt="Notes Image"
+                    className="max-w-28 sm:max-w-36 h-auto rounded-lg mt-8 sm:mt-0 sm:ml-4 shadow-lg object-cover border border-gray-300 hover:opacity-90 transition-opacity duration-300"
+                  />
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
         <div className="border-b-2 lg:border-r-2 dark:border-gray-400"></div>
         <aside className="w-full lg:w-1/3 lg:mt-9 relative lg:pl-8">
           <div className="border border-gray-200 dark:border-gray-400 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6 text-center relative">
