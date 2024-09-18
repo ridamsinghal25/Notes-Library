@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import ApiError from "@/services/ApiError";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { useSelector } from "react-redux";
-import { AVATAR_URL } from "@/constants/constants";
+import { AVATAR_URL, UserRolesEnum } from "@/constants/constants";
 import Container from "@/components/Container";
 
 function ProfilePage() {
@@ -56,9 +56,43 @@ function ProfilePage() {
 
       <main className="container mx-auto gap-10 px-4 lg:px-16 lg:py-8 flex flex-col-reverse lg:flex-row">
         <div className="w-full lg:w-2/3">
-          <h2 className="text-2xl font-bold underline mb-4 dark:text-gray-200 ">
-            Your Uploaded Notes
-          </h2>
+          {userDetails?.role === UserRolesEnum.ADMIN ? (
+            <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent dark:from-primary-foreground dark:to-secondary-foreground">
+              {userNotesInfo?.length > 0 ? (
+                <>
+                  Your Uploaded Notes
+                  <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
+                    You have {userNotesInfo.length} note
+                    {userNotesInfo.length !== 1 ? "s" : ""} available
+                  </span>
+                </>
+              ) : (
+                <>
+                  No Notes Uploaded Yet
+                  <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
+                    Start by adding your first note
+                  </span>
+                </>
+              )}
+            </h2>
+          ) : (
+            <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent dark:from-primary-foreground dark:to-secondary-foreground">
+              Welcome to Your Notes Dashboard
+              <span className="block text-lg font-medium mt-2 text-foreground dark:text-gray-300">
+                {userNotesInfo?.length > 0 ? (
+                  <>
+                    You have access to {userNotesInfo.length} note
+                    {userNotesInfo.length !== 1 ? "s" : ""}
+                  </>
+                ) : (
+                  "No notes available at the moment"
+                )}
+              </span>
+              <span className="block text-sm font-normal mt-2 text-muted-foreground dark:text-gray-300">
+                Note: Only administrators can upload new notes
+              </span>
+            </h2>
+          )}
           {userNotesInfo?.map((user) => (
             <article
               key={user?._id}

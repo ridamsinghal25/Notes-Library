@@ -136,3 +136,8 @@ export const FORGOT_PASSWORD_DESCRIPTION =
 export const FORGOT_PASSWORD_BUTTON_TEXT = "Reset Password";
 
 export const AVATAR_URL = "https://github.com/shadcn.png";
+
+export const UserRolesEnum = {
+  ADMIN: "ADMIN",
+  USER: "USER",
+};
