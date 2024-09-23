@@ -117,13 +117,13 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                   </Button>
                 </DrawerTrigger>
                 <DrawerTitle></DrawerTitle>
-                <DrawerContent className="mb-2 p-3 rounded-[1rem] bg-violet-400 dark:bg-violet-600 dark:hover:bg-violet-400">
+                <DrawerContent className="mb-2 p-3 rounded-[1rem] bg-violet-200 dark:bg-violet-600">
                   <div className="flex flex-col space-y-2 mt-2">
                     <SidebarButton
                       variant="outline"
                       size="sm"
                       Icon={LogOut}
-                      className="w-full text-sm p-3  hover:bg-violet-300 bg-violet-400"
+                      className="w-full text-sm p-3  hover:bg-violet-400 bg-violet-600"
                       onClick={logoutHandler}
                     >
                       {LOGOUT_BUTTON_LABEL}

@@ -122,9 +122,13 @@ function SignupPage() {
               <FormField
                 name="rollNumber"
                 control={signupForm.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
-                    <FormLabel>Roll Number</FormLabel>
+                    <FormLabel
+                      className={fieldState.error && "dark:text-red-500"}
+                    >
+                      Roll Number
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Enter your roll number"
@@ -156,7 +160,9 @@ function SignupPage() {
                         </p>
                       </div>
                     )}
-                    <FormMessage />
+                    <FormMessage
+                      className={fieldState.error && "dark:text-red-500"}
+                    />
                   </FormItem>
                 )}
               />

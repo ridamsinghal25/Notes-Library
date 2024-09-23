@@ -117,9 +117,13 @@ function SigninPage() {
               <FormField
                 control={signinForm.control}
                 name="password"
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel
+                      className={fieldState.error && "dark:text-red-500"}
+                    >
+                      Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -135,7 +139,9 @@ function SigninPage() {
                         Forgot your password?
                       </span>
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage
+                      className={fieldState.error && "dark:text-red-500"}
+                    />
                   </FormItem>
                 )}
               />

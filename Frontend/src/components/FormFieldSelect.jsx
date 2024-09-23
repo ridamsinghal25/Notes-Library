@@ -21,9 +21,11 @@ const FormFieldSelect = React.forwardRef(
       <FormField
         control={form.control}
         name={name}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <FormItem>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className={fieldState.error && "dark:text-red-500"}>
+              {label}
+            </FormLabel>
             <FormControl>
               <Select {...field} ref={ref} onValueChange={field.onChange}>
                 <SelectTrigger>
@@ -42,7 +44,7 @@ const FormFieldSelect = React.forwardRef(
               </Select>
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
-            <FormMessage />
+            <FormMessage className={fieldState.error && "dark:text-red-500"} />
           </FormItem>
         )}
       />
