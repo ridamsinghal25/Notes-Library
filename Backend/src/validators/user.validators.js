@@ -135,7 +135,7 @@ const userAssignRoleValidator = () => {
   ];
 };
 
-const userUpdateCourseValidator = () => {
+const userUpdateCourseSemesterValidator = () => {
   return [
     body("semester")
       .trim()
@@ -166,6 +166,6 @@ export {
   userResendEmailValidator,
   userChangeCurrentPasswordValidator,
   userAssignRoleValidator,
-  userUpdateCourseValidator,
+  userUpdateCourseSemesterValidator,
   checkRollNumberExistsValidator,
 };

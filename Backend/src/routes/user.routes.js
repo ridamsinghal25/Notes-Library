@@ -9,7 +9,7 @@ import {
   userRegisterValidator,
   userResendEmailValidator,
   userResetForgottenPasswordValidator,
-  userUpdateCourseValidator,
+  userUpdateCourseSemesterValidator,
   userVerifyEmailValidator,
 } from "../validators/user.validators.js";
 import { validate } from "../validators/validate.js";
@@ -26,7 +26,7 @@ import {
   registerUser,
   resendVerificationEmail,
   resetForgottenPassword,
-  updateCourseByUser,
+  updateCourseSemesterByUser,
   verifyEmail,
 } from "../controllers/user.controller.js";
 import { UserRolesEnum } from "../constants.js";
@@ -109,7 +109,12 @@ router
 
 router
   .route("/update-course")
-  .post(verifyJWT, userUpdateCourseValidator(), validate, updateCourseByUser);
+  .post(
+    verifyJWT,
+    userUpdateCourseSemesterValidator(),
+    validate,
+    updateCourseSemesterByUser
+  );
 
 router
   .route("/verify-rollnumber")

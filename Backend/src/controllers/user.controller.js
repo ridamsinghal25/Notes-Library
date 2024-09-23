@@ -535,7 +535,7 @@ const assignRole = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "user role updated successfully"));
 });
 
-const updateCourseByUser = asyncHandler(async (req, res) => {
+const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
   const User = await getUser();
   const Course = await getCourse();
 
@@ -548,11 +548,16 @@ const updateCourseByUser = asyncHandler(async (req, res) => {
     throw new ApiError(404, "course not found");
   }
 
-  if (!(new Date() > new Date(course.endDate))) {
-    throw new ApiError(
-      400,
-      `Your semester ends on ${new Date(course.endDate).toLocaleDateString()}`
-    );
+  const courseEndDate = new Date(course.endDate);
+
+  const formattedCourseEndDate = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(courseEndDate);
+
+  if (!(new Date() > courseEndDate)) {
+    throw new ApiError(400, `Your semester ends on ${formattedCourseEndDate}`);
   }
 
   const newCourse = await Course.find({
@@ -685,7 +690,7 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   assignRole,
-  updateCourseByUser,
+  updateCourseSemesterByUser,
   checkRollNumberExists,
   getUserProfileInfo,
 };
