@@ -51,10 +51,8 @@ import { AUTH_DB, MAIN_DB } from "../constants.js";
 // };
 
 class MongoDBManager {
-  constructor() {
-    this.notesLibraryConnection = null;
-    this.authConnection = null;
-  }
+  #notesLibraryConnection = null;
+  #authConnection = null;
 
   async makeNewConnection(uri) {
     try {
@@ -83,35 +81,35 @@ class MongoDBManager {
   }
 
   async getNotesLibraryConnection() {
-    if (!this.notesLibraryConnection) {
-      this.notesLibraryConnection = this.makeNewConnection(
+    if (!this.#notesLibraryConnection) {
+      this.#notesLibraryConnection = this.makeNewConnection(
         `${process.env.MONGO_URI}/${MAIN_DB}`
       );
     }
 
-    return this.notesLibraryConnection;
+    return this.#notesLibraryConnection;
   }
 
   async getAuthConnection() {
-    if (!this.authConnection) {
-      this.authConnection = this.makeNewConnection(
+    if (!this.#authConnection) {
+      this.#authConnection = this.makeNewConnection(
         `${process.env.MONGO_URI}/${AUTH_DB}`
       );
     }
-    return this.authConnection;
+    return this.#authConnection;
   }
 
   async closeConnection() {
     try {
-      if (this.authConnection) {
-        (await this.authConnection).close();
-        this.authConnection = null;
+      if (this.#authConnection) {
+        (await this.#authConnection).close();
+        this.#authConnection = null;
         console.log("Auth connection closed");
       }
 
-      if (this.notesLibraryConnection) {
-        (await this.notesLibraryConnection).close();
-        this.notesLibraryConnection = null;
+      if (this.#notesLibraryConnection) {
+        (await this.#notesLibraryConnection).close();
+        this.#notesLibraryConnection = null;
         console.log("Notes library connection closed");
       }
     } catch (error) {
