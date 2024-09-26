@@ -19,6 +19,7 @@ import {
 import { ROUTES } from "@/constants/route";
 import Container from "@/components/Container";
 import { ModeToggle } from "@/components/theme/ModeToggle";
+import image from "../assets/overview-image.jpg";
 
 function OverviewPage() {
   return (
@@ -61,7 +62,7 @@ function OverviewPage() {
                     <CardContent className="flex aspect-square items-center justify-center p-2">
                       <div className="relative aspect-w-4 aspect-h-4 flex justify-center items-center">
                         <img
-                          src={message.imageUrl}
+                          src={image}
                           alt="PDF Preview"
                           className="object-contain w-64 h-56 rounded-lg shadow-md border border-gray-300"
                         />
