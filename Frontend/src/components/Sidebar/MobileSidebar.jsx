@@ -39,9 +39,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userFullName = useSelector(
-    (state) => state.auth?.userDetails?.fullName
-  );
+  const userDetails = useSelector((state) => state.auth?.userDetails);
 
   const logoutHandler = async () => {
     const response = await AuthService.logoutService();
@@ -74,7 +72,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
               </span>
             </SheetTitle>
             <SheetClose asChild>
-              <Button className="h-7 w-7 p-0" variant="ghost">
+              <Button className="h-7 w-7 p-0 mr-4" variant="ghost">
                 <X size={20} />
               </Button>
             </SheetClose>
@@ -106,11 +104,15 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                   >
                     <div className="flex justify-between items-center w-full">
                       <div className="flex gap-2">
-                        <Avatar className="h-5 w-5">
-                          <AvatarImage src={AVATAR_URL} />
-                          <AvatarFallback>{userFullName}</AvatarFallback>
+                        <Avatar className="h-6 w-6 border-2 border-violet-600">
+                          <AvatarImage
+                            src={userDetails?.avatar?.url || AVATAR_URL}
+                          />
+                          <AvatarFallback>
+                            {userDetails?.fullName}
+                          </AvatarFallback>
                         </Avatar>
-                        <span>{userFullName}</span>
+                        <span>{userDetails?.fullName}</span>
                       </div>
                       <MoreHorizontal size={20} />
                     </div>

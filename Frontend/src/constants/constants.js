@@ -141,3 +141,6 @@ export const UserRolesEnum = {
   ADMIN: "ADMIN",
   USER: "USER",
 };
+
+export const UPLOAD_AVATAR_TEXT = "Upload Avatar";
+export const UPLOAD_AVATAR_TITLE = "Update Avatar";

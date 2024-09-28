@@ -4,6 +4,7 @@ import {
   ChevronDown,
   ChevronUp,
   NotepadText,
+  Plus,
   ThumbsUp,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -19,11 +20,14 @@ import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { useSelector } from "react-redux";
 import { AVATAR_URL, UserRolesEnum } from "@/constants/constants";
 import SkeletonArticleList from "@/components/SkeletonArticleList";
+import { Button } from "@/components/ui/button";
+import AvatarUpload from "@/components/modals/AvatarUpload";
 
 function ProfilePage() {
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
   const [isFetchingNotes, setIsFetchingNotes] = useState(false);
   const [userNotesInfo, setUserNotesInfo] = useState([]);
+  const [isUploadAvatarModalOpen, setIsUploadAvatarModalOpen] = useState(false);
   const userDetails = useSelector((state) => state.auth.userDetails);
 
   useEffect(() => {
@@ -48,6 +52,11 @@ function ProfilePage() {
   function toggleSubjects() {
     setIsSubjectsOpen(!isSubjectsOpen);
   }
+
+  function toggleAvatarUploadModal() {
+    setIsUploadAvatarModalOpen(!isUploadAvatarModalOpen);
+  }
+
   return (
     <div className="text-gray-900">
       <header className="border-b hidden lg:block  border-gray-200 dark:border-gray-400 dark:bg-black">
@@ -101,9 +110,9 @@ function ProfilePage() {
                 <div className="w-3/4">
                   <div className="flex items-center mb-4 mt-4">
                     <img
-                      src={AVATAR_URL}
+                      src={userDetails?.avatar?.url || AVATAR_URL}
                       alt="Author Avatar"
-                      className="w-9 h-9 rounded-full mr-3"
+                      className="w-9 h-9 rounded-full mr-3 border-2 border-violet-600"
                     />
                     <div>
                       <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
@@ -140,21 +149,43 @@ function ProfilePage() {
         <div className="border-b-2 lg:border-r-2 dark:border-gray-400"></div>
         <aside className="w-full lg:w-1/3 lg:mt-9 relative lg:pl-8">
           <div className="border border-gray-200 dark:border-gray-400 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6 text-center relative">
-            <div className="flex lg:flex-col gap-4">
-              <div>
-                <img
-                  src={AVATAR_URL}
-                  alt="Profile Image"
-                  className="rounded-full mx-auto mb-4 w-16 h-16 lg:w-32 lg:h-32 shadow-lg hover:opacity-90 transition-opacity duration-300"
-                />
+            <div className="flex lg:flex-col gap-4 items-center">
+              <div className="relative w-16 h-16 lg:w-32 lg:h-32 rounded-full bg-black border-[6px] border-violet-600">
+                <Button
+                  variant="ghost"
+                  className="p-0 h-auto w-full rounded-full"
+                  onClick={toggleAvatarUploadModal}
+                >
+                  <div className="relative w-full h-full rounded-full overflow-hidden">
+                    <img
+                      src={userDetails?.avatar?.url || AVATAR_URL}
+                      alt="Profile Image"
+                      layout="fill"
+                      className="rounded-full hover:opacity-90 transition-opacity duration-300"
+                    />
+                  </div>
+                  <div
+                    className="absolute bottom-0 right-0 w-4 h-4 lg:w-8 lg:h-8 bg-violet-600 rounded-full flex items-center justify-center"
+                    aria-label="Upload new avatar"
+                  >
+                    <Plus className="text-white w-3 h-3 lg:w-5 lg:h-5" />
+                  </div>
+                </Button>
               </div>
-              <div className="">
+              <div>
                 <h3 className="text-xl font-serif font-semibold text-gray-900 hover:text-gray-700 transition-colors dark:text-gray-200 hover:opacity-90 dark:transition-opacity duration-300 mt-4 lg:mt-0">
                   {userDetails?.fullName}
                 </h3>
               </div>
             </div>
-            <div className="mt-2 shadow-md hover:shadow-xl transition-shadow dark:border-t-2 dark:shadow-gray-300 duration-300 rounded-lg p-2 lg:p-6">
+            {isUploadAvatarModalOpen && (
+              <AvatarUpload
+                showDialog={isUploadAvatarModalOpen}
+                setShowDialog={setIsUploadAvatarModalOpen}
+                avatarUrl={userDetails?.avatar?.url || AVATAR_URL}
+              />
+            )}
+            <div className="mt-2 shadow-md hover:shadow-xl transition-shadow dark:border-t-2 border-t-2 dark:shadow-gray-300 duration-300 rounded-lg p-2 lg:p-6">
               <Collapsible>
                 <CollapsibleTrigger className="w-full">
                   <h4 className="text-xl font-semibold text-gray-800 dark:text-gray-200">

@@ -17,15 +17,12 @@ import { ROUTES } from "@/constants/route";
 import { logout } from "@/store/AuthSlice";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
-import Container from "../Container";
 
 function DesktopSidebar({ sidebarDesktopItems }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userFullName = useSelector(
-    (state) => state.auth?.userDetails?.fullName
-  );
+  const userDetails = useSelector((state) => state.auth?.userDetails);
 
   const logoutHandler = async () => {
     const response = await AuthService.logoutService();
@@ -69,11 +66,14 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="flex gap-2">
-                      <Avatar className="h-5 w-5">
-                        <AvatarImage className="rounded" src={AVATAR_URL} />
-                        <AvatarFallback>{userFullName}</AvatarFallback>
+                      <Avatar className="h-6 w-6  border-2 border-violet-600">
+                        <AvatarImage
+                          className="rounded"
+                          src={userDetails?.avatar?.url || AVATAR_URL}
+                        />
+                        <AvatarFallback>{userDetails?.fullName}</AvatarFallback>
                       </Avatar>
-                      <span>{userFullName}</span>
+                      <span>{userDetails?.fullName}</span>
                     </div>
                     <MoreHorizontal size={20} />
                   </div>

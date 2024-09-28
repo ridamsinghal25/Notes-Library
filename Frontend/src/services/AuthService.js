@@ -198,6 +198,23 @@ class AuthService {
       return response;
     }
   }
+
+  async updateUserAvatar(avatar) {
+    const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/update-avatar`);
+
+    const formData = new FormData();
+    formData.append("avatar", avatar);
+
+    const response = await apiRequest.patchRequest(formData);
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
 }
 
 export default new AuthService();
