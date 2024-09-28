@@ -46,6 +46,10 @@ function AvatarUpload({ avatarUrl, showDialog, setShowDialog }) {
     if (!(response instanceof ApiError)) {
       setShowDialog(false);
       toast.success(response?.message || "avatar updated successfully");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

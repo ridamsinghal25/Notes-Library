@@ -22,6 +22,7 @@ import { AVATAR_URL, UserRolesEnum } from "@/constants/constants";
 import SkeletonArticleList from "@/components/SkeletonArticleList";
 import { Button } from "@/components/ui/button";
 import AvatarUpload from "@/components/modals/AvatarUpload";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function ProfilePage() {
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
@@ -156,14 +157,16 @@ function ProfilePage() {
                   className="p-0 h-auto w-full rounded-full"
                   onClick={toggleAvatarUploadModal}
                 >
-                  <div className="relative w-full h-full rounded-full overflow-hidden">
-                    <img
+                  <Avatar className="relative w-full h-full rounded-full overflow-hidden">
+                    <AvatarImage
                       src={userDetails?.avatar?.url || AVATAR_URL}
                       alt="Profile Image"
-                      layout="fill"
                       className="rounded-full hover:opacity-90 transition-opacity duration-300"
                     />
-                  </div>
+                    <AvatarFallback className="dark:bg-gray-300">
+                      <span className="text-black">User</span>
+                    </AvatarFallback>
+                  </Avatar>
                   <div
                     className="absolute bottom-0 right-0 w-4 h-4 lg:w-8 lg:h-8 bg-violet-600 rounded-full flex items-center justify-center"
                     aria-label="Upload new avatar"
