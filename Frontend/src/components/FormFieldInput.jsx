@@ -32,12 +32,15 @@ function FormFieldInput({
               {type === "file" ? (
                 <Input
                   type="file"
+                  {...props}
                   onChange={(e) => {
                     const file = e.target.files;
-
                     field.onChange(file[0]);
+
+                    if (props.onChange) {
+                      props.onChange(e);
+                    }
                   }}
-                  {...props}
                 />
               ) : (
                 <Input
