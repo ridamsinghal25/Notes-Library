@@ -21,6 +21,10 @@ import { getCourse } from "../models/course.model.js";
 import mongoose from "mongoose";
 import { isValidRollNumber } from "../utils/rollNumbers.js";
 import { getNotes } from "../models/notes.model.js";
+import {
+  deleteFromCloudinary,
+  uploadOnCloudinary,
+} from "../utils/cloudinary.js";
 
 function generateTemporaryOTPToken() {
   const min = 100000;
@@ -678,6 +682,56 @@ const getUserProfileInfo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, notes, "notes fetched successfully"));
 });
 
+const updateUserAvatar = asyncHandler(async (req, res) => {
+  const User = await getUser();
+
+  const user = await User.findById(req.user?._id);
+
+  if (!user) {
+    throw new ApiError(404, "user does not exists");
+  }
+
+  const avatarLocalPath = req?.file?.path;
+
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "avatar is required");
+  }
+
+  if (user?.avatar && user.avatar.public_id !== "" && user.avatar.url !== "") {
+    const deleteOldAvatar = await deleteFromCloudinary(user?.avatar?.public_id);
+
+    if (!deleteOldAvatar || deleteOldAvatar.result === "not found") {
+      throw new ApiError(500, "Internal server error. Please try again");
+    }
+  }
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
+
+  if (!avatar) {
+    throw new ApiError(500, "Failed to upload avatar");
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        avatar: {
+          public_id: avatar.public_id,
+          url: avatar.secure_url,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  if (!updatedUser) {
+    throw new ApiError(500, "Failed to update avatar");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedUser, "avatar updated successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -693,6 +747,7 @@ export {
   updateCourseSemesterByUser,
   checkRollNumberExists,
   getUserProfileInfo,
+  updateUserAvatar,
 };
 
 /**

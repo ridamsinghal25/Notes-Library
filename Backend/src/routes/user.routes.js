@@ -27,11 +27,16 @@ import {
   resendVerificationEmail,
   resetForgottenPassword,
   updateCourseSemesterByUser,
+  updateUserAvatar,
   verifyEmail,
 } from "../controllers/user.controller.js";
 import { UserRolesEnum } from "../constants.js";
 import { rateLimit } from "express-rate-limit";
 import { ApiError } from "../utils/ApiError.js";
+import {
+  createMulter,
+  handleMulterError,
+} from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
@@ -52,6 +57,11 @@ const resendEmailLimiter = rateLimit({
     );
   },
 });
+
+const avatarUpload = createMulter({
+  fileTypes: ["image/png", "image/jpg", "image/jpeg"],
+  fileSize: 5,
+}).single("avatar");
 
 router.route("/register").post(userRegisterValidator(), validate, registerUser);
 
@@ -121,5 +131,9 @@ router
   .post(checkRollNumberExistsValidator(), validate, checkRollNumberExists);
 
 router.route("/get-user-profile").get(verifyJWT, getUserProfileInfo);
+
+router
+  .route("/update-avatar")
+  .patch(verifyJWT, avatarUpload, handleMulterError, updateUserAvatar);
 
 export default router;

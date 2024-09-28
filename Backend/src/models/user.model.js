@@ -28,6 +28,16 @@ const userSchema = new mongoose.Schema(
       required: [true, "fullname is required"],
       trim: true,
     },
+    avatar: {
+      public_id: {
+        type: String,
+        default: "",
+      },
+      url: {
+        type: String,
+        default: "",
+      },
+    },
     role: {
       type: String,
       enum: AvailableUserRoles,
