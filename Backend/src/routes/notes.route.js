@@ -6,7 +6,10 @@ import {
   getNotesBySubjectValidator,
   uploadUpdateNoteValidator,
 } from "../validators/notes.validators.js";
-import { handleMulterError, upload } from "../middlewares/multer.middleware.js";
+import {
+  createMulter,
+  handleMulterError,
+} from "../middlewares/multer.middleware.js";
 import {
   deleteNotes,
   getNotesBySubject,
@@ -19,11 +22,16 @@ const router = Router();
 
 router.use(verifyJWT);
 
+const pdfUpload = createMulter({
+  fileTypes: ["application/pdf"],
+  fileSize: 10,
+}).single("pdfFile");
+
 router
   .route("/upload-notes")
   .post(
     verifyPermission([UserRolesEnum.ADMIN]),
-    upload.single("pdfFile"),
+    pdfUpload,
     handleMulterError,
     uploadUpdateNoteValidator(),
     validate,
@@ -34,7 +42,7 @@ router
   .route("/update-notes/:notesId")
   .patch(
     verifyPermission([UserRolesEnum.ADMIN]),
-    upload.single("pdfFile"),
+    pdfUpload,
     handleMulterError,
     uploadUpdateNoteValidator(),
     mongoIdPathVariableValidator("notesId"),

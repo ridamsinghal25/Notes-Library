@@ -10,14 +10,6 @@ const storage = multer.diskStorage({
   },
 });
 
-function fileFilter(_, file, cb) {
-  if (file.mimetype === "application/pdf") {
-    cb(null, true);
-  } else {
-    cb(new Error("Only PDF files are allowed!"), false);
-  }
-}
-
 export const handleMulterError = (err, req, res, next) => {
   if (err) {
     if (err.code === "LIMIT_FILE_SIZE") {
@@ -28,8 +20,16 @@ export const handleMulterError = (err, req, res, next) => {
   next();
 };
 
-export const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1024 * 1024 * 10 },
-  fileFilter,
-});
+export const createMulter = ({ fileTypes, fileSize }) => {
+  return multer({
+    storage: storage,
+    limits: { fileSize: fileSize * 1024 * 1024 }, // Convert MB to Bytes
+    fileFilter: (_, file, cb) => {
+      if (fileTypes.includes(file.mimetype)) {
+        cb(null, true);
+      } else {
+        cb(new Error(`Only ${fileTypes.join(", ")} files are allowed!`), false);
+      }
+    },
+  });
+};
