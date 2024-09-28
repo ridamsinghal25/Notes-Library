@@ -36,7 +36,7 @@ function Home() {
         <ModeToggle />
       </div>
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-full max-w-4xl px-4 py-8 -mt-48 md:-mt-24">
+        <div className="w-full max-w-4xl px-4 py-8 mb-40">
           <div className="flex flex-col-reverse mdl:flex-row items-center justify-center gap-16 gap-y-24">
             <div className="text-center mdl:text-left mdl:w-2/3 dark:text-gray-200">
               <div className="px-4 sm:px-6 mdl:px-8 lg:px-12 xl:px-16">
