@@ -38,8 +38,6 @@ const uploadNotes = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to upload pdf file");
   }
 
-  console.log("pdfFile: ", pdfFile);
-
   const notes = await Notes.create({
     chapterName,
     chapterNumber,
@@ -94,7 +92,7 @@ const updateNotes = asyncHandler(async (req, res) => {
   const deleteOldNotesPdf = await deleteFromCloudinary(notes?.pdf?.public_id);
 
   if (!deleteOldNotesPdf || deleteOldNotesPdf.result === "not found") {
-    throw new ApiError(500, "Internal server error");
+    throw new ApiError(500, "Internal server error. Please try again");
   }
 
   const publicId = `${subject.replace(/\s+/g, "_")}_${chapterName.replace(/\s+/g, "_")}_${Date.now()}`;
@@ -104,8 +102,6 @@ const updateNotes = asyncHandler(async (req, res) => {
   if (!uploadNewPdfFile) {
     throw new ApiError(500, "Failed to upload pdf file");
   }
-
-  console.log("uploadNewPdfFile", uploadNewPdfFile);
 
   const newNotes = await Notes.findByIdAndUpdate(
     notesId,
