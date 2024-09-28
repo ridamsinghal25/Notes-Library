@@ -18,7 +18,7 @@ const AuthSlice = createSlice({
       state.isLogInCheckDone = action.payload;
     },
     logout: () => {
-      localStorage.clear();
+      localStorage.removeItem("accessToken");
       return { ...initialState, isLogInCheckDone: true };
     },
   },
