@@ -48,6 +48,7 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message);
+      updateSemesterForm.reset();
 
       const LogoutResponse = await AuthService.logoutService();
 
@@ -61,6 +62,8 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
       }
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
+
+      updateSemesterForm.reset();
     }
   };
 

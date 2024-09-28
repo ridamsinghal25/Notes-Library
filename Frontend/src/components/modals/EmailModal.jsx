@@ -16,12 +16,7 @@ import {
 } from "@/constants/constants";
 import { emailModalValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { toast } from "react-toastify";
-import AuthService from "@/services/AuthService";
-import ApiError from "@/services/ApiError";
-import { useNavigate } from "react-router-dom";
 import FormFieldInput from "../FormFieldInput";
 
 export function EmailModal({

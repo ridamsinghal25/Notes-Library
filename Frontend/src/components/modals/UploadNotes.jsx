@@ -16,13 +16,8 @@ import FormFieldInput from "@/components/FormFieldInput";
 import { SUBMIT_BUTTON } from "@/constants/constants";
 import { uploadNotesValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import NotesService from "@/services/NotesService";
-import ApiError from "@/services/ApiError";
-import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import FormFieldSelect from "../FormFieldSelect";
-import Container from "../Container";
 
 function UploadNotes({
   showDialog,
@@ -63,7 +58,11 @@ function UploadNotes({
         </DialogDescription>
         <Form {...uploadNotesForm}>
           <form
-            onSubmit={uploadNotesForm.handleSubmit(onSubmit)}
+            onSubmit={uploadNotesForm.handleSubmit((data) =>
+              onSubmit(data).then(() => {
+                uploadNotesForm.reset();
+              })
+            )}
             className="space-y-8"
           >
             <FormFieldSelect
