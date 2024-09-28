@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+const MAX_PDF_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+
+const ALLOWED_AVATAR_TYPES = ["image/png", "image/jpg", "image/jpeg"];
+
+const MAX_AVATAR_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+
 export const signupFormValidation = z.object({
   fullName: z
     .string()
@@ -51,6 +57,15 @@ export const inputOTPValidation = z.object({
     .length(6, "verification code must be 6 digit"),
 });
 
+const pdfFileSchema = z
+  .instanceof(File, { message: "PDF document is required" })
+  .refine((file) => file.type === "application/pdf", {
+    message: "Only PDF files are allowed",
+  })
+  .refine((file) => file.size <= MAX_PDF_SIZE, {
+    message: "File size must not exceed 10MB",
+  });
+
 export const uploadNotesValidation = z.object({
   subject: z
     .string()
@@ -75,7 +90,7 @@ export const uploadNotesValidation = z.object({
     )
     .min(1, "Chapter name is required")
     .max(20, "Chapter name must not be more than 20 characters"),
-  pdfFile: z.instanceof(File),
+  pdfFile: pdfFileSchema,
   owner: z
     .string()
     .trim()
@@ -124,4 +139,15 @@ export const resetPasswordFormValidation = z.object({
     .trim()
     .min(8, "Password must be atleast 8 characters")
     .max(40, "Password must not be more than 40 characters"),
+});
+
+export const avatarUploadValidation = z.object({
+  avatar: z
+    .instanceof(File, { message: "Avatar is required" })
+    .refine((file) => ALLOWED_AVATAR_TYPES.includes(file.type), {
+      message: "Only .jpg, .png, or .jpeg files are allowed.",
+    })
+    .refine((file) => file.size <= MAX_AVATAR_SIZE, {
+      message: "File size must be less than 5MB.",
+    }),
 });
