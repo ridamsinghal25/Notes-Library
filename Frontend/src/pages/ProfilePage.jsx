@@ -13,7 +13,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import AuthService from "@/services/AuthService";
 import { toast } from "react-toastify";
 import ApiError from "@/services/ApiError";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
@@ -23,6 +22,7 @@ import SkeletonArticleList from "@/components/SkeletonArticleList";
 import { Button } from "@/components/ui/button";
 import AvatarUpload from "@/components/modals/AvatarUpload";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import NotesService from "@/services/NotesService";
 
 function ProfilePage() {
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
@@ -35,7 +35,7 @@ function ProfilePage() {
     const fetchUserProfileInfo = async () => {
       setIsFetchingNotes(true);
 
-      const response = await AuthService.getUserProfile();
+      const response = await NotesService.getNotesUploadedByUser();
 
       setIsFetchingNotes(false);
 
