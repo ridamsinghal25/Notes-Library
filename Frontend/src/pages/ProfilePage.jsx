@@ -151,7 +151,7 @@ function ProfilePage() {
         <aside className="w-full lg:w-1/3 lg:mt-9 relative lg:pl-8">
           <div className="border border-gray-200 dark:border-gray-400 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6 text-center relative">
             <div className="flex lg:flex-col gap-4 items-center">
-              <div className="relative w-16 h-16 lg:w-32 lg:h-32 rounded-full bg-black border-[6px] border-violet-600">
+              <div className="relative w-16 h-16 lg:w-32 lg:h-32 rounded-full bg-black border-2 lg:border-[6px] border-violet-600">
                 <Button
                   variant="ghost"
                   className="p-0 h-auto w-full rounded-full"
