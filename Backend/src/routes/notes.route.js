@@ -13,6 +13,7 @@ import {
 import {
   deleteNotes,
   getNotesBySubject,
+  getNotesUploadedByUser,
   updateNotes,
   uploadNotes,
 } from "../controllers/notes.controller.js";
@@ -62,5 +63,7 @@ router
 router
   .route("/get-notes")
   .post(getNotesBySubjectValidator(), validate, getNotesBySubject);
+
+router.route("/get-user-notes").get(verifyJWT, getNotesUploadedByUser);
 
 export default router;

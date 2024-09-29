@@ -20,7 +20,6 @@ import crypto from "crypto";
 import { getCourse } from "../models/course.model.js";
 import mongoose from "mongoose";
 import { isValidRollNumber } from "../utils/rollNumbers.js";
-import { getNotes } from "../models/notes.model.js";
 import {
   deleteFromCloudinary,
   uploadOnCloudinary,
@@ -627,61 +626,6 @@ const checkRollNumberExists = asyncHandler(async (req, res) => {
     );
 });
 
-const getUserProfileInfo = asyncHandler(async (req, res) => {
-  const Notes = await getNotes();
-
-  const notes = await Notes.aggregate([
-    {
-      $match: {
-        createdBy: new mongoose.Types.ObjectId(`${req.user?._id}`),
-      },
-    },
-    {
-      $lookup: {
-        from: "likes",
-        localField: "_id",
-        foreignField: "notesId",
-        as: "likes",
-      },
-    },
-    {
-      $addFields: {
-        likesCount: {
-          $size: "$likes",
-        },
-        isLiked: {
-          $cond: {
-            if: {
-              $in: [req.user?._id, "$likes.likedBy"],
-            },
-            then: true,
-            else: false,
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        likes: 0,
-      },
-    },
-  ]);
-
-  if (!notes) {
-    throw new ApiError(404, "notes does not exists");
-  }
-
-  if (Array.isArray(notes) && notes?.length === 0) {
-    return res
-      .status(201)
-      .json(new ApiResponse(201, [], "you have not uploaded any notes yet"));
-  }
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, notes, "notes fetched successfully"));
-});
-
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const User = await getUser();
 
@@ -746,7 +690,6 @@ export {
   assignRole,
   updateCourseSemesterByUser,
   checkRollNumberExists,
-  getUserProfileInfo,
   updateUserAvatar,
 };
 

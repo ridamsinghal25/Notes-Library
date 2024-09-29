@@ -3,6 +3,7 @@ import { getCourse } from "../models/course.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import mongoose from "mongoose";
 import {
   deleteFromCloudinary,
   uploadOnCloudinary,
@@ -222,4 +223,65 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, notes, "notes fetched successfully"));
 });
 
-export { uploadNotes, updateNotes, deleteNotes, getNotesBySubject };
+const getNotesUploadedByUser = asyncHandler(async (req, res) => {
+  const Notes = await getNotes();
+
+  const notes = await Notes.aggregate([
+    {
+      $match: {
+        createdBy: new mongoose.Types.ObjectId(`${req.user?._id}`),
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "notesId",
+        as: "likes",
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        isLiked: {
+          $cond: {
+            if: {
+              $in: [req.user?._id, "$likes.likedBy"],
+            },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        likes: 0,
+      },
+    },
+  ]);
+
+  if (!notes) {
+    throw new ApiError(404, "notes does not exists");
+  }
+
+  if (Array.isArray(notes) && notes?.length === 0) {
+    return res
+      .status(201)
+      .json(new ApiResponse(201, [], "you have not uploaded any notes yet"));
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, notes, "notes fetched successfully"));
+});
+
+export {
+  uploadNotes,
+  updateNotes,
+  deleteNotes,
+  getNotesBySubject,
+  getNotesUploadedByUser,
+};
