@@ -14,7 +14,10 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/FormFieldInput";
 import { SUBMIT_BUTTON } from "@/constants/constants";
-import { uploadNotesValidation } from "@/validation/zodValidation";
+import {
+  uploadNotesValidation,
+  updateNotesValidation,
+} from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSelector } from "react-redux";
 import FormFieldSelect from "../FormFieldSelect";
@@ -22,20 +25,24 @@ import FormFieldSelect from "../FormFieldSelect";
 function UploadNotes({
   showDialog,
   setShowDialog,
-  title,
   notesInfo,
   onSubmit,
   isSubmitting,
+  isUpdateMode = false,
 }) {
   const userSubjects = useSelector((state) => state.auth.userDetails);
 
+  const currentValidationSchema = isUpdateMode
+    ? updateNotesValidation
+    : uploadNotesValidation;
+
   const uploadNotesForm = useForm({
-    resolver: zodResolver(uploadNotesValidation),
+    resolver: zodResolver(currentValidationSchema),
     defaultValues: {
       subject: notesInfo?.subject || "",
       chapterNumber: `${notesInfo?.chapterNumber || ""}`,
       chapterName: notesInfo?.chapterName || "",
-      pdfFile: {},
+      pdfFile: null,
       owner: notesInfo?.owner || "",
     },
   });
@@ -45,7 +52,7 @@ function UploadNotes({
       <DialogContent className="max-h-[80vh] overflow-y-auto" hideClose>
         <DialogHeader className="flex flex-row justify-between items-center space-y-0">
           <DialogTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
-            {title} Notes
+            {isUpdateMode ? "Update" : "Upload"} Notes
           </DialogTitle>
           <DialogClose asChild>
             <Button className="h-7 w-7 p-0" variant="ghost">
@@ -54,7 +61,7 @@ function UploadNotes({
           </DialogClose>
         </DialogHeader>
         <DialogDescription className="text-sm sm:text-base md:text-lg mb-4">
-          {title} Notes to website
+          {isUpdateMode ? "Update" : "Upload"} Notes to website
         </DialogDescription>
         <Form {...uploadNotesForm}>
           <form
@@ -84,14 +91,16 @@ function UploadNotes({
               name="chapterName"
               placeholder="Enter the chapter name"
             />
-            <FormFieldInput
-              form={uploadNotesForm}
-              label="Notes"
-              name="pdfFile"
-              placeholder="Upload your notes"
-              type="file"
-              accept=".pdf"
-            />
+            {!isUpdateMode && (
+              <FormFieldInput
+                form={uploadNotesForm}
+                label="Notes"
+                name="pdfFile"
+                placeholder="Upload your notes"
+                type="file"
+                accept=".pdf"
+              />
+            )}
             <FormFieldInput
               form={uploadNotesForm}
               label="Owner"

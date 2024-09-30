@@ -56,7 +56,6 @@ function NotesPage() {
           <UploadNotes
             showDialog={showUploadModal}
             setShowDialog={setShowUploadModal}
-            title={"Upload"}
             onSubmit={onNotesUpload}
             isSubmitting={isSubmitting}
           />
