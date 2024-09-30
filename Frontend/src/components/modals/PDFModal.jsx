@@ -28,7 +28,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-export default function PdfModal({
+export default function PDFModal({
   pdfUrl,
   showDialog,
   setShowDialog,
