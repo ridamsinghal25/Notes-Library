@@ -34,14 +34,13 @@ function DeleteNotes({ showDialog, setShowDialog, notesId }) {
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "Notes deleted successfully");
 
-      setShowDialog(false);
+      setShowDialog();
 
       setTimeout(() => {
         window.location.reload();
       }, 2000);
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
-      setShowDialog(false);
     }
   };
 
