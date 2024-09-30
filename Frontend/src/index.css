@@ -67,3 +67,47 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Apply styles to all scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+/* WebKit and Chromium-based browsers (Chrome, Edge, Opera, etc.) */
+*::-webkit-scrollbar {
+  width: 0.25rem; /* very thin scrollbar */
+  height: 0.25rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
+}
+
+/* For dark mode */
+@media (prefers-color-scheme: dark) {
+  * {
+    scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(75, 85, 99, 0.5);
+  }
+}
+
+/* Hover effect */
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(155, 155, 155, 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(75, 85, 99, 0.7);
+  }
+}
