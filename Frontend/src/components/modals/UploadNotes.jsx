@@ -49,7 +49,10 @@ function UploadNotes({
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
-      <DialogContent className="max-h-[80vh] overflow-y-auto" hideClose>
+      <DialogContent
+        className="max-h-[80vh] overflow-y-auto [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400"
+        hideClose
+      >
         <DialogHeader className="flex flex-row justify-between items-center space-y-0">
           <DialogTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
             {isUpdateMode ? "Update" : "Upload"} Notes
@@ -107,15 +110,18 @@ function UploadNotes({
               name="owner"
               placeholder="Notes owner"
             />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
-                </>
-              ) : (
-                SUBMIT_BUTTON
-              )}
-            </Button>
+            <div className="w-full flex justify-end">
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    Wait
+                  </>
+                ) : (
+                  SUBMIT_BUTTON
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

@@ -46,7 +46,7 @@ function DeleteNotes({ showDialog, setShowDialog, notesId }) {
 
   return (
     <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-      <AlertDialogContent>
+      <AlertDialogContent className="[background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400">
         <AlertDialogHeader>
           <AlertDialogTitle>{DELETE_MODAL_HEADING}</AlertDialogTitle>
           <AlertDialogDescription>

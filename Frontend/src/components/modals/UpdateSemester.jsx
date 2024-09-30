@@ -69,7 +69,7 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
-      <DialogContent className="max-w-96 sm:max-w-[425px] rounded-lg">
+      <DialogContent className="max-w-96 sm:max-w-[425px] rounded-lg [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400">
         <DialogHeader className="text-start">
           <DialogTitle>{UPDATE_SEMESTER_TEXT_CONTENT.TITLE}</DialogTitle>
           <DialogDescription>
