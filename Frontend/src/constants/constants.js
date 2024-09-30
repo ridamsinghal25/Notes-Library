@@ -144,3 +144,9 @@ export const UserRolesEnum = {
 
 export const UPLOAD_AVATAR_TEXT = "Upload Avatar";
 export const UPLOAD_AVATAR_TITLE = "Update Avatar";
+
+export const UPDATE_PDF_BUTTON_TEXT = "Update PDF";
+export const UPDATE_PDF_TITLE = "Update PDF";
+
+export const UPDATE_PDF_DESCRIPTION =
+  "Update your pdf here. Click update button when you're done.";

@@ -33,15 +33,11 @@ class NotesService {
       `${this.NOTES_BASE_URL}/update-notes/${notesId}`
     );
 
-    const formData = new FormData();
-    formData.append("chapterNumber", fields.chapterNumber);
-    formData.append("chapterName", fields.chapterName);
-    formData.append("owner", fields.owner);
-    formData.append("subject", fields.subject);
-    formData.append("pdfFile", fields.pdfFile);
-
-    const response = await apiRequest.patchRequest(formData, {
-      "Content-Type": "multipart/form-data",
+    const response = await apiRequest.patchRequest({
+      chapterNumber: fields.chapterNumber,
+      chapterName: fields.chapterName,
+      owner: fields.owner,
+      subject: fields.subject,
     });
 
     if (response instanceof ApiResponse && response.success) {
@@ -87,6 +83,27 @@ class NotesService {
     const apiRequest = new ApiRequest(`${this.NOTES_BASE_URL}/get-user-notes`);
 
     const response = await apiRequest.getRequest();
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
+
+  async updateNotesPdfFile(notesId, pdfFile) {
+    const apiRequest = new ApiRequest(
+      `${this.NOTES_BASE_URL}/update-pdffile/${notesId}`
+    );
+
+    const formData = new FormData();
+    formData.append("pdfFile", pdfFile);
+
+    const response = await apiRequest.patchRequest(formData, {
+      "Content-Type": "multipart/form-data",
+    });
 
     if (response instanceof ApiResponse && response.success) {
       return response;

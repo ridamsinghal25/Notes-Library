@@ -17,7 +17,7 @@ function NotesSubjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showUploadNotesModal, setShowUploadNotesModal] = useState(false);
   const [showDeleteNotesModal, setShowDeleteNotesModal] = useState(false);
-  const [notesInfo, setNotesInfo] = useState(null);
+  const [currentNoteInfo, setCurrentNoteInfo] = useState(null);
   const subject = useParams();
   const dispatch = useDispatch();
   const notesData = useSelector((state) => state.notes);
@@ -29,12 +29,12 @@ function NotesSubjectPage() {
 
   const toggleDeleteNotesModal = (notes) => {
     setShowDeleteNotesModal(!showDeleteNotesModal);
-    setNotesInfo(notes);
+    setCurrentNoteInfo(notes);
   };
 
   const toggleUpdateNotesModal = (notes) => {
     setShowUploadNotesModal(!showUploadNotesModal);
-    setNotesInfo(notes);
+    setCurrentNoteInfo(notes);
   };
 
   const PDFCardWithButtons = withActionButtons(PDFCard);
@@ -42,7 +42,7 @@ function NotesSubjectPage() {
   const onNotesUpdate = async (data) => {
     setIsSubmitting(true);
 
-    const response = await NotesService.updateNotes(notesInfo._id, data);
+    const response = await NotesService.updateNotes(currentNoteInfo._id, data);
 
     setIsSubmitting(false);
 
@@ -101,17 +101,17 @@ function NotesSubjectPage() {
                           <UploadNotes
                             showDialog={showUploadNotesModal}
                             setShowDialog={setShowUploadNotesModal}
-                            title={"Update"}
-                            notesInfo={notesInfo}
+                            notesInfo={currentNoteInfo}
                             onSubmit={onNotesUpdate}
                             isSubmitting={isSubmitting}
+                            isUpdateMode={true}
                           />
                         )}
                         {showDeleteNotesModal && (
                           <DeleteNotes
                             showDialog={showDeleteNotesModal}
                             setShowDialog={setShowDeleteNotesModal}
-                            notesId={notesInfo?._id}
+                            notesId={currentNoteInfo?._id}
                           />
                         )}
                       </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ExternalLink, FileText, ThumbsUp } from "lucide-react";
+import { ExternalLink, FileText, Pencil } from "lucide-react";
 import PDFModal from "./modals/PDFModal";
 import { toast } from "react-toastify";
 import LikeService from "@/services/LikeService";
@@ -9,17 +9,28 @@ import { Button } from "./ui/button";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
+import { useSelector } from "react-redux";
+import { USER_ROLE } from "@/constants/constants";
+import { UpdatePdfFile } from "./modals/UpdatePdfFile";
+import NotesService from "@/services/NotesService";
 
 const PDFCard = ({ notes }) => {
   const { pdf, owner, chapterName, isLiked, likesCount } = notes;
   const pdfUrl = pdf?.url;
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPDF, setShowPDF] = useState(false);
   const [notesLike, setNotesLike] = useState(isLiked);
   const [notesLikeCount, setNotesLikeCount] = useState(likesCount);
+  const userInfo = useSelector((state) => state.auth.userDetails);
+  const [showUpdatePdfModal, setShowUpdatePdfModal] = useState(false);
 
   const togglePDFView = () => {
     setShowPDF(!showPDF);
+  };
+
+  const toggleUpdatePdfModal = () => {
+    setShowUpdatePdfModal(!showUpdatePdfModal);
   };
 
   const toggleLike = async () => {
@@ -35,6 +46,28 @@ const PDFCard = ({ notes }) => {
         setNotesLike(false);
         setNotesLikeCount(notesLikeCount - 1);
       }
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+  };
+
+  const updatePdfFile = async (data) => {
+    setIsSubmitting(true);
+
+    const response = await NotesService.updateNotesPdfFile(
+      notes?._id,
+      data?.pdfFile
+    );
+
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message);
+      setShowUpdatePdfModal(false);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }
@@ -62,14 +95,33 @@ const PDFCard = ({ notes }) => {
             alt="PDF Preview"
             className="object-contain w-64 h-56 rounded-lg shadow-md"
           />
-          <button
+          <Button
+            variant="outline"
             onClick={togglePDFView}
-            className="absolute w-64 inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
+            className="absolute w-64 h-full inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />
-          </button>
+          </Button>
+          {userInfo?.role === USER_ROLE.ADMIN &&
+            userInfo?._id === notes?.createdBy && (
+              <Button
+                title="Update Pdf"
+                variant="outline"
+                className="absolute -right-3 top-3 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
+                onClick={toggleUpdatePdfModal}
+              >
+                <Pencil className="text-gray-600 w-5 h-5" />
+              </Button>
+            )}
         </div>
       </div>
+
+      <UpdatePdfFile
+        showDialog={showUpdatePdfModal}
+        setShowDialog={setShowUpdatePdfModal}
+        onSubmit={updatePdfFile}
+        isSubmitting={isSubmitting}
+      />
 
       <PDFModal
         pdfUrl={pdfUrl}
@@ -106,6 +158,7 @@ const withActionButtons = (WrappedComponent) => {
       <div className="relative">
         <div className="absolute top-2 right-1 flex items-center gap-2 z-10 mt-2">
           <Button
+            title="Update Notes"
             variant="outline"
             className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300 cursor-pointer"
             onClick={() => props.updateButtonHandler(props.notes)}
@@ -113,6 +166,7 @@ const withActionButtons = (WrappedComponent) => {
             <FilePen className="text-gray-600 w-6 h-6" />
           </Button>
           <Button
+            title="Delete Notes"
             variant="outline"
             className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300 cursor-pointer"
             onClick={() => props.deleteButtonHandler(props.notes)}
