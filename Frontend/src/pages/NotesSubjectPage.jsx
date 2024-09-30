@@ -1,61 +1,19 @@
-import PDFCard, { withActionButtons } from "@/components/PdfCard";
-import { Separator } from "@/components/ui/separator";
+import PDFCard from "@/components/PdfCard";
 import { CircleAlert } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchNotes } from "@/store/NotesSlice";
-import UploadNotes from "@/components/modals/UploadNotes";
-import { USER_ROLE } from "@/constants/constants";
-import DeleteNotes from "@/components/modals/DeleteNotes";
-import NotesService from "@/services/NotesService";
-import ApiError from "@/services/ApiError";
-import { toast } from "react-toastify";
 import SkeletonUI from "@/components/Skeleton";
 
 function NotesSubjectPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showUploadNotesModal, setShowUploadNotesModal] = useState(false);
-  const [showDeleteNotesModal, setShowDeleteNotesModal] = useState(false);
-  const [currentNoteInfo, setCurrentNoteInfo] = useState(null);
   const subject = useParams();
   const dispatch = useDispatch();
   const notesData = useSelector((state) => state.notes);
-  const userInfo = useSelector((state) => state.auth.userDetails);
 
   useEffect(() => {
     dispatch(fetchNotes(subject));
   }, [dispatch, subject]);
-
-  const toggleDeleteNotesModal = (notes) => {
-    setShowDeleteNotesModal(!showDeleteNotesModal);
-    setCurrentNoteInfo(notes);
-  };
-
-  const toggleUpdateNotesModal = (notes) => {
-    setShowUploadNotesModal(!showUploadNotesModal);
-    setCurrentNoteInfo(notes);
-  };
-
-  const PDFCardWithButtons = withActionButtons(PDFCard);
-
-  const onNotesUpdate = async (data) => {
-    setIsSubmitting(true);
-
-    const response = await NotesService.updateNotes(currentNoteInfo._id, data);
-
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message);
-
-      setTimeout(() => window.location.reload(), 2000);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-
-    setShowUploadNotesModal(false);
-  };
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -83,37 +41,7 @@ function NotesSubjectPage() {
                   <div className="flex flex-col items-center gap-4">
                     <div className="flex justify-between items-start gap-4 w-full max-w-4xl">
                       <div className="flex-1">
-                        {userInfo?.role === USER_ROLE.ADMIN &&
-                        userInfo?._id === notes?.createdBy ? (
-                          <PDFCardWithButtons
-                            notes={notes}
-                            updateButtonHandler={(notes) =>
-                              toggleUpdateNotesModal(notes)
-                            }
-                            deleteButtonHandler={(notes) =>
-                              toggleDeleteNotesModal(notes)
-                            }
-                          />
-                        ) : (
-                          <PDFCard notes={notes} />
-                        )}
-                        {showUploadNotesModal && (
-                          <UploadNotes
-                            showDialog={showUploadNotesModal}
-                            setShowDialog={setShowUploadNotesModal}
-                            notesInfo={currentNoteInfo}
-                            onSubmit={onNotesUpdate}
-                            isSubmitting={isSubmitting}
-                            isUpdateMode={true}
-                          />
-                        )}
-                        {showDeleteNotesModal && (
-                          <DeleteNotes
-                            showDialog={showDeleteNotesModal}
-                            setShowDialog={setShowDeleteNotesModal}
-                            notesId={currentNoteInfo?._id}
-                          />
-                        )}
+                        <PDFCard notes={notes} />
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ExternalLink, FileText, Pencil } from "lucide-react";
+import { ExternalLink, FileText, Pencil, Trash2 } from "lucide-react";
 import PDFModal from "./modals/PDFModal";
 import { toast } from "react-toastify";
 import LikeService from "@/services/LikeService";
@@ -13,39 +13,62 @@ import { useSelector } from "react-redux";
 import { USER_ROLE } from "@/constants/constants";
 import { UpdatePdfFile } from "./modals/UpdatePdfFile";
 import NotesService from "@/services/NotesService";
+import UploadNotes from "./modals/UploadNotes";
+import DeleteNotes from "./modals/DeleteNotes";
 
 const PDFCard = ({ notes }) => {
   const { pdf, owner, chapterName, isLiked, likesCount } = notes;
   const pdfUrl = pdf?.url;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPDF, setShowPDF] = useState(false);
-  const [notesLike, setNotesLike] = useState(isLiked);
-  const [notesLikeCount, setNotesLikeCount] = useState(likesCount);
+  const [likeState, setLikeState] = useState({
+    isLiked: isLiked,
+    count: likesCount,
+  });
+  const [modalState, setModalState] = useState({
+    showPDF: false,
+    showUpdatePdfModal: false,
+    showUploadNotesModal: false,
+    showDeleteNotesModal: false,
+  });
+
   const userInfo = useSelector((state) => state.auth.userDetails);
-  const [showUpdatePdfModal, setShowUpdatePdfModal] = useState(false);
 
   const togglePDFView = () => {
-    setShowPDF(!showPDF);
+    setModalState((prev) => ({ ...prev, showPDF: !prev.showPDF }));
   };
 
   const toggleUpdatePdfModal = () => {
-    setShowUpdatePdfModal(!showUpdatePdfModal);
+    setModalState((prev) => ({
+      ...prev,
+      showUpdatePdfModal: !prev.showUpdatePdfModal,
+    }));
   };
 
-  const toggleLike = async () => {
+  const toggleUpdateNotesModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      showUploadNotesModal: !prev.showUploadNotesModal,
+    }));
+  };
+
+  const toggleDeleteNotesModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      showDeleteNotesModal: !prev.showDeleteNotesModal,
+    }));
+  };
+
+  const handleLike = async () => {
     const response = await LikeService.likeOrUnlikeNotes(notes?._id);
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message);
 
-      if (response?.data?.isLiked) {
-        setNotesLike(true);
-        setNotesLikeCount(notesLikeCount + 1);
-      } else {
-        setNotesLike(false);
-        setNotesLikeCount(notesLikeCount - 1);
-      }
+      setLikeState((prev) => ({
+        isLiked: response?.data?.isLiked,
+        count: response?.data?.isLiked ? prev.count + 1 : prev.count - 1,
+      }));
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }
@@ -63,7 +86,11 @@ const PDFCard = ({ notes }) => {
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message);
-      setShowUpdatePdfModal(false);
+
+      setModalState((prev) => ({
+        ...prev,
+        showUpdatePdfModal: false,
+      }));
 
       setTimeout(() => {
         window.location.reload();
@@ -73,22 +100,67 @@ const PDFCard = ({ notes }) => {
     }
   };
 
+  const onNotesUpdate = async (data) => {
+    setIsSubmitting(true);
+
+    const response = await NotesService.updateNotes(notes?._id, data);
+
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message);
+
+      setModalState((prev) => ({
+        ...prev,
+        showUploadNotesModal: false,
+      }));
+
+      setTimeout(() => window.location.reload(), 2000);
+    } else {
+      toast.error(response?.errorResponse?.message || response?.errorMessage);
+    }
+  };
+
   const previewImageUrl = getPreviewImageUrl(pdfUrl);
+
+  const isAdmin =
+    userInfo?.role === USER_ROLE.ADMIN && userInfo?._id === notes?.createdBy;
 
   return (
     <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black">
       <div className="p-4">
-        <div className="flex items-center space-x-2 mb-3">
-          <FileText className="w-8 h-8 text-red-500" />
-          <div className="flex flex-col">
-            <div className="flex flex-col">
-              <h2 className="text-lg font-semibold text-gray-800 truncate  dark:text-gray-200">
+        <div className="flex items-start space-x-2 mb-3">
+          <FileText className="w-8 h-8 text-red-500 flex-shrink-0 mt-1" />
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="text-lg font-semibold text-gray-800 truncate dark:text-gray-200 mb-2 sm:mb-0">
                 {chapterName}
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-200">PDF</p>
+              {isAdmin && (
+                <div className="flex items-center gap-2 mt-2 sm:mt-0">
+                  <Button
+                    title="Update Notes"
+                    variant="outline"
+                    className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
+                    onClick={toggleUpdateNotesModal}
+                  >
+                    <FilePen className="text-gray-600 w-5 h-5" />
+                  </Button>
+                  <Button
+                    title="Delete Notes"
+                    variant="outline"
+                    className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
+                    onClick={toggleDeleteNotesModal}
+                  >
+                    <Trash2 className="text-red-600 w-5 h-5" />
+                  </Button>
+                </div>
+              )}
             </div>
+            <p className="text-sm text-gray-500 dark:text-gray-200">PDF</p>
           </div>
         </div>
+
         <div className="relative aspect-w-3 aspect-h-4 flex justify-center items-center">
           <img
             src={previewImageUrl}
@@ -102,43 +174,57 @@ const PDFCard = ({ notes }) => {
           >
             <ExternalLink className="w-10 h-10" />
           </Button>
-          {userInfo?.role === USER_ROLE.ADMIN &&
-            userInfo?._id === notes?.createdBy && (
-              <Button
-                title="Update Pdf"
-                variant="outline"
-                className="absolute -right-3 top-3 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
-                onClick={toggleUpdatePdfModal}
-              >
-                <Pencil className="text-gray-600 w-5 h-5" />
-              </Button>
-            )}
+          {isAdmin && (
+            <Button
+              title="Update Pdf"
+              variant="outline"
+              className="absolute -right-1 top-3 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
+              onClick={toggleUpdatePdfModal}
+            >
+              <Pencil className="text-gray-600 w-5 h-5" />
+            </Button>
+          )}
         </div>
       </div>
 
+      <UploadNotes
+        showDialog={modalState.showUploadNotesModal}
+        setShowDialog={toggleUpdateNotesModal}
+        notesInfo={notes}
+        onSubmit={onNotesUpdate}
+        isSubmitting={isSubmitting}
+        isUpdateMode={true}
+      />
+
+      <DeleteNotes
+        showDialog={modalState.showDeleteNotesModal}
+        setShowDialog={toggleDeleteNotesModal}
+        notesId={notes?._id}
+      />
+
       <UpdatePdfFile
-        showDialog={showUpdatePdfModal}
-        setShowDialog={setShowUpdatePdfModal}
+        showDialog={modalState.showUpdatePdfModal}
+        setShowDialog={toggleUpdatePdfModal}
         onSubmit={updatePdfFile}
         isSubmitting={isSubmitting}
       />
 
       <PDFModal
         pdfUrl={pdfUrl}
-        showDialog={showPDF}
-        setShowDialog={setShowPDF}
+        showDialog={modalState.showPDF}
+        setShowDialog={togglePDFView}
         chapterName={chapterName}
       />
 
       <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
         <div
-          onClick={toggleLike}
+          onClick={handleLike}
           className="flex items-center gap-2 cursor-pointer"
         >
-          {notesLike ? <ThumbsUpDark /> : <ThumbsUpLight />}
+          {likeState.isLiked ? <ThumbsUpDark /> : <ThumbsUpLight />}
 
           <span className="bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-1 px-3 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105">
-            {notesLikeCount}
+            {likeState.count}
           </span>
         </div>
         <div>
@@ -152,33 +238,4 @@ const PDFCard = ({ notes }) => {
   );
 };
 
-const withActionButtons = (WrappedComponent) => {
-  return (props) => {
-    return (
-      <div className="relative">
-        <div className="absolute top-2 right-1 flex items-center gap-2 z-10 mt-2">
-          <Button
-            title="Update Notes"
-            variant="outline"
-            className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300 cursor-pointer"
-            onClick={() => props.updateButtonHandler(props.notes)}
-          >
-            <FilePen className="text-gray-600 w-6 h-6" />
-          </Button>
-          <Button
-            title="Delete Notes"
-            variant="outline"
-            className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300 cursor-pointer"
-            onClick={() => props.deleteButtonHandler(props.notes)}
-          >
-            <Trash2Icon className="text-red-600 w-6 h-6" />
-          </Button>
-        </div>
-        <WrappedComponent notes={props.notes} />
-      </div>
-    );
-  };
-};
-
 export default PDFCard;
-export { withActionButtons };
