@@ -61,18 +61,12 @@ const uploadNotes = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, notes, "notes uploaded successfully"));
 });
 
-const updateNotes = asyncHandler(async (req, res) => {
+const updateNotesDetails = asyncHandler(async (req, res) => {
   const Course = await getCourse();
   const Notes = await getNotes();
 
   const { notesId } = req.params;
   const { chapterNumber, chapterName, subject, owner } = req.body;
-
-  const pdfFileLocalPath = req?.file?.path;
-
-  if (!pdfFileLocalPath) {
-    throw new ApiError(400, "PDF file is required");
-  }
 
   const course = await Course.findById(req.user?.course);
 
@@ -84,26 +78,6 @@ const updateNotes = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
-  const notes = await Notes.findById(notesId);
-
-  if (!notes) {
-    throw new ApiError(404, "notes not found");
-  }
-
-  const deleteOldNotesPdf = await deleteFromCloudinary(notes?.pdf?.public_id);
-
-  if (!deleteOldNotesPdf || deleteOldNotesPdf.result === "not found") {
-    throw new ApiError(500, "Internal server error. Please try again");
-  }
-
-  const publicId = `${subject.replace(/\s+/g, "_")}_${chapterName.replace(/\s+/g, "_")}_${Date.now()}`;
-
-  const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath, publicId);
-
-  if (!uploadNewPdfFile) {
-    throw new ApiError(500, "Failed to upload pdf file");
-  }
-
   const newNotes = await Notes.findByIdAndUpdate(
     notesId,
     {
@@ -111,10 +85,6 @@ const updateNotes = asyncHandler(async (req, res) => {
         chapterName,
         chapterNumber,
         subject,
-        pdf: {
-          public_id: uploadNewPdfFile.public_id,
-          url: uploadNewPdfFile.secure_url,
-        },
         owner,
         course: req?.user?.course,
         createdBy: req.user._id,
@@ -124,7 +94,7 @@ const updateNotes = asyncHandler(async (req, res) => {
   );
 
   if (!newNotes) {
-    throw new ApiError(500, "Failed to update notes");
+    throw new ApiError(500, "Failed to update notes details");
   }
 
   return res
@@ -278,10 +248,66 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, notes, "notes fetched successfully"));
 });
 
+const updateNotesPdfFile = asyncHandler(async (req, res) => {
+  const Notes = await getNotes();
+
+  const { notesId } = req.params;
+
+  const pdfFileLocalPath = req?.file?.path;
+
+  if (!pdfFileLocalPath) {
+    throw new ApiError(400, "PDF file is required");
+  }
+
+  const notes = await Notes.findById(notesId);
+
+  if (!notes) {
+    throw new ApiError(404, "notes does not exists");
+  }
+
+  const deleteOldNotesPdf = await deleteFromCloudinary(notes?.pdf?.public_id);
+
+  if (!deleteOldNotesPdf || deleteOldNotesPdf.result === "not found") {
+    throw new ApiError(500, "Internal server error. Please try again");
+  }
+
+  const publicId = `${notes?.subject.replace(/\s+/g, "_")}_${notes?.chapterName.replace(/\s+/g, "_")}_${Date.now()}`;
+
+  const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath, publicId);
+
+  if (!uploadNewPdfFile) {
+    throw new ApiError(500, "Failed to upload pdf file");
+  }
+
+  const newNotes = await Notes.findByIdAndUpdate(
+    notesId,
+    {
+      $set: {
+        pdf: {
+          public_id: uploadNewPdfFile.public_id,
+          url: uploadNewPdfFile.secure_url,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  if (!newNotes) {
+    throw new ApiError(500, "Failed to update notes");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, newNotes, "notes pdf file updated successfully")
+    );
+});
+
 export {
   uploadNotes,
-  updateNotes,
+  updateNotesDetails,
   deleteNotes,
   getNotesBySubject,
   getNotesUploadedByUser,
+  updateNotesPdfFile,
 };

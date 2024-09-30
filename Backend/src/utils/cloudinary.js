@@ -10,11 +10,20 @@ cloudinary.config({
 const uploadOnCloudinary = async (localFilePath, publicId) => {
   try {
     if (!localFilePath) return null;
-    // upload file on cloudinary
-    const response = await cloudinary.uploader.upload(localFilePath, {
-      public_id: publicId,
+
+    const uploadOptions = {
       resource_type: "auto",
-    });
+    };
+
+    if (publicId) {
+      uploadOptions.public_id = publicId;
+    }
+
+    // upload file on cloudinary
+    const response = await cloudinary.uploader.upload(
+      localFilePath,
+      uploadOptions
+    );
 
     fs.unlinkSync(localFilePath);
 

@@ -14,7 +14,8 @@ import {
   deleteNotes,
   getNotesBySubject,
   getNotesUploadedByUser,
-  updateNotes,
+  updateNotesDetails,
+  updateNotesPdfFile,
   uploadNotes,
 } from "../controllers/notes.controller.js";
 import { mongoIdPathVariableValidator } from "../validators/mongodb.validators.js";
@@ -43,12 +44,10 @@ router
   .route("/update-notes/:notesId")
   .patch(
     verifyPermission([UserRolesEnum.ADMIN]),
-    pdfUpload,
-    handleMulterError,
     uploadUpdateNoteValidator(),
     mongoIdPathVariableValidator("notesId"),
     validate,
-    updateNotes
+    updateNotesDetails
   );
 
 router
@@ -65,5 +64,16 @@ router
   .post(getNotesBySubjectValidator(), validate, getNotesBySubject);
 
 router.route("/get-user-notes").get(verifyJWT, getNotesUploadedByUser);
+
+router
+  .route("/update-pdffile/:notesId")
+  .patch(
+    verifyPermission([UserRolesEnum.ADMIN]),
+    pdfUpload,
+    handleMulterError,
+    mongoIdPathVariableValidator("notesId"),
+    validate,
+    updateNotesPdfFile
+  );
 
 export default router;
