@@ -66,6 +66,10 @@ const pdfFileSchema = z
     message: "File size must not exceed 10MB",
   });
 
+export const pdfFileValidation = z.object({
+  pdfFile: pdfFileSchema,
+});
+
 export const uploadNotesValidation = z.object({
   subject: z
     .string()
@@ -91,6 +95,41 @@ export const uploadNotesValidation = z.object({
     .min(1, "Chapter name is required")
     .max(20, "Chapter name must not be more than 20 characters"),
   pdfFile: pdfFileSchema,
+  owner: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_'-]+$/,
+      "owner name must contain only alphabets and , . _ - ' characters"
+    )
+    .min(1, "owner name is required")
+    .max(20, "owner name must not be more than 20 characters"),
+});
+
+export const updateNotesValidation = z.object({
+  subject: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_'-]+$/,
+      "subjects must contain only alphabets and , . _ - ' characters"
+    )
+    .min(1, "Subject is required")
+    .max(20, "Subject must not be more than 20 characters"),
+  chapterNumber: z
+    .string()
+    .trim()
+    .regex(/^\d+$/, "Chapter number must contain only digits")
+    .max(2, "Chapter number must not be more than 2 digits"),
+  chapterName: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_'-]+$/,
+      "chapter name must contain only alphabets and , . _ - ' characters"
+    )
+    .min(1, "Chapter name is required")
+    .max(20, "Chapter name must not be more than 20 characters"),
   owner: z
     .string()
     .trim()
