@@ -1,55 +1,20 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import {
   FORGOT_PASSWORD_BUTTON_TEXT,
   FORGOT_PASSWORD_DESCRIPTION,
   FORGOT_PASSWORD_TITLE,
 } from "@/constants/constants";
-import { ROUTES } from "@/constants/route";
-import { resetPasswordFormValidation } from "@/validation/zodValidation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import AuthService from "@/services/AuthService";
-import ApiError from "@/services/ApiError";
-import { toast } from "react-toastify";
 import Container from "@/components/basic/Container";
 
-function ForgotPassword() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
-
-  const resetPasswordForm = useForm({
-    resolver: zodResolver(resetPasswordFormValidation),
-    defaultValues: {
-      resetCode: "",
-      newPassword: "",
-    },
-  });
-
-  const onResetPassword = (data) => {
-    setIsSubmitting(true);
-
-    const response = AuthService.resetForgottenPassword(
-      data.resetCode,
-      data.newPassword
-    );
-
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "Password reset successfully");
-      resetPasswordForm.reset();
-
-      navigate(`${ROUTES.SIGNIN}`);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-  };
-
+function ForgotPasswordPage({
+  isSubmitting,
+  onResetPassword,
+  resetPasswordForm,
+}) {
   return (
     <Container>
       <div className="flex justify-center items-center min-h-screen mx-4">
@@ -98,4 +63,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ForgotPasswordPage;

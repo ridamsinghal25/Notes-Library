@@ -9,13 +9,13 @@ import InputOTPForm from "./pages/InputOTPForm";
 import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/basic/Sidebar/LayoutWithSidebar";
-import ForgotPassword from "./pages/ForgotPasswordPage";
 import PageNotFound from "./pages/PageNotFound";
 import OverviewPage from "./pages/OverviewPage";
 import { lazy, Suspense } from "react";
 import SkeletonUI from "./components/basic/Skeleton";
 import ProfilePageContainer from "./pages/ProfilePage/container/ProfilePageContainer";
 import AccountPageContainer from "./pages/Account/container/AccountPageContainer";
+import ForgotPasswordPageContainer from "./pages/ForgotPassword/container/ForgotPasswordPageContainer";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
@@ -45,7 +45,10 @@ function App() {
         <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
         <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
         <Route path={ROUTES.VERIFYCODE} element={<InputOTPForm />} />
-        <Route path={ROUTES.RESET_PASSWORD} element={<ForgotPassword />} />
+        <Route
+          path={ROUTES.RESET_PASSWORD}
+          element={<ForgotPasswordPageContainer />}
+        />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
