@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,65 +24,25 @@ import {
 } from "@/constants/constants";
 import { inputOTPValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ROUTES } from "@/constants/route";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import AuthService from "@/services/AuthService";
-import ApiError from "@/services/ApiError";
 import { EmailModal } from "@/components/modals/EmailModal";
 import Container from "@/components/basic/Container";
 
-function InputOTPForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const navigate = useNavigate();
-
+function InputOTPForm({
+  isSubmitting,
+  isSendingEmail,
+  showEmailModal,
+  setShowEmailModal,
+  toggleEmailModal,
+  onResendVerificationEmail,
+  onVerifyCodeSubmit,
+}) {
   const inputOTPForm = useForm({
     resolver: zodResolver(inputOTPValidation),
     defaultValues: {
       verifyCode: "",
     },
   });
-
-  const onVerifyCodeSubmit = async (data) => {
-    setIsSubmitting(true);
-
-    const response = await AuthService.verifyUser(data);
-
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "user verified successfully");
-
-      navigate(`${ROUTES.SIGNIN}`);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-  };
-
-  const onResendVerificationEmail = async (data) => {
-    setIsSendingEmail(true);
-
-    const response = await AuthService.resendVerificationEmail(data);
-
-    setIsSendingEmail(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(
-        response?.message || "verification email send successfully"
-      );
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-
-    setShowEmailModal(false);
-  };
-
-  const toggleEmailModal = () => {
-    setShowEmailModal(!showEmailModal);
-  };
 
   return (
     <Container>
@@ -141,14 +101,13 @@ function InputOTPForm() {
             >
               {RESEND_EMAIL_BUTTON_TEXT}
             </Button>
-            {showEmailModal && (
-              <EmailModal
-                showDialog={showEmailModal}
-                setShowDialog={setShowEmailModal}
-                onSubmit={onResendVerificationEmail}
-                isSendingEmail={isSendingEmail}
-              />
-            )}
+
+            <EmailModal
+              showDialog={showEmailModal}
+              setShowDialog={setShowEmailModal}
+              onSubmit={onResendVerificationEmail}
+              isSendingEmail={isSendingEmail}
+            />
           </div>
         </div>
       </div>
