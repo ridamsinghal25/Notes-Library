@@ -1,4 +1,4 @@
-import PDFCard from "@/components/business/PdfCard";
+import PDFCard from "@/components/pageComponent/PdfCard";
 import { CircleAlert } from "lucide-react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

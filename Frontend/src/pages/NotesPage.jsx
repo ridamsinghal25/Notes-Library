@@ -7,7 +7,7 @@ import {
   NOTES_PAGE_DESCRIPTION_TWO,
   NOTES_PAGE_HEADING,
 } from "@/constants/constants";
-import NotesCard from "@/components/business/NotesCard";
+import NotesCard from "@/components/pageComponent/NotesCard";
 import { useSelector } from "react-redux";
 import { USER_ROLE } from "@/constants/constants";
 import NotesService from "@/services/NotesService";
