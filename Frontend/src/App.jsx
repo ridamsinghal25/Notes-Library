@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import PageLayout from "./components/pageComponent/PageLayout";
 import Home from "./pages/Home";
-import AccountPage from "./pages/AccountPage";
 import { ROUTES } from "./constants/route";
 import NotesPage from "./pages/NotesPage";
 import SignupPage from "./pages/SignupPage";
@@ -16,6 +15,7 @@ import OverviewPage from "./pages/OverviewPage";
 import { lazy, Suspense } from "react";
 import SkeletonUI from "./components/basic/Skeleton";
 import ProfilePageContainer from "./pages/ProfilePage/container/ProfilePageContainer";
+import AccountPageContainer from "./pages/Account/container/AccountPageContainer";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
@@ -26,7 +26,7 @@ function App() {
         <Route element={<ForLoggedInUsers />}>
           <Route element={<LayoutWithSidebar />}>
             <Route path={ROUTES.HOME} element={<Home />} />
-            <Route path={ROUTES.SETTING} element={<AccountPage />} />
+            <Route path={ROUTES.SETTING} element={<AccountPageContainer />} />
             <Route path={ROUTES.NOTES} element={<NotesPage />} />
             <Route
               path={ROUTES.NOTES_SUBJECT}
