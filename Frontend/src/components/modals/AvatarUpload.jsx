@@ -133,7 +133,7 @@ function AvatarUpload({ avatarUrl, showDialog, setShowDialog }) {
           </FormProvider>
         </div>
         <DialogClose asChild>
-          <Button variant="outline" className="mt-4 w-full">
+          <Button className="w-full bg-amber-100 text-violet-800 hover:bg-amber-200">
             Cancel
           </Button>
         </DialogClose>

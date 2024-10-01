@@ -54,7 +54,9 @@ function DeleteNotes({ showDialog, setShowDialog, notesId }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{DELETE_MODAL_CANCEL_BUTTON}</AlertDialogCancel>
+          <AlertDialogCancel className="bg-amber-100 text-violet-800 hover:bg-amber-200 hover:text-black">
+            {DELETE_MODAL_CANCEL_BUTTON}
+          </AlertDialogCancel>
           <Button
             className="bg-red-400 hover:bg-red-600"
             disabled={isDeleting}
