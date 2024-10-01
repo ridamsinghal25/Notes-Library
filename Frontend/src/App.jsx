@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import PageLayout from "./components/business/PageLayout";
+import PageLayout from "./components/pageComponent/PageLayout";
 import Home from "./pages/Home";
 import AccountPage from "./pages/AccountPage";
 import { ROUTES } from "./constants/route";
@@ -10,12 +10,12 @@ import InputOTPForm from "./pages/InputOTPForm";
 import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/basic/Sidebar/LayoutWithSidebar";
-import ProfilePage from "./pages/ProfilePage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 import PageNotFound from "./pages/PageNotFound";
 import OverviewPage from "./pages/OverviewPage";
 import { lazy, Suspense } from "react";
 import SkeletonUI from "./components/basic/Skeleton";
+import ProfilePageContainer from "./pages/ProfilePage/container/ProfilePageContainer";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
@@ -36,7 +36,7 @@ function App() {
                 </Suspense>
               }
             />
-            <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+            <Route path={ROUTES.PROFILE} element={<ProfilePageContainer />} />
           </Route>
         </Route>
       </Route>

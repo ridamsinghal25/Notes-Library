@@ -1,16 +1,11 @@
 import { Separator } from "@/components/ui/separator";
 import React from "react";
-import { useSelector } from "react-redux";
 import SkeletonArticleList from "@/components/basic/SkeletonArticleList";
-import ProfileNotesCard from "@/components/business/ProfileNotesCard";
-import ProfileOverviwPanel from "@/components/business/ProfileOverviewPanel";
-import ProfileNotesHeader from "@/components/business/ProfileNotesHeader";
-import userNotesByUser from "@/hooks/useNotesByUser";
+import ProfileNotesCard from "@/components/pageComponent/ProfileNotesCard";
+import ProfileOverviwPanel from "@/components/pageComponent/ProfileOverviewPanel";
+import ProfileNotesHeader from "@/components/pageComponent/ProfileNotesHeader";
 
-function ProfilePage() {
-  const { isFetchingNotes, userNotesInfo } = userNotesByUser();
-  const userDetails = useSelector((state) => state.auth.userDetails);
-
+function ProfilePage({ isFetchingNotes, userNotesInfo, userDetails }) {
   return (
     <div className="text-gray-900">
       <header className="border-b hidden lg:block  border-gray-200 dark:border-gray-400 dark:bg-black">
