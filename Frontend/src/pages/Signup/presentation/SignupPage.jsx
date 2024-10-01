@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import FormFieldSelect from "@/components/basic/FormFieldSelect";
 import {
@@ -25,22 +25,16 @@ import {
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
 import { signupFormValidation } from "@/validation/zodValidation";
-import { useDebounceValue } from "usehooks-ts";
-import { toast } from "react-toastify";
 import { CircleCheck, CircleX, Loader2 } from "lucide-react";
-import AuthService from "@/services/AuthService";
-import ApiError from "@/services/ApiError";
 import Container from "@/components/basic/Container";
 
-function SignupPage() {
-  const [rollNumber, setRollNumber] = useState("");
-  const [rollNumberMessage, setRollNumberMessage] = useState("");
-  const [isCheckingRollNumber, setIsCheckingRollNumber] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [debouncedValue] = useDebounceValue(rollNumber, 500);
-  const navigate = useNavigate();
-
+function SignupPage({
+  setRollNumber,
+  rollNumberMessage,
+  isCheckingRollNumber,
+  isSubmitting,
+  onSignUP,
+}) {
   const signupForm = useForm({
     resolver: zodResolver(signupFormValidation),
     defaultValues: {
@@ -52,45 +46,6 @@ function SignupPage() {
       semester: "",
     },
   });
-
-  useEffect(() => {
-    const checkRollNumberExists = async () => {
-      if (debouncedValue) {
-        setRollNumberMessage("");
-        setIsCheckingRollNumber(true);
-        const response = await AuthService.verifyRollNumber(debouncedValue);
-
-        setIsCheckingRollNumber(false);
-
-        if (!(response instanceof ApiError)) {
-          setRollNumberMessage(response?.message);
-        } else {
-          setRollNumberMessage(
-            response?.errorResponse?.errors[0]?.rollNumber ||
-              response?.errorResponse?.message ||
-              response?.errorMessage
-          );
-        }
-      }
-    };
-
-    checkRollNumberExists();
-  }, [debouncedValue]);
-
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-
-    const response = await AuthService.signupService(data);
-
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "User registered successfully");
-      navigate(`${ROUTES.VERIFYCODE}`);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-  };
 
   return (
     <Container>
@@ -104,7 +59,7 @@ function SignupPage() {
           </div>
           <Form {...signupForm}>
             <form
-              onSubmit={signupForm.handleSubmit(onSubmit)}
+              onSubmit={signupForm.handleSubmit(onSignUP)}
               className="space-y-6"
             >
               <FormFieldInput
