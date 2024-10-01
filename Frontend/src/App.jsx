@@ -4,7 +4,6 @@ import { ROUTES } from "./constants/route";
 import NotesPage from "./pages/NotesPage";
 import SignupPage from "./pages/SignupPage";
 import SigninPage from "./pages/SigninPage";
-import InputOTPForm from "./pages/InputOTPForm";
 import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/basic/Sidebar/LayoutWithSidebar";
@@ -16,6 +15,7 @@ import ProfilePageContainer from "./pages/ProfilePage/container/ProfilePageConta
 import AccountPageContainer from "./pages/Account/container/AccountPageContainer";
 import ForgotPasswordPageContainer from "./pages/ForgotPassword/container/ForgotPasswordPageContainer";
 import HomeContainer from "./pages/Home/container/HomeContainer";
+import InputOTPContainer from "./pages/InputOTP/container/InputOTPContainer";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
@@ -39,16 +39,17 @@ function App() {
             <Route path={ROUTES.PROFILE} element={<ProfilePageContainer />} />
           </Route>
         </Route>
-      </Route>
-      <Route element={<PublicRoutes />}>
-        <Route path={ROUTES.OVERVIEW} element={<OverviewPage />} />
-        <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
-        <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
-        <Route path={ROUTES.VERIFYCODE} element={<InputOTPForm />} />
-        <Route
-          path={ROUTES.RESET_PASSWORD}
-          element={<ForgotPasswordPageContainer />}
-        />
+
+        <Route element={<PublicRoutes />}>
+          <Route path={ROUTES.OVERVIEW} element={<OverviewPage />} />
+          <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
+          <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
+          <Route path={ROUTES.VERIFYCODE} element={<InputOTPContainer />} />
+          <Route
+            path={ROUTES.RESET_PASSWORD}
+            element={<ForgotPasswordPageContainer />}
+          />
+        </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
