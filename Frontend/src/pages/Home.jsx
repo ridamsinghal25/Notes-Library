@@ -11,7 +11,7 @@ import { ROUTES } from "../constants/route";
 import notebookLogo from "../assets/notebook.svg";
 import notebookLight from "../assets/notebook-light.svg";
 import { useSelector } from "react-redux";
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 
 function Home() {

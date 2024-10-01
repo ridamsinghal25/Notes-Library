@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import FormFieldInput from "@/components/FormFieldInput";
+import FormFieldInput from "@/components/basic/FormFieldInput";
 import {
   FORGOT_PASSWORD_BUTTON_TEXT,
   FORGOT_PASSWORD_DESCRIPTION,
@@ -16,7 +16,7 @@ import { Loader2 } from "lucide-react";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 
 function ForgotPassword() {
   const [isSubmitting, setIsSubmitting] = useState(false);

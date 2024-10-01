@@ -15,7 +15,7 @@ import {
   ACCOUNT_TEXT_CONTENT,
   TITLE,
 } from "@/constants/constants";
-import FormFieldInput from "@/components/FormFieldInput";
+import FormFieldInput from "@/components/basic/FormFieldInput";
 import { Loader2, Upload } from "lucide-react";
 import { UpdateSemester } from "@/components/modals/UpdateSemester";
 import { useEffect, useState } from "react";
@@ -28,7 +28,7 @@ import { ROUTES } from "@/constants/route";
 import { logout } from "@/store/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 
 export default function AccountPage() {
   const [showDialog, setShowDialog] = useState(false);

@@ -31,7 +31,7 @@ import { Loader2 } from "lucide-react";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { EmailModal } from "@/components/modals/EmailModal";
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 
 function InputOTPForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);

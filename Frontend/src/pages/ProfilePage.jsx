@@ -18,7 +18,7 @@ import ApiError from "@/services/ApiError";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { useSelector } from "react-redux";
 import { AVATAR_URL, UserRolesEnum } from "@/constants/constants";
-import SkeletonArticleList from "@/components/SkeletonArticleList";
+import SkeletonArticleList from "@/components/basic/SkeletonArticleList";
 import { Button } from "@/components/ui/button";
 import AvatarUpload from "@/components/modals/AvatarUpload";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

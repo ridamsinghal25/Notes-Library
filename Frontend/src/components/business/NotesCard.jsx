@@ -1,7 +1,7 @@
 import { NOTES_BUTTON } from "@/constants/constants";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 function NotesCard({ subject }) {
   return (

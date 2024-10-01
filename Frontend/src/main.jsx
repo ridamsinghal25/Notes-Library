@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
-import ToastConfig from "./components/ToastConfig";
+import ToastConfig from "./components/basic/ToastConfig.jsx";
 import AuthService from "./services/AuthService.js";
 import ApiError from "./services/ApiError.js";
 import { ThemeProvider } from "@/components/theme/theme-provider.jsx";

@@ -1,6 +1,6 @@
 // src/components/NotFound.js
 
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 import React from "react";
 import { Link } from "react-router-dom";
 

@@ -2,15 +2,15 @@ import React from "react";
 import { SidebarButton } from "./SidebarButton";
 import { LogOut, MoreHorizontal } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Separator } from "../ui/separator";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import { Separator } from "../../ui/separator";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Button } from "../../ui/button";
 import {
   AVATAR_URL,
   LOGOUT_BUTTON_LABEL,
   PROJECT_NAME,
-} from "../../constants/constants";
+} from "../../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "@/services/AuthService";
 import { ROUTES } from "@/constants/route";

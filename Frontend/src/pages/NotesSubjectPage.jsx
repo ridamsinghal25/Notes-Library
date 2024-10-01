@@ -1,10 +1,10 @@
-import PDFCard from "@/components/PdfCard";
+import PDFCard from "@/components/business/PdfCard";
 import { CircleAlert } from "lucide-react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchNotes } from "@/store/NotesSlice";
-import SkeletonUI from "@/components/Skeleton";
+import SkeletonUI from "@/components/basic/Skeleton";
 
 function NotesSubjectPage() {
   const subject = useParams();

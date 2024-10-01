@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import FormFieldSelect from "@/components/FormFieldSelect";
+import FormFieldSelect from "@/components/basic/FormFieldSelect";
 import {
   BUTTONS,
   UPDATE_SEMESTER_TEXT_CONTENT,

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import FormFieldInput from "@/components/FormFieldInput";
+import FormFieldInput from "@/components/basic/FormFieldInput";
 import {
   TITLE,
   SIGNUP_BUTTON_TEXT,
@@ -30,7 +30,7 @@ import { useDispatch } from "react-redux";
 import { login } from "@/store/AuthSlice";
 import { Input } from "@/components/ui/input";
 import { EmailModal } from "@/components/modals/EmailModal";
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 
 function SigninPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);

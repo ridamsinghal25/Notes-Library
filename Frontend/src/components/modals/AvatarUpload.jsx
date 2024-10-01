@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { UPLOAD_AVATAR_TEXT, UPLOAD_AVATAR_TITLE } from "@/constants/constants";
 import { FormProvider, useForm } from "react-hook-form";
-import FormFieldInput from "../FormFieldInput";
+import FormFieldInput from "../basic/FormFieldInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { avatarUploadValidation } from "@/validation/zodValidation";
 import AuthService from "@/services/AuthService";

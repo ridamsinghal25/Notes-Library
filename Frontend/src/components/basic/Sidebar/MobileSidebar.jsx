@@ -13,20 +13,20 @@ import {
 } from "@/components/ui/sheet";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SidebarButtonSheet as SidebarButton } from "./SidebarButton";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../ui/separator";
 import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerTitle,
   DrawerTrigger,
-} from "../ui/drawer";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+} from "../../ui/drawer";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import {
   AVATAR_URL,
   LOGOUT_BUTTON_LABEL,
   PROJECT_NAME,
-} from "../../constants/constants";
+} from "../../../constants/constants";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { ROUTES } from "@/constants/route";

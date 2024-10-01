@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
-import { SheetClose } from "../ui/sheet";
+import { SheetClose } from "../../ui/sheet";
 
 export function SidebarButton({ Icon, className, children, ...props }) {
   return (

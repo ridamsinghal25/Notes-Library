@@ -18,7 +18,7 @@ import {
 import { pdfFileValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, X } from "lucide-react";
-import FormFieldInput from "../FormFieldInput";
+import FormFieldInput from "../basic/FormFieldInput";
 
 export function UpdatePdfFile({
   showDialog,

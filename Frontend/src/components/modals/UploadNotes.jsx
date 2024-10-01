@@ -12,7 +12,7 @@ import { Loader2, X } from "lucide-react";
 
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import FormFieldInput from "@/components/FormFieldInput";
+import FormFieldInput from "@/components/basic/FormFieldInput";
 import { SUBMIT_BUTTON } from "@/constants/constants";
 import {
   uploadNotesValidation,
@@ -20,7 +20,7 @@ import {
 } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSelector } from "react-redux";
-import FormFieldSelect from "../FormFieldSelect";
+import FormFieldSelect from "../basic/FormFieldSelect";
 
 function UploadNotes({
   showDialog,

@@ -17,7 +17,7 @@ import {
   SIGNIN_BUTTON_TEXT,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 import image from "../assets/overview-image.jpg";
 

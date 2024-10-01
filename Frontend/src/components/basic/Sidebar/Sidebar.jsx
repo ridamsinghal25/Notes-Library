@@ -2,8 +2,8 @@ import { CircleUserIcon, Home, NotebookPen, Settings } from "lucide-react";
 import { useMediaQuery } from "usehooks-ts";
 import DesktopSidebar from "./DesktopSidebar";
 import MobileSidebar from "./MobileSidebar";
-import { ROUTES } from "../../constants/route";
-import { SIDEBAR_TABS } from "../../constants/constants";
+import { ROUTES } from "../../../constants/route";
+import { SIDEBAR_TABS } from "../../../constants/constants";
 
 const sideBarItems = [
   { label: `${SIDEBAR_TABS.HOME}`, href: `${ROUTES.HOME}`, icon: Home },

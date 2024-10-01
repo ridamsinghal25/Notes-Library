@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { ExternalLink, FileText, Pencil, Trash2 } from "lucide-react";
-import PDFModal from "./modals/PDFModal";
+import PDFModal from "../modals/PDFModal";
 import { toast } from "react-toastify";
 import LikeService from "@/services/LikeService";
 import ApiError from "@/services/ApiError";
 import { FilePen, Trash2Icon } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
 import { useSelector } from "react-redux";
 import { USER_ROLE } from "@/constants/constants";
-import { UpdatePdfFile } from "./modals/UpdatePdfFile";
+import { UpdatePdfFile } from "../modals/UpdatePdfFile";
 import NotesService from "@/services/NotesService";
-import UploadNotes from "./modals/UploadNotes";
-import DeleteNotes from "./modals/DeleteNotes";
+import UploadNotes from "../modals/UploadNotes";
+import DeleteNotes from "../modals/DeleteNotes";
 import { usePDFCardState } from "@/hooks/usePDFCardState";
 
 const PDFCard = ({ notes }) => {

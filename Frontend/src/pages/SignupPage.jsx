@@ -12,8 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import FormFieldInput from "@/components/FormFieldInput";
-import FormFieldSelect from "@/components/FormFieldSelect";
+import FormFieldInput from "@/components/basic/FormFieldInput";
+import FormFieldSelect from "@/components/basic/FormFieldSelect";
 import {
   TITLE,
   SIGNUP_DESCRIPTION,
@@ -30,7 +30,7 @@ import { toast } from "react-toastify";
 import { CircleCheck, CircleX, Loader2 } from "lucide-react";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
-import Container from "@/components/Container";
+import Container from "@/components/basic/Container";
 
 function SignupPage() {
   const [rollNumber, setRollNumber] = useState("");
