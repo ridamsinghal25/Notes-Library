@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import PageLayout from "./components/pageComponent/PageLayout";
+import PageLayout from "./layouts/PageLayout";
 import { ROUTES } from "./constants/route";
 import NotesPage from "./pages/NotesPage";
 import SignupPage from "./pages/SignupPage";
