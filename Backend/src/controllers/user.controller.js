@@ -123,7 +123,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     if (userExists.isEmailVerified) {
-      throw new ApiError(400, {}, "user already exists");
+      throw new ApiError(400, "user already exists", {});
     } else {
       userExists.password = password;
       userExists.fullName = fullName;
