@@ -1,35 +1,13 @@
 import { Button } from "@/components/ui/button";
-import {
-  EXPLORE_BUTTON_TEXT,
-  HOME_TEXT_CONTENT,
-  TYPED_STRINGS,
-} from "../constants/constants";
-import React, { useEffect, useRef } from "react";
+import { EXPLORE_BUTTON_TEXT, HOME_TEXT_CONTENT } from "@/constants/constants";
+import React from "react";
 import { Link } from "react-router-dom";
-import Typed from "typed.js";
-import { ROUTES } from "../constants/route";
-import notebookLogo from "../assets/notebook.svg";
-import notebookLight from "../assets/notebook-light.svg";
-import { useSelector } from "react-redux";
-import Container from "@/components/basic/Container";
+import { ROUTES } from "@/constants/route";
+import notebookLogo from "@/assets/notebook.svg";
+import notebookLight from "@/assets/notebook-light.svg";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 
-function Home() {
-  const typeElement = useRef(null);
-  const theme = useSelector((state) => state.theme?.theme);
-
-  useEffect(() => {
-    const typed = new Typed(typeElement.current, {
-      strings: TYPED_STRINGS,
-      backDelay: 400,
-      typeSpeed: 150,
-      loop: true,
-    });
-
-    return () => {
-      typed.destroy();
-    };
-  }, []);
+function Home({ typeElement, theme }) {
   return (
     <div className="relative min-h-screen">
       <div className="absolute top-4 right-4 -mt-16 lg:mt-0">
