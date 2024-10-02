@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import {
   TITLE,
@@ -23,22 +23,18 @@ import { ROUTES } from "@/constants/route";
 import { signinFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import AuthService from "@/services/AuthService";
-import ApiError from "@/services/ApiError";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { login } from "@/store/AuthSlice";
 import { Input } from "@/components/ui/input";
 import { EmailModal } from "@/components/modals/EmailModal";
 import Container from "@/components/basic/Container";
 
-function SigninPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
+function SigninPage({
+  isSubmitting,
+  showEmailModal,
+  toggleEmailModal,
+  onSignIn,
+  onForgotPassword,
+  isSendingEmail,
+}) {
   const signinForm = useForm({
     resolver: zodResolver(signinFormValidation),
     defaultValues: {
@@ -47,51 +43,6 @@ function SigninPage() {
       username: "",
     },
   });
-
-  const onSignIn = async (data) => {
-    setIsSubmitting(true);
-
-    const response = await AuthService.loginService(data.email, data.password);
-
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      dispatch(login(response?.data?.user));
-
-      localStorage.setItem("accessToken", response?.data?.accessToken);
-
-      navigate(`${ROUTES.HOME}`);
-    } else {
-      toast.error(
-        // current user service toast error
-        response?.errorResponse?.message || response?.errorMessage
-      );
-    }
-  };
-
-  const onForgotPassword = async (data) => {
-    setIsSendingEmail(true);
-
-    const response = await AuthService.forgotPassword(data);
-
-    setIsSendingEmail(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(
-        response?.message || "Forgot password code send successfully"
-      );
-
-      navigate(`${ROUTES.RESET_PASSWORD}`);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-
-    setShowEmailModal(false);
-  };
-
-  const toggleEmailModal = () => {
-    setShowEmailModal(!showEmailModal);
-  };
 
   return (
     <Container>
@@ -148,7 +99,7 @@ function SigninPage() {
               {showEmailModal && (
                 <EmailModal
                   showDialog={showEmailModal}
-                  setShowDialog={setShowEmailModal}
+                  setShowDialog={toggleEmailModal}
                   onSubmit={onForgotPassword}
                   isSendingEmail={isSendingEmail}
                 />

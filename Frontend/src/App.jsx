@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import PageLayout from "./layouts/PageLayout";
 import { ROUTES } from "./constants/route";
 import NotesPage from "./pages/NotesPage";
-import SigninPage from "./pages/SigninPage";
 import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/basic/Sidebar/LayoutWithSidebar";
@@ -16,6 +15,7 @@ import ForgotPasswordPageContainer from "./pages/ForgotPassword/container/Forgot
 import HomeContainer from "./pages/Home/container/HomeContainer";
 import InputOTPContainer from "./pages/InputOTP/container/InputOTPContainer";
 import SignupPageContainer from "./pages/Signup/container/SignupPageContainer";
+import SigninPageContainer from "./pages/Signin/container/SigninPageContainer";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
@@ -43,7 +43,7 @@ function App() {
         <Route element={<PublicRoutes />}>
           <Route path={ROUTES.OVERVIEW} element={<OverviewPage />} />
           <Route path={ROUTES.SIGNUP} element={<SignupPageContainer />} />
-          <Route path={ROUTES.SIGNIN} element={<SigninPage />} />
+          <Route path={ROUTES.SIGNIN} element={<SigninPageContainer />} />
           <Route path={ROUTES.VERIFYCODE} element={<InputOTPContainer />} />
           <Route
             path={ROUTES.RESET_PASSWORD}
