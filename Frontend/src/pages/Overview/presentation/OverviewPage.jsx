@@ -19,7 +19,7 @@ import {
 import { ROUTES } from "@/constants/route";
 import Container from "@/components/basic/Container";
 import { ModeToggle } from "@/components/theme/ModeToggle";
-import image from "../assets/overview-image.jpg";
+import image from "@/assets/overview-image.jpg";
 
 function OverviewPage() {
   return (
