@@ -9,8 +9,8 @@ import SkeletonUI from "./components/basic/Skeleton";
 import ProfilePageContainer from "./pages/ProfilePage/container/ProfilePageContainer";
 import AccountPageContainer from "./pages/Account/container/AccountPageContainer";
 import ForgotPasswordPageContainer from "./pages/ForgotPassword/container/ForgotPasswordPageContainer";
-import HomeContainer from "./pages/Home/container/HomeContainer";
-import InputOTPContainer from "./pages/InputOTP/container/InputOTPContainer";
+import HomePageContainer from "./pages/Home/container/HomePageContainer";
+import InputOTPPageContainer from "./pages/InputOTP/container/InputOTPPageContainer";
 import SignupPageContainer from "./pages/Signup/container/SignupPageContainer";
 import SigninPageContainer from "./pages/Signin/container/SigninPageContainer";
 import PageNotFoundPageContainer from "./pages/PageNotFound/container/PageNotFoundPageContainer";
@@ -30,7 +30,7 @@ function App() {
       >
         <Route element={<ForLoggedInUsers />}>
           <Route element={<LayoutWithSidebar />}>
-            <Route path={ROUTES.HOME} element={<HomeContainer />} />
+            <Route path={ROUTES.HOME} element={<HomePageContainer />} />
             <Route path={ROUTES.SETTING} element={<AccountPageContainer />} />
             <Route path={ROUTES.NOTES} element={<NotesPageContainer />} />
             <Route
@@ -49,7 +49,7 @@ function App() {
           <Route path={ROUTES.OVERVIEW} element={<OverviewPageContainer />} />
           <Route path={ROUTES.SIGNUP} element={<SignupPageContainer />} />
           <Route path={ROUTES.SIGNIN} element={<SigninPageContainer />} />
-          <Route path={ROUTES.VERIFYCODE} element={<InputOTPContainer />} />
+          <Route path={ROUTES.VERIFYCODE} element={<InputOTPPageContainer />} />
           <Route
             path={ROUTES.RESET_PASSWORD}
             element={<ForgotPasswordPageContainer />}

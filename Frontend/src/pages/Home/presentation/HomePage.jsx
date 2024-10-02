@@ -7,7 +7,7 @@ import notebookLogo from "@/assets/notebook.svg";
 import notebookLight from "@/assets/notebook-light.svg";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 
-function Home({ typeElement, theme }) {
+function HomePage({ typeElement, theme }) {
   return (
     <div className="relative min-h-screen">
       <div className="absolute top-4 right-4 -mt-16 lg:mt-0">
@@ -54,4 +54,4 @@ function Home({ typeElement, theme }) {
   );
 }
 
-export default Home;
+export default HomePage;

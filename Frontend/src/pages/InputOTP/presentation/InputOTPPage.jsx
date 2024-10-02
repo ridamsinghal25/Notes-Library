@@ -28,7 +28,7 @@ import { Loader2 } from "lucide-react";
 import { EmailModal } from "@/components/modals/EmailModal";
 import Container from "@/components/basic/Container";
 
-function InputOTPForm({
+function InputOTPPage({
   isSubmitting,
   isSendingEmail,
   showEmailModal,
@@ -115,4 +115,4 @@ function InputOTPForm({
   );
 }
 
-export default InputOTPForm;
+export default InputOTPPage;

@@ -2,9 +2,9 @@ import { TYPED_STRINGS } from "@/constants/constants";
 import React, { useEffect, useRef } from "react";
 import Typed from "typed.js";
 import { useSelector } from "react-redux";
-import Home from "@/pages/Home/presentation/Home";
+import HomePage from "@/pages/Home/presentation/HomePage";
 
-function HomeContainer() {
+function HomePageContainer() {
   const typeElement = useRef(null);
   const theme = useSelector((state) => state.theme?.theme);
 
@@ -21,7 +21,7 @@ function HomeContainer() {
     };
   }, []);
 
-  return <Home typeElement={typeElement} theme={theme} />;
+  return <HomePage typeElement={typeElement} theme={theme} />;
 }
 
-export default HomeContainer;
+export default HomePageContainer;

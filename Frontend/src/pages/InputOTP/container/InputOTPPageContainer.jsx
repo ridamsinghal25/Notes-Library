@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
-import InputOTPForm from "../presentation/InputOTP";
+import InputOTPPage from "../presentation/InputOTPPage";
 
-function InputOTPContainer() {
+function InputOTPPageContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [isSendingEmail, setIsSendingEmail] = useState(false);
@@ -51,7 +51,7 @@ function InputOTPContainer() {
   };
 
   return (
-    <InputOTPForm
+    <InputOTPPage
       isSubmitting={isSubmitting}
       isSendingEmail={isSendingEmail}
       onVerifyCodeSubmit={onVerifyCodeSubmit}
@@ -63,4 +63,4 @@ function InputOTPContainer() {
   );
 }
 
-export default InputOTPContainer;
+export default InputOTPPageContainer;
