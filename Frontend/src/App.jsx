@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import PageLayout from "./layouts/PageLayout";
 import { ROUTES } from "./constants/route";
-import NotesPage from "./pages/NotesPage";
 import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/basic/Sidebar/LayoutWithSidebar";
@@ -16,6 +15,7 @@ import SignupPageContainer from "./pages/Signup/container/SignupPageContainer";
 import SigninPageContainer from "./pages/Signin/container/SigninPageContainer";
 import PageNotFoundPageContainer from "./pages/PageNotFound/container/PageNotFoundPageContainer";
 import OverviewPageContainer from "./pages/Overview/container/OverviewPageContainer";
+import NotesPageContainer from "./pages/Notes/container/NotesPageContainer";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
@@ -30,7 +30,7 @@ function App() {
           <Route element={<LayoutWithSidebar />}>
             <Route path={ROUTES.HOME} element={<HomeContainer />} />
             <Route path={ROUTES.SETTING} element={<AccountPageContainer />} />
-            <Route path={ROUTES.NOTES} element={<NotesPage />} />
+            <Route path={ROUTES.NOTES} element={<NotesPageContainer />} />
             <Route
               path={ROUTES.NOTES_SUBJECT}
               element={

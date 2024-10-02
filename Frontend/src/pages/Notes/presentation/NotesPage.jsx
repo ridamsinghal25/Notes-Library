@@ -1,61 +1,34 @@
-import { Button } from "../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
-import { useState } from "react";
-import UploadNotes from "../components/modals/UploadNotes";
+import UploadNotes from "@/components/modals/UploadNotes";
 import {
   NOTES_PAGE_DESCRIPTION_ONE,
   NOTES_PAGE_DESCRIPTION_TWO,
   NOTES_PAGE_HEADING,
 } from "@/constants/constants";
 import NotesCard from "@/components/pageComponent/NotesCard";
-import { useSelector } from "react-redux";
 import { USER_ROLE } from "@/constants/constants";
-import NotesService from "@/services/NotesService";
-import ApiError from "@/services/ApiError";
-import { toast } from "react-toastify";
 
-function NotesPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showUploadModal, setShowUploadModal] = useState(false);
-
-  const userSubjects = useSelector(
-    (state) => state.auth.userDetails?.course[0]?.subjects
-  );
-
-  const userRole = useSelector((state) => state.auth.userDetails?.role);
-
-  function handleClick() {
-    setShowUploadModal(true);
-  }
-
-  const onNotesUpload = async (data) => {
-    setIsSubmitting(true);
-
-    const response = await NotesService.uploadNotes(data);
-
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-
-    setShowUploadModal(false);
-  };
-
+function NotesPage({
+  isSubmitting,
+  showUploadModal,
+  userSubjects,
+  userRole,
+  toggleUploadModal,
+  onNotesUpload,
+}) {
   return (
     <div className="min-h-screen w-full flex flex-col">
       {userRole === USER_ROLE.ADMIN ? (
         <>
           <div className="absolute top-4 right-4 z-10">
-            <Button onClick={handleClick}>
+            <Button onClick={toggleUploadModal}>
               <Upload />
             </Button>
           </div>
           <UploadNotes
             showDialog={showUploadModal}
-            setShowDialog={setShowUploadModal}
+            setShowDialog={toggleUploadModal}
             onSubmit={onNotesUpload}
             isSubmitting={isSubmitting}
           />
