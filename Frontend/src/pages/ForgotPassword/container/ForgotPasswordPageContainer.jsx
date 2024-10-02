@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
-import { resetPasswordFormValidation } from "@/validation/zodValidation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
@@ -12,14 +9,6 @@ import ForgotPasswordPage from "../presentation/ForgotPasswordPage";
 function ForgotPasswordPageContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-
-  const resetPasswordForm = useForm({
-    resolver: zodResolver(resetPasswordFormValidation),
-    defaultValues: {
-      resetCode: "",
-      newPassword: "",
-    },
-  });
 
   const onResetPassword = (data) => {
     setIsSubmitting(true);
@@ -45,7 +34,6 @@ function ForgotPasswordPageContainer() {
     <ForgotPasswordPage
       isSubmitting={isSubmitting}
       onResetPassword={onResetPassword}
-      resetPasswordForm={resetPasswordForm}
     />
   );
 }

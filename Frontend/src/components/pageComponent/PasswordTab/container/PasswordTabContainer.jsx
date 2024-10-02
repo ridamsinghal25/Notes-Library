@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthService from "@/services/AuthService";
 import { ROUTES } from "@/constants/route";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { newPasswordFormValidation } from "@/validation/zodValidation";
 import ApiError from "@/services/ApiError";
 import { logout } from "@/store/AuthSlice";
 import PasswordTab from "../presentation/PasswordTab";
@@ -16,14 +13,6 @@ function PasswordTabContainer() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const newPasswordForm = useForm({
-    resolver: zodResolver(newPasswordFormValidation),
-    defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-    },
-  });
 
   const onPasswordUpdate = async (data) => {
     setIsSubmitting(true);
@@ -52,7 +41,6 @@ function PasswordTabContainer() {
 
   return (
     <PasswordTab
-      newPasswordForm={newPasswordForm}
       onPasswordUpdate={onPasswordUpdate}
       isSubmitting={isSubmitting}
     />

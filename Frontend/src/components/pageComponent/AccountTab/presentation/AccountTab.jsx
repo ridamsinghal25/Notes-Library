@@ -13,8 +13,19 @@ import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import { UpdateSemester } from "@/components/modals/UpdateSemester";
 import { ACCOUNT_TEXT_CONTENT, BUTTONS } from "@/constants/constants";
+import { useForm } from "react-hook-form";
 
-function AccountTab({ handleClick, showDialog, setShowDialog, accountForm }) {
+function AccountTab({ handleClick, showDialog, setShowDialog, userInfo }) {
+  const accountForm = useForm({
+    defaultValues: {
+      fullName: userInfo?.fullName || "",
+      email: userInfo?.email || "",
+      rollNumber: userInfo?.rollNumber || "",
+      courseName: userInfo?.course[0]?.courseName || "",
+      semester: userInfo?.course[0]?.semester || "",
+    },
+  });
+
   return (
     <Card>
       <Container>

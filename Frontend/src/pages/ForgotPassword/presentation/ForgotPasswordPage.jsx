@@ -9,12 +9,19 @@ import {
 } from "@/constants/constants";
 import { Loader2 } from "lucide-react";
 import Container from "@/components/basic/Container";
+import { resetPasswordFormValidation } from "@/validation/zodValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-function ForgotPasswordPage({
-  isSubmitting,
-  onResetPassword,
-  resetPasswordForm,
-}) {
+function ForgotPasswordPage({ isSubmitting, onResetPassword }) {
+  const resetPasswordForm = useForm({
+    resolver: zodResolver(resetPasswordFormValidation),
+    defaultValues: {
+      resetCode: "",
+      newPassword: "",
+    },
+  });
+
   return (
     <Container>
       <div className="flex justify-center items-center min-h-screen mx-4">

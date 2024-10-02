@@ -11,8 +11,19 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import { ACCOUNT_TEXT_CONTENT, BUTTONS } from "@/constants/constants";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { newPasswordFormValidation } from "@/validation/zodValidation";
 
-function PasswordTab({ onPasswordUpdate, newPasswordForm, isSubmitting }) {
+function PasswordTab({ onPasswordUpdate, isSubmitting }) {
+  const newPasswordForm = useForm({
+    resolver: zodResolver(newPasswordFormValidation),
+    defaultValues: {
+      oldPassword: "",
+      newPassword: "",
+    },
+  });
+
   return (
     <Card>
       <CardHeader>
