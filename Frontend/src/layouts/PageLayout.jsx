@@ -5,11 +5,9 @@ import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { login, logout, updateLoginCheckDone } from "@/store/AuthSlice";
 import { toast } from "react-toastify";
-import { ROUTES } from "@/constants/route";
 
 function PageLayout() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const fetchUser = useCallback(async () => {
     const response = await AuthService.getCurrentUser(
@@ -25,9 +23,6 @@ function PageLayout() {
       toast.success("user login successfully");
     } else {
       dispatch(logout());
-
-      navigate(`${ROUTES.SIGNIN}`);
-      toast.info("Please sign in again");
     }
 
     dispatch(updateLoginCheckDone(true));
