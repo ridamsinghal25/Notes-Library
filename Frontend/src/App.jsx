@@ -17,7 +17,9 @@ import PageNotFoundPageContainer from "./pages/PageNotFound/container/PageNotFou
 import OverviewPageContainer from "./pages/Overview/container/OverviewPageContainer";
 import NotesPageContainer from "./pages/Notes/container/NotesPageContainer";
 
-const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
+const NotesSubjectPageContainer = lazy(() =>
+  import("./pages/NotesSubject/container/NotesSubjectPageContainer")
+);
 
 function App() {
   return (
@@ -35,7 +37,7 @@ function App() {
               path={ROUTES.NOTES_SUBJECT}
               element={
                 <Suspense fallback={<SkeletonUI />}>
-                  <NotesSubjectPage />
+                  <NotesSubjectPageContainer />
                 </Suspense>
               }
             />

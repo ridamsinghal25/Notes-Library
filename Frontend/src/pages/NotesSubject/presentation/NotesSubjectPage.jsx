@@ -1,20 +1,9 @@
 import PDFCard from "@/components/pageComponent/PdfCard";
 import { CircleAlert } from "lucide-react";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { fetchNotes } from "@/store/NotesSlice";
+import React from "react";
 import SkeletonUI from "@/components/basic/Skeleton";
 
-function NotesSubjectPage() {
-  const subject = useParams();
-  const dispatch = useDispatch();
-  const notesData = useSelector((state) => state.notes);
-
-  useEffect(() => {
-    dispatch(fetchNotes(subject));
-  }, [dispatch, subject]);
-
+function NotesSubjectPage({ subject, notesData }) {
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6 text-center dark:text-gray-200">
