@@ -1,10 +1,8 @@
-// src/components/NotFound.js
-
 import Container from "@/components/basic/Container";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const PageNotFound = () => {
+function PageNotFoundPage() {
   return (
     <Container>
       <div className="flex flex-col items-center justify-center h-screen dark:text-gray-200">
@@ -22,6 +20,6 @@ const PageNotFound = () => {
       </div>
     </Container>
   );
-};
+}
 
-export default PageNotFound;
+export default PageNotFoundPage;

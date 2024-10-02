@@ -5,7 +5,6 @@ import NotesPage from "./pages/NotesPage";
 import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/basic/Sidebar/LayoutWithSidebar";
-import PageNotFound from "./pages/PageNotFound";
 import OverviewPage from "./pages/OverviewPage";
 import { lazy, Suspense } from "react";
 import SkeletonUI from "./components/basic/Skeleton";
@@ -16,13 +15,17 @@ import HomeContainer from "./pages/Home/container/HomeContainer";
 import InputOTPContainer from "./pages/InputOTP/container/InputOTPContainer";
 import SignupPageContainer from "./pages/Signup/container/SignupPageContainer";
 import SigninPageContainer from "./pages/Signin/container/SigninPageContainer";
+import PageNotFoundPageContainer from "./pages/PageNotFound/container/PageNotFoundPageContainer";
 
 const NotesSubjectPage = lazy(() => import("./pages/NotesSubjectPage"));
 
 function App() {
   return (
     <Routes>
-      <Route element={<PageLayout />} errorElement={<PageNotFound />}>
+      <Route
+        element={<PageLayout />}
+        errorElement={<PageNotFoundPageContainer />}
+      >
         <Route element={<ForLoggedInUsers />}>
           <Route element={<LayoutWithSidebar />}>
             <Route path={ROUTES.HOME} element={<HomeContainer />} />
@@ -51,7 +54,7 @@ function App() {
           />
         </Route>
       </Route>
-      <Route path="*" element={<PageNotFound />} />
+      <Route path="*" element={<PageNotFoundPageContainer />} />
     </Routes>
   );
 }
