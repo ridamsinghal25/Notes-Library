@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/basic/FormFieldInput";
-import { ACCOUNT_TEXT_CONTENT, BUTTONS } from "@/constants/constants";
+import { ACCOUNT_TEXT_CONTENT } from "@/constants/constants";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newPasswordFormValidation } from "@/validation/zodValidation";
@@ -61,7 +61,7 @@ function PasswordTab({ onPasswordUpdate, isSubmitting }) {
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   </>
                 ) : (
-                  BUTTONS.SAVE_PASSWORD
+                  "Save password"
                 )}
               </Button>
             </div>

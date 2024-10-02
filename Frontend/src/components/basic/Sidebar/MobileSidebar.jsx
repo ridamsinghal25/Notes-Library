@@ -22,11 +22,7 @@ import {
   DrawerTrigger,
 } from "../../ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import {
-  AVATAR_URL,
-  LOGOUT_BUTTON_LABEL,
-  PROJECT_NAME,
-} from "../../../constants/constants";
+import { AVATAR_URL, PROJECT_NAME } from "../../../constants/constants";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { ROUTES } from "@/constants/route";
@@ -128,7 +124,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                       className="w-full text-sm p-3  hover:bg-violet-400 bg-violet-600"
                       onClick={logoutHandler}
                     >
-                      {LOGOUT_BUTTON_LABEL}
+                      Logout
                     </SidebarButton>
                   </div>
                 </DrawerContent>

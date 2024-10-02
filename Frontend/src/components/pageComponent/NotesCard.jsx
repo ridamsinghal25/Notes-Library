@@ -1,4 +1,3 @@
-import { NOTES_BUTTON } from "@/constants/constants";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -15,7 +14,7 @@ function NotesCard({ subject }) {
       <p className="text-sm text-gray-600 dark:text-gray-200 mb-4">
         Comprehensive {subject.toLowerCase()} notes for effective learning.
       </p>
-      <Button>{NOTES_BUTTON}</Button>
+      <Button>View Notes</Button>
     </Link>
   );
 }

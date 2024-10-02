@@ -12,7 +12,7 @@ import { Upload } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import { UpdateSemester } from "@/components/modals/UpdateSemester";
-import { ACCOUNT_TEXT_CONTENT, BUTTONS } from "@/constants/constants";
+import { ACCOUNT_TEXT_CONTENT } from "@/constants/constants";
 import { useForm } from "react-hook-form";
 
 function AccountTab({ handleClick, showDialog, setShowDialog, userInfo }) {
@@ -92,7 +92,7 @@ function AccountTab({ handleClick, showDialog, setShowDialog, userInfo }) {
               </div>
               <div className="w-full flex justify-end">
                 <Button className="mt-7" disabled>
-                  {BUTTONS.SAVE_CHANGES}
+                  Save changes
                 </Button>
               </div>
             </form>

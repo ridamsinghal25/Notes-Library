@@ -18,9 +18,7 @@ import {
 import {
   INPUT_OTP_FORM_DESCRITION,
   INPUT_OTP_FORM_TITLE,
-  RESEND_EMAIL_BUTTON_TEXT,
   RESEND_EMAIL_DESCRIPTION,
-  SUBMIT_BUTTON,
 } from "@/constants/constants";
 import { inputOTPValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -86,7 +84,7 @@ function InputOTPPage({
                       Wait
                     </>
                   ) : (
-                    SUBMIT_BUTTON
+                    "Submit"
                   )}
                 </Button>
               </div>
@@ -99,7 +97,7 @@ function InputOTPPage({
               variant="outline"
               className="inline-flex items-center dark:text-gray-400 dark:hover:text-gray-50"
             >
-              {RESEND_EMAIL_BUTTON_TEXT}
+              Send Verification Email
             </Button>
 
             <EmailModal

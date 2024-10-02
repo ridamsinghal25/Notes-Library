@@ -18,8 +18,6 @@ import {
   TITLE,
   SIGNUP_DESCRIPTION,
   SEMESTER_OPTIONS,
-  SIGNUP_BUTTON_TEXT,
-  SIGNIN_BUTTON_TEXT,
   SIGNIN_PROMPT_TEXT,
   COURSE_OPTIONS,
 } from "@/constants/constants";
@@ -150,7 +148,7 @@ function SignupPage({
                       Wait
                     </>
                   ) : (
-                    SIGNUP_BUTTON_TEXT
+                    "Sign Up"
                   )}
                 </Button>
               </div>
@@ -163,7 +161,7 @@ function SignupPage({
                 to={ROUTES.SIGNIN}
                 className="text-blue-600 hover:underline hover:text-blue-500 text-base"
               >
-                {SIGNIN_BUTTON_TEXT}
+                Sign in
               </Link>
             </p>
           </div>

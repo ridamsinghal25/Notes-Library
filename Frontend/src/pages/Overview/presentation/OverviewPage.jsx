@@ -14,7 +14,6 @@ import {
   OVERVIEW_HEADER_SUBTITLE,
   OVERVIEW_HEADER_TITLE,
   OVERVIEW_TITLE,
-  SIGNIN_BUTTON_TEXT,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
 import Container from "@/components/basic/Container";
@@ -86,7 +85,7 @@ function OverviewPage() {
           <div className="text-lg">
             Already have an account?{" "}
             <Link to={ROUTES.SIGNIN} className="text-blue-500 hover:underline">
-              {SIGNIN_BUTTON_TEXT}
+              Sign in
             </Link>
           </div>
         </div>

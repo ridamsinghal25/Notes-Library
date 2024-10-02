@@ -14,9 +14,7 @@ import { Link } from "react-router-dom";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import {
   TITLE,
-  SIGNUP_BUTTON_TEXT,
   SIGNUP_PROMPT_TEXT,
-  SIGNIN_BUTTON_TEXT,
   SIGNIN_DESCRIPTION,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
@@ -112,7 +110,7 @@ function SigninPage({
                       Wait
                     </>
                   ) : (
-                    SIGNIN_BUTTON_TEXT
+                    "Sign In"
                   )}
                 </Button>
               </div>
@@ -125,7 +123,7 @@ function SigninPage({
                 to={ROUTES.SIGNUP}
                 className="text-blue-600 hover:underline hover:text-blue-500 text-base"
               >
-                {SIGNUP_BUTTON_TEXT}
+                Sign up
               </Link>
             </p>
           </div>

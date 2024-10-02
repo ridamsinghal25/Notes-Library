@@ -9,8 +9,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import {
-  DELETE_MODAL_CANCEL_BUTTON,
-  DELETE_MODAL_CONTINUE_BUTTON,
   DELETE_MODAL_DESCRIPTION,
   DELETE_MODAL_HEADING,
 } from "@/constants/constants";
@@ -55,7 +53,7 @@ function DeleteNotes({ showDialog, setShowDialog, notesId }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="bg-amber-100 text-violet-800 hover:bg-amber-200 hover:text-black">
-            {DELETE_MODAL_CANCEL_BUTTON}
+            Cancel
           </AlertDialogCancel>
           <Button
             className="bg-red-400 hover:bg-red-600"
@@ -68,7 +66,7 @@ function DeleteNotes({ showDialog, setShowDialog, notesId }) {
                 Deleting...
               </>
             ) : (
-              DELETE_MODAL_CONTINUE_BUTTON
+              "Continue"
             )}
           </Button>
         </AlertDialogFooter>

@@ -10,7 +10,7 @@ import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
 import { useSelector } from "react-redux";
-import { USER_ROLE } from "@/constants/constants";
+import { UserRolesEnum } from "@/constants/constants";
 import { UpdatePdfFile } from "../modals/UpdatePdfFile";
 import NotesService from "@/services/NotesService";
 import UploadNotes from "../modals/UploadNotes";
@@ -36,7 +36,8 @@ const PDFCard = ({ notes }) => {
   const previewImageUrl = getPreviewImageUrl(pdfUrl);
 
   const isAdmin =
-    userInfo?.role === USER_ROLE.ADMIN && userInfo?._id === notes?.createdBy;
+    userInfo?.role === UserRolesEnum.ADMIN &&
+    userInfo?._id === notes?.createdBy;
 
   return (
     <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black">

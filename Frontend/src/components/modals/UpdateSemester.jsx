@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import FormFieldSelect from "@/components/basic/FormFieldSelect";
 import {
-  BUTTONS,
   UPDATE_SEMESTER_TEXT_CONTENT,
   SEMESTER_OPTIONS,
 } from "@/constants/constants";
@@ -96,7 +95,7 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
                     Updating...
                   </>
                 ) : (
-                  BUTTONS.UPDATE_SEMESTER
+                  "Update"
                 )}
               </Button>
             </div>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { EXPLORE_BUTTON_TEXT, HOME_TEXT_CONTENT } from "@/constants/constants";
+import { HOME_TEXT_CONTENT } from "@/constants/constants";
 import React from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
@@ -37,7 +37,7 @@ function HomePage({ typeElement, theme }) {
                   {HOME_TEXT_CONTENT.DESCRIPTION_TWO}
                 </p>
                 <Link to={ROUTES.NOTES} className="inline-block">
-                  <Button>{EXPLORE_BUTTON_TEXT}</Button>
+                  <Button>Explore Notes</Button>
                 </Link>
               </div>
             </div>

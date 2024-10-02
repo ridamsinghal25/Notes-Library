@@ -12,7 +12,6 @@ import { Form } from "@/components/ui/form";
 import {
   EMAIL_MODAL_DESCRIPTION,
   EMAIL_MODAL_TITLE,
-  RESEND_EMAIL_BUTTON_TEXT,
 } from "@/constants/constants";
 import { emailModalValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,7 +56,7 @@ export function EmailModal({
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...
                   </>
                 ) : (
-                  RESEND_EMAIL_BUTTON_TEXT
+                  "Send Verification Email"
                 )}
               </Button>
             </div>

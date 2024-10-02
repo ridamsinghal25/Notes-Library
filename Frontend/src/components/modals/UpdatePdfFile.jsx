@@ -11,7 +11,6 @@ import {
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import {
-  UPDATE_PDF_BUTTON_TEXT,
   UPDATE_PDF_DESCRIPTION,
   UPDATE_PDF_TITLE,
 } from "@/constants/constants";
@@ -69,7 +68,7 @@ export function UpdatePdfFile({
                     wait...
                   </>
                 ) : (
-                  UPDATE_PDF_BUTTON_TEXT
+                  "Update PDF"
                 )}
               </Button>
             </div>

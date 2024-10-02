@@ -13,7 +13,6 @@ import { Loader2, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/basic/FormFieldInput";
-import { SUBMIT_BUTTON } from "@/constants/constants";
 import {
   uploadNotesValidation,
   updateNotesValidation,
@@ -118,7 +117,7 @@ function UploadNotes({
                     Wait
                   </>
                 ) : (
-                  SUBMIT_BUTTON
+                  "Submit"
                 )}
               </Button>
             </div>

@@ -3,7 +3,6 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import {
-  FORGOT_PASSWORD_BUTTON_TEXT,
   FORGOT_PASSWORD_DESCRIPTION,
   FORGOT_PASSWORD_TITLE,
 } from "@/constants/constants";
@@ -58,7 +57,7 @@ function ForgotPasswordPage({ isSubmitting, onResetPassword }) {
                       Wait
                     </>
                   ) : (
-                    FORGOT_PASSWORD_BUTTON_TEXT
+                    "Reset Password"
                   )}
                 </Button>
               </div>

@@ -7,7 +7,7 @@ import {
   NOTES_PAGE_HEADING,
 } from "@/constants/constants";
 import NotesCard from "@/components/pageComponent/NotesCard";
-import { USER_ROLE } from "@/constants/constants";
+import { UserRolesEnum } from "@/constants/constants";
 
 function NotesPage({
   isSubmitting,
@@ -19,7 +19,7 @@ function NotesPage({
 }) {
   return (
     <div className="min-h-screen w-full flex flex-col">
-      {userRole === USER_ROLE.ADMIN ? (
+      {userRole === UserRolesEnum.ADMIN ? (
         <>
           <div className="absolute top-4 right-4 z-10">
             <Button onClick={toggleUploadModal}>

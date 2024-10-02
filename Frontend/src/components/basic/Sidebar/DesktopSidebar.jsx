@@ -6,11 +6,7 @@ import { Separator } from "../../ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
-import {
-  AVATAR_URL,
-  LOGOUT_BUTTON_LABEL,
-  PROJECT_NAME,
-} from "../../../constants/constants";
+import { AVATAR_URL, PROJECT_NAME } from "../../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "@/services/AuthService";
 import { ROUTES } from "@/constants/route";
@@ -87,7 +83,7 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                     className="w-full text-sm hover:bg-violet-400"
                     onClick={logoutHandler}
                   >
-                    {LOGOUT_BUTTON_LABEL}
+                    Logout
                   </SidebarButton>
                 </div>
               </PopoverContent>
