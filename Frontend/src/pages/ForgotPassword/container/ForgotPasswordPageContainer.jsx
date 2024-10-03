@@ -22,7 +22,6 @@ function ForgotPasswordPageContainer() {
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "Password reset successfully");
-      resetPasswordForm.reset();
 
       navigate(`${ROUTES.SIGNIN}`);
     } else {

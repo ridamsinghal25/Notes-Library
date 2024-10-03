@@ -33,7 +33,9 @@ function ForgotPasswordPage({ isSubmitting, onResetPassword }) {
           </div>
           <Form {...resetPasswordForm}>
             <form
-              onSubmit={resetPasswordForm.handleSubmit(onResetPassword)}
+              onSubmit={resetPasswordForm.handleSubmit(() =>
+                onResetPassword().then(() => resetPasswordForm.reset())
+              )}
               className="space-y-6"
             >
               <FormFieldInput
