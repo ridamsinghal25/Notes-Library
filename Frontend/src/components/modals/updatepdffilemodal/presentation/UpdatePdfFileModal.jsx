@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, X } from "lucide-react";
 import FormFieldInput from "../basic/FormFieldInput";
 
-export function UpdatePdfFile({
+function UpdatePdfFileModal({
   showDialog,
   setShowDialog,
   onSubmit,
@@ -79,3 +79,5 @@ export function UpdatePdfFile({
     </Dialog>
   );
 }
+
+export default UpdatePdfFileModal;

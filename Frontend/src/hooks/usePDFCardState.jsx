@@ -39,32 +39,6 @@ export const usePDFCardState = (initialNotes) => {
     }
   };
 
-  const updatePdfFile = async (data) => {
-    setIsSubmitting(true);
-
-    const response = await NotesService.updateNotesPdfFile(
-      initialNotes?._id,
-      data?.pdfFile
-    );
-
-    setIsSubmitting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message);
-
-      setModalState((prev) => ({
-        ...prev,
-        showUpdatePdfModal: false,
-      }));
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-  };
-
   const onNotesUpdate = async (data) => {
     setIsSubmitting(true);
 
@@ -92,7 +66,6 @@ export const usePDFCardState = (initialNotes) => {
     modalState,
     toggleModal,
     handleLike,
-    updatePdfFile,
     onNotesUpdate,
   };
 };
