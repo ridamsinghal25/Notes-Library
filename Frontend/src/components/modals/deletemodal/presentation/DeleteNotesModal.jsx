@@ -1,6 +1,5 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -13,35 +12,14 @@ import {
   DELETE_MODAL_HEADING,
 } from "@/constants/constants";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "../ui/button";
-import NotesService from "@/services/NotesService";
-import ApiError from "@/services/ApiError";
-import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
 
-function DeleteNotes({ showDialog, setShowDialog, notesId }) {
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const onDeleteNotesHandler = async () => {
-    setIsDeleting(true);
-
-    const response = await NotesService.deleteNotes(notesId);
-
-    setIsDeleting(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message || "Notes deleted successfully");
-
-      setShowDialog();
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-  };
-
+function DeleteNotesModal({
+  showDialog,
+  setShowDialog,
+  isDeleting,
+  onDeleteNotesHandler,
+}) {
   return (
     <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
       <AlertDialogContent className="[background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400">
@@ -75,4 +53,4 @@ function DeleteNotes({ showDialog, setShowDialog, notesId }) {
   );
 }
 
-export default DeleteNotes;
+export default DeleteNotesModal;

@@ -1,10 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { ExternalLink, FileText, Pencil, Trash2 } from "lucide-react";
 import PDFModal from "../modals/PDFModal";
-import { toast } from "react-toastify";
-import LikeService from "@/services/LikeService";
-import ApiError from "@/services/ApiError";
-import { FilePen, Trash2Icon } from "lucide-react";
+import { FilePen } from "lucide-react";
 import { Button } from "../ui/button";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
@@ -12,16 +9,17 @@ import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
 import { useSelector } from "react-redux";
 import { UserRolesEnum } from "@/constants/constants";
 import { UpdatePdfFile } from "../modals/UpdatePdfFile";
-import NotesService from "@/services/NotesService";
 import UploadNotes from "../modals/UploadNotes";
-import DeleteNotes from "../modals/DeleteNotes";
 import { usePDFCardState } from "@/hooks/usePDFCardState";
+import useModal from "@/hooks/useModal";
+import DeleteNotesModalContainer from "../modals/deletemodal/container/DeleteNotesModalContainer";
 
 const PDFCard = ({ notes }) => {
   const { pdf, owner, chapterName } = notes;
   const pdfUrl = pdf?.url;
 
   const userInfo = useSelector((state) => state.auth.userDetails);
+  const deleteModal = useModal();
 
   const {
     isSubmitting,
@@ -66,7 +64,7 @@ const PDFCard = ({ notes }) => {
                 title="Delete Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
-                onClick={() => toggleModal("showDeleteNotesModal")}
+                onClick={deleteModal.toggleModal}
               >
                 <Trash2 className="text-red-600 w-5 h-5" />
               </Button>
@@ -109,9 +107,9 @@ const PDFCard = ({ notes }) => {
         isUpdateMode={true}
       />
 
-      <DeleteNotes
-        showDialog={modalState.showDeleteNotesModal}
-        setShowDialog={() => toggleModal("showDeleteNotesModal")}
+      <DeleteNotesModalContainer
+        showDialog={deleteModal.isOpen}
+        setShowDialog={deleteModal.toggleModal}
         notesId={notes?._id}
       />
 

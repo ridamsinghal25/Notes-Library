@@ -15,7 +15,6 @@ export const usePDFCardState = (initialNotes) => {
     showPDF: false,
     showUpdatePdfModal: false,
     showUploadNotesModal: false,
-    showDeleteNotesModal: false,
   });
 
   const toggleModal = (modalName) => {
