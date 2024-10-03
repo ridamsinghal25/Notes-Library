@@ -3,10 +3,16 @@ import AuthService from "@/services/AuthService";
 import { toast } from "react-toastify";
 import ApiError from "@/services/ApiError";
 import AvatarUploadModal from "../presentation/AvatarUploadModal";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleModal } from "@/store/ModalSlice";
 
-function AvatarUploadModalContainer({ avatarUrl, showDialog, setShowDialog }) {
+function AvatarUploadModalContainer({ avatarUrl }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const showAvatarUploadModal = useSelector(
+    (state) => state.modal.modals.avatarUploadModal
+  );
+  const dispatch = useDispatch();
 
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
@@ -20,6 +26,14 @@ function AvatarUploadModalContainer({ avatarUrl, showDialog, setShowDialog }) {
     }
   };
 
+  const toggleAvatarUploadModal = () => {
+    dispatch(
+      toggleModal({
+        modalType: "avatarUploadModal",
+      })
+    );
+  };
+
   const onAvatarUpload = async (data) => {
     setIsUploading(true);
 
@@ -28,7 +42,7 @@ function AvatarUploadModalContainer({ avatarUrl, showDialog, setShowDialog }) {
     setIsUploading(false);
 
     if (!(response instanceof ApiError)) {
-      setShowDialog();
+      toggleAvatarUploadModal();
       toast.success(response?.message || "avatar updated successfully");
 
       setTimeout(() => {
@@ -42,8 +56,8 @@ function AvatarUploadModalContainer({ avatarUrl, showDialog, setShowDialog }) {
   return (
     <AvatarUploadModal
       dialogAvatarUrl={avatarUrl}
-      showDialog={showDialog}
-      setShowDialog={setShowDialog}
+      showDialog={showAvatarUploadModal}
+      setShowDialog={toggleAvatarUploadModal}
       isHovered={isHovered}
       setIsHovered={setIsHovered}
       isUploading={isUploading}

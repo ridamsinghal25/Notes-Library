@@ -6,32 +6,37 @@ import { Button } from "../ui/button";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserRolesEnum } from "@/constants/constants";
 import { UpdatePdfFile } from "../modals/UpdatePdfFile";
 import UploadNotes from "../modals/UploadNotes";
 import { usePDFCardState } from "@/hooks/usePDFCardState";
-import useModal from "@/hooks/useModal";
 import DeleteNotesModalContainer from "../modals/deletemodal/container/DeleteNotesModalContainer";
+import { toggleModal } from "@/store/ModalSlice";
+toggleModalState;
 
 const PDFCard = ({ notes }) => {
   const { pdf, owner, chapterName } = notes;
   const pdfUrl = pdf?.url;
 
   const userInfo = useSelector((state) => state.auth.userDetails);
-  const deleteModal = useModal();
+  const dispatch = useDispatch();
 
   const {
     isSubmitting,
     likeState,
     modalState,
-    toggleModal,
+    toggleModal: toggleModalState,
     handleLike,
     updatePdfFile,
     onNotesUpdate,
   } = usePDFCardState(notes);
 
   const previewImageUrl = getPreviewImageUrl(pdfUrl);
+
+  const toggelDeleteModal = () => {
+    dispatch(toggleModal({ modalType: "deleteNotesModal" }));
+  };
 
   const isAdmin =
     userInfo?.role === UserRolesEnum.ADMIN &&
@@ -56,7 +61,7 @@ const PDFCard = ({ notes }) => {
                 title="Update Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-                onClick={() => toggleModal("showUploadNotesModal")}
+                onClick={() => toggleModalState("showUploadNotesModal")}
               >
                 <FilePen className="text-gray-600 w-5 h-5" />
               </Button>
@@ -64,7 +69,7 @@ const PDFCard = ({ notes }) => {
                 title="Delete Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
-                onClick={deleteModal.toggleModal}
+                onClick={toggelDeleteModal}
               >
                 <Trash2 className="text-red-600 w-5 h-5" />
               </Button>
@@ -80,7 +85,7 @@ const PDFCard = ({ notes }) => {
           />
           <Button
             variant="outline"
-            onClick={() => toggleModal("showPDF")}
+            onClick={() => toggleModalState("showPDF")}
             className="absolute w-64 h-full inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />
@@ -90,7 +95,7 @@ const PDFCard = ({ notes }) => {
               title="Update Pdf"
               variant="outline"
               className="absolute -right-1 top-3 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
-              onClick={() => toggleModal("showUpdatePdfModal")}
+              onClick={() => toggleModalState("showUpdatePdfModal")}
             >
               <Pencil className="text-gray-600 w-5 h-5" />
             </Button>
@@ -100,22 +105,18 @@ const PDFCard = ({ notes }) => {
 
       <UploadNotes
         showDialog={modalState.showUploadNotesModal}
-        setShowDialog={() => toggleModal("showUploadNotesModal")}
+        setShowDialog={() => toggleModalState("showUploadNotesModal")}
         notesInfo={notes}
         onSubmit={onNotesUpdate}
         isSubmitting={isSubmitting}
         isUpdateMode={true}
       />
 
-      <DeleteNotesModalContainer
-        showDialog={deleteModal.isOpen}
-        setShowDialog={deleteModal.toggleModal}
-        notesId={notes?._id}
-      />
+      <DeleteNotesModalContainer notesId={notes?._id} />
 
       <UpdatePdfFile
         showDialog={modalState.showUpdatePdfModal}
-        setShowDialog={() => toggleModal("showUpdatePdfModal")}
+        setShowDialog={() => toggleModalState("showUpdatePdfModal")}
         onSubmit={updatePdfFile}
         isSubmitting={isSubmitting}
       />
@@ -123,7 +124,7 @@ const PDFCard = ({ notes }) => {
       <PDFModal
         pdfUrl={pdfUrl}
         showDialog={modalState.showPDF}
-        setShowDialog={() => toggleModal("showPDF")}
+        setShowDialog={() => toggleModalState("showPDF")}
         chapterName={chapterName}
       />
 

@@ -15,15 +15,20 @@ import { AVATAR_URL } from "@/constants/constants";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AvatarUploadModalContainer from "../modals/avatarmodal/container/AvatarUploadModalContainer";
-import useModal from "@/hooks/useModal";
+import { useDispatch } from "react-redux";
+import { toggleModal } from "@/store/ModalSlice";
 
 function ProfileOverviwPanel({ userDetails }) {
-  const avatarModal = useModal();
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   function toggleSubjects() {
     setIsSubjectsOpen(!isSubjectsOpen);
   }
+
+  const toggleAvatarUploadModal = () => {
+    dispatch(toggleModal({ modalType: "avatarUploadModal" }));
+  };
 
   return (
     <aside className="w-full lg:w-1/3 lg:mt-9 relative lg:pl-8">
@@ -33,7 +38,7 @@ function ProfileOverviwPanel({ userDetails }) {
             <Button
               variant="ghost"
               className="p-0 h-auto w-full rounded-full"
-              onClick={avatarModal.toggleModal}
+              onClick={toggleAvatarUploadModal}
             >
               <Avatar className="relative w-full h-full rounded-full overflow-hidden">
                 <AvatarImage
@@ -61,8 +66,6 @@ function ProfileOverviwPanel({ userDetails }) {
         </div>
 
         <AvatarUploadModalContainer
-          showDialog={avatarModal.isOpen}
-          setShowDialog={avatarModal.toggleModal}
           avatarUrl={userDetails?.avatar?.url || AVATAR_URL}
         />
 

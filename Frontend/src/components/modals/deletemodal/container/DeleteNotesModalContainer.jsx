@@ -3,9 +3,19 @@ import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import DeleteNotesModal from "../presentation/DeleteNotesModal";
+import { useDispatch } from "react-redux";
+import { toggleModal } from "@/store/ModalSlice";
 
 function DeleteNotesModalContainer({ showDialog, setShowDialog, notesId }) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const showDeleteModal = useSelector(
+    (state) => state.modal.modals.deleteNotesModal
+  );
+  const dispatch = useDispatch();
+
+  const toggelDeleteModal = () => {
+    dispatch(toggleModal({ modalType: "deleteNotesModal" }));
+  };
 
   const onDeleteNotesHandler = async () => {
     setIsDeleting(true);
@@ -29,8 +39,8 @@ function DeleteNotesModalContainer({ showDialog, setShowDialog, notesId }) {
 
   return (
     <DeleteNotesModal
-      showDialog={showDialog}
-      setShowDialog={setShowDialog}
+      showDialog={showDeleteModal}
+      setShowDialog={toggelDeleteModal}
       isDeleting={isDeleting}
       onDeleteNotesHandler={onDeleteNotesHandler}
     />

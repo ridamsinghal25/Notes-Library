@@ -5,7 +5,7 @@ const initialState = {
     uploadNotesModal: false,
     forgotPasswordEmailModal: false,
     verificationEmailModal: false,
-    uploadAvatarModal: false,
+    avatarUploadModal: false,
     deleteNotesModal: false,
     updatePdfFileModal: false,
     showPdfModal: false,
