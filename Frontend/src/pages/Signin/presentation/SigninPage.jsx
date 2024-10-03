@@ -22,17 +22,10 @@ import { signinFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { EmailModal } from "@/components/modals/EmailModal";
 import Container from "@/components/basic/Container";
+import EmailModalContainer from "@/components/modals/emailmodal/container/EmailModalContainer";
 
-function SigninPage({
-  isSubmitting,
-  showEmailModal,
-  toggleEmailModal,
-  onSignIn,
-  onForgotPassword,
-  isSendingEmail,
-}) {
+function SigninPage({ isSubmitting, toggleEmailModal, onSignIn }) {
   const signinForm = useForm({
     resolver: zodResolver(signinFormValidation),
     defaultValues: {
@@ -94,14 +87,9 @@ function SigninPage({
                   </FormItem>
                 )}
               />
-              {showEmailModal && (
-                <EmailModal
-                  showDialog={showEmailModal}
-                  setShowDialog={toggleEmailModal}
-                  onSubmit={onForgotPassword}
-                  isSendingEmail={isSendingEmail}
-                />
-              )}
+
+              {/* Email Modal */}
+              <EmailModalContainer isPasswordUpdateMode={true} />
               <div className="w-full flex justify-end">
                 <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? (

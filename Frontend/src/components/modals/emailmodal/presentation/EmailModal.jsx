@@ -16,7 +16,7 @@ import {
 import { emailModalValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import FormFieldInput from "../basic/FormFieldInput";
+import FormFieldInput from "@/components/basic/FormFieldInput";
 
 export function EmailModal({
   showDialog,

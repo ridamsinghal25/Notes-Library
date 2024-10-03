@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import InputOTPPage from "../presentation/InputOTPPage";
+import { useDispatch } from "react-redux";
+import { toggleModal } from "@/store/ModalSlice";
 
 function InputOTPPageContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onVerifyCodeSubmit = async (data) => {
     setIsSubmitting(true);
@@ -28,37 +29,15 @@ function InputOTPPageContainer() {
     }
   };
 
-  const onResendVerificationEmail = async (data) => {
-    setIsSendingEmail(true);
-
-    const response = await AuthService.resendVerificationEmail(data);
-
-    setIsSendingEmail(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(
-        response?.message || "verification email send successfully"
-      );
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-
-    setShowEmailModal(false);
-  };
-
   const toggleEmailModal = () => {
-    setShowEmailModal(!showEmailModal);
+    dispatch(toggleModal({ modalType: "emailModal" }));
   };
 
   return (
     <InputOTPPage
       isSubmitting={isSubmitting}
-      isSendingEmail={isSendingEmail}
       onVerifyCodeSubmit={onVerifyCodeSubmit}
-      onResendVerificationEmail={onResendVerificationEmail}
-      showEmailModal={showEmailModal}
       toggleEmailModal={toggleEmailModal}
-      setShowEmailModal={setShowEmailModal}
     />
   );
 }

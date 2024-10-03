@@ -7,11 +7,10 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/AuthSlice";
 import SigninPage from "../presentation/SigninPage";
+import { toggleModal } from "@/store/ModalSlice";
 
 function SigninPageContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -36,37 +35,15 @@ function SigninPageContainer() {
     }
   };
 
-  const onForgotPassword = async (data) => {
-    setIsSendingEmail(true);
-
-    const response = await AuthService.forgotPassword(data);
-
-    setIsSendingEmail(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(
-        response?.message || "Forgot password code send successfully"
-      );
-
-      setShowEmailModal(false);
-      navigate(`${ROUTES.RESET_PASSWORD}`);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-  };
-
   const toggleEmailModal = () => {
-    setShowEmailModal(!showEmailModal);
+    dispatch(toggleModal({ modalType: "emailModal" }));
   };
 
   return (
     <SigninPage
       isSubmitting={isSubmitting}
-      showEmailModal={showEmailModal}
       toggleEmailModal={toggleEmailModal}
       onSignIn={onSignIn}
-      onForgotPassword={onForgotPassword}
-      isSendingEmail={isSendingEmail}
     />
   );
 }

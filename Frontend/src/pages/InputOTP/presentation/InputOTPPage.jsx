@@ -23,18 +23,10 @@ import {
 import { inputOTPValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { EmailModal } from "@/components/modals/EmailModal";
 import Container from "@/components/basic/Container";
+import EmailModalContainer from "@/components/modals/emailmodal/container/EmailModalContainer";
 
-function InputOTPPage({
-  isSubmitting,
-  isSendingEmail,
-  showEmailModal,
-  setShowEmailModal,
-  toggleEmailModal,
-  onResendVerificationEmail,
-  onVerifyCodeSubmit,
-}) {
+function InputOTPPage({ isSubmitting, toggleEmailModal, onVerifyCodeSubmit }) {
   const inputOTPForm = useForm({
     resolver: zodResolver(inputOTPValidation),
     defaultValues: {
@@ -48,7 +40,9 @@ function InputOTPPage({
         <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 rounded-lg shadow-md my-6 sm:my-10 dark:border-gray-500 dark:border-2">
           <Form {...inputOTPForm}>
             <form
-              onSubmit={inputOTPForm.handleSubmit(onVerifyCodeSubmit)}
+              onSubmit={inputOTPForm.handleSubmit(() =>
+                onVerifyCodeSubmit().then(() => inputOTPForm.reset())
+              )}
               className="space-y-6"
             >
               <FormField
@@ -100,12 +94,7 @@ function InputOTPPage({
               Send Verification Email
             </Button>
 
-            <EmailModal
-              showDialog={showEmailModal}
-              setShowDialog={setShowEmailModal}
-              onSubmit={onResendVerificationEmail}
-              isSendingEmail={isSendingEmail}
-            />
+            <EmailModalContainer isPasswordUpdateMode={false} />
           </div>
         </div>
       </div>
