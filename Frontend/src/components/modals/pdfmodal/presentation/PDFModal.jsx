@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+// src/components/PDFModal/presentation/PDFModalPresentation.jsx
+
+import React from "react";
+import { Document, Page } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import {
@@ -22,56 +24,23 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
-// Configure PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
-
-export default function PDFModal({
+const PDFModal = ({
   pdfUrl,
   showDialog,
   setShowDialog,
   chapterName,
-}) {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [scale, setScale] = useState(0.6);
-  const [containerWidth, setContainerWidth] = useState(0);
-
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = pdfUrl;
-    link.download = "document.pdf"; // You can set a custom name here
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  useEffect(() => {
-    const updateWidth = () => {
-      const container = document.getElementById("pdf-container");
-      if (container) {
-        setContainerWidth(container.offsetWidth);
-      }
-    };
-
-    updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
-
-  const goToPrevPage = () => setPageNumber((prev) => Math.max(prev - 1, 1));
-  const goToNextPage = () =>
-    setPageNumber((prev) => Math.min(prev + 1, numPages || 1));
-
-  const zoomIn = () => setScale((prev) => Math.min(prev + 0.1, 2));
-  const zoomOut = () => setScale((prev) => Math.max(prev - 0.1, 0.5));
-
+  numPages,
+  pageNumber,
+  scale,
+  containerWidth,
+  onDocumentLoadSuccess,
+  goToPrevPage,
+  goToNextPage,
+  zoomIn,
+  zoomOut,
+  handleDownload,
+  handlePageChange,
+}) => {
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
       <DialogContent
@@ -122,14 +91,7 @@ export default function PDFModal({
                 min={1}
                 max={numPages || 1}
                 value={pageNumber}
-                onChange={(e) =>
-                  setPageNumber(
-                    Math.min(
-                      Math.max(1, parseInt(e.target.value)),
-                      numPages || 1
-                    )
-                  )
-                }
+                onChange={handlePageChange}
                 className="w-16 text-center"
               />
               <span>of {numPages}</span>
@@ -160,4 +122,6 @@ export default function PDFModal({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default PDFModal;

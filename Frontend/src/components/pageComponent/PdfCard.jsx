@@ -13,6 +13,7 @@ import UploadNotes from "../modals/UploadNotes";
 import { usePDFCardState } from "@/hooks/usePDFCardState";
 import DeleteNotesModalContainer from "../modals/deletemodal/container/DeleteNotesModalContainer";
 import { toggleModal } from "@/store/ModalSlice";
+import PDFModalContainer from "../modals/pdfmodal/container/PDFModalContainer";
 toggleModalState;
 
 const PDFCard = ({ notes }) => {
@@ -36,6 +37,10 @@ const PDFCard = ({ notes }) => {
 
   const toggelDeleteModal = () => {
     dispatch(toggleModal({ modalType: "deleteNotesModal" }));
+  };
+
+  const togglePDFModal = () => {
+    dispatch(toggleModal({ modalType: "showPdfModal" }));
   };
 
   const isAdmin =
@@ -85,7 +90,7 @@ const PDFCard = ({ notes }) => {
           />
           <Button
             variant="outline"
-            onClick={() => toggleModalState("showPDF")}
+            onClick={togglePDFModal}
             className="absolute w-64 h-full inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />
@@ -121,12 +126,7 @@ const PDFCard = ({ notes }) => {
         isSubmitting={isSubmitting}
       />
 
-      <PDFModal
-        pdfUrl={pdfUrl}
-        showDialog={modalState.showPDF}
-        setShowDialog={() => toggleModalState("showPDF")}
-        chapterName={chapterName}
-      />
+      <PDFModalContainer pdfUrl={pdfUrl} chapterName={chapterName} />
 
       <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
         <div
