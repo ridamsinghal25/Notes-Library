@@ -36,7 +36,7 @@ function SigninPageContainer() {
   };
 
   const toggleEmailModal = () => {
-    dispatch(toggleModal({ modalType: "emailModal" }));
+    dispatch(toggleModal({ modalType: "forgotPasswordEmailModal" }));
   };
 
   return (

@@ -30,7 +30,7 @@ function InputOTPPageContainer() {
   };
 
   const toggleEmailModal = () => {
-    dispatch(toggleModal({ modalType: "emailModal" }));
+    dispatch(toggleModal({ modalType: "verificationEmailModal" }));
   };
 
   return (

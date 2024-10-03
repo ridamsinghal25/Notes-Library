@@ -10,7 +10,6 @@ const initialState = {
     updatePdfFileModal: false,
     showPdfModal: false,
     updateSemesterModal: false,
-    emailModal: false,
   },
 };
 

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -47,52 +46,14 @@ export const features = [
   },
 ];
 
-function NewFeatures() {
-  const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const userSeenFeatures =
-      JSON.parse(localStorage.getItem("userSeenFeatures")) || [];
-
-    const firstUnseenFeature = features.findIndex(
-      (feature) => !userSeenFeatures.includes(feature.id)
-    );
-
-    if (firstUnseenFeature !== -1) {
-      setCurrentFeatureIndex(firstUnseenFeature);
-      setIsModalOpen(true);
-    }
-  }, []);
-
-  const handleNextFeature = () => {
-    let userSeenFeatures =
-      JSON.parse(localStorage.getItem("userSeenFeatures")) || [];
-    const currentFeature = features[currentFeatureIndex].id;
-
-    if (!userSeenFeatures.includes(currentFeature)) {
-      userSeenFeatures.push(currentFeature);
-      localStorage.setItem(
-        "userSeenFeatures",
-        JSON.stringify(userSeenFeatures)
-      );
-    }
-
-    if (currentFeatureIndex < features.length - 1) {
-      setCurrentFeatureIndex(currentFeatureIndex + 1);
-    } else {
-      setIsModalOpen(false);
-    }
-  };
-
-  const handlePreviousFeature = () => {
-    if (currentFeatureIndex > 0) {
-      setCurrentFeatureIndex(currentFeatureIndex - 1);
-    }
-  };
-
-  const currentFeature = features[currentFeatureIndex];
-
+function NewFeaturesModal({
+  currentFeatureIndex,
+  isModalOpen,
+  setIsModalOpen,
+  currentFeature,
+  handleNextFeature,
+  handlePreviousFeature,
+}) {
   return (
     <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <AlertDialogContent className="sm:max-w-[500px] p-0 overflow-hidden">
@@ -157,4 +118,4 @@ function NewFeatures() {
   );
 }
 
-export default NewFeatures;
+export default NewFeaturesModal;

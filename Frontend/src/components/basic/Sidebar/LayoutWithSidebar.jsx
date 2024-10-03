@@ -2,14 +2,14 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import Container from "../Container";
-import NewFeatures from "../../modals/NewFeatures";
+import NewFeaturesModalContainer from "@/components/modals/newfeaturemodal/container/NewFeaturesModalContainer";
 
 function LayoutWithSidebar() {
   return (
     <div>
       <Sidebar />
       <Container>
-        <NewFeatures />
+        <NewFeaturesModalContainer />
         <main className="mx-5 mt-16 lgl:ml-[300px] lgl:mt-3">
           <div>
             <Outlet />

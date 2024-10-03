@@ -48,8 +48,12 @@ function EmailModalContainer({ isPasswordUpdateMode }) {
     }
   };
 
-  const setShowEmailModal = () => {
-    dispatch(toggleModal({ modalType: "emailModal" }));
+  const setShowPasswordEmailModal = () => {
+    dispatch(toggleModal({ modalType: "forgotPasswordEmailModal" }));
+  };
+
+  const setShowVerificationEmailModal = () => {
+    dispatch(toggleModal({ modalType: "verificationEmailModal" }));
   };
 
   return (
