@@ -13,19 +13,16 @@ import {
 } from "@/components/ui/collapsible";
 import { AVATAR_URL } from "@/constants/constants";
 import { Button } from "@/components/ui/button";
-import AvatarUpload from "@/components/modals/AvatarUpload";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import AvatarUploadModalContainer from "../modals/avatarmodal/container/AvatarUploadModalContainer";
+import useModal from "@/hooks/useModal";
 
 function ProfileOverviwPanel({ userDetails }) {
-  const [isUploadAvatarModalOpen, setIsUploadAvatarModalOpen] = useState(false);
+  const avatarModal = useModal();
   const [isSubjectsOpen, setIsSubjectsOpen] = useState(false);
 
   function toggleSubjects() {
     setIsSubjectsOpen(!isSubjectsOpen);
-  }
-
-  function toggleAvatarUploadModal() {
-    setIsUploadAvatarModalOpen(!isUploadAvatarModalOpen);
   }
 
   return (
@@ -36,7 +33,7 @@ function ProfileOverviwPanel({ userDetails }) {
             <Button
               variant="ghost"
               className="p-0 h-auto w-full rounded-full"
-              onClick={toggleAvatarUploadModal}
+              onClick={avatarModal.toggleModal}
             >
               <Avatar className="relative w-full h-full rounded-full overflow-hidden">
                 <AvatarImage
@@ -62,13 +59,13 @@ function ProfileOverviwPanel({ userDetails }) {
             </h3>
           </div>
         </div>
-        {isUploadAvatarModalOpen && (
-          <AvatarUpload
-            showDialog={isUploadAvatarModalOpen}
-            setShowDialog={setIsUploadAvatarModalOpen}
-            avatarUrl={userDetails?.avatar?.url || AVATAR_URL}
-          />
-        )}
+
+        <AvatarUploadModalContainer
+          showDialog={avatarModal.isOpen}
+          setShowDialog={avatarModal.toggleModal}
+          avatarUrl={userDetails?.avatar?.url || AVATAR_URL}
+        />
+
         <div className="mt-2 shadow-md hover:shadow-xl transition-shadow dark:border-t-2 border-t-2 dark:shadow-gray-300 duration-300 rounded-lg p-2 lg:p-6">
           <Collapsible>
             <CollapsibleTrigger className="w-full">

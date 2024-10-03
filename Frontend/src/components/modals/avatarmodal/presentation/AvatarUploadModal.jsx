@@ -1,59 +1,29 @@
-import { useState } from "react";
 import { Camera, Loader2, Plus } from "lucide-react";
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { UPLOAD_AVATAR_TEXT, UPLOAD_AVATAR_TITLE } from "@/constants/constants";
 import { FormProvider, useForm } from "react-hook-form";
-import FormFieldInput from "../basic/FormFieldInput";
+import FormFieldInput from "@/components/basic/FormFieldInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { avatarUploadValidation } from "@/validation/zodValidation";
-import AuthService from "@/services/AuthService";
-import { toast } from "react-toastify";
-import ApiError from "@/services/ApiError";
 
-function AvatarUpload({ avatarUrl, showDialog, setShowDialog }) {
-  const [dialogAvatarUrl, setDialogAvatarUrl] = useState(avatarUrl);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-
+function AvatarUploadModal({
+  dialogAvatarUrl,
+  showDialog,
+  setShowDialog,
+  isHovered,
+  setIsHovered,
+  isUploading,
+  handleFileChange,
+  onAvatarUpload,
+}) {
   const avatarForm = useForm({
     resolver: zodResolver(avatarUploadValidation),
     defaultValues: {
       avatar: null,
     },
   });
-
-  const handleFileChange = (event) => {
-    const file = event.target.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setDialogAvatarUrl(e.target?.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const onAvatarUpload = async (data) => {
-    setIsUploading(true);
-
-    const response = await AuthService.updateUserAvatar(data.avatar);
-
-    setIsUploading(false);
-
-    if (!(response instanceof ApiError)) {
-      setShowDialog(false);
-      toast.success(response?.message || "avatar updated successfully");
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-    }
-  };
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
@@ -142,4 +112,4 @@ function AvatarUpload({ avatarUrl, showDialog, setShowDialog }) {
   );
 }
 
-export default AvatarUpload;
+export default AvatarUploadModal;
