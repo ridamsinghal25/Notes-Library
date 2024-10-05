@@ -16,55 +16,20 @@ import {
 } from "@/constants/constants";
 import { updateSemesterFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { toast } from "react-toastify";
-import AuthService from "@/services/AuthService";
-import ApiError from "@/services/ApiError";
-import { useDispatch } from "react-redux";
-import { logout } from "@/store/AuthSlice";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/constants/route";
 
-export function UpdateSemester({ showDialog, setShowDialog }) {
-  const [isUpdating, setIsUpdating] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
+function UpdateSemesterModal({
+  showDialog,
+  setShowDialog,
+  isUpdating,
+  onSubmit,
+}) {
   const updateSemesterForm = useForm({
     resolver: zodResolver(updateSemesterFormValidation),
     defaultValues: {
       semester: "",
     },
   });
-
-  const onSubmit = async (data) => {
-    setIsUpdating(true);
-
-    const response = await AuthService.updateCourseByUser(data);
-
-    setIsUpdating(false);
-
-    if (!(response instanceof ApiError)) {
-      toast.success(response?.message);
-      updateSemesterForm.reset();
-
-      const LogoutResponse = await AuthService.logoutService();
-
-      if (!(LogoutResponse instanceof ApiError)) {
-        dispatch(logout());
-        navigate(`${ROUTES.SIGNIN}`);
-      } else {
-        toast.error(
-          LogoutResponse?.errorResponse?.message || LogoutResponse?.errorMessage
-        );
-      }
-    } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
-
-      updateSemesterForm.reset();
-    }
-  };
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
@@ -77,7 +42,9 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
         </DialogHeader>
         <Form {...updateSemesterForm}>
           <form
-            onSubmit={updateSemesterForm.handleSubmit(onSubmit)}
+            onSubmit={updateSemesterForm.handleSubmit(() =>
+              onSubmit().then(() => updateSemesterForm.reset())
+            )}
             className="space-y-8"
           >
             <FormFieldSelect
@@ -106,3 +73,5 @@ export function UpdateSemester({ showDialog, setShowDialog }) {
     </Dialog>
   );
 }
+
+export default UpdateSemesterModal;

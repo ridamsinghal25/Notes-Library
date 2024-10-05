@@ -15,7 +15,7 @@ import { UpdateSemester } from "@/components/modals/UpdateSemester";
 import { ACCOUNT_TEXT_CONTENT } from "@/constants/constants";
 import { useForm } from "react-hook-form";
 
-function AccountTab({ handleClick, showDialog, setShowDialog, userInfo }) {
+function AccountTab({ toggleUpdateSemesterModal, userInfo }) {
   const accountForm = useForm({
     defaultValues: {
       fullName: userInfo?.fullName || "",
@@ -82,13 +82,13 @@ function AccountTab({ handleClick, showDialog, setShowDialog, userInfo }) {
                     disabled
                   />
                 </div>
-                <Button onClick={handleClick} className="ml-4 mt-8">
+                <Button
+                  onClick={toggleUpdateSemesterModal}
+                  className="ml-4 mt-8"
+                >
                   <Upload />
                 </Button>
-                <UpdateSemester
-                  showDialog={showDialog}
-                  setShowDialog={setShowDialog}
-                />
+                <UpdateSemester />
               </div>
               <div className="w-full flex justify-end">
                 <Button className="mt-7" disabled>

@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AccountTab from "../presentation/AccountTab";
 
 function AccountTabContainer() {
-  const [showDialog, setShowDialog] = useState(false);
+  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userDetails);
 
-  function handleClick() {
-    setShowDialog(true);
-  }
+  const toggleUpdateSemesterModal = () => {
+    dispatch(toggleModal({ modalType: "updateSemesterModal" }));
+  };
+
   return (
     <AccountTab
       userInfo={userInfo}
-      handleClick={handleClick}
+      toggleUpdateSemesterModal={toggleUpdateSemesterModal}
       showDialog={showDialog}
       setShowDialog={setShowDialog}
     />
