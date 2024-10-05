@@ -18,19 +18,17 @@ import {
   updateNotesValidation,
 } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
 import FormFieldSelect from "../basic/FormFieldSelect";
 
-function UploadNotes({
+function NotesModal({
   showDialog,
   setShowDialog,
   notesInfo,
   onSubmit,
   isSubmitting,
   isUpdateMode = false,
+  userSubjects,
 }) {
-  const userSubjects = useSelector((state) => state.auth.userDetails);
-
   const currentValidationSchema = isUpdateMode
     ? updateNotesValidation
     : uploadNotesValidation;
@@ -128,4 +126,4 @@ function UploadNotes({
   );
 }
 
-export default UploadNotes;
+export default NotesModal;

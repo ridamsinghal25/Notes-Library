@@ -1,6 +1,5 @@
 import React from "react";
 import { ExternalLink, FileText, Pencil, Trash2 } from "lucide-react";
-import PDFModal from "../modals/PDFModal";
 import { FilePen } from "lucide-react";
 import { Button } from "../ui/button";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
@@ -23,15 +22,7 @@ const PDFCard = ({ notes }) => {
   const userInfo = useSelector((state) => state.auth.userDetails);
   const dispatch = useDispatch();
 
-  const {
-    isSubmitting,
-    likeState,
-    modalState,
-    toggleModal: toggleModalState,
-    handleLike,
-    updatePdfFile,
-    onNotesUpdate,
-  } = usePDFCardState(notes);
+  const { likeState, handleLike } = usePDFCardState(notes);
 
   const previewImageUrl = getPreviewImageUrl(pdfUrl);
 
@@ -45,6 +36,10 @@ const PDFCard = ({ notes }) => {
 
   const togglePdfFileModal = () => {
     dispatch(toggleModal({ modalType: "updatePdfFileModal" }));
+  };
+
+  const toggleNotesModal = () => {
+    dispatch(toggleModal({ modalType: "notesModal" }));
   };
 
   const isAdmin =
@@ -70,7 +65,7 @@ const PDFCard = ({ notes }) => {
                 title="Update Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-                onClick={() => toggleModalState("showUploadNotesModal")}
+                onClick={toggleNotesModal}
               >
                 <FilePen className="text-gray-600 w-5 h-5" />
               </Button>
@@ -112,14 +107,7 @@ const PDFCard = ({ notes }) => {
         </div>
       </div>
 
-      <UploadNotes
-        showDialog={modalState.showUploadNotesModal}
-        setShowDialog={() => toggleModalState("showUploadNotesModal")}
-        notesInfo={notes}
-        onSubmit={onNotesUpdate}
-        isSubmitting={isSubmitting}
-        isUpdateMode={true}
-      />
+      <UploadNotes notesInfo={notes} isUpdateMode={true} />
 
       <DeleteNotesModalContainer notesId={notes?._id} />
 

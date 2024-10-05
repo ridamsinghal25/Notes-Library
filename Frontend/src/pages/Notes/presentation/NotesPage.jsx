@@ -9,29 +9,17 @@ import {
 import NotesCard from "@/components/pageComponent/NotesCard";
 import { UserRolesEnum } from "@/constants/constants";
 
-function NotesPage({
-  isSubmitting,
-  showUploadModal,
-  userSubjects,
-  userRole,
-  toggleUploadModal,
-  onNotesUpload,
-}) {
+function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
   return (
     <div className="min-h-screen w-full flex flex-col">
       {userRole === UserRolesEnum.ADMIN ? (
         <>
           <div className="absolute top-4 right-4 z-10">
-            <Button onClick={toggleUploadModal}>
+            <Button onClick={toggleNotesModal}>
               <Upload />
             </Button>
           </div>
-          <UploadNotes
-            showDialog={showUploadModal}
-            setShowDialog={toggleUploadModal}
-            onSubmit={onNotesUpload}
-            isSubmitting={isSubmitting}
-          />
+          <UploadNotes />
         </>
       ) : null}
 

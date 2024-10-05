@@ -1,8 +1,8 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   modals: {
-    uploadNotesModal: false,
+    notesModal: false,
     forgotPasswordEmailModal: false,
     verificationEmailModal: false,
     avatarUploadModal: false,
