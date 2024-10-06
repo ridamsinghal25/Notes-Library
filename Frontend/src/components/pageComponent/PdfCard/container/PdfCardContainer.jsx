@@ -6,6 +6,7 @@ import { toggleModal } from "@/store/ModalSlice";
 import PDFCard from "../presentation/PdfCard";
 import LikeService from "@/services/LikeService";
 import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
 
 const PDFCardContainer = ({ notes }) => {
   const [likeState, setLikeState] = useState({
