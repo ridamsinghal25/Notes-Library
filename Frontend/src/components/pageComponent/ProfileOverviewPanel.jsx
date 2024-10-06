@@ -44,7 +44,7 @@ function ProfileOverviwPanel({ userDetails }) {
                 <AvatarImage
                   src={userDetails?.avatar?.url || AVATAR_URL}
                   alt="Profile Image"
-                  className="rounded-full hover:opacity-90 transition-opacity duration-300 object-cover w-full h-full"
+                  className="rounded-full hover:opacity-90 transition-opacity duration-300 object-cover"
                 />
                 <AvatarFallback className="dark:bg-gray-300">
                   <span className="text-black">User</span>

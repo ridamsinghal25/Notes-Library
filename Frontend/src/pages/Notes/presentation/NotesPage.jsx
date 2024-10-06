@@ -5,9 +5,9 @@ import {
   NOTES_PAGE_DESCRIPTION_TWO,
   NOTES_PAGE_HEADING,
 } from "@/constants/constants";
-import NotesCard from "@/components/pageComponent/NotesCard";
 import { UserRolesEnum } from "@/constants/constants";
 import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
+import NotesCardContainer from "@/components/pageComponent/NotesCard/container/NotesCardContainer";
 
 function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
   return (
@@ -41,7 +41,7 @@ function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
               {userSubjects?.map((subject) => {
-                return <NotesCard subject={subject} key={subject} />;
+                return <NotesCardContainer subject={subject} key={subject} />;
               })}
             </div>
           </div>
