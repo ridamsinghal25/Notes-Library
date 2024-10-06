@@ -507,6 +507,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
       },
     },
     {
+      $unwind: "$course",
+    },
+    {
       $project: {
         password: 0,
         refreshToken: 0,
