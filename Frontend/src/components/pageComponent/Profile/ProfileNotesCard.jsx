@@ -1,3 +1,4 @@
+import { AVATAR_URL } from "@/constants/constants";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { ThumbsUp } from "lucide-react";
 import React from "react";
