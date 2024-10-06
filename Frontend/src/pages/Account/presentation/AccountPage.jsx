@@ -1,13 +1,17 @@
 import AccountTabContainer from "@/components/pageComponent/AccountTab/container/AccountTabContainer";
 import PasswordTabContainer from "@/components/pageComponent/PasswordTab/container/PasswordTabContainer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ACCOUNT_TEXT_CONTENT, TABS, TITLE } from "@/constants/constants";
+import {
+  ACCOUNT_TEXT_CONTENT,
+  ACCOUNT_TITLE,
+  TABS,
+} from "@/constants/constants";
 
 function AccountPage() {
   return (
     <div className="w-full">
       <h1 className="flex items-start sm:mx-20 my-10 text-3xl font-bold text-gray-800 underline dark:text-gray-200">
-        {TITLE}
+        {ACCOUNT_TITLE}
       </h1>
       <Tabs
         defaultValue={TABS.DEFAULT_VALUE}
