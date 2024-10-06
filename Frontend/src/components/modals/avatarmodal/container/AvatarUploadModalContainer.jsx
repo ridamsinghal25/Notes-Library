@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "@/store/ModalSlice";
 
 function AvatarUploadModalContainer({ avatarUrl }) {
+  const [dialogAvatarUrl, setDialogAvatarUrl] = useState(avatarUrl);
   const [isHovered, setIsHovered] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const showAvatarUploadModal = useSelector(
@@ -55,7 +56,7 @@ function AvatarUploadModalContainer({ avatarUrl }) {
 
   return (
     <AvatarUploadModal
-      dialogAvatarUrl={avatarUrl}
+      dialogAvatarUrl={dialogAvatarUrl}
       showDialog={showAvatarUploadModal}
       setShowDialog={toggleAvatarUploadModal}
       isHovered={isHovered}

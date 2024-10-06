@@ -18,7 +18,7 @@ import {
   updateNotesValidation,
 } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormFieldSelect from "../basic/FormFieldSelect";
+import FormFieldSelect from "@/components/basic/FormFieldSelect";
 
 function NotesModal({
   showDialog,

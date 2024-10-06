@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import FormFieldInput from "@/components/basic/FormFieldInput";
-import { UpdateSemester } from "@/components/modals/UpdateSemester";
 import { ACCOUNT_TEXT_CONTENT } from "@/constants/constants";
 import { useForm } from "react-hook-form";
+import UpdateSemesterModalContainer from "@/components/modals/updatesemestermodal/container/UpdateSemesterModalContainer";
 
 function AccountTab({ toggleUpdateSemesterModal, userInfo }) {
   const accountForm = useForm({
@@ -88,7 +88,7 @@ function AccountTab({ toggleUpdateSemesterModal, userInfo }) {
                 >
                   <Upload />
                 </Button>
-                <UpdateSemester />
+                <UpdateSemesterModalContainer />
               </div>
               <div className="w-full flex justify-end">
                 <Button className="mt-7" disabled>

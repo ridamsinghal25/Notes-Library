@@ -7,13 +7,12 @@ import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
 import { useDispatch, useSelector } from "react-redux";
 import { UserRolesEnum } from "@/constants/constants";
-import { UpdatePdfFile } from "../modals/UpdatePdfFile";
-import UploadNotes from "../modals/UploadNotes";
 import { usePDFCardState } from "@/hooks/usePDFCardState";
 import DeleteNotesModalContainer from "../modals/deletemodal/container/DeleteNotesModalContainer";
 import { toggleModal } from "@/store/ModalSlice";
 import PDFModalContainer from "../modals/pdfmodal/container/PDFModalContainer";
-toggleModalState;
+import NotesModalContainer from "../modals/notesmodal/container/NotesModalContainer";
+import UpdatePdfFileModalContainer from "../modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
 
 const PDFCard = ({ notes }) => {
   const { pdf, owner, chapterName } = notes;
@@ -107,11 +106,11 @@ const PDFCard = ({ notes }) => {
         </div>
       </div>
 
-      <UploadNotes notesInfo={notes} isUpdateMode={true} />
+      <NotesModalContainer notesInfo={notes} isUpdateMode={true} />
 
       <DeleteNotesModalContainer notesId={notes?._id} />
 
-      <UpdatePdfFile notes={notes} />
+      <UpdatePdfFileModalContainer notes={notes} />
 
       <PDFModalContainer pdfUrl={pdfUrl} chapterName={chapterName} />
 

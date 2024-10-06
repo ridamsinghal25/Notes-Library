@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
-import UploadNotes from "@/components/modals/UploadNotes";
 import {
   NOTES_PAGE_DESCRIPTION_ONE,
   NOTES_PAGE_DESCRIPTION_TWO,
@@ -8,6 +7,7 @@ import {
 } from "@/constants/constants";
 import NotesCard from "@/components/pageComponent/NotesCard";
 import { UserRolesEnum } from "@/constants/constants";
+import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 
 function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
   return (
@@ -19,7 +19,7 @@ function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
               <Upload />
             </Button>
           </div>
-          <UploadNotes />
+          <NotesModalContainer />
         </>
       ) : null}
 

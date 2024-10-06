@@ -3,7 +3,7 @@ import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import DeleteNotesModal from "../presentation/DeleteNotesModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "@/store/ModalSlice";
 
 function DeleteNotesModalContainer({ showDialog, setShowDialog, notesId }) {
@@ -27,7 +27,7 @@ function DeleteNotesModalContainer({ showDialog, setShowDialog, notesId }) {
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "Notes deleted successfully");
 
-      setShowDialog();
+      toggelDeleteModal();
 
       setTimeout(() => {
         window.location.reload();

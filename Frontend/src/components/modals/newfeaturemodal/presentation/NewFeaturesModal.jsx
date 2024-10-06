@@ -7,44 +7,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  ChevronRight,
-  BugOff,
-  PartyPopper,
-  SunMoon,
-  UserCircle,
-} from "lucide-react";
-
-export const features = [
-  {
-    id: "ui_update",
-    title: "UI Update",
-    description:
-      "The user interface has been updated for a more modern and intuitive experience.",
-    icon: <PartyPopper className="h-7 w-7" />,
-  },
-  {
-    id: "dark_mode",
-    title: "Dark Mode",
-    description:
-      "Toggle between light and dark themes for comfortable viewing.",
-    icon: <SunMoon className="h-7 w-7" />,
-  },
-  {
-    id: "avatar_upload",
-    title: "Add Avatar Photo",
-    description: "Users can now upload and personalize their avatar photos.",
-    icon: <UserCircle className="h-7 w-7" />,
-  },
-  {
-    id: "bug_fixes",
-    title: "Bug Fixes",
-    description:
-      "Various bugs have been fixed to improve the overall stability and performance.",
-    icon: <BugOff className="h-7 w-7" />,
-  },
-];
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 function NewFeaturesModal({
   currentFeatureIndex,
@@ -53,6 +16,7 @@ function NewFeaturesModal({
   currentFeature,
   handleNextFeature,
   handlePreviousFeature,
+  features,
 }) {
   return (
     <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>

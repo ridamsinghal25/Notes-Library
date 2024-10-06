@@ -5,10 +5,17 @@ import { ROUTES } from "@/constants/route";
 import ApiError from "@/services/ApiError";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "@/store/ModalSlice";
+import AuthService from "@/services/AuthService";
+import { toast } from "react-toastify";
 
 function EmailModalContainer({ isPasswordUpdateMode }) {
   const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const showDialog = useSelector((state) => state.modal.modals.emailModal);
+  const showForgotPasswordEmailModal = useSelector(
+    (state) => state.modal.modals.forgotPasswordEmailModal
+  );
+  const showVerificationEmailModal = useSelector(
+    (state) => state.modal.modals.verificationEmailModal
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,7 +31,7 @@ function EmailModalContainer({ isPasswordUpdateMode }) {
         response?.message || "Forgot password code send successfully"
       );
 
-      setShowEmailModal();
+      setShowForgotPasswordEmailModal();
       navigate(`${ROUTES.RESET_PASSWORD}`);
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
@@ -42,13 +49,13 @@ function EmailModalContainer({ isPasswordUpdateMode }) {
       toast.success(
         response?.message || "verification email send successfully"
       );
-      setShowEmailModal();
+      setShowVerificationEmailModal();
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }
   };
 
-  const setShowPasswordEmailModal = () => {
+  const setShowForgotPasswordEmailModal = () => {
     dispatch(toggleModal({ modalType: "forgotPasswordEmailModal" }));
   };
 
@@ -60,15 +67,15 @@ function EmailModalContainer({ isPasswordUpdateMode }) {
     <>
       {isPasswordUpdateMode ? (
         <EmailModal
-          showDialog={showDialog}
-          setShowDialog={setShowEmailModal}
+          showDialog={showForgotPasswordEmailModal}
+          setShowDialog={setShowForgotPasswordEmailModal}
           onSubmit={onForgotPassword}
           isSendingEmail={isSendingEmail}
         />
       ) : (
         <EmailModal
-          showDialog={showDialog}
-          setShowDialog={setShowEmailModal}
+          showDialog={showVerificationEmailModal}
+          setShowDialog={setShowVerificationEmailModal}
           onSubmit={onResendVerificationEmail}
           isSendingEmail={isSendingEmail}
         />
