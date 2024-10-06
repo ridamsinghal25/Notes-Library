@@ -1,12 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import NotesModal from "../presentation/NotesModal";
 import { useState } from "react";
+import NotesService from "@/services/NotesService";
+import { toggleModal } from "@/store/ModalSlice";
+import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
 
 function NotesModalContainer({ isUpdateMode = false, notesInfo }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const showNotesModal = useSelector((state) => state.modal.modals.notesModal);
-  const userSubjects = useSelector((state) => state.auth.userDetails);
+  const userSubjects = useSelector(
+    (state) => state.auth.userDetails?.course?.subjects
+  );
 
   const toggleNotesModal = () => {
     dispatch(toggleModal({ modalType: "notesModal" }));
@@ -15,7 +21,7 @@ function NotesModalContainer({ isUpdateMode = false, notesInfo }) {
   const onNotesUpdate = async (data) => {
     setIsSubmitting(true);
 
-    const response = await NotesService.updateNotes(initialNotes?._id, data);
+    const response = await NotesService.updateNotes(notesInfo?._id, data);
 
     setIsSubmitting(false);
 

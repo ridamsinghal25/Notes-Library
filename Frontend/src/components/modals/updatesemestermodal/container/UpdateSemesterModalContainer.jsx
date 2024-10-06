@@ -15,7 +15,7 @@ function UpdateSemesterModalContainer() {
   const navigate = useNavigate();
 
   const showUpdateSemesterModal = useSelector(
-    (state) => state.modal.modals.updateSemesterModal
+    (state) => state.modal?.modals.updateSemesterModal
   );
 
   const toggleUpdateSemesterModal = () => {
@@ -44,8 +44,6 @@ function UpdateSemesterModalContainer() {
       }
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
-
-      updateSemesterForm.reset();
     }
   };
 

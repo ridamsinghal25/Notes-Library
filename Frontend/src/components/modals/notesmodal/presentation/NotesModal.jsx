@@ -76,7 +76,7 @@ function NotesModal({
               form={uploadNotesForm}
               label="Subject Name"
               name="subject"
-              values={userSubjects?.course[0]?.subjects}
+              values={userSubjects}
               placeholder="Enter the subject name"
             />
             <FormFieldInput

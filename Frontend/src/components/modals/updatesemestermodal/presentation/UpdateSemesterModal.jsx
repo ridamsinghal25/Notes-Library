@@ -42,8 +42,8 @@ function UpdateSemesterModal({
         </DialogHeader>
         <Form {...updateSemesterForm}>
           <form
-            onSubmit={updateSemesterForm.handleSubmit(() =>
-              onSubmit().then(() => updateSemesterForm.reset())
+            onSubmit={updateSemesterForm.handleSubmit((data) =>
+              onSubmit(data).then(() => updateSemesterForm.reset())
             )}
             className="space-y-8"
           >

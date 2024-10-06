@@ -3,8 +3,10 @@ import UpdatePdfFileModal from "../presentation/UpdatePdfFileModal";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toggleModal } from "@/store/ModalSlice";
+import NotesService from "@/services/NotesService";
 
-function UpdatePdfFileModalContainer(notes) {
+function UpdatePdfFileModalContainer({ notes }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const showUpdatePdfFileModal = useSelector(
@@ -27,6 +29,8 @@ function UpdatePdfFileModalContainer(notes) {
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message);
+
+      togglePdfFileModal();
 
       setTimeout(() => {
         window.location.reload();

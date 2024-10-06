@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AccountTab from "../presentation/AccountTab";
+import { toggleModal } from "@/store/ModalSlice";
 
 function AccountTabContainer() {
   const dispatch = useDispatch();
@@ -14,8 +15,6 @@ function AccountTabContainer() {
     <AccountTab
       userInfo={userInfo}
       toggleUpdateSemesterModal={toggleUpdateSemesterModal}
-      showDialog={showDialog}
-      setShowDialog={setShowDialog}
     />
   );
 }
