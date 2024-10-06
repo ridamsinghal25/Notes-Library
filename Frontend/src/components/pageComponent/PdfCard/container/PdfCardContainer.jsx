@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { useDispatch, useSelector } from "react-redux";
 import { UserRolesEnum } from "@/constants/constants";
@@ -7,8 +7,8 @@ import PDFCard from "../presentation/PdfCard";
 
 const PDFCardContainer = ({ notes }) => {
   const [likeState, setLikeState] = useState({
-    isLiked: initialNotes.isLiked,
-    count: initialNotes.likesCount,
+    isLiked: notes.isLiked,
+    count: notes.likesCount,
   });
 
   const userInfo = useSelector((state) => state.auth.userDetails);
@@ -33,7 +33,7 @@ const PDFCardContainer = ({ notes }) => {
   };
 
   const handleLike = async () => {
-    const response = await LikeService.likeOrUnlikeNotes(initialNotes?._id);
+    const response = await LikeService.likeOrUnlikeNotes(notes?._id);
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message);

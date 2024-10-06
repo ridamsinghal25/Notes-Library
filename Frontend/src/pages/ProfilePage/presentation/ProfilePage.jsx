@@ -1,9 +1,9 @@
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 import SkeletonArticleList from "@/components/basic/SkeletonArticleList";
-import ProfileNotesCard from "@/components/pageComponent/ProfileNotesCard";
-import ProfileOverviwPanel from "@/components/pageComponent/ProfileOverviewPanel";
-import ProfileNotesHeader from "@/components/pageComponent/ProfileNotesHeader";
+import ProfileNotesCard from "@/components/pageComponent/Profile/ProfileNotesCard";
+import ProfileNotesHeader from "@/components/pageComponent/Profile/ProfileNotesHeader";
+import ProfileOverviwPanelContainer from "@/components/pageComponent/Profile/ProfileOverviewPanel/container/ProfileOverviewPanelContainer";
 
 function ProfilePage({ isFetchingNotes, userNotesInfo, userDetails }) {
   return (
@@ -36,7 +36,7 @@ function ProfilePage({ isFetchingNotes, userNotesInfo, userDetails }) {
           </div>
         )}
         <div className="border-b-2 lg:border-r-2 dark:border-gray-400"></div>
-        <ProfileOverviwPanel userDetails={userDetails} />
+        <ProfileOverviwPanelContainer />
       </main>
     </div>
   );
