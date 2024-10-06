@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserRolesEnum } from "@/constants/constants";
 import { toggleModal } from "@/store/ModalSlice";
 import PDFCard from "../presentation/PdfCard";
+import LikeService from "@/services/LikeService";
+import ApiError from "@/services/ApiError";
 
 const PDFCardContainer = ({ notes }) => {
   const [likeState, setLikeState] = useState({

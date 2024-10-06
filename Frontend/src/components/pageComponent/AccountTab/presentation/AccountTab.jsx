@@ -21,8 +21,8 @@ function AccountTab({ toggleUpdateSemesterModal, userInfo }) {
       fullName: userInfo?.fullName || "",
       email: userInfo?.email || "",
       rollNumber: userInfo?.rollNumber || "",
-      courseName: userInfo?.course[0]?.courseName || "",
-      semester: userInfo?.course[0]?.semester || "",
+      courseName: userInfo?.course?.courseName || "",
+      semester: userInfo?.course?.semester || "",
     },
   });
 
