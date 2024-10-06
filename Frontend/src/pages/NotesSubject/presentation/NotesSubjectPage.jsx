@@ -1,7 +1,7 @@
-import PDFCard from "@/components/pageComponent/PdfCard";
 import { CircleAlert } from "lucide-react";
 import React from "react";
 import SkeletonUI from "@/components/basic/Skeleton";
+import PDFCardContainer from "@/components/pageComponent/PdfCard/container/PdfCardContainer";
 
 function NotesSubjectPage({ subject, notesData }) {
   return (
@@ -30,7 +30,7 @@ function NotesSubjectPage({ subject, notesData }) {
                   <div className="flex flex-col items-center gap-4">
                     <div className="flex justify-between items-start gap-4 w-full max-w-4xl">
                       <div className="flex-1">
-                        <PDFCard notes={notes} />
+                        <PDFCardContainer notes={notes} />
                       </div>
                     </div>
                   </div>

@@ -1,49 +1,27 @@
 import React from "react";
 import { ExternalLink, FileText, Pencil, Trash2 } from "lucide-react";
 import { FilePen } from "lucide-react";
-import { Button } from "../ui/button";
-import { getPreviewImageUrl } from "@/utils/getImageUrl";
+import { Button } from "@/components/ui/button";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
-import { useDispatch, useSelector } from "react-redux";
-import { UserRolesEnum } from "@/constants/constants";
-import { usePDFCardState } from "@/hooks/usePDFCardState";
-import DeleteNotesModalContainer from "../modals/deletemodal/container/DeleteNotesModalContainer";
-import { toggleModal } from "@/store/ModalSlice";
-import PDFModalContainer from "../modals/pdfmodal/container/PDFModalContainer";
-import NotesModalContainer from "../modals/notesmodal/container/NotesModalContainer";
-import UpdatePdfFileModalContainer from "../modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
+import DeleteNotesModalContainer from "@/components/modals/deletemodal/container/DeleteNotesModalContainer";
+import PDFModalContainer from "@/components/modals/pdfmodal/container/PDFModalContainer";
+import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
+import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
 
-const PDFCard = ({ notes }) => {
+const PDFCard = ({
+  notes,
+  likeState,
+  handleLike,
+  previewImageUrl,
+  toggelDeleteModal,
+  togglePDFModal,
+  togglePdfFileModal,
+  toggleNotesModal,
+  isAdmin,
+}) => {
   const { pdf, owner, chapterName } = notes;
   const pdfUrl = pdf?.url;
-
-  const userInfo = useSelector((state) => state.auth.userDetails);
-  const dispatch = useDispatch();
-
-  const { likeState, handleLike } = usePDFCardState(notes);
-
-  const previewImageUrl = getPreviewImageUrl(pdfUrl);
-
-  const toggelDeleteModal = () => {
-    dispatch(toggleModal({ modalType: "deleteNotesModal" }));
-  };
-
-  const togglePDFModal = () => {
-    dispatch(toggleModal({ modalType: "showPdfModal" }));
-  };
-
-  const togglePdfFileModal = () => {
-    dispatch(toggleModal({ modalType: "updatePdfFileModal" }));
-  };
-
-  const toggleNotesModal = () => {
-    dispatch(toggleModal({ modalType: "notesModal" }));
-  };
-
-  const isAdmin =
-    userInfo?.role === UserRolesEnum.ADMIN &&
-    userInfo?._id === notes?.createdBy;
 
   return (
     <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black">
