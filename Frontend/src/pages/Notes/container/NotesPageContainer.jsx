@@ -6,7 +6,7 @@ function NotesPageContainer() {
   const dispatch = useDispatch();
 
   const userSubjects = useSelector(
-    (state) => state.auth.userDetails?.course[0]?.subjects
+    (state) => state.auth.userDetails?.course?.subjects
   );
 
   const userRole = useSelector((state) => state.auth.userDetails?.role);

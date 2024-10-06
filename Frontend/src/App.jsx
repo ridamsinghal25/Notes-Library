@@ -24,7 +24,7 @@ const NotesSubjectPageContainer = lazy(() =>
 function App() {
   return (
     <Routes>
-      <Route element={<PageLayout />}>
+      <Route path="/" element={<PageLayout />}>
         <Route element={<ForLoggedInUsers />}>
           <Route element={<LayoutWithSidebar />}>
             <Route path={ROUTES.HOME} element={<HomePageContainer />} />
@@ -41,8 +41,7 @@ function App() {
             <Route path={ROUTES.PROFILE} element={<ProfilePageContainer />} />
           </Route>
         </Route>
-      </Route>
-      <Route element={<PageLayout />}>
+
         <Route element={<PublicRoutes />}>
           <Route path={ROUTES.OVERVIEW} element={<OverviewPageContainer />} />
           <Route path={ROUTES.SIGNUP} element={<SignupPageContainer />} />
