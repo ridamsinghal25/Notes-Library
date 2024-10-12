@@ -10,10 +10,10 @@ function ForgotPasswordPageContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const onResetPassword = (data) => {
+  const onResetPassword = async (data) => {
     setIsSubmitting(true);
 
-    const response = AuthService.resetForgottenPassword(
+    const response = await AuthService.resetForgottenPassword(
       data.resetCode,
       data.newPassword
     );

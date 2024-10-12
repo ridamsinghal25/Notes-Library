@@ -33,8 +33,8 @@ function ForgotPasswordPage({ isSubmitting, onResetPassword }) {
           </div>
           <Form {...resetPasswordForm}>
             <form
-              onSubmit={resetPasswordForm.handleSubmit(() =>
-                onResetPassword().then(() => resetPasswordForm.reset())
+              onSubmit={resetPasswordForm.handleSubmit((data) =>
+                onResetPassword(data).then(() => resetPasswordForm.reset())
               )}
               className="space-y-6"
             >
