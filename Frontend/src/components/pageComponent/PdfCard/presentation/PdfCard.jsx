@@ -18,6 +18,7 @@ const PDFCard = ({
   togglePDFModal,
   togglePdfFileModal,
   toggleNotesModal,
+  toggleModalOfPdfCard,
   isAdmin,
 }) => {
   const { pdf, owner, chapterName } = notes;
@@ -42,7 +43,7 @@ const PDFCard = ({
                 title="Update Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-                onClick={toggleNotesModal}
+                onClick={() => toggleModalOfPdfCard("notesModal", notes)}
               >
                 <FilePen className="text-gray-600 w-5 h-5" />
               </Button>
@@ -50,7 +51,7 @@ const PDFCard = ({
                 title="Delete Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
-                onClick={toggelDeleteModal}
+                onClick={() => toggleModalOfPdfCard("deleteNotesModal", notes)}
               >
                 <Trash2 className="text-red-600 w-5 h-5" />
               </Button>
@@ -66,7 +67,7 @@ const PDFCard = ({
           />
           <Button
             variant="outline"
-            onClick={togglePDFModal}
+            onClick={() => toggleModalOfPdfCard("showPdfModal")}
             className="absolute w-64 h-full inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />
@@ -76,7 +77,7 @@ const PDFCard = ({
               title="Update Pdf"
               variant="outline"
               className="absolute -right-1 top-3 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
-              onClick={togglePdfFileModal}
+              onClick={() => toggleModalOfPdfCard("updatePdfFileModal", notes)}
             >
               <Pencil className="text-gray-600 w-5 h-5" />
             </Button>
@@ -84,11 +85,11 @@ const PDFCard = ({
         </div>
       </div>
 
-      <NotesModalContainer notesInfo={notes} isUpdateMode={true} />
+      <NotesModalContainer isUpdateMode={true} />
 
-      <DeleteNotesModalContainer notesId={notes?._id} />
+      <DeleteNotesModalContainer />
 
-      <UpdatePdfFileModalContainer notes={notes} />
+      <UpdatePdfFileModalContainer />
 
       <PDFModalContainer pdfUrl={pdfUrl} chapterName={chapterName} />
 

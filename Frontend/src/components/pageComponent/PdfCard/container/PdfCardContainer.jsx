@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { useDispatch, useSelector } from "react-redux";
 import { UserRolesEnum } from "@/constants/constants";
-import { toggleModal } from "@/store/ModalSlice";
+import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
 import PDFCard from "../presentation/PdfCard";
 import LikeService from "@/services/LikeService";
 import ApiError from "@/services/ApiError";
@@ -19,20 +19,11 @@ const PDFCardContainer = ({ notes }) => {
 
   const previewImageUrl = getPreviewImageUrl(notes?.pdf?.url);
 
-  const toggelDeleteModal = () => {
-    dispatch(toggleModal({ modalType: "deleteNotesModal" }));
-  };
-
-  const togglePDFModal = () => {
-    dispatch(toggleModal({ modalType: "showPdfModal" }));
-  };
-
-  const togglePdfFileModal = () => {
-    dispatch(toggleModal({ modalType: "updatePdfFileModal" }));
-  };
-
-  const toggleNotesModal = () => {
-    dispatch(toggleModal({ modalType: "notesModal" }));
+  const toggleModalOfPdfCard = (modalType, notes) => {
+    dispatch(toggleModal({ modalType }));
+    if (notes) {
+      dispatch(setSelectedNotes(notes));
+    }
   };
 
   const handleLike = async () => {
@@ -60,10 +51,7 @@ const PDFCardContainer = ({ notes }) => {
       likeState={likeState}
       handleLike={handleLike}
       previewImageUrl={previewImageUrl}
-      toggelDeleteModal={toggelDeleteModal}
-      togglePDFModal={togglePDFModal}
-      togglePdfFileModal={togglePdfFileModal}
-      toggleNotesModal={toggleNotesModal}
+      toggleModalOfPdfCard={toggleModalOfPdfCard}
       isAdmin={isAdmin}
     />
   );

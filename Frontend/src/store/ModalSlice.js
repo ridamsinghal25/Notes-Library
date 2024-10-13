@@ -11,6 +11,7 @@ const initialState = {
     showPdfModal: false,
     updateSemesterModal: false,
   },
+  selectedNotes: {},
 };
 
 const ModalSlice = createSlice({
@@ -22,9 +23,12 @@ const ModalSlice = createSlice({
 
       state.modals[modalType] = !state.modals[modalType];
     },
+    setSelectedNotes: (state, action) => {
+      state.selectedNotes = action.payload;
+    },
   },
 });
 
-export const { toggleModal } = ModalSlice.actions;
+export const { toggleModal, setSelectedNotes } = ModalSlice.actions;
 
 export default ModalSlice.reducer;

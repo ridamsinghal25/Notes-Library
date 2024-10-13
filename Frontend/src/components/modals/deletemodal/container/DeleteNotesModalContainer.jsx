@@ -4,23 +4,25 @@ import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import DeleteNotesModal from "../presentation/DeleteNotesModal";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleModal } from "@/store/ModalSlice";
+import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
 
-function DeleteNotesModalContainer({ showDialog, setShowDialog, notesId }) {
+function DeleteNotesModalContainer() {
   const [isDeleting, setIsDeleting] = useState(false);
   const showDeleteModal = useSelector(
     (state) => state.modal.modals.deleteNotesModal
   );
+  const selectedNotes = useSelector((state) => state.modal.selectedNotes);
   const dispatch = useDispatch();
 
   const toggelDeleteModal = () => {
     dispatch(toggleModal({ modalType: "deleteNotesModal" }));
+    dispatch(setSelectedNotes({}));
   };
 
   const onDeleteNotesHandler = async () => {
     setIsDeleting(true);
 
-    const response = await NotesService.deleteNotes(notesId);
+    const response = await NotesService.deleteNotes(selectedNotes?._id);
 
     setIsDeleting(false);
 

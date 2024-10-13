@@ -19,6 +19,7 @@ import {
 } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormFieldSelect from "@/components/basic/FormFieldSelect";
+import { useEffect } from "react";
 
 function NotesModal({
   showDialog,
@@ -43,6 +44,18 @@ function NotesModal({
       owner: notesInfo?.owner || "",
     },
   });
+
+  // useEffect(() => {
+  //   if (notesInfo) {
+  //     uploadNotesForm.reset({
+  //       subject: notesInfo.subject || "",
+  //       chapterNumber: notesInfo.chapterNumber || "",
+  //       chapterName: notesInfo.chapterName || "",
+  //       pdfFile: null,
+  //       owner: notesInfo.owner || "",
+  //     });
+  //   }
+  // }, [notesInfo, uploadNotesForm]);
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
