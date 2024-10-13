@@ -43,7 +43,7 @@ notesSchema.pre("save", function (next) {
   next();
 });
 
-const getNotesModel = async () => {
+const getNotes = async () => {
   const notesLibraryConnection =
     await mongoDBManager.getNotesLibraryConnection();
 
@@ -54,4 +54,4 @@ const getNotesModel = async () => {
   return NotesModel;
 };
 
-export const getNotes = async () => await getNotesModel();
+export { getNotes };

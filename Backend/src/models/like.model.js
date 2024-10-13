@@ -12,7 +12,7 @@ const likeSchema = new mongoose.Schema({
   },
 });
 
-const getLikeModel = async () => {
+const getLike = async () => {
   const notesLibraryConnection =
     await mongoDBManager.getNotesLibraryConnection();
 
@@ -23,4 +23,4 @@ const getLikeModel = async () => {
   return LikeModel;
 };
 
-export const getLike = async () => await getLikeModel();
+export { getLike };

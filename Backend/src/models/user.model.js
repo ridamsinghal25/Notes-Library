@@ -109,7 +109,7 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-const getUserModel = async () => {
+const getUser = async () => {
   const authConnection = await mongoDBManager.getAuthConnection();
 
   const UserModel =
@@ -118,4 +118,4 @@ const getUserModel = async () => {
   return UserModel;
 };
 
-export const getUser = async () => await getUserModel();
+export { getUser };

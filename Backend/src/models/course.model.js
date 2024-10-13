@@ -25,7 +25,7 @@ const courseSchema = new mongoose.Schema({
   },
 });
 
-const getCourseModel = async () => {
+const getCourse = async () => {
   const authConnection = await mongoDBManager.getAuthConnection();
 
   const CourseModel =
@@ -35,4 +35,4 @@ const getCourseModel = async () => {
   return CourseModel;
 };
 
-export const getCourse = async () => await getCourseModel();
+export { getCourse };
