@@ -5,6 +5,7 @@ import NotesService from "@/services/NotesService";
 import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
+import { updateNotesState } from "@/store/NotesSlice";
 
 function NotesModalContainer({ isUpdateMode = false }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,7 +32,12 @@ function NotesModalContainer({ isUpdateMode = false }) {
       toast.success(response?.message);
       toggleNotesModal();
 
-      setTimeout(() => window.location.reload(), 2000);
+      dispatch(
+        updateNotesState({
+          notesId: selectedNotes?._id,
+          newNotes: response?.data,
+        })
+      );
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

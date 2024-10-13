@@ -5,6 +5,7 @@ import ApiError from "@/services/ApiError";
 import AvatarUploadModal from "../presentation/AvatarUploadModal";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "@/store/ModalSlice";
+import { updateUserDetails } from "@/store/AuthSlice";
 
 function AvatarUploadModalContainer({ avatarUrl }) {
   const [dialogAvatarUrl, setDialogAvatarUrl] = useState(avatarUrl);
@@ -46,9 +47,7 @@ function AvatarUploadModalContainer({ avatarUrl }) {
       toggleAvatarUploadModal();
       toast.success(response?.message || "avatar updated successfully");
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
+      dispatch(updateUserDetails(response?.data));
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

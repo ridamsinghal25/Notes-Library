@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
 import NotesService from "@/services/NotesService";
+import { updateNotesState } from "@/store/NotesSlice";
 
 function UpdatePdfFileModalContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,9 +35,12 @@ function UpdatePdfFileModalContainer() {
 
       togglePdfFileModal();
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      dispatch(
+        updateNotesState({
+          notesId: selectedNotes?._id,
+          newNotes: response?.data,
+        })
+      );
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

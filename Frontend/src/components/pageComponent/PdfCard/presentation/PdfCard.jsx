@@ -14,10 +14,6 @@ const PDFCard = ({
   likeState,
   handleLike,
   previewImageUrl,
-  toggelDeleteModal,
-  togglePDFModal,
-  togglePdfFileModal,
-  toggleNotesModal,
   toggleModalOfPdfCard,
   isAdmin,
 }) => {

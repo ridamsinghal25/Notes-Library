@@ -26,6 +26,22 @@ const initialState = {
 const notesSlice = createSlice({
   name: "notes",
   initialState,
+  reducers: {
+    updateNotesState: (state, action) => {
+      const { notesId, newNotes } = action.payload;
+
+      state.userNotes = state.userNotes.map((notes) =>
+        notes._id === notesId ? newNotes : notes
+      );
+    },
+    deleteNotes: (state, action) => {
+      const notesId = action.payload;
+
+      state.userNotes = state.userNotes.filter(
+        (notes) => notes._id !== notesId
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchNotes.pending, (state) => {
       state.status = "loading";
@@ -42,5 +58,7 @@ const notesSlice = createSlice({
     });
   },
 });
+
+export const { updateNotesState, deleteNotes } = notesSlice.actions;
 
 export default notesSlice.reducer;

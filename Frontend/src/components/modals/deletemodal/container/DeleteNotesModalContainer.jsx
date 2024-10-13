@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import DeleteNotesModal from "../presentation/DeleteNotesModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
+import { deleteNotes } from "@/store/NotesSlice";
 
 function DeleteNotesModalContainer() {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,9 +32,7 @@ function DeleteNotesModalContainer() {
 
       toggelDeleteModal();
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      dispatch(deleteNotes(selectedNotes?._id));
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

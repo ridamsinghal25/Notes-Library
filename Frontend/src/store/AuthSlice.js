@@ -21,8 +21,14 @@ const AuthSlice = createSlice({
       localStorage.removeItem("accessToken");
       return { ...initialState, isLogInCheckDone: true };
     },
+    updateUserDetails: (state, action) => {
+      const course = state.userDetails.course;
+
+      state.userDetails = { ...action.payload, course };
+    },
   },
 });
 
-export const { login, logout, updateLoginCheckDone } = AuthSlice.actions;
+export const { login, logout, updateLoginCheckDone, updateUserDetails } =
+  AuthSlice.actions;
 export default AuthSlice.reducer;
