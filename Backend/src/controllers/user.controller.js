@@ -167,7 +167,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const registeredUser = await User.findOne({ email }).select(
-    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken"
+    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry"
   );
 
   if (!registeredUser) {
@@ -216,7 +216,7 @@ const loginUser = asyncHandler(async (req, res) => {
   };
 
   const loggedInUser = await User.findById(user._id).select(
-    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken"
+    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry"
   );
 
   if (!loggedInUser) {
@@ -513,6 +513,10 @@ const getCurrentUser = asyncHandler(async (req, res) => {
       $project: {
         password: 0,
         refreshToken: 0,
+        emailVerificationToken: 0,
+        forgotPasswordToken: 0,
+        emailVerificationExpiry: 0,
+        forgotPasswordExpiry: 0,
       },
     },
   ]);
@@ -592,6 +596,8 @@ const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
       },
     },
     { new: true }
+  ).select(
+    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry"
   );
 
   if (!updatedUserDetails) {
@@ -668,6 +674,8 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
       },
     },
     { new: true }
+  ).select(
+    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry"
   );
 
   if (!updatedUser) {
