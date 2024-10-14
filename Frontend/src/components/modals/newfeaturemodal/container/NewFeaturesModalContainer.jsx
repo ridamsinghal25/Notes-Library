@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import NewFeaturesModal from "../presentation/NewFeaturesModal";
-import { BugOff, PartyPopper, SunMoon, UserCircle } from "lucide-react";
+import {
+  BugOff,
+  MessageSquareText,
+  PartyPopper,
+  SunMoon,
+  UserCircle,
+} from "lucide-react";
 
 const features = [
   {
@@ -29,6 +35,13 @@ const features = [
     description:
       "Various bugs have been fixed to improve the overall stability and performance.",
     icon: <BugOff className="h-7 w-7" />,
+  },
+  {
+    id: "feedback",
+    title: "Feedback",
+    description:
+      "Provide feedback on the app and improve the user experience and notes.",
+    icon: <MessageSquareText className="h-7 w-7" />,
   },
 ];
 

@@ -139,6 +139,7 @@ export const SIDEBAR_TABS = {
   NOTES: "Notes",
   HOME: "Home",
   SETTINGS: "Settings",
+  FEEDBACK: "Feedback",
 };
 
 export const PROJECT_NAME = "Notes Library";
@@ -182,3 +183,10 @@ export const UPDATE_PDF_TITLE = "Update PDF";
 
 export const UPDATE_PDF_DESCRIPTION =
   "Update your pdf here. Click update button when you're done.";
+
+/**
+ * @NotesFeedbackLink
+ */
+
+export const NOTES_FEEDBACK_LINK =
+  "https://production-notes-feedback.vercel.app/feedback/MjIwMTQxNjgwNjI";

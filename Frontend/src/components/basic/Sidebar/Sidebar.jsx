@@ -1,4 +1,10 @@
-import { CircleUserIcon, Home, NotebookPen, Settings } from "lucide-react";
+import {
+  CircleUserIcon,
+  Home,
+  MessageSquareText,
+  NotebookPen,
+  Settings,
+} from "lucide-react";
 import { useMediaQuery } from "usehooks-ts";
 import DesktopSidebar from "./DesktopSidebar";
 import MobileSidebar from "./MobileSidebar";
@@ -21,6 +27,11 @@ const sideBarItems = [
     label: `${SIDEBAR_TABS.SETTINGS}`,
     href: `${ROUTES.SETTING}`,
     icon: Settings,
+  },
+  {
+    label: `${SIDEBAR_TABS.FEEDBACK}`,
+    href: `${ROUTES.FEEDBACK}`,
+    icon: MessageSquareText,
   },
 ];
 

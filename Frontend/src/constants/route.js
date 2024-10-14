@@ -11,4 +11,5 @@ export const ROUTES = {
   NOTES_SUBJECT: "/notes/:subject",
   RESET_PASSWORD: "/reset-password",
   OVERVIEW: "/overview",
+  FEEDBACK: "/feedback",
 };
