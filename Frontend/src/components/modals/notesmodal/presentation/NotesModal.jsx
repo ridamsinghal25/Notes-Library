@@ -47,7 +47,7 @@ function NotesModal({
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
       <DialogContent
-        className="max-h-[80vh] max-w-xs sm:max-w-md overflow-y-auto [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400"
+        className="max-h-[80vh] max-w-xs sm:max-w-md rounded-lg overflow-y-auto [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400"
         hideClose
       >
         <DialogHeader className="flex flex-row justify-between items-center space-y-0">

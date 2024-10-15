@@ -22,7 +22,7 @@ function DeleteNotesModal({
 }) {
   return (
     <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-      <AlertDialogContent className="max-w-xs sm:max-w-md  [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400">
+      <AlertDialogContent className="max-w-xs sm:max-w-md rounded-lg  [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:border-gray-400">
         <AlertDialogHeader>
           <AlertDialogTitle>{DELETE_MODAL_HEADING}</AlertDialogTitle>
           <AlertDialogDescription>
