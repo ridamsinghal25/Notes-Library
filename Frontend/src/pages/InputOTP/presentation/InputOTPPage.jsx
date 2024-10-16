@@ -40,8 +40,8 @@ function InputOTPPage({ isSubmitting, toggleEmailModal, onVerifyCodeSubmit }) {
         <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 rounded-lg shadow-md my-6 sm:my-10 dark:border-gray-500 dark:border-2">
           <Form {...inputOTPForm}>
             <form
-              onSubmit={inputOTPForm.handleSubmit(() =>
-                onVerifyCodeSubmit().then(() => inputOTPForm.reset())
+              onSubmit={inputOTPForm.handleSubmit((data) =>
+                onVerifyCodeSubmit(data).then(() => inputOTPForm.reset())
               )}
               className="space-y-6"
             >
