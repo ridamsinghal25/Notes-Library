@@ -17,8 +17,7 @@ const PDFCard = ({
   toggleModalOfPdfCard,
   isAdmin,
 }) => {
-  const { pdf, owner, chapterName } = notes;
-  const pdfUrl = pdf?.url;
+  const { owner, chapterName } = notes;
 
   return (
     <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black">
@@ -63,7 +62,7 @@ const PDFCard = ({
           />
           <Button
             variant="outline"
-            onClick={() => toggleModalOfPdfCard("showPdfModal")}
+            onClick={() => toggleModalOfPdfCard("showPdfModal", notes)}
             className="absolute w-64 h-full inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />
@@ -87,7 +86,7 @@ const PDFCard = ({
 
       <UpdatePdfFileModalContainer />
 
-      <PDFModalContainer pdfUrl={pdfUrl} chapterName={chapterName} />
+      <PDFModalContainer />
 
       <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
         <div

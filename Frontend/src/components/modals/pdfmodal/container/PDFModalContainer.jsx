@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { pdfjs } from "react-pdf";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleModal } from "@/store/ModalSlice";
+import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
 import PDFModal from "../presentation/PDFModal";
 
 // Configure PDF.js worker
@@ -12,13 +12,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-const PDFModalContainer = ({ pdfUrl, chapterName }) => {
+const PDFModalContainer = () => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(0.6);
   const [containerWidth, setContainerWidth] = useState(0);
   const showPdfModal = useSelector((state) => state.modal.modals.showPdfModal);
   const dispatch = useDispatch();
+  const selectedNotes = useSelector((state) => state.modal.selectedNotes);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -45,7 +46,7 @@ const PDFModalContainer = ({ pdfUrl, chapterName }) => {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = pdfUrl;
+    link.href = selectedNotes?.pdf?.url;
     link.download = "document.pdf"; // You can set a custom name here
     document.body.appendChild(link);
     link.click();
@@ -60,14 +61,19 @@ const PDFModalContainer = ({ pdfUrl, chapterName }) => {
 
   const togglePdfModal = () => {
     dispatch(toggleModal({ modalType: "showPdfModal" }));
+    dispatch(setSelectedNotes({}));
+    setNumPages(null);
+    setPageNumber(1);
+    setScale(0.6);
+    setContainerWidth(0);
   };
 
   return (
     <PDFModal
-      pdfUrl={pdfUrl}
+      pdfUrl={selectedNotes?.pdf?.url}
       showDialog={showPdfModal}
       setShowDialog={togglePdfModal}
-      chapterName={chapterName}
+      chapterName={selectedNotes?.chapterName}
       numPages={numPages}
       pageNumber={pageNumber}
       scale={scale}
