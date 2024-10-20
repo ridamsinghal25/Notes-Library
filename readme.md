@@ -123,6 +123,8 @@ To get started with the Notes Library Project:
 5. Run the backend server
 6. Start the frontend application
 
+and much more.
+
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).
