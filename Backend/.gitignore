@@ -117,4 +117,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# ds store
+.DS_Store
+
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
