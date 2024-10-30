@@ -24,7 +24,5 @@ dist-ssr
 *.sw?
 *.env
 
-# Webviewer
-/Webviewer
 
 .DS_Store
