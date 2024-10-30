@@ -12,4 +12,5 @@ export const ROUTES = {
   RESET_PASSWORD: "/reset-password",
   OVERVIEW: "/overview",
   FEEDBACK: "/feedback",
+  PDF: "/pdf",
 };
