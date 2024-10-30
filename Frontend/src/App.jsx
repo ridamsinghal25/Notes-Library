@@ -17,6 +17,7 @@ import PageNotFoundPageContainer from "./pages/PageNotFound/container/PageNotFou
 import OverviewPageContainer from "./pages/Overview/container/OverviewPageContainer";
 import NotesPageContainer from "./pages/Notes/container/NotesPageContainer";
 import FeedbackPageContainer from "./pages/Feedback/container/FeedbackPageContainer";
+import PdfPageContainer from "./pages/PdfPage/container/PdfPageContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -41,6 +42,7 @@ function App() {
             />
             <Route path={ROUTES.PROFILE} element={<ProfilePageContainer />} />
             <Route path={ROUTES.FEEDBACK} element={<FeedbackPageContainer />} />
+            <Route path={ROUTES.PDF} element={<PdfPageContainer />} />
           </Route>
         </Route>
 

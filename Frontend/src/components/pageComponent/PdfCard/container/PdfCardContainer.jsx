@@ -7,22 +7,29 @@ import PDFCard from "../presentation/PdfCard";
 import LikeService from "@/services/LikeService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/constants/route";
 
 const PDFCardContainer = ({ notes }) => {
   const [likeState, setLikeState] = useState({
     isLiked: notes.isLiked,
     count: notes.likesCount,
   });
+  const navigate = useNavigate();
 
   const userInfo = useSelector((state) => state.auth.userDetails);
   const dispatch = useDispatch();
 
   const previewImageUrl = getPreviewImageUrl(notes?.pdf?.url);
 
-  const toggleModalOfPdfCard = (modalType, notes) => {
+  const toggleModalOfPdfCard = (modalType, notes, displayPdf) => {
     dispatch(toggleModal({ modalType }));
     if (notes) {
       dispatch(setSelectedNotes(notes));
+    }
+
+    if (displayPdf) {
+      navigate(ROUTES.PDF);
     }
   };
 
