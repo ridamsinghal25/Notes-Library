@@ -52,8 +52,6 @@ function PdfPageContainer() {
         "textPopup",
         "searchButton",
         "selectToolButton",
-        "leftPanel",
-        "leftPanelButton",
         "viewControlsButton",
       ]);
 
