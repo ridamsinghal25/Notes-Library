@@ -1,5 +1,12 @@
 import React from "react";
-import { ExternalLink, FileText, Pencil, Trash2 } from "lucide-react";
+import {
+  CircleUser,
+  ExternalLink,
+  FileText,
+  MessageSquareShare,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { FilePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
@@ -7,6 +14,8 @@ import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
 import DeleteNotesModalContainer from "@/components/modals/deletemodal/container/DeleteNotesModalContainer";
 import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
+import { Link } from "react-router-dom";
+import { NOTES_FEEDBACK_LINK } from "@/constants/constants";
 
 const PDFCard = ({
   notes,
@@ -28,7 +37,12 @@ const PDFCard = ({
               <h2 className="text-lg font-semibold text-gray-800 truncate dark:text-gray-200">
                 {chapterName}
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-200">PDF</p>
+              <div className="flex gap-1 items-end text-sm text-gray-500 dark:text-gray-200 truncate">
+                <div className="text-purple-600">
+                  <CircleUser />
+                </div>
+                <div>{owner}</div>
+              </div>
             </div>
           </div>
           {isAdmin && (
@@ -96,12 +110,11 @@ const PDFCard = ({
             {likeState.count}
           </span>
         </div>
-        <div>
-          <p className="text-sm text-gray-500  dark:text-gray-200">Owner:</p>{" "}
-          <p className="text-sm font-semibold text-black dark:text-gray-200">
-            {owner}
-          </p>
-        </div>
+        <Link to={NOTES_FEEDBACK_LINK} target="_blank">
+          <Button className="p-2" title="Feedback App">
+            <MessageSquareShare size={28} />
+          </Button>
+        </Link>
       </div>
     </div>
   );
