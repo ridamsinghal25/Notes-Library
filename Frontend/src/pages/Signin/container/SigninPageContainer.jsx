@@ -4,15 +4,18 @@ import { ROUTES } from "@/constants/route";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/AuthSlice";
 import SigninPage from "../presentation/SigninPage";
 import { toggleModal } from "@/store/ModalSlice";
+import { toggleShowPassword } from "@/store/PasswordSlice";
 
 function SigninPageContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const showPassword = useSelector((state) => state.password.showPassword);
 
   const onSignIn = async (data) => {
     setIsSubmitting(true);
@@ -39,11 +42,17 @@ function SigninPageContainer() {
     dispatch(toggleModal({ modalType: "forgotPasswordEmailModal" }));
   };
 
+  const togglePassword = () => {
+    dispatch(toggleShowPassword());
+  };
+
   return (
     <SigninPage
       isSubmitting={isSubmitting}
       toggleEmailModal={toggleEmailModal}
       onSignIn={onSignIn}
+      showPassword={showPassword}
+      togglePassword={togglePassword}
     />
   );
 }

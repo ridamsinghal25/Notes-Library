@@ -20,12 +20,18 @@ import {
 import { ROUTES } from "@/constants/route";
 import { signinFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Container from "@/components/basic/Container";
 import EmailModalContainer from "@/components/modals/emailmodal/container/EmailModalContainer";
 
-function SigninPage({ isSubmitting, toggleEmailModal, onSignIn }) {
+function SigninPage({
+  isSubmitting,
+  toggleEmailModal,
+  onSignIn,
+  showPassword,
+  togglePassword,
+}) {
   const signinForm = useForm({
     resolver: zodResolver(signinFormValidation),
     defaultValues: {
@@ -67,11 +73,28 @@ function SigninPage({ isSubmitting, toggleEmailModal, onSignIn }) {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                      />
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter your password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={togglePassword}
+                          aria-label={
+                            showPassword ? "Hide password" : "Show password"
+                          }
+                        >
+                          {showPassword ? (
+                            <EyeOff size={16} />
+                          ) : (
+                            <Eye size={16} />
+                          )}
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormDescription className="text-right">
                       <span

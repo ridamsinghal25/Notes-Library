@@ -23,7 +23,7 @@ import {
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
 import { signupFormValidation } from "@/validation/zodValidation";
-import { CircleCheck, CircleX, Loader2 } from "lucide-react";
+import { CircleCheck, CircleX, Eye, EyeOff, Loader2 } from "lucide-react";
 import Container from "@/components/basic/Container";
 
 function SignupPage({
@@ -32,6 +32,8 @@ function SignupPage({
   isCheckingRollNumber,
   isSubmitting,
   onSignUP,
+  showPassword,
+  togglePassword,
 }) {
   const signupForm = useForm({
     resolver: zodResolver(signupFormValidation),
@@ -119,13 +121,24 @@ function SignupPage({
                   </FormItem>
                 )}
               />
-              <FormFieldInput
-                form={signupForm}
-                label="Password"
-                name="password"
-                type="password"
-                placeholder="Enter your password"
-              />
+              <div className="relative">
+                <FormFieldInput
+                  form={signupForm}
+                  label="Password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="absolute right-0 top-4 h-full px-3 py-2 hover:bg-transparent"
+                  onClick={togglePassword}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </Button>
+              </div>
               <FormFieldSelect
                 form={signupForm}
                 label="Course Name"

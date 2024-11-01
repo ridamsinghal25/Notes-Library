@@ -3,6 +3,7 @@ import NotesSlice from "./NotesSlice";
 import AuthSlice from "./AuthSlice";
 import ThemeSlice from "./ThemeSlice";
 import ModalSlice from "./ModalSlice";
+import PasswordSlice from "./PasswordSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     notes: NotesSlice,
     theme: ThemeSlice,
     modal: ModalSlice,
+    password: PasswordSlice,
   },
 });
 

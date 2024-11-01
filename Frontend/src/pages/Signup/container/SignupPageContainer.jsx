@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import SignupPage from "../presentation/SignupPage";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleShowPassword } from "@/store/PasswordSlice";
 
 function SignupPageContainer() {
   const [rollNumber, setRollNumber] = useState("");
@@ -15,6 +17,9 @@ function SignupPageContainer() {
 
   const [debouncedValue] = useDebounceValue(rollNumber, 500);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const showPassword = useSelector((state) => state.password.showPassword);
 
   useEffect(() => {
     const checkRollNumberExists = async () => {
@@ -55,6 +60,10 @@ function SignupPageContainer() {
     }
   };
 
+  const togglePassword = () => {
+    dispatch(toggleShowPassword());
+  };
+
   return (
     <SignupPage
       setRollNumber={setRollNumber}
@@ -62,6 +71,8 @@ function SignupPageContainer() {
       isCheckingRollNumber={isCheckingRollNumber}
       isSubmitting={isSubmitting}
       onSignUP={onSignUP}
+      togglePassword={togglePassword}
+      showPassword={showPassword}
     />
   );
 }
