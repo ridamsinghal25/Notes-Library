@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import WebViewer from "@pdftron/pdfjs-express-viewer";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +54,10 @@ function PdfPageContainer() {
         "selectToolButton",
         "leftPanel",
         "leftPanelButton",
+        "viewControlsButton",
       ]);
+
+      inst.UI.setLayoutMode(inst.UI.LayoutMode.Single);
 
       // Remove annotation tools from the header toolbar
       inst.UI.setHeaderItems((header) => {
