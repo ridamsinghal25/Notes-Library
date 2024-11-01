@@ -51,7 +51,7 @@ export default function MobileSidebar({ sidebarMobileItems }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="icon" variant="ghost" className="fixed top-3 left-3">
+        <Button size="icon" variant="ghost" className="absolute top-5 left-5">
           <Menu size={30} />
         </Button>
       </SheetTrigger>
