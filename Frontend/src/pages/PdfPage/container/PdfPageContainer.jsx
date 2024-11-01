@@ -32,9 +32,17 @@ function PdfPageContainer() {
     ).then((inst) => {
       instance.current = inst;
 
+      // Set WebViewer to dark mode
+      inst.UI.setTheme("dark");
+
+      // Set the hand tool as the default tool
+      inst.setToolMode("Pan");
+
+      // Lazy load pages on demand
+      inst.loadDocument(pdfUrl, { onLoad: "on-demand" });
+
       // Disable annotation functionality initially
       inst.annotManager.disableAnnotations();
-      inst.setToolMode("TextSelect");
 
       // Disable annotation-related UI elements
       inst.UI.disableElements([
@@ -42,6 +50,10 @@ function PdfPageContainer() {
         "contextMenuPopup",
         "toolsButton",
         "textPopup",
+        "searchButton",
+        "selectToolButton",
+        "leftPanel",
+        "leftPanelButton",
       ]);
 
       // Remove annotation tools from the header toolbar
