@@ -23,7 +23,7 @@ import FormFieldSelect from "@/components/basic/FormFieldSelect";
 function NotesModal({
   showDialog,
   setShowDialog,
-  notesInfo,
+  selectedNotes,
   onSubmit,
   isSubmitting,
   isUpdateMode = false,
@@ -36,11 +36,11 @@ function NotesModal({
   const uploadNotesForm = useForm({
     resolver: zodResolver(currentValidationSchema),
     defaultValues: {
-      subject: notesInfo?.subject || "",
-      chapterNumber: `${notesInfo?.chapterNumber || ""}`,
-      chapterName: notesInfo?.chapterName || "",
+      subject: selectedNotes?.subject || "",
+      chapterNumber: `${selectedNotes?.chapterNumber || ""}`,
+      chapterName: selectedNotes?.chapterName || "",
       pdfFile: null,
-      owner: notesInfo?.owner || "",
+      owner: selectedNotes?.owner || "",
     },
   });
 

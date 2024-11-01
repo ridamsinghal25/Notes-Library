@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import NotesModal from "../presentation/NotesModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NotesService from "@/services/NotesService";
 import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
 import ApiError from "@/services/ApiError";
@@ -9,17 +9,12 @@ import { updateNotesState } from "@/store/NotesSlice";
 
 function NotesModalContainer({ isUpdateMode = false }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [notesState, setNotesState] = useState({});
   const dispatch = useDispatch();
   const showNotesModal = useSelector((state) => state.modal.modals.notesModal);
   const selectedNotes = useSelector((state) => state.modal.selectedNotes);
   const userSubjects = useSelector(
     (state) => state.auth.userDetails?.course?.subjects
   );
-
-  useEffect(() => {
-    setNotesState(selectedNotes);
-  }, [selectedNotes]);
 
   const toggleNotesModal = () => {
     dispatch(toggleModal({ modalType: "notesModal" }));
@@ -65,15 +60,17 @@ function NotesModalContainer({ isUpdateMode = false }) {
   return (
     <>
       {isUpdateMode ? (
-        <NotesModal
-          userSubjects={userSubjects}
-          notesInfo={notesState}
-          showDialog={showNotesModal}
-          setShowDialog={toggleNotesModal}
-          isUpdateMode={isUpdateMode}
-          isSubmitting={isSubmitting}
-          onSubmit={onNotesUpdate}
-        />
+        selectedNotes?._id && (
+          <NotesModal
+            userSubjects={userSubjects}
+            selectedNotes={selectedNotes}
+            showDialog={showNotesModal}
+            setShowDialog={toggleNotesModal}
+            isUpdateMode={isUpdateMode}
+            isSubmitting={isSubmitting}
+            onSubmit={onNotesUpdate}
+          />
+        )
       ) : (
         <NotesModal
           userSubjects={userSubjects}
