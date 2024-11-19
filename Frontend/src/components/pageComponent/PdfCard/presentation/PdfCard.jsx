@@ -3,7 +3,7 @@ import {
   CircleUser,
   ExternalLink,
   FileText,
-  MessageSquareShare,
+  MessageCircle,
   Pencil,
   Trash2,
 } from "lucide-react";
@@ -14,8 +14,7 @@ import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
 import DeleteNotesModalContainer from "@/components/modals/deletemodal/container/DeleteNotesModalContainer";
 import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
-import { Link } from "react-router-dom";
-import { NOTES_FEEDBACK_LINK } from "@/constants/constants";
+import CommentModalContainer from "@/components/modals/commentmodal/container/CommentModalContainer";
 
 const PDFCard = ({
   notes,
@@ -23,6 +22,7 @@ const PDFCard = ({
   handleLike,
   previewImageUrl,
   toggleModalOfPdfCard,
+  setShowCommentModal,
   isAdmin,
 }) => {
   const { owner, chapterName } = notes;
@@ -99,6 +99,8 @@ const PDFCard = ({
 
       <UpdatePdfFileModalContainer />
 
+      <CommentModalContainer />
+
       <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
         <div
           onClick={handleLike}
@@ -110,11 +112,10 @@ const PDFCard = ({
             {likeState.count}
           </span>
         </div>
-        <Link to={NOTES_FEEDBACK_LINK} target="_blank">
-          <Button className="p-2" title="Feedback App">
-            <MessageSquareShare size={28} />
-          </Button>
-        </Link>
+        <Button className="p-2 mr-1" onClick={() => setShowCommentModal()}>
+          <MessageCircle size={28} />
+        </Button>
+        {/* </Link> */}
       </div>
     </div>
   );

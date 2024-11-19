@@ -48,6 +48,10 @@ const PDFCardContainer = ({ notes }) => {
     }
   };
 
+  const setShowCommentModal = () => {
+    dispatch(toggleModal({ modalType: "commentModal" }));
+  };
+
   const isAdmin =
     userInfo?.role === UserRolesEnum.ADMIN &&
     userInfo?._id === notes?.createdBy;
@@ -59,6 +63,7 @@ const PDFCardContainer = ({ notes }) => {
       handleLike={handleLike}
       previewImageUrl={previewImageUrl}
       toggleModalOfPdfCard={toggleModalOfPdfCard}
+      setShowCommentModal={setShowCommentModal}
       isAdmin={isAdmin}
     />
   );
