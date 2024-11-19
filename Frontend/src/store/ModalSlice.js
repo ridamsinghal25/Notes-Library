@@ -10,6 +10,7 @@ const initialState = {
     updatePdfFileModal: false,
     showPdfModal: false,
     updateSemesterModal: false,
+    commentModal: false,
   },
   selectedNotes: {},
 };
