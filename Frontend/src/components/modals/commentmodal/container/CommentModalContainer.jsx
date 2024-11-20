@@ -89,6 +89,14 @@ function CommentModalContainer() {
     );
   };
 
+  const onCommentEdit = (id) => {
+    console.log("Comment edited:", id);
+  };
+
+  const onCommentDelete = (id) => {
+    console.log("Comment deleted:", id);
+  };
+
   const setShowCommentModal = () => {
     dispatch(toggleModal({ modalType: "commentModal" }));
   };
@@ -100,6 +108,8 @@ function CommentModalContainer() {
       comments={comments}
       onSubmit={onSubmit}
       handleLike={handleLike}
+      onCommentEdit={onCommentEdit}
+      onCommentDelete={onCommentDelete}
     />
   );
 }
