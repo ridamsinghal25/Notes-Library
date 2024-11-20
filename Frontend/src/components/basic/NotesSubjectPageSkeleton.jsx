@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 
-export default function SkeletonUI({ isCard = false }) {
+export default function NotesSubjectPageSkeleton({ isCard = false }) {
   return (
     <div className="container mx-auto py-8 px-4">
       {!isCard && <Skeleton className="h-10 w-3/4 mx-auto mb-6" />}

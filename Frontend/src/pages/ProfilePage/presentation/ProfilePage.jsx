@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import React from "react";
-import SkeletonArticleList from "@/components/basic/SkeletonArticleList";
+import ProfilePageNotesSkeleton from "@/components/basic/ProfilePageNotesSkeleton";
 import ProfileNotesCard from "@/components/pageComponent/Profile/ProfileNotesCard";
 import ProfileNotesHeader from "@/components/pageComponent/Profile/ProfileNotesHeader";
 import ProfileOverviwPanelContainer from "@/components/pageComponent/Profile/ProfileOverviewPanel/container/ProfileOverviewPanelContainer";
@@ -19,7 +19,7 @@ function ProfilePage({ isFetchingNotes, userNotesInfo, userDetails }) {
 
       <main className="container mx-auto gap-10 px-4 lg:px-16 lg:py-8 flex flex-col-reverse lg:flex-row">
         {isFetchingNotes ? (
-          <SkeletonArticleList />
+          <ProfilePageNotesSkeleton />
         ) : (
           <div className="w-full lg:w-2/3">
             <ProfileNotesHeader

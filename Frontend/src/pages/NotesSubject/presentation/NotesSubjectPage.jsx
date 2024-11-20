@@ -1,6 +1,6 @@
 import { CircleAlert } from "lucide-react";
 import React from "react";
-import SkeletonUI from "@/components/basic/Skeleton";
+import NotesSubjectPageSkeleton from "@/components/basic/NotesSubjectPageSkeleton";
 import PDFCardContainer from "@/components/pageComponent/PdfCard/container/PdfCardContainer";
 
 function NotesSubjectPage({ subject, notesData }) {
@@ -12,7 +12,7 @@ function NotesSubjectPage({ subject, notesData }) {
 
       <div className="flex flex-col items-center sm:block">
         {notesData?.status === "loading" ? (
-          <SkeletonUI isCard={true} />
+          <NotesSubjectPageSkeleton isCard={true} />
         ) : notesData?.userNotes?.length > 0 ? (
           notesData?.userNotes?.map((notes) => (
             <div key={notes._id} className="mb-8 sm:ml-8">

@@ -3,7 +3,7 @@ import NotesService from "@/services/NotesService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-function userNotesByUser() {
+function useUploadedNotesByUser() {
   const [isFetchingNotes, setIsFetchingNotes] = useState(false);
   const [userNotesInfo, setUserNotesInfo] = useState([]);
 
@@ -32,4 +32,4 @@ function userNotesByUser() {
   };
 }
 
-export default userNotesByUser;
+export default useUploadedNotesByUser;

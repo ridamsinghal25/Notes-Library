@@ -5,7 +5,7 @@ import ForLoggedInUsers from "./protectedRoutes/ForLoggedInUsers";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LayoutWithSidebar from "./components/basic/Sidebar/LayoutWithSidebar";
 import { lazy, Suspense } from "react";
-import SkeletonUI from "./components/basic/Skeleton";
+import NotesSubjectPageSkeleton from "./components/basic/NotesSubjectPageSkeleton";
 import ProfilePageContainer from "./pages/ProfilePage/container/ProfilePageContainer";
 import AccountPageContainer from "./pages/Account/container/AccountPageContainer";
 import ForgotPasswordPageContainer from "./pages/ForgotPassword/container/ForgotPasswordPageContainer";
@@ -35,7 +35,7 @@ function App() {
             <Route
               path={ROUTES.NOTES_SUBJECT}
               element={
-                <Suspense fallback={<SkeletonUI />}>
+                <Suspense fallback={<NotesSubjectPageSkeleton />}>
                   <NotesSubjectPageContainer />
                 </Suspense>
               }

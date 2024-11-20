@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function SkeletonArticleList() {
+export default function ProfilePageNotesSkeleton() {
   return (
     <div className="w-full lg:w-11/12">
       <div className="w-full flex justify-center flex-col items-center">
