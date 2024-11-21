@@ -136,7 +136,7 @@ function SignupPage({
                   onClick={togglePassword}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPassword ? <Eye size={16} /> : <EyeOff size={16} />}
                 </Button>
               </div>
               <FormFieldSelect

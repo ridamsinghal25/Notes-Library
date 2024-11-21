@@ -89,9 +89,9 @@ function SigninPage({
                           }
                         >
                           {showPassword ? (
-                            <EyeOff size={16} />
-                          ) : (
                             <Eye size={16} />
+                          ) : (
+                            <EyeOff size={16} />
                           )}
                         </Button>
                       </div>

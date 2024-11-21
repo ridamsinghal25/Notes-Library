@@ -12,7 +12,7 @@ function ForLoggedInUsers() {
 
   useEffect(() => {
     if (isLoginCheckDone && !isLoggedIn) {
-      navigate(`${ROUTES.SIGNIN}`);
+      navigate(`${ROUTES.OVERVIEW}`);
       toast.info("Please sign in again");
     }
   }, [isLoggedIn, isLoginCheckDone, navigate]);
