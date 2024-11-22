@@ -150,9 +150,20 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
       },
     },
     {
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "notesId",
+        as: "comments",
+      },
+    },
+    {
       $addFields: {
         likesCount: {
           $size: "$likes",
+        },
+        commentsCount: {
+          $size: "$comments",
         },
         isLiked: {
           $cond: {
@@ -168,6 +179,7 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
     {
       $project: {
         likes: 0,
+        comments: 0,
       },
     },
   ]);
@@ -211,9 +223,20 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
       },
     },
     {
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "notesId",
+        as: "comments",
+      },
+    },
+    {
       $addFields: {
         likesCount: {
           $size: "$likes",
+        },
+        commentsCount: {
+          $size: "$comments",
         },
         isLiked: {
           $cond: {
@@ -229,6 +252,7 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
     {
       $project: {
         likes: 0,
+        comments: 0,
       },
     },
   ]);
