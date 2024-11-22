@@ -1,6 +1,6 @@
 import { AVATAR_URL } from "@/constants/constants";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
-import { ThumbsUp } from "lucide-react";
+import { MessageCircle, ThumbsUp } from "lucide-react";
 import React from "react";
 
 function ProfileNotesCard({ notesInfo, userDetails }) {
@@ -31,6 +31,12 @@ function ProfileNotesCard({ notesInfo, userDetails }) {
               <ThumbsUp />
             </div>
             {notesInfo?.likesCount}
+          </div>
+          <div className="flex items-center gap-2 dark:text-gray-200">
+            <div>
+              <MessageCircle />
+            </div>
+            {notesInfo?.commentsCount}
           </div>
         </div>
       </div>

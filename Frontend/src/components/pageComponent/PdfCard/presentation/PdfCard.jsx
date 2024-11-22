@@ -102,20 +102,23 @@ const PDFCard = ({
       <CommentModalContainer />
 
       <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
-        <div
-          onClick={handleLike}
-          className="flex items-center gap-2 cursor-pointer"
-        >
-          {likeState.isLiked ? <ThumbsUpDark /> : <ThumbsUpLight />}
+        <div className="flex items-center gap-1 cursor-pointer">
+          <Button onClick={handleLike} className="p-2 mr-1" variant="ghost">
+            {likeState.isLiked ? <ThumbsUpDark /> : <ThumbsUpLight />}
+          </Button>
 
           <span className="bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-1 px-3 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105">
             {likeState.count}
           </span>
         </div>
-        <Button className="p-2 mr-1" onClick={() => setShowCommentModal()}>
-          <MessageCircle size={28} />
-        </Button>
-        {/* </Link> */}
+        <div className="flex items-center gap-2 ">
+          <span className="bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-1 px-3 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105">
+            {notes.commentsCount}
+          </span>
+          <Button className="p-2 mr-1" onClick={() => setShowCommentModal()}>
+            <MessageCircle size={28} />
+          </Button>
+        </div>
       </div>
     </div>
   );
