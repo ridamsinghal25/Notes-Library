@@ -60,7 +60,7 @@ router
   );
 
 router
-  .route("/get-notes")
+  .route("/get-subject-notes")
   .post(getNotesBySubjectValidator(), validate, getNotesBySubject);
 
 router.route("/get-user-notes").get(verifyJWT, getNotesUploadedByUser);

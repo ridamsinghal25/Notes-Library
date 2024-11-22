@@ -66,7 +66,9 @@ class NotesService {
   }
 
   async getNotesBySubject(subject) {
-    const apiRequest = new ApiRequest(`${this.NOTES_BASE_URL}/get-notes`);
+    const apiRequest = new ApiRequest(
+      `${this.NOTES_BASE_URL}/get-subject-notes`
+    );
 
     const response = await apiRequest.postRequest(subject);
 
