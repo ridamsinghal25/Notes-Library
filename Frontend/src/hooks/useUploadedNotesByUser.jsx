@@ -1,11 +1,14 @@
+import { UserRolesEnum } from "@/constants/constants";
 import ApiError from "@/services/ApiError";
 import NotesService from "@/services/NotesService";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 function useUploadedNotesByUser() {
   const [isFetchingNotes, setIsFetchingNotes] = useState(false);
   const [userNotesInfo, setUserNotesInfo] = useState([]);
+  const userRole = useSelector((state) => state.auth.userDetails?.role);
 
   useEffect(() => {
     const fetchUserProfileInfo = async () => {
@@ -23,7 +26,9 @@ function useUploadedNotesByUser() {
       }
     };
 
-    fetchUserProfileInfo();
+    if (userRole === UserRolesEnum.ADMIN) {
+      fetchUserProfileInfo();
+    }
   }, []);
 
   return {
