@@ -115,7 +115,10 @@ const PDFCard = ({
           <span className="bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-1 px-3 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105">
             {notes.commentsCount}
           </span>
-          <Button className="p-2 mr-1" onClick={() => setShowCommentModal()}>
+          <Button
+            className="p-2 mr-1"
+            onClick={() => setShowCommentModal(notes)}
+          >
             <MessageCircle size={28} />
           </Button>
         </div>

@@ -48,8 +48,9 @@ const PDFCardContainer = ({ notes }) => {
     }
   };
 
-  const setShowCommentModal = () => {
+  const setShowCommentModal = (notes) => {
     dispatch(toggleModal({ modalType: "commentModal" }));
+    dispatch(setSelectedNotes(notes));
   };
 
   const isAdmin =
