@@ -1,4 +1,4 @@
-import { LogOut, Menu, MoreHorizontal, X } from "lucide-react";
+import { LibraryBig, LogOut, Menu, MoreHorizontal, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -22,7 +22,11 @@ import {
   DrawerTrigger,
 } from "../../ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import { AVATAR_URL, PROJECT_NAME } from "../../../constants/constants";
+import {
+  AVATAR_URL,
+  PROJECT_NAME,
+  UserRolesEnum,
+} from "../../../constants/constants";
 import AuthService from "@/services/AuthService";
 import ApiError from "@/services/ApiError";
 import { ROUTES } from "@/constants/route";
@@ -89,6 +93,19 @@ export default function MobileSidebar({ sidebarMobileItems }) {
                   </SidebarButton>
                 </Link>
               ))}
+              {userDetails?.role === UserRolesEnum.ADMIN && (
+                <Link to={ROUTES.COURSE}>
+                  <SidebarButton
+                    variant={
+                      location.pathname === ROUTES.COURSE ? "custom" : "ghost"
+                    }
+                    Icon={LibraryBig}
+                    className="w-full"
+                  >
+                    Courses
+                  </SidebarButton>
+                </Link>
+              )}
             </div>
             <div className="absolute w-full bottom-4 px-1 left-0">
               <Separator className="absolute -top-3 left-0 w-full bg-gray-600 dark:bg-gray-400" />

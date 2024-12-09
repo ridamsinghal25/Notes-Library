@@ -1,12 +1,16 @@
 import React from "react";
 import { SidebarButton } from "./SidebarButton";
-import { LogOut, MoreHorizontal } from "lucide-react";
+import { LibraryBig, LogOut, MoreHorizontal } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Separator } from "../../ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
-import { AVATAR_URL, PROJECT_NAME } from "../../../constants/constants";
+import {
+  AVATAR_URL,
+  PROJECT_NAME,
+  UserRolesEnum,
+} from "../../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import AuthService from "@/services/AuthService";
 import { ROUTES } from "@/constants/route";
@@ -51,6 +55,19 @@ function DesktopSidebar({ sidebarDesktopItems }) {
                 </SidebarButton>
               </Link>
             ))}
+            {userDetails?.role === UserRolesEnum.ADMIN && (
+              <Link to={ROUTES.COURSE}>
+                <SidebarButton
+                  variant={
+                    location.pathname === ROUTES.COURSE ? "custom" : "ghost"
+                  }
+                  Icon={LibraryBig}
+                  className="w-full"
+                >
+                  Courses
+                </SidebarButton>
+              </Link>
+            )}
           </div>
           <div className="absolute left-0 bottom-4 w-full px-3">
             <Separator className="absolute -top-3 left-0 w-full bg-gray-600 dark:bg-gray-400" />

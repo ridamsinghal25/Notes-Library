@@ -13,4 +13,5 @@ export const ROUTES = {
   OVERVIEW: "/overview",
   FEEDBACK: "/feedback",
   PDF: "/pdf",
+  COURSE: "/course",
 };
