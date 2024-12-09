@@ -35,7 +35,7 @@ const createCourse = asyncHandler(async (req, res) => {
   const isEndDateValid = validateDate(endDate);
 
   if (new Date(startDate) > new Date(endDate)) {
-    throw new ApiError(400, "end date must be greater than start date");
+    throw new ApiError(400, "end date must be ahead than start date");
   }
 
   if (!isStartDateValid || !isEndDateValid) {
@@ -56,8 +56,8 @@ const createCourse = asyncHandler(async (req, res) => {
   const newCourse = await Course.create({
     courseName,
     semester,
-    startDate: new Date(startDate),
-    endDate: new Date(endDate),
+    startDate,
+    endDate,
     subjects,
   });
 
@@ -73,15 +73,8 @@ const createCourse = asyncHandler(async (req, res) => {
 const updateCourse = asyncHandler(async (req, res) => {
   const Course = await getCourse();
 
-  const {
-    oldCourseName,
-    oldSemester,
-    newCourseName,
-    newSemester,
-    startDate,
-    endDate,
-    subjects,
-  } = req.body;
+  const { courseId } = req.params;
+  const { courseName, semester, startDate, endDate, subjects } = req.body;
 
   const isStartDateValid = validateDate(startDate);
   const isEndDateValid = validateDate(endDate);
@@ -94,10 +87,7 @@ const updateCourse = asyncHandler(async (req, res) => {
     throw new ApiError(422, "Enter date in YYYY-MM-DD format or invalid date");
   }
 
-  const isCourseExists = await Course.findOne({
-    courseName: oldCourseName,
-    semester: oldSemester,
-  });
+  const isCourseExists = await Course.findById(courseId);
 
   if (!isCourseExists) {
     throw new ApiError(404, "course not found");
@@ -107,8 +97,8 @@ const updateCourse = asyncHandler(async (req, res) => {
     isCourseExists._id,
     {
       $set: {
-        courseName: newCourseName,
-        semester: newSemester,
+        courseName,
+        semester,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         subjects,
@@ -131,12 +121,9 @@ const updateCourse = asyncHandler(async (req, res) => {
 const deleteCourse = asyncHandler(async (req, res) => {
   const Course = await getCourse();
 
-  const { courseName, semester } = req.body;
+  const { courseId } = req.params;
 
-  const isCourseExists = await Course.findOne({
-    courseName,
-    semester,
-  });
+  const isCourseExists = await Course.findById(courseId);
 
   if (!isCourseExists) {
     throw new ApiError(404, "course not found");
@@ -155,20 +142,18 @@ const deleteCourse = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "course deleted successfully"));
 });
 
-const getCourseByName = asyncHandler(async (req, res) => {
+const getCourses = asyncHandler(async (req, res) => {
   const Course = await getCourse();
 
-  const { courseName } = req.body;
+  const courses = await Course.find();
 
-  const isCourseExists = await Course.find({ courseName });
-
-  if (!isCourseExists) {
-    throw new ApiError(404, "course not found");
+  if (!courses) {
+    throw new ApiError(404, "No course is registered");
   }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, isCourseExists, "course fetched successfully"));
+    .json(new ApiResponse(200, courses, "course fetched successfully"));
 });
 
-export { createCourse, updateCourse, deleteCourse, getCourseByName };
+export { createCourse, updateCourse, deleteCourse, getCourses };
