@@ -190,3 +190,24 @@ export const avatarUploadValidation = z.object({
       message: "File size must be less than 5MB.",
     }),
 });
+
+export const courseFormValidation = z.object({
+  courseName: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_'-]+$/,
+      "course name must contain only alphabets and , . _ - ' characters"
+    )
+    .min(1, "Course name is required")
+    .max(20, "Course name must not be more than 20 characters"),
+  semester: z
+    .string()
+    .trim()
+    .regex(/^[a-zA-Z\s]+$/, "semester must contain only alphabets")
+    .min(1, "Semester is required")
+    .max(20, "Semester must not be more than 20 characters"),
+  subjects: z.array(z.string().trim()),
+  startDate: z.string().trim().min(1, "Start date is required"),
+  endDate: z.string().trim().min(1, "End date is required"),
+});
