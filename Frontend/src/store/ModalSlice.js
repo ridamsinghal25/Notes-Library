@@ -6,13 +6,15 @@ const initialState = {
     forgotPasswordEmailModal: false,
     verificationEmailModal: false,
     avatarUploadModal: false,
-    deleteNotesModal: false,
+    deleteModal: false,
     updatePdfFileModal: false,
     showPdfModal: false,
     updateSemesterModal: false,
     commentModal: false,
+    courseModal: false,
   },
   selectedNotes: {},
+  selectedCourse: { kdjflkd: 2 },
 };
 
 const ModalSlice = createSlice({
@@ -27,9 +29,13 @@ const ModalSlice = createSlice({
     setSelectedNotes: (state, action) => {
       state.selectedNotes = action.payload;
     },
+    setSelectedCourse: (state, action) => {
+      state.selectedCourse = action.payload;
+    },
   },
 });
 
-export const { toggleModal, setSelectedNotes } = ModalSlice.actions;
+export const { toggleModal, setSelectedNotes, setSelectedCourse } =
+  ModalSlice.actions;
 
 export default ModalSlice.reducer;
