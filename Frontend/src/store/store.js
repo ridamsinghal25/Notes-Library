@@ -4,6 +4,8 @@ import AuthSlice from "./AuthSlice";
 import ThemeSlice from "./ThemeSlice";
 import ModalSlice from "./ModalSlice";
 import PasswordSlice from "./PasswordSlice";
+import CourseSlice from "./CourseSlice";
+import CommentSlice from "./CommentSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +14,8 @@ const store = configureStore({
     theme: ThemeSlice,
     modal: ModalSlice,
     password: PasswordSlice,
+    courses: CourseSlice,
+    comment: CommentSlice,
   },
 });
 
