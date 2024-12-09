@@ -28,18 +28,60 @@ const notesSlice = createSlice({
   initialState,
   reducers: {
     updateNotesState: (state, action) => {
-      const { notesId, newNotes } = action.payload;
+      const { noteId, newNotes } = action.payload;
 
-      state.userNotes = state.userNotes.map((notes) =>
-        notes._id === notesId ? newNotes : notes
+      let currentChapter = state.userNotes.find((ch) =>
+        ch.mergedNotes.some((note) => note._id === noteId)
       );
+
+      if (!currentChapter) return;
+
+      const noteIndex = currentChapter.mergedNotes.findIndex(
+        (note) => note._id === noteId
+      );
+
+      const noteToUpdate = currentChapter.mergedNotes[noteIndex];
+
+      const updatedNote = {
+        ...noteToUpdate,
+        ...newNotes,
+      };
+
+      currentChapter.mergedNotes[noteIndex] = updatedNote;
     },
     deleteNotes: (state, action) => {
-      const notesId = action.payload;
+      const noteId = action.payload;
 
-      state.userNotes = state.userNotes.filter(
-        (notes) => notes._id !== notesId
+      let currentChapter = state.userNotes.find((ch) =>
+        ch.mergedNotes.some((note) => note._id === noteId)
       );
+
+      if (!currentChapter) return;
+
+      const updatedNotes = currentChapter.mergedNotes.filter(
+        (note) => note._id !== noteId
+      );
+
+      currentChapter.mergedNotes = updatedNotes;
+    },
+    toggleLikeState: (state, action) => {
+      const { chapterNumber, subject, noteId, isLiked } = action.payload;
+
+      // Find the chapter
+      const chapter = state.userNotes.find(
+        (ch) => ch.chapterNumber === chapterNumber && ch.subject === subject
+      );
+
+      if (chapter) {
+        // Find the note in mergedNotes
+        const note = chapter.mergedNotes.find((note) => note._id === noteId);
+
+        if (note) {
+          // Update note's like state and count
+          note.isLiked = isLiked;
+          note.likesCount += isLiked ? 1 : -1;
+        }
+      }
     },
   },
   extraReducers: (builder) => {
@@ -59,6 +101,7 @@ const notesSlice = createSlice({
   },
 });
 
-export const { updateNotesState, deleteNotes } = notesSlice.actions;
+export const { updateNotesState, deleteNotes, toggleLikeState } =
+  notesSlice.actions;
 
 export default notesSlice.reducer;
