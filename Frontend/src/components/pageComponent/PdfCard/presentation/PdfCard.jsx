@@ -15,17 +15,20 @@ import DeleteModalContainer from "@/components/modals/deletemodal/container/Dele
 import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
 import CommentModalContainer from "@/components/modals/commentmodal/container/CommentModalContainer";
+import { getPreviewImageUrl } from "@/utils/getImageUrl";
+import { UserRolesEnum } from "@/constants/constants";
 
 const PDFCard = ({
   notes,
-  likeState,
   handleLike,
-  previewImageUrl,
   toggleModalOfPdfCard,
   setShowCommentModal,
-  isAdmin,
+  userInfo,
 }) => {
   const { owner, chapterName } = notes;
+  const isAdmin =
+    userInfo?.role === UserRolesEnum.ADMIN &&
+    userInfo?._id === notes?.createdBy;
 
   return (
     <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black">
@@ -69,7 +72,7 @@ const PDFCard = ({
 
         <div className="relative aspect-w-3 aspect-h-4 flex justify-center items-center">
           <img
-            src={previewImageUrl}
+            src={getPreviewImageUrl(notes.pdf.url)}
             alt="PDF Preview"
             className="object-contain w-64 h-56 rounded-lg shadow-md"
           />
@@ -103,12 +106,16 @@ const PDFCard = ({
 
       <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
         <div className="flex items-center gap-1 cursor-pointer">
-          <Button onClick={handleLike} className="p-2 mr-1" variant="ghost">
-            {likeState.isLiked ? <ThumbsUpDark /> : <ThumbsUpLight />}
+          <Button
+            onClick={() => handleLike(notes)}
+            className="p-2 mr-1"
+            variant="ghost"
+          >
+            {notes.isLiked ? <ThumbsUpDark /> : <ThumbsUpLight />}
           </Button>
 
           <span className="bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-1 px-3 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105">
-            {likeState.count}
+            {notes.likesCount}
           </span>
         </div>
         <div className="flex items-center gap-2 ">
