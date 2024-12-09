@@ -15,7 +15,7 @@ function NotesSubjectPage({ subject, notesData }) {
           <NotesSubjectPageSkeleton isCard={true} />
         ) : notesData?.userNotes?.length > 0 ? (
           notesData?.userNotes?.map((notes) => (
-            <div key={notes._id} className="mb-8 sm:ml-8">
+            <div key={notes.chapterNumber} className="mb-8 sm:ml-8">
               <div className="flex items-center mb-4 flex-col sm:flex-row justify-center sm:justify-normal">
                 <div className="bg-violet-600 text-white font-bold py-2 px-4 rounded-lg mr-4 dark:text-gray-200">
                   Unit {notes.chapterNumber}

@@ -57,6 +57,7 @@ function UpdatePdfFileModal({
               label="PDF File"
               name="pdfFile"
               type="file"
+              accept=".pdf"
               placeholder="Please select a PDF file"
               className="dark:border-gray-300"
             />

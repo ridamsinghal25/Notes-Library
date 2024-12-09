@@ -37,7 +37,7 @@ function UpdatePdfFileModalContainer() {
 
       dispatch(
         updateNotesState({
-          notesId: selectedNotes?._id,
+          noteId: selectedNotes?._id,
           newNotes: response?.data,
         })
       );
