@@ -4,16 +4,15 @@ import { validate } from "../validators/validate.js";
 import { UserRolesEnum } from "../constants.js";
 import {
   createCourseValidator,
-  deleteCourseValidator,
-  getCourseByNameValidator,
   updateCourseValidator,
 } from "../validators/course.validators.js";
 import {
   createCourse,
   deleteCourse,
-  getCourseByName,
+  getCourses,
   updateCourse,
 } from "../controllers/course.controller.js";
+import { mongoIdPathVariableValidator } from "../validators/mongodb.validators.js";
 
 const router = Router();
 
@@ -25,15 +24,18 @@ router
   .post(createCourseValidator(), validate, createCourse);
 
 router
-  .route("/update-course")
-  .patch(updateCourseValidator(), validate, updateCourse);
+  .route("/update-course/:courseId")
+  .patch(
+    mongoIdPathVariableValidator("courseId"),
+    updateCourseValidator(),
+    validate,
+    updateCourse
+  );
 
 router
-  .route("/delete-course")
-  .delete(deleteCourseValidator(), validate, deleteCourse);
+  .route("/delete-course/:courseId")
+  .delete(mongoIdPathVariableValidator("courseId"), validate, deleteCourse);
 
-router
-  .route("/get-courses")
-  .post(getCourseByNameValidator(), validate, getCourseByName);
+router.route("/get-courses").get(getCourses);
 
 export default router;

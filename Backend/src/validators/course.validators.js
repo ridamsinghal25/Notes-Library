@@ -39,19 +39,11 @@ const createCourseValidator = () => {
 
 const updateCourseValidator = () => {
   return [
-    body("oldCourseName")
-      .trim()
-      .notEmpty()
-      .withMessage("old course name is required"),
-    body("oldSemester")
-      .trim()
-      .notEmpty()
-      .withMessage("old course semester is required"),
-    body("newCourseName")
+    body("courseName")
       .trim()
       .notEmpty()
       .withMessage("new course name is required"),
-    body("newSemester")
+    body("semester")
       .trim()
       .notEmpty()
       .withMessage("new course semester is required"),
@@ -92,25 +84,4 @@ const updateCourseValidator = () => {
   ];
 };
 
-const deleteCourseValidator = () => {
-  return [
-    body("courseName").trim().notEmpty().withMessage("course name is required"),
-    body("semester")
-      .trim()
-      .notEmpty()
-      .withMessage("course semester is required"),
-  ];
-};
-
-const getCourseByNameValidator = () => {
-  return [
-    body("courseName").trim().notEmpty().withMessage("course name is required"),
-  ];
-};
-
-export {
-  createCourseValidator,
-  updateCourseValidator,
-  deleteCourseValidator,
-  getCourseByNameValidator,
-};
+export { createCourseValidator, updateCourseValidator };
