@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,24 +9,25 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Heart, MoreVertical, Pencil, Send, Trash, X } from "lucide-react";
+import { Edit, Send, Trash, X } from "lucide-react";
 import FormFieldTextarea from "@/components/basic/FormFieldTextarea";
-import { useForm } from "react-hook-form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import CommentModalSkeleton from "@/components/basic/CommentModalSkeleton";
+import { useForm } from "react-hook-form";
+import { AVATAR_URL } from "@/constants/constants";
 
 function CommentModal({
   showCommentModal,
   setShowCommentModal,
+  isSubmitting,
   comments,
-  onSubmit,
-  handleLike,
-  onCommentDelete,
-  onCommentEdit,
+  status,
+  createComment,
+  editComment,
+  editingCommentId,
+  handleCommentDelete,
+  handleCommentEdit,
+  handleCancelCommentEdit,
+  commentEditForm,
 }) {
   const commentForm = useForm({
     defaultValues: {
@@ -50,88 +49,105 @@ function CommentModal({
             </Button>
           </DialogClose>
         </DialogHeader>
-        {1 ? (
+        {status === "loading" ? (
           <CommentModalSkeleton />
         ) : (
           <div>
             <ScrollArea className="h-[400px] pr-4">
-              {comments.map((comment) => (
-                <div
-                  key={comment.id}
-                  className="mb-6 transition-all duration-300 ease-in-out"
-                >
-                  <div className="flex items-start space-x-4">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage
-                        src={`https://api.dicebear.com/6.x/initials/svg?seed=${comment.author}`}
-                      />
-                      <AvatarFallback>{comment.author[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 bg-muted p-4 rounded-lg">
-                      <div className="flex justify-between items-center w-full">
-                        <div className="font-semibold text-foreground">
-                          {comment.author}
-                        </div>
-                        <Popover>
-                          <PopoverTrigger asChild>
+              {comments?.length > 0 ? (
+                comments.map((comment) => (
+                  <div
+                    key={comment._id}
+                    className="mb-6 transition-all duration-300 ease-in-out"
+                  >
+                    <div className="flex items-start space-x-4">
+                      <Avatar className="w-10 h-10">
+                        <AvatarImage
+                          src={comment.owner.avatar.url || AVATAR_URL}
+                        />
+                        <AvatarFallback>
+                          {comment.owner.fullName}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 bg-muted p-4 rounded-lg">
+                        <div className="flex justify-between items-center w-full">
+                          <div className="font-semibold text-foreground">
+                            {comment.owner.fullName}
+                          </div>
+                          <div className="flex space-x-2">
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-8 w-8 p-0"
+                              onClick={() =>
+                                handleCommentEdit(comment._id, comment.content)
+                              }
+                              className="text-muted-foreground hover:text-primary transition-colors duration-200"
                             >
-                              <MoreVertical className="h-4 w-4" />
+                              <Edit className="w-4 h-4" />
                             </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-40">
-                            <div className="flex flex-col space-y-1">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="justify-start"
-                                onClick={() => onCommentEdit(comment.id)}
-                              >
-                                <Pencil className="mr-2 h-4 w-4" />
-                                Edit
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="justify-start"
-                                onClick={() => onCommentDelete(comment.id)}
-                              >
-                                <Trash className="mr-2 h-4 w-4" />
-                                Delete
-                              </Button>
-                            </div>
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                      <p className="text-muted-foreground mt-1">
-                        {comment.content}
-                      </p>
-                      <div className="flex items-center mt-2 space-x-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleLike(comment.id)}
-                          className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                        >
-                          <Heart
-                            className="w-4 h-4 mr-1"
-                            fill={comment.likes > 0 ? "currentColor" : "none"}
-                          />
-                          {comment.likes}
-                        </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleCommentDelete(comment._id)}
+                              className="text-muted-foreground hover:text-red-500 transition-colors duration-200"
+                            >
+                              <Trash className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                        {/* comment edit form */}
+                        {editingCommentId === comment._id ? (
+                          <Form {...commentEditForm}>
+                            <form
+                              onSubmit={commentEditForm.handleSubmit((data) =>
+                                editComment(comment._id, data)
+                              )}
+                              className="flex items-start gap-2"
+                            >
+                              <FormFieldTextarea
+                                form={commentEditForm}
+                                name="newEditedComment"
+                                className="flex-grow border-[1px] border-purple-500"
+                              />
+                              <div className="flex flex-col space-y-2 mt-2">
+                                <Button
+                                  type="submit"
+                                  size="sm"
+                                  disabled={isSubmitting}
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={handleCancelCommentEdit}
+                                >
+                                  Cancel
+                                </Button>
+                              </div>
+                            </form>
+                          </Form>
+                        ) : (
+                          <p className="text-muted-foreground mt-1">
+                            {comment.content}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="flex justify-center items-center h-full">
+                  <p className="text-foreground">No comments yet</p>
                 </div>
-              ))}
+              )}
             </ScrollArea>
+            {/* Comment Form for adding comment */}
             <Form {...commentForm}>
               <form
                 onSubmit={commentForm.handleSubmit((data) =>
-                  onSubmit(data).then(() => commentForm.reset())
+                  createComment(data).then(() => commentForm.reset())
                 )}
                 className="mt-4"
               >
@@ -144,7 +160,12 @@ function CommentModal({
                       className="border-[1px] border-black"
                     />
                   </div>
-                  <Button type="submit" size="icon" className="shrink-0">
+                  <Button
+                    type="submit"
+                    size="icon"
+                    className="shrink-0"
+                    disabled={isSubmitting}
+                  >
                     <Send className="w-4 h-4" />
                   </Button>
                 </div>
