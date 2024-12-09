@@ -2,28 +2,39 @@ import { useState } from "react";
 import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
-import DeleteNotesModal from "../presentation/DeleteNotesModal";
+import DeleteModal from "../presentation/DeleteModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
 import { deleteNotes } from "@/store/NotesSlice";
+import CourseService from "@/services/CourseService";
+import { deleteCourse } from "@/store/CourseSlice";
 
-function DeleteNotesModalContainer() {
+function DeleteModalContainer() {
   const [isDeleting, setIsDeleting] = useState(false);
   const showDeleteModal = useSelector(
-    (state) => state.modal.modals.deleteNotesModal
+    (state) => state.modal.modals.deleteModal
   );
   const selectedNotes = useSelector((state) => state.modal.selectedNotes);
+  const selectedCourse = useSelector((state) => state.modal.selectedCourse);
   const dispatch = useDispatch();
 
   const toggelDeleteModal = () => {
-    dispatch(toggleModal({ modalType: "deleteNotesModal" }));
+    dispatch(toggleModal({ modalType: "deleteModal" }));
     dispatch(setSelectedNotes({}));
   };
 
-  const onDeleteNotesHandler = async () => {
+  const onDeleteHandler = async () => {
     setIsDeleting(true);
+    let response;
 
-    const response = await NotesService.deleteNotes(selectedNotes?._id);
+    if (selectedNotes?._id) {
+      response = await NotesService.deleteNotes(selectedNotes?._id);
+    } else if (selectedCourse?._id) {
+      response = await CourseService.deleteCourse(selectedCourse?._id);
+    } else {
+      toast.error("Something went wrong");
+      return;
+    }
 
     setIsDeleting(false);
 
@@ -32,20 +43,24 @@ function DeleteNotesModalContainer() {
 
       toggelDeleteModal();
 
-      dispatch(deleteNotes(selectedNotes?._id));
+      if (selectedNotes?._id) {
+        dispatch(deleteNotes(selectedNotes?._id));
+      } else if (selectedCourse?._id) {
+        dispatch(deleteCourse(selectedCourse?._id));
+      }
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }
   };
 
   return (
-    <DeleteNotesModal
+    <DeleteModal
       showDialog={showDeleteModal}
       setShowDialog={toggelDeleteModal}
       isDeleting={isDeleting}
-      onDeleteNotesHandler={onDeleteNotesHandler}
+      onDeleteHandler={onDeleteHandler}
     />
   );
 }
 
-export default DeleteNotesModalContainer;
+export default DeleteModalContainer;

@@ -14,11 +14,11 @@ import {
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-function DeleteNotesModal({
+function DeleteModal({
   showDialog,
   setShowDialog,
   isDeleting,
-  onDeleteNotesHandler,
+  onDeleteHandler,
 }) {
   return (
     <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
@@ -36,7 +36,7 @@ function DeleteNotesModal({
           <Button
             className="bg-red-400 hover:bg-red-600 flex-1 mt-2 sm:mt-0 sm:flex-none"
             disabled={isDeleting}
-            onClick={onDeleteNotesHandler}
+            onClick={onDeleteHandler}
           >
             {isDeleting ? (
               <>
@@ -53,4 +53,4 @@ function DeleteNotesModal({
   );
 }
 
-export default DeleteNotesModal;
+export default DeleteModal;

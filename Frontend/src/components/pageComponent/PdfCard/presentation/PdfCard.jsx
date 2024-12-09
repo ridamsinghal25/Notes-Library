@@ -11,7 +11,7 @@ import { FilePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
-import DeleteNotesModalContainer from "@/components/modals/deletemodal/container/DeleteNotesModalContainer";
+import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
 import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
 import CommentModalContainer from "@/components/modals/commentmodal/container/CommentModalContainer";
@@ -59,7 +59,7 @@ const PDFCard = ({
                 title="Delete Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
-                onClick={() => toggleModalOfPdfCard("deleteNotesModal", notes)}
+                onClick={() => toggleModalOfPdfCard("deleteModal", notes)}
               >
                 <Trash2 className="text-red-600 w-5 h-5" />
               </Button>
@@ -95,7 +95,7 @@ const PDFCard = ({
 
       <NotesModalContainer isUpdateMode={true} />
 
-      <DeleteNotesModalContainer />
+      <DeleteModalContainer />
 
       <UpdatePdfFileModalContainer />
 
