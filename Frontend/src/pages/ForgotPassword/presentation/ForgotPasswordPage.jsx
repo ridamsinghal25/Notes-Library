@@ -1,18 +1,31 @@
 import React from "react";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import {
   FORGOT_PASSWORD_DESCRIPTION,
   FORGOT_PASSWORD_TITLE,
 } from "@/constants/constants";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Container from "@/components/basic/Container";
 import { resetPasswordFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
 
-function ForgotPasswordPage({ isSubmitting, onResetPassword }) {
+function ForgotPasswordPage({
+  isSubmitting,
+  onResetPassword,
+  showPassword,
+  togglePassword,
+}) {
   const resetPasswordForm = useForm({
     resolver: zodResolver(resetPasswordFormValidation),
     defaultValues: {
@@ -44,12 +57,45 @@ function ForgotPasswordPage({ isSubmitting, onResetPassword }) {
                 name="resetCode"
                 placeholder="Enter your reset code"
               />
-              <FormFieldInput
-                form={resetPasswordForm}
-                label="Password"
-                type="password"
+              <FormField
+                control={resetPasswordForm.control}
                 name="newPassword"
-                placeholder="Enter your password"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel
+                      className={fieldState.error && "dark:text-red-500"}
+                    >
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter your password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={togglePassword}
+                          aria-label={
+                            showPassword ? "Hide password" : "Show password"
+                          }
+                        >
+                          {showPassword ? (
+                            <Eye size={16} />
+                          ) : (
+                            <EyeOff size={16} />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage
+                      className={fieldState.error && "dark:text-red-500"}
+                    />
+                  </FormItem>
+                )}
               />
               <div className="w-full flex justify-end">
                 <Button type="submit" disabled={isSubmitting}>
