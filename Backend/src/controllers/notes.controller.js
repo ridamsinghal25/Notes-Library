@@ -200,9 +200,36 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
       );
   }
 
+  let notesMap = new Map();
+
+  notes.forEach((note) => {
+    const key = `${note.chapterNumber}-${note.subject}`;
+
+    if (!notesMap.has(key)) {
+      // Create a new entry in the map
+      notesMap.set(key, {
+        chapterNumber: note.chapterNumber,
+        subject: note.subject,
+        mergedNotes: [note],
+      });
+    } else {
+      // Update the existing entry
+      const entry = notesMap.get(key);
+
+      // Avoid duplicates in mergedNotes
+      if (
+        !entry.mergedNotes.some((existingNote) => existingNote._id === note._id)
+      ) {
+        entry.mergedNotes.push(note);
+      }
+    }
+  });
+
+  const newNotes = Array.from(notesMap.values());
+
   return res
     .status(200)
-    .json(new ApiResponse(200, notes, "notes fetched successfully"));
+    .json(new ApiResponse(200, newNotes, "notes fetched successfully"));
 });
 
 const getNotesUploadedByUser = asyncHandler(async (req, res) => {
