@@ -12,15 +12,17 @@ export default function Course({
 }) {
   return (
     <div className="container mx-auto p-6 space-y-8">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-5 sm:gap-0 sm:flex-row justify-between items-center">
         <h1 className="text-3xl font-bold">Course Management</h1>
-        <Button
-          onClick={toggleCourseModal}
-          className="flex items-center space-x-2"
-        >
-          <PlusCircle className="w-5 h-5" />
-          <span>Add New Course</span>
-        </Button>
+        <div className="flex justify-start w-full sm:w-auto sm:justify-normal">
+          <Button
+            onClick={toggleCourseModal}
+            className="flex items-center space-x-2"
+          >
+            <PlusCircle className="w-5 h-5" />
+            <span>Add New Course</span>
+          </Button>
+        </div>
       </div>
 
       <CourseModalContainer />

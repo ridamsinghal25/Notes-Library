@@ -14,7 +14,7 @@ const initialState = {
     courseModal: false,
   },
   selectedNotes: {},
-  selectedCourse: { kdjflkd: 2 },
+  selectedCourse: {},
 };
 
 const ModalSlice = createSlice({
