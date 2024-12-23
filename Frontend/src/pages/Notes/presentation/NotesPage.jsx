@@ -14,7 +14,7 @@ function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
     <div className="min-h-screen w-full flex flex-col">
       {userRole === UserRolesEnum.ADMIN ? (
         <>
-          <div className="absolute top-4 right-4 z-10">
+          <div className="fixed top-4 right-4">
             <Button onClick={toggleNotesModal}>
               <Upload />
             </Button>
