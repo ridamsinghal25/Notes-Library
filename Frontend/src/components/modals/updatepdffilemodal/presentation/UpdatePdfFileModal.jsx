@@ -59,7 +59,7 @@ function UpdatePdfFileModal({
               type="file"
               accept=".pdf"
               placeholder="Please select a PDF file"
-              className="dark:border-gray-300"
+              className="dark:bg-gray-300 dark:text-black"
             />
             <div className="w-full flex justify-end">
               <Button type="submit" disabled={isSubmitting}>

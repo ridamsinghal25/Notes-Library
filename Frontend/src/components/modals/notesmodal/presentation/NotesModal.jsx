@@ -99,6 +99,7 @@ function NotesModal({
                 placeholder="Upload your notes"
                 type="file"
                 accept=".pdf"
+                className="dark:bg-gray-300 dark:text-black"
               />
             )}
             <FormFieldInput
