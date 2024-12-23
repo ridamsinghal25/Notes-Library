@@ -72,8 +72,8 @@ function OverviewPage() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="text-black dark:text-white" />
-          <CarouselNext className="text-black dark:text-white" />
+          <CarouselPrevious className="text-black dark:text-white hidden sm:block" />
+          <CarouselNext className="text-black dark:text-white hidden sm:block" />
         </Carousel>
 
         <div className="flex flex-col items-center w-full max-w-sm gap-4">
