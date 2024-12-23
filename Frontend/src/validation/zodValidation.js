@@ -211,3 +211,19 @@ export const courseFormValidation = z.object({
   startDate: z.string().trim().min(1, "Start date is required"),
   endDate: z.string().trim().min(1, "End date is required"),
 });
+
+export const commentFormValidation = z.object({
+  comment: z
+    .string()
+    .trim()
+    .min(1, "Comment is required")
+    .max(200, "Comment must not be more than 200 characters"),
+});
+
+export const editCommentFormValidation = z.object({
+  newEditedComment: z
+    .string()
+    .trim()
+    .min(1, "Comment is required")
+    .max(200, "Comment must not be more than 200 characters"),
+});

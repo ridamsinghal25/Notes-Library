@@ -8,6 +8,8 @@ import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { fetchComments, updateComment } from "@/store/CommentSlice";
 import { addComment, deleteComment } from "@/store/CommentSlice";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { editCommentFormValidation } from "@/validation/zodValidation";
 
 function CommentModalContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,6 +32,7 @@ function CommentModalContainer() {
   }, [dispatch, selectedNotes]);
 
   const commentEditForm = useForm({
+    resolver: zodResolver(editCommentFormValidation),
     defaultValues: {
       newEditedComment: "",
     },

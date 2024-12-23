@@ -14,6 +14,8 @@ import FormFieldTextarea from "@/components/basic/FormFieldTextarea";
 import CommentModalSkeleton from "@/components/basic/CommentModalSkeleton";
 import { useForm } from "react-hook-form";
 import { AVATAR_URL } from "@/constants/constants";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { commentFormValidation } from "@/validation/zodValidation";
 
 function CommentModal({
   showCommentModal,
@@ -30,6 +32,7 @@ function CommentModal({
   commentEditForm,
 }) {
   const commentForm = useForm({
+    resolver: zodResolver(commentFormValidation),
     defaultValues: {
       comment: "",
     },
