@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CourseModalContainer from "@/components/modals/coursemodal/container/CourseModalContainer";
 import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
 import { BookOpen, Calendar, GraduationCap, PlusCircle } from "lucide-react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export default function Course({
   courses,
@@ -12,6 +13,13 @@ export default function Course({
 }) {
   return (
     <div className="container mx-auto p-6 space-y-8">
+      <HelmetProvider>
+        <Helmet>
+          <title>Course</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a course page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="flex flex-col gap-5 sm:gap-0 sm:flex-row justify-between items-center">
         <h1 className="text-3xl font-bold">Course Management</h1>
         <div className="flex justify-start w-full sm:w-auto sm:justify-normal">

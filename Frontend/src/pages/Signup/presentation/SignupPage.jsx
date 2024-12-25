@@ -25,6 +25,7 @@ import { ROUTES } from "@/constants/route";
 import { signupFormValidation } from "@/validation/zodValidation";
 import { CircleCheck, CircleX, Eye, EyeOff, Loader2 } from "lucide-react";
 import Container from "@/components/basic/Container";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function SignupPage({
   setRollNumber,
@@ -49,6 +50,13 @@ function SignupPage({
 
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>Sign Up</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a signup page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="flex justify-center items-center min-h-screen mx-4">
         <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 rounded-lg shadow-md my-6 sm:my-10 dark:border-gray-500 dark:border-2">
           <div className="text-center dark:text-gray-200">

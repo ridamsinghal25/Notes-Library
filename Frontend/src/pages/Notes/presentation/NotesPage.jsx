@@ -8,10 +8,18 @@ import {
 import { UserRolesEnum } from "@/constants/constants";
 import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 import NotesCardContainer from "@/components/pageComponent/NotesCard/container/NotesCardContainer";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
   return (
     <div className="min-h-screen w-full flex flex-col">
+      <HelmetProvider>
+        <Helmet>
+          <title>Notes</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a notes page" />
+        </Helmet>
+      </HelmetProvider>
       {userRole === UserRolesEnum.ADMIN ? (
         <>
           <div className="fixed top-4 right-4">

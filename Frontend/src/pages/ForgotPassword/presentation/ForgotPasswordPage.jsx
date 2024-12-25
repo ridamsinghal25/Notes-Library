@@ -19,6 +19,7 @@ import { resetPasswordFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function ForgotPasswordPage({
   isSubmitting,
@@ -36,6 +37,13 @@ function ForgotPasswordPage({
 
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>Forgot Password</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a forgot password page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="flex justify-center items-center min-h-screen mx-4">
         <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 rounded-lg shadow-md my-6 sm:my-10 dark:border-gray-500 dark:border-2">
           <div className="text-center dark:text-gray-200">

@@ -3,9 +3,18 @@ import React from "react";
 import NotesSubjectPageSkeleton from "@/components/basic/NotesSubjectPageSkeleton";
 import PDFCardContainer from "@/components/pageComponent/PdfCard/container/PdfCardContainer";
 
+import { Helmet, HelmetProvider } from "react-helmet-async";
+
 function NotesSubjectPage({ subject, notesData }) {
   return (
     <div className="container mx-auto py-8 px-4">
+      <HelmetProvider>
+        <Helmet>
+          <title>Notes Subject</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a notes subject page" />
+        </Helmet>
+      </HelmetProvider>
       <h1 className="text-3xl font-bold mb-6 text-center dark:text-gray-200">
         Notes for the {subject.subject}
       </h1>

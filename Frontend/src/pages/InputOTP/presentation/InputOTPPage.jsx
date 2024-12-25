@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Container from "@/components/basic/Container";
 import EmailModalContainer from "@/components/modals/emailmodal/container/EmailModalContainer";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function InputOTPPage({ isSubmitting, toggleEmailModal, onVerifyCodeSubmit }) {
   const inputOTPForm = useForm({
@@ -36,6 +37,13 @@ function InputOTPPage({ isSubmitting, toggleEmailModal, onVerifyCodeSubmit }) {
 
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>OTP Verification</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a otp verification page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="flex justify-center items-center min-h-screen">
         <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 rounded-lg shadow-md my-6 sm:my-10 dark:border-gray-500 dark:border-2">
           <Form {...inputOTPForm}>

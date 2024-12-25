@@ -1,10 +1,18 @@
 import Container from "@/components/basic/Container";
 import React from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Link } from "react-router-dom";
 
 function PageNotFoundPage() {
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>Not Found</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a not found page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="flex flex-col items-center justify-center h-screen dark:text-gray-200">
         <h1 className="text-6xl font-bold">404</h1>
         <p className="mt-4 text-2xl">Oops! Page Not Found</p>

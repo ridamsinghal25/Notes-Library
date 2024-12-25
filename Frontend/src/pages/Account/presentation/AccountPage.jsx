@@ -6,10 +6,18 @@ import {
   ACCOUNT_TITLE,
   TABS,
 } from "@/constants/constants";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function AccountPage() {
   return (
     <div className="w-full">
+      <HelmetProvider>
+        <Helmet>
+          <title>Account</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a account page" />
+        </Helmet>
+      </HelmetProvider>
       <h1 className="flex items-start sm:mx-20 my-10 text-3xl font-bold text-gray-800 underline dark:text-gray-200">
         {ACCOUNT_TITLE}
       </h1>

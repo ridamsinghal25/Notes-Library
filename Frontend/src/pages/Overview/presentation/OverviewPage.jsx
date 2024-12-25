@@ -19,10 +19,18 @@ import { ROUTES } from "@/constants/route";
 import Container from "@/components/basic/Container";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 import image from "@/assets/overview-image.jpg";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function OverviewPage() {
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>Notes Library</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a notes library page" />
+        </Helmet>
+      </HelmetProvider>
       <nav className="p-4 md:p-6 shadow-md dark:shadow-gray-600 dark:bg-gray-900 text-gray-800 dark:text-white">
         <div className="container mx-auto flex items-center justify-between">
           <div>

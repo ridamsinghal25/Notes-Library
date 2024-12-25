@@ -2,11 +2,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { NOTES_FEEDBACK_LINK } from "@/constants/constants";
 import { ArrowRight, MessageSquare, UserCheck, ThumbsUp } from "lucide-react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+
 import { Link } from "react-router-dom";
 
 function FeedbackPage() {
   return (
     <div className="min-h-screen">
+      <HelmetProvider>
+        <Helmet>
+          <title>Feedback</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a feedback page" />
+        </Helmet>
+      </HelmetProvider>
       <main className="container mx-auto px-4 py-16 space-y-16">
         <section className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">

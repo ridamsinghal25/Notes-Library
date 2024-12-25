@@ -24,6 +24,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Container from "@/components/basic/Container";
 import EmailModalContainer from "@/components/modals/emailmodal/container/EmailModalContainer";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function SigninPage({
   isSubmitting,
@@ -43,6 +44,13 @@ function SigninPage({
 
   return (
     <Container>
+      <HelmetProvider>
+        <Helmet>
+          <title>Sign In</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a signin page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="flex justify-center items-center min-h-screen mx-4">
         <div className="w-full max-w-md p-6 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 rounded-lg shadow-md my-6 sm:my-10 dark:border-gray-500 dark:border-2">
           <div className="text-center dark:text-gray-200">

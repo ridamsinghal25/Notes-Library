@@ -6,10 +6,18 @@ import { ROUTES } from "@/constants/route";
 import notebookLogo from "@/assets/notebook.svg";
 import notebookLight from "@/assets/notebook-light.svg";
 import { ModeToggle } from "@/components/theme/ModeToggle";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function HomePage({ typeElement, theme }) {
   return (
     <div className="relative min-h-screen">
+      <HelmetProvider>
+        <Helmet>
+          <title>Home</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a home page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="absolute top-4 right-4 -mt-16 lg:mt-0">
         <ModeToggle />
       </div>
