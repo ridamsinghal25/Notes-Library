@@ -14,6 +14,7 @@ import { editCommentFormValidation } from "@/validation/zodValidation";
 function CommentModalContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
+  const userId = useSelector((state) => state.auth.userDetails._id);
   const dispatch = useDispatch();
 
   const showCommentDialog = useSelector(
@@ -120,6 +121,7 @@ function CommentModalContainer() {
       handleCommentDelete={handleCommentDelete}
       handleCancelCommentEdit={handleCancelCommentEdit}
       commentEditForm={commentEditForm}
+      userId={userId}
     />
   );
 }

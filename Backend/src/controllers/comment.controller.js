@@ -123,7 +123,9 @@ const getComments = asyncHandler(async (req, res) => {
   const comments = await Comment.find({ notesId });
 
   const ownerIds = comments.map((comment) => comment.owner);
-  const users = await User.find({ _id: { $in: ownerIds } });
+  const users = await User.find({ _id: { $in: ownerIds } }).select(
+    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry"
+  );
 
   const userMap = users.reduce((map, user) => {
     map[user._id] = user;

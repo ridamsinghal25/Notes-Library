@@ -30,6 +30,7 @@ function CommentModal({
   handleCommentEdit,
   handleCancelCommentEdit,
   commentEditForm,
+  userId,
 }) {
   const commentForm = useForm({
     resolver: zodResolver(commentFormValidation),
@@ -77,26 +78,32 @@ function CommentModal({
                           <div className="font-semibold text-foreground">
                             {comment.owner.fullName}
                           </div>
-                          <div className="flex space-x-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() =>
-                                handleCommentEdit(comment._id, comment.content)
-                              }
-                              className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                            >
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleCommentDelete(comment._id)}
-                              className="text-muted-foreground hover:text-red-500 transition-colors duration-200"
-                            >
-                              <Trash className="w-4 h-4" />
-                            </Button>
-                          </div>
+
+                          {comment.owner._id === userId && (
+                            <div className="flex space-x-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                  handleCommentEdit(
+                                    comment._id,
+                                    comment.content
+                                  )
+                                }
+                                className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleCommentDelete(comment._id)}
+                                className="text-muted-foreground hover:text-red-500 transition-colors duration-200"
+                              >
+                                <Trash className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          )}
                         </div>
                         {/* comment edit form */}
                         {editingCommentId === comment._id ? (
