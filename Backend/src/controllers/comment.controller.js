@@ -8,10 +8,14 @@ import { getUser } from "../models/user.model.js";
 const createComment = asyncHandler(async (req, res) => {
   const Comment = await getComment();
   const Notes = await getNotes();
-  const User = await getUser();
+  const user = req?.user;
 
   const { notesId } = req.params;
   const { content } = req.body;
+
+  if (!user) {
+    throw new ApiError(404, "user does not exists");
+  }
 
   const notesExists = await Notes.findById(notesId);
 
@@ -21,18 +25,12 @@ const createComment = asyncHandler(async (req, res) => {
 
   const newComment = await Comment.create({
     content,
-    owner: req.user?._id,
+    owner: user?._id,
     notesId,
   });
 
-  if (!newComment) {
+  if (!newComment._id) {
     throw new ApiError(500, "failed to create comment");
-  }
-
-  const user = await User.findById(req.user?._id);
-
-  if (!user) {
-    throw new ApiError(404, "user does not exists");
   }
 
   newComment.owner = user;
@@ -44,29 +42,31 @@ const createComment = asyncHandler(async (req, res) => {
 
 const editComment = asyncHandler(async (req, res) => {
   const Comment = await getComment();
-  const User = await getUser();
+  const user = req?.user;
 
   const { commentId } = req.params;
   const { content } = req.body;
 
-  const updatedComment = await Comment.findByIdAndUpdate(
-    commentId,
-    {
-      $set: {
-        content,
-      },
-    },
-    { new: true }
-  );
-
-  if (!updatedComment) {
-    throw new ApiError(500, "This comment does not exists");
-  }
-
-  const user = await User.findById(req.user?._id);
-
   if (!user) {
     throw new ApiError(404, "user does not exists");
+  }
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment._id) {
+    throw new ApiError(404, "comment does not exists");
+  }
+
+  if (comment.owner.toString() !== user._id.toString()) {
+    throw new ApiError(403, "You are not allowed to edit this comment");
+  }
+
+  comment.content = content;
+
+  const updatedComment = await comment.save();
+
+  if (!updatedComment._id) {
+    throw new ApiError(500, "failed to update comment");
   }
 
   updatedComment.owner = user;
@@ -78,13 +78,28 @@ const editComment = asyncHandler(async (req, res) => {
 
 const deleteComment = asyncHandler(async (req, res) => {
   const Comment = await getComment();
+  const user = req?.user;
 
   const { commentId } = req.params;
 
-  const deletedComment = await Comment.findByIdAndDelete(commentId);
+  if (!user) {
+    throw new ApiError(404, "user does not exists");
+  }
 
-  if (!deletedComment) {
-    throw new ApiError(500, "This comment does not exists");
+  const comment = await Comment.findById(commentId);
+
+  if (!comment._id) {
+    throw new ApiError(404, "comment does not exists");
+  }
+
+  if (comment.owner.toString() !== user._id.toString()) {
+    throw new ApiError(403, "You are not allowed to delete this comment");
+  }
+
+  const deletedComment = await comment.deleteOne();
+
+  if (!deletedComment.deletedCount) {
+    throw new ApiError(500, "Failed to delete comment");
   }
 
   return res
