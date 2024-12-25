@@ -64,6 +64,7 @@ const uploadNotes = asyncHandler(async (req, res) => {
 const updateNotesDetails = asyncHandler(async (req, res) => {
   const Course = await getCourse();
   const Notes = await getNotes();
+  const user = req?.user;
 
   const { notesId } = req.params;
   const { chapterNumber, chapterName, subject, owner } = req.body;
@@ -71,29 +72,31 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.user?.course);
 
   if (!course) {
-    throw new ApiError(404, "course does not exists");
+    throw new ApiError(404, "Course does not exists");
   }
 
   if (!course.subjects.includes(subject)) {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
-  const newNotes = await Notes.findByIdAndUpdate(
-    notesId,
-    {
-      $set: {
-        chapterName,
-        chapterNumber,
-        subject,
-        owner,
-        course: req?.user?.course,
-        createdBy: req.user._id,
-      },
-    },
-    { new: true }
-  );
+  const notes = await Notes.findById(notesId);
 
-  if (!newNotes) {
+  if (!notes) {
+    throw new ApiError(404, "Notes does not exists");
+  }
+
+  if (notes.createdBy.toString() !== user._id.toString()) {
+    throw new ApiError(403, "You are not allowed to update this notes");
+  }
+
+  notes.chapterName = chapterName;
+  notes.chapterNumber = chapterNumber;
+  notes.subject = subject;
+  notes.owner = owner;
+
+  const newNotes = await notes.save();
+
+  if (!newNotes._id) {
     throw new ApiError(500, "Failed to update notes details");
   }
 
@@ -104,6 +107,7 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
 
 const deleteNotes = await asyncHandler(async (req, res) => {
   const Notes = await getNotes();
+  const user = req?.user;
 
   const { notesId } = req.params;
 
@@ -113,15 +117,19 @@ const deleteNotes = await asyncHandler(async (req, res) => {
     throw new ApiError(404, "notes not found");
   }
 
+  if (notesExists.createdBy.toString() !== user._id.toString()) {
+    throw new ApiError(403, "You are not allowed to delete this notes");
+  }
+
   const deleteNotesPdf = await deleteFromCloudinary(notesExists?.pdf.public_id);
 
   if (!deleteNotesPdf || deleteNotesPdf.result === "not found") {
     throw new ApiError(500, "Failed to delete notes PDF");
   }
 
-  const deleteNotes = await Notes.findByIdAndDelete(notesId);
+  const deleteNotes = await notesExists.deleteOne();
 
-  if (!deleteNotes) {
+  if (!deleteNotes.deletedCount) {
     throw new ApiError(500, "Failed to delete notes");
   }
 
@@ -301,6 +309,7 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
 
 const updateNotesPdfFile = asyncHandler(async (req, res) => {
   const Notes = await getNotes();
+  const user = req?.user;
 
   const { notesId } = req.params;
 
@@ -314,6 +323,10 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
 
   if (!notes) {
     throw new ApiError(404, "notes does not exists");
+  }
+
+  if (notes.createdBy.toString() !== user._id.toString()) {
+    throw new ApiError(403, "You are not allowed to update this notes");
   }
 
   const deleteOldNotesPdf = await deleteFromCloudinary(notes?.pdf?.public_id);
@@ -330,20 +343,14 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to upload pdf file");
   }
 
-  const newNotes = await Notes.findByIdAndUpdate(
-    notesId,
-    {
-      $set: {
-        pdf: {
-          public_id: uploadNewPdfFile.public_id,
-          url: uploadNewPdfFile.secure_url,
-        },
-      },
-    },
-    { new: true }
-  );
+  notes.pdf = {
+    public_id: uploadNewPdfFile.public_id,
+    url: uploadNewPdfFile.secure_url,
+  };
 
-  if (!newNotes) {
+  const newNotes = await notes.save();
+
+  if (!newNotes._id) {
     throw new ApiError(500, "Failed to update notes");
   }
 
