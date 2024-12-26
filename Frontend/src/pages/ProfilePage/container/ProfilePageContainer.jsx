@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 function ProfilePageContainer() {
   const dispatch = useDispatch();
-  const { isFetchingNotes, userNotesInfo } = useUploadedNotesByUser();
   const userDetails = useSelector((state) => state.auth.userDetails);
 
   const toggleAvatarUploadModal = () => {
@@ -14,8 +13,6 @@ function ProfilePageContainer() {
 
   return (
     <ProfilePage
-      isFetchingNotes={isFetchingNotes}
-      userNotesInfo={userNotesInfo}
       userDetails={userDetails}
       toggleAvatarUploadModal={toggleAvatarUploadModal}
     />
