@@ -6,6 +6,7 @@ import ModalSlice from "./ModalSlice";
 import PasswordSlice from "./PasswordSlice";
 import CourseSlice from "./CourseSlice";
 import CommentSlice from "./CommentSlice";
+import ProfileSlice from "./ProfileSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     password: PasswordSlice,
     courses: CourseSlice,
     comment: CommentSlice,
+    profile: ProfileSlice,
   },
 });
 
