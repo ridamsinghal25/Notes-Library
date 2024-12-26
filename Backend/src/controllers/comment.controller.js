@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { getComment } from "../models/comment.model.js";
 import { getNotes } from "../models/notes.model.js";
 import { getUser } from "../models/user.model.js";
+import mongoose from "mongoose";
 
 const createComment = asyncHandler(async (req, res) => {
   const Comment = await getComment();
@@ -148,4 +149,53 @@ const getComments = asyncHandler(async (req, res) => {
     );
 });
 
-export { createComment, editComment, deleteComment, getComments };
+const getCommentsByUser = asyncHandler(async (req, res) => {
+  const Comment = await getComment();
+
+  const comments = await Comment.aggregate([
+    {
+      $match: {
+        owner: new mongoose.Types.ObjectId(`${req.user?._id}`),
+      },
+    },
+    {
+      $lookup: {
+        from: "notes",
+        localField: "notesId",
+        foreignField: "_id",
+        as: "notes",
+      },
+    },
+    {
+      $unwind: "$notes",
+    },
+    {
+      $set: {
+        owner: req.user,
+      },
+    },
+    {
+      $project: {
+        content: 1,
+        "owner.fullName": 1,
+        "owner.role": 1,
+        "owner.avatar": 1,
+        "notes.subject": 1,
+        "notes.chapterName": 1,
+        "notes.pdf": 1,
+      },
+    },
+  ]);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, comments, "comments fetched successfully"));
+});
+
+export {
+  createComment,
+  editComment,
+  deleteComment,
+  getComments,
+  getCommentsByUser,
+};

@@ -8,6 +8,7 @@ import {
   deleteComment,
   editComment,
   getComments,
+  getCommentsByUser,
 } from "../controllers/comment.controller.js";
 
 const router = Router();
@@ -39,5 +40,7 @@ router
 router
   .route("/get-comments/:notesId")
   .get(mongoIdPathVariableValidator("notesId"), validate, getComments);
+
+router.route("/get-user-comments").get(getCommentsByUser);
 
 export default router;
