@@ -1,17 +1,19 @@
 import { UserRolesEnum } from "@/constants/constants";
 import ApiError from "@/services/ApiError";
 import NotesService from "@/services/NotesService";
+import { setNotes } from "@/store/ProfileSlice";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 function useUploadedNotesByUser() {
   const [isFetchingNotes, setIsFetchingNotes] = useState(false);
-  const [userNotesInfo, setUserNotesInfo] = useState([]);
+  const dispatch = useDispatch();
   const userRole = useSelector((state) => state.auth.userDetails?.role);
+  const userNotesInfo = useSelector((state) => state.profile?.notes);
 
   useEffect(() => {
-    const fetchUserProfileInfo = async () => {
+    const fetchNotesUploadedByUser = async () => {
       setIsFetchingNotes(true);
 
       const response = await NotesService.getNotesUploadedByUser();
@@ -20,14 +22,14 @@ function useUploadedNotesByUser() {
 
       if (!(response instanceof ApiError)) {
         toast.success(response?.message);
-        setUserNotesInfo(response?.data);
+        dispatch(setNotes(response?.data));
       } else {
         toast.error(response?.errorResponse?.message || response?.errorMessage);
       }
     };
 
-    if (userRole === UserRolesEnum.ADMIN) {
-      fetchUserProfileInfo();
+    if (userRole === UserRolesEnum.ADMIN && userNotesInfo?.length === 0) {
+      fetchNotesUploadedByUser();
     }
   }, []);
 
