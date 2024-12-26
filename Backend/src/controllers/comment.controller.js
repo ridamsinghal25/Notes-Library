@@ -187,6 +187,16 @@ const getCommentsByUser = asyncHandler(async (req, res) => {
     },
   ]);
 
+  if (!comments) {
+    throw new ApiError(404, "notes does not exists");
+  }
+
+  if (Array.isArray(comments) && comments?.length === 0) {
+    return res
+      .status(201)
+      .json(new ApiResponse(201, [], "you have not liked any notes yet"));
+  }
+
   return res
     .status(200)
     .json(new ApiResponse(200, comments, "comments fetched successfully"));
