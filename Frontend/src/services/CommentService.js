@@ -68,6 +68,22 @@ class CommentService {
       return response;
     }
   }
+
+  async getUserComments() {
+    const apiRequest = new ApiRequest(
+      `${this.COMMENT_BASE_URL}/get-user-comments`
+    );
+
+    const response = await apiRequest.getRequest();
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
 }
 
 export default new CommentService();

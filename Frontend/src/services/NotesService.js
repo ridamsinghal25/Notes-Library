@@ -95,6 +95,20 @@ class NotesService {
     }
   }
 
+  async getNotesLikedByUser() {
+    const apiRequest = new ApiRequest(`${this.NOTES_BASE_URL}/get-liked-notes`);
+
+    const response = await apiRequest.getRequest();
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
+
   async updateNotesPdfFile(notesId, pdfFile) {
     const apiRequest = new ApiRequest(
       `${this.NOTES_BASE_URL}/update-pdffile/${notesId}`
