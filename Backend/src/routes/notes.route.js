@@ -13,6 +13,7 @@ import {
 import {
   deleteNotes,
   getNotesBySubject,
+  getNotesLikedByUser,
   getNotesUploadedByUser,
   updateNotesDetails,
   updateNotesPdfFile,
@@ -63,7 +64,11 @@ router
   .route("/get-subject-notes")
   .post(getNotesBySubjectValidator(), validate, getNotesBySubject);
 
-router.route("/get-user-notes").get(verifyJWT, getNotesUploadedByUser);
+router
+  .route("/get-user-notes")
+  .get(verifyPermission([UserRolesEnum.ADMIN]), getNotesUploadedByUser);
+
+router.route("/get-liked-notes").get(getNotesLikedByUser);
 
 router
   .route("/update-pdffile/:notesId")

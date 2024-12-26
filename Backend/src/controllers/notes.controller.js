@@ -8,6 +8,7 @@ import {
   deleteFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
+import { getLike } from "../models/like.model.js";
 
 const uploadNotes = asyncHandler(async (req, res) => {
   const Course = await getCourse();
@@ -307,6 +308,58 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, notes, "notes fetched successfully"));
 });
 
+const getNotesLikedByUser = asyncHandler(async (req, res) => {
+  const Like = await getLike();
+
+  const likedNotes = await Like.aggregate([
+    {
+      $match: {
+        likedBy: new mongoose.Types.ObjectId(`${req.user?._id}`),
+      },
+    },
+    {
+      $lookup: {
+        from: "notes",
+        localField: "notesId",
+        foreignField: "_id",
+        as: "likedNotes",
+      },
+    },
+    {
+      $unwind: "$likedNotes",
+    },
+    {
+      $addFields: {
+        createdBy: req.user,
+      },
+    },
+    {
+      $project: {
+        "createdBy.fullName": 1,
+        "createdBy.role": 1,
+        "createdBy.avatar": 1,
+        "likedNotes.subject": 1,
+        "likedNotes.chapterName": 1,
+        "likedNotes.pdf": 1,
+      },
+    },
+  ]);
+
+  if (!likedNotes) {
+    throw new ApiError(404, "notes does not exists");
+  }
+
+  if (Array.isArray(likedNotes) && likedNotes?.length === 0) {
+    return res
+      .status(201)
+      .json(new ApiResponse(201, [], "you have not liked any notes yet"));
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, likedNotes, "notes fetched successfully"));
+});
+
 const updateNotesPdfFile = asyncHandler(async (req, res) => {
   const Notes = await getNotes();
   const user = req?.user;
@@ -367,5 +420,6 @@ export {
   deleteNotes,
   getNotesBySubject,
   getNotesUploadedByUser,
+  getNotesLikedByUser,
   updateNotesPdfFile,
 };
