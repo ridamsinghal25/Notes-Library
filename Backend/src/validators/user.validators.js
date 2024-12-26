@@ -8,25 +8,38 @@ const userRegisterValidator = () => {
       .notEmpty()
       .withMessage("Email is required")
       .isEmail()
-      .withMessage("Email is invalid"),
+      .withMessage("Email is invalid")
+      .normalizeEmail(),
     body("password")
       .trim()
       .notEmpty()
       .withMessage("Password is required")
       .isLength({ min: 6 })
       .withMessage("Password must be atleast 6 characters"),
-    body("fullName").trim().notEmpty().withMessage("Fullname is required"),
+    body("fullName")
+      .trim()
+      .notEmpty()
+      .withMessage("Fullname is required")
+      .escape(),
     body("rollNumber")
       .trim()
       .notEmpty()
       .withMessage("Roll Number is required")
       .isLength({ min: 11, max: 11 })
-      .withMessage("Roll Number must be exactly 11 characters long"),
-    body("courseName").trim().notEmpty().withMessage("course name is required"),
+      .withMessage("Roll Number must be exactly 11 characters long")
+      .isNumeric()
+      .withMessage("Roll Number must contain only digits")
+      .escape(),
+    body("courseName")
+      .trim()
+      .notEmpty()
+      .withMessage("course name is required")
+      .escape(),
     body("semester")
       .trim()
       .notEmpty()
-      .withMessage("course semester is required"),
+      .withMessage("course semester is required")
+      .escape(),
   ];
 };
 
@@ -37,7 +50,8 @@ const userLoginValidator = () => {
       .notEmpty()
       .withMessage("Email is required")
       .isEmail()
-      .withMessage("Email is invalid"),
+      .withMessage("Email is invalid")
+      .normalizeEmail(),
     body("password")
       .trim()
       .notEmpty()
@@ -67,7 +81,8 @@ const userForgotPasswordValidator = () => {
       .notEmpty()
       .withMessage("Email is required")
       .isEmail()
-      .withMessage("Email is invalid"),
+      .withMessage("Email is invalid")
+      .normalizeEmail(),
   ];
 };
 
@@ -97,7 +112,8 @@ const userResendEmailValidator = () => {
       .notEmpty()
       .withMessage("Email is required")
       .isEmail()
-      .withMessage("Email is invalid"),
+      .withMessage("Email is invalid")
+      .normalizeEmail(),
   ];
 };
 
@@ -125,13 +141,17 @@ const userAssignRoleValidator = () => {
       .notEmpty()
       .withMessage("role is required")
       .isIn(AvailableUserRoles)
-      .withMessage("Invalid user role"),
+      .withMessage("Invalid user role")
+      .escape(),
     body("rollNumber")
       .trim()
       .notEmpty()
       .withMessage("Roll Number is required")
       .isLength({ min: 11, max: 11 })
-      .withMessage("Roll Number must be exactly 11 characters long"),
+      .withMessage("Roll Number must be exactly 11 characters long")
+      .isNumeric()
+      .withMessage("Roll Number must contain only digits")
+      .escape(),
   ];
 };
 
@@ -140,7 +160,8 @@ const userUpdateCourseSemesterValidator = () => {
     body("semester")
       .trim()
       .notEmpty()
-      .withMessage("course semester is required"),
+      .withMessage("course semester is required")
+      .escape(),
   ];
 };
 
@@ -150,10 +171,11 @@ const checkRollNumberExistsValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("Roll Number is required")
-      .isString()
-      .withMessage("Roll number must be string")
       .isLength({ min: 11, max: 11 })
-      .withMessage("Roll Number must be exactly 11 characters long"),
+      .withMessage("Roll Number must be exactly 11 characters long")
+      .isNumeric()
+      .withMessage("Roll Number must contain only digits")
+      .escape(),
   ];
 };
 

@@ -11,14 +11,37 @@ const uploadUpdateNoteValidator = () => {
     body("chapterName")
       .trim()
       .notEmpty()
-      .withMessage("chapter name is required"),
-    body("subject").trim().notEmpty().withMessage("subject is required"),
-    body("owner").trim().notEmpty().withMessage("owner is required"),
+      .withMessage("chapter name is required")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("Chapter name must be between 3 and 50 characters")
+      .escape(),
+    body("subject")
+      .trim()
+      .notEmpty()
+      .withMessage("subject is required")
+      .isLength({ min: 3, max: 30 })
+      .withMessage("Chapter name must be between 3 and 30 characters")
+      .escape(),
+    body("owner")
+      .trim()
+      .notEmpty()
+      .withMessage("owner is required")
+      .isLength({ min: 3, max: 30 })
+      .withMessage("Chapter name must be between 3 and 30 characters")
+      .escape(),
   ];
 };
 
 const getNotesBySubjectValidator = () => {
-  return [body("subject").trim().notEmpty().withMessage("subject is required")];
+  return [
+    body("subject")
+      .trim()
+      .notEmpty()
+      .withMessage("subject is required")
+      .isLength({ min: 3, max: 30 })
+      .withMessage("Chapter name must be between 3 and 30 characters")
+      .escape(),
+  ];
 };
 
 export { uploadUpdateNoteValidator, getNotesBySubjectValidator };
