@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongoDBManager from "../db/db.js";
+import { getNotesLibraryConnection } from "../db/db.js";
 
 const likeSchema = new mongoose.Schema({
   likedBy: {
@@ -12,15 +12,16 @@ const likeSchema = new mongoose.Schema({
   },
 });
 
-const getLike = async () => {
-  const notesLibraryConnection =
-    await mongoDBManager.getNotesLibraryConnection();
+let Like;
+const getLike = () => {
+  try {
+    const notesLibraryConnection = getNotesLibraryConnection();
 
-  const LikeModel =
-    notesLibraryConnection.models.Like ||
-    notesLibraryConnection.model("Like", likeSchema);
-
-  return LikeModel;
+    Like = notesLibraryConnection.model("Like", likeSchema);
+  } catch (error) {
+    console.error("Failed to initialize User model:", error);
+    throw error;
+  }
 };
 
-export { getLike };
+export { Like, getLike };

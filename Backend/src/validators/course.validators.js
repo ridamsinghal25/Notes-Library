@@ -46,7 +46,6 @@ const createCourseValidator = () => {
           if (typeof subject !== "string") {
             throw new ApiError(400, "Each subject must be a string");
           }
-          subject = subject.trim().escape();
         });
         return true;
       }),
@@ -98,7 +97,6 @@ const updateCourseValidator = () => {
           if (typeof subject !== "string") {
             throw new ApiError(400, "Each subject must be a string");
           }
-          subject = subject.trim().escape();
         });
         return true;
       }),

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongoDBManager from "../db/db.js";
+import { getAuthConnection } from "../db/db.js";
 
 const courseSchema = new mongoose.Schema({
   courseName: {
@@ -25,14 +25,16 @@ const courseSchema = new mongoose.Schema({
   },
 });
 
-const getCourse = async () => {
-  const authConnection = await mongoDBManager.getAuthConnection();
+let Course;
+const getCourse = () => {
+  try {
+    const authConnection = getAuthConnection();
 
-  const CourseModel =
-    authConnection.models.Course ||
-    authConnection.model("Course", courseSchema);
-
-  return CourseModel;
+    Course = authConnection.model("Course", courseSchema);
+  } catch (error) {
+    console.error("Failed to initialize Course model:", error);
+    throw error;
+  }
 };
 
-export { getCourse };
+export { Course, getCourse };

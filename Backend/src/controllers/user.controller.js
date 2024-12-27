@@ -1,7 +1,7 @@
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { getUser } from "../models/user.model.js";
+import { User } from "../models/user.model.js";
 import {
   USER_COOKIE_EXPIRY,
   USER_TEMPORARY_TOKEN_EXPIRY,
@@ -17,7 +17,7 @@ import {
   forgotPasswordPlainTextTemplate,
 } from "../utils/emails/forgotPasswordTemplate.js";
 import crypto from "crypto";
-import { getCourse } from "../models/course.model.js";
+import { Course } from "../models/course.model.js";
 import mongoose from "mongoose";
 import { isValidRollNumber } from "../utils/rollNumbers.js";
 import {
@@ -42,8 +42,6 @@ function generateTemporaryOTPToken() {
 
 async function generateAccessAndRefreshToken(userId) {
   try {
-    const User = await getUser();
-
     const user = await User.findById(userId);
 
     if (!user) {
@@ -65,9 +63,6 @@ async function generateAccessAndRefreshToken(userId) {
 }
 
 const registerUser = asyncHandler(async (req, res) => {
-  const Course = await getCourse();
-  const User = await getUser();
-
   const { email, rollNumber, fullName, password, semester, courseName } =
     req.body;
 
@@ -183,9 +178,6 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const User = await getUser();
-  const Course = await getCourse();
-
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -245,8 +237,6 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -271,8 +261,6 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const incomingRefreshToken = req.cookies?.refreshToken;
 
   if (!incomingRefreshToken) {
@@ -316,8 +304,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 const verifyEmail = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const { verifyCode } = req.body;
 
   const hashedOTP = crypto
@@ -353,8 +339,6 @@ const verifyEmail = asyncHandler(async (req, res) => {
 });
 
 const forgotPasswordRequest = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const { email } = req.body;
 
   const user = await User.findOne({ email });
@@ -396,8 +380,6 @@ const forgotPasswordRequest = asyncHandler(async (req, res) => {
 });
 
 const resetForgottenPassword = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const { resetCode, newPassword } = req.body;
 
   const hashedOTP = crypto.createHash("sha256").update(resetCode).digest("hex");
@@ -424,8 +406,6 @@ const resetForgottenPassword = asyncHandler(async (req, res) => {
 });
 
 const resendVerificationEmail = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const { email } = req.body;
 
   const user = await User.findOne({ email });
@@ -465,8 +445,6 @@ const resendVerificationEmail = asyncHandler(async (req, res) => {
 });
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const { oldPassword, newPassword } = req.body;
 
   const user = await User.findById(req.user?._id);
@@ -490,8 +468,6 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const user = await User.aggregate([
     {
       $match: {
@@ -527,8 +503,6 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const assignRole = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const { role, rollNumber } = req.body;
 
   const user = await User.findOne({ rollNumber });
@@ -546,9 +520,6 @@ const assignRole = asyncHandler(async (req, res) => {
 });
 
 const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
-  const User = await getUser();
-  const Course = await getCourse();
-
   const { semester } = req.body;
   const courseId = req.user?.course;
 
@@ -610,7 +581,6 @@ const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
 });
 
 const checkRollNumberExists = asyncHandler(async (req, res) => {
-  const User = await getUser();
   const { rollNumber } = req.body;
 
   const isRollNumberExist = isValidRollNumber(rollNumber);
@@ -636,8 +606,6 @@ const checkRollNumberExists = asyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
-  const User = await getUser();
-
   const user = await User.findById(req.user?._id);
 
   if (!user) {

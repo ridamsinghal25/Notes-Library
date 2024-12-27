@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongoDBManager from "../db/db.js";
+import { getNotesLibraryConnection } from "../db/db.js";
 
 const notesSchema = new mongoose.Schema(
   {
@@ -43,15 +43,16 @@ notesSchema.pre("save", function (next) {
   next();
 });
 
-const getNotes = async () => {
-  const notesLibraryConnection =
-    await mongoDBManager.getNotesLibraryConnection();
+let Notes;
+const getNotes = () => {
+  try {
+    const notesLibraryConnection = getNotesLibraryConnection();
 
-  const NotesModel =
-    notesLibraryConnection.models.Notes ||
-    notesLibraryConnection.model("Notes", notesSchema);
-
-  return NotesModel;
+    Notes = notesLibraryConnection.model("Notes", notesSchema);
+  } catch (error) {
+    console.error("Failed to initialize User model:", error);
+    throw error;
+  }
 };
 
-export { getNotes };
+export { Notes, getNotes };

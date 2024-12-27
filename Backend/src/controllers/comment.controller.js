@@ -1,14 +1,12 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { getComment } from "../models/comment.model.js";
-import { getNotes } from "../models/notes.model.js";
-import { getUser } from "../models/user.model.js";
+import { Comment } from "../models/comment.model.js";
+import { Notes } from "../models/notes.model.js";
+import { User } from "../models/user.model.js";
 import mongoose from "mongoose";
 
 const createComment = asyncHandler(async (req, res) => {
-  const Comment = await getComment();
-  const Notes = await getNotes();
   const user = req?.user;
 
   const { notesId } = req.params;
@@ -42,7 +40,6 @@ const createComment = asyncHandler(async (req, res) => {
 });
 
 const editComment = asyncHandler(async (req, res) => {
-  const Comment = await getComment();
   const user = req?.user;
 
   const { commentId } = req.params;
@@ -78,7 +75,6 @@ const editComment = asyncHandler(async (req, res) => {
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
-  const Comment = await getComment();
   const user = req?.user;
 
   const { commentId } = req.params;
@@ -109,10 +105,6 @@ const deleteComment = asyncHandler(async (req, res) => {
 });
 
 const getComments = asyncHandler(async (req, res) => {
-  const Comment = await getComment();
-  const Notes = await getNotes();
-  const User = await getUser();
-
   const { notesId } = req.params;
 
   const notesExists = await Notes.findById(notesId);
@@ -150,8 +142,6 @@ const getComments = asyncHandler(async (req, res) => {
 });
 
 const getCommentsByUser = asyncHandler(async (req, res) => {
-  const Comment = await getComment();
-
   const comments = await Comment.aggregate([
     {
       $match: {
@@ -194,7 +184,9 @@ const getCommentsByUser = asyncHandler(async (req, res) => {
   if (Array.isArray(comments) && comments?.length === 0) {
     return res
       .status(201)
-      .json(new ApiResponse(201, [], "you have not liked any notes yet"));
+      .json(
+        new ApiResponse(201, [], "you have not commented on any notes yet")
+      );
   }
 
   return res

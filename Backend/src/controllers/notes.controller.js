@@ -1,5 +1,5 @@
-import { getNotes } from "../models/notes.model.js";
-import { getCourse } from "../models/course.model.js";
+import { Notes } from "../models/notes.model.js";
+import { Course } from "../models/course.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -8,12 +8,9 @@ import {
   deleteFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
-import { getLike } from "../models/like.model.js";
+import { Like } from "../models/like.model.js";
 
 const uploadNotes = asyncHandler(async (req, res) => {
-  const Course = await getCourse();
-  const Notes = await getNotes();
-
   const { chapterNumber, chapterName, subject, owner } = req.body;
 
   const pdfFileLocalPath = req?.file?.path;
@@ -63,8 +60,6 @@ const uploadNotes = asyncHandler(async (req, res) => {
 });
 
 const updateNotesDetails = asyncHandler(async (req, res) => {
-  const Course = await getCourse();
-  const Notes = await getNotes();
   const user = req?.user;
 
   const { notesId } = req.params;
@@ -107,7 +102,6 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
 });
 
 const deleteNotes = await asyncHandler(async (req, res) => {
-  const Notes = await getNotes();
   const user = req?.user;
 
   const { notesId } = req.params;
@@ -140,8 +134,6 @@ const deleteNotes = await asyncHandler(async (req, res) => {
 });
 
 const getNotesBySubject = asyncHandler(async (req, res) => {
-  const Notes = await getNotes();
-
   const { subject } = req.body;
 
   const notes = await Notes.aggregate([
@@ -242,8 +234,6 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
 });
 
 const getNotesUploadedByUser = asyncHandler(async (req, res) => {
-  const Notes = await getNotes();
-
   const notes = await Notes.aggregate([
     {
       $match: {
@@ -309,8 +299,6 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
 });
 
 const getNotesLikedByUser = asyncHandler(async (req, res) => {
-  const Like = await getLike();
-
   const likedNotes = await Like.aggregate([
     {
       $match: {
@@ -357,11 +345,10 @@ const getNotesLikedByUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, likedNotes, "notes fetched successfully"));
+    .json(new ApiResponse(200, likedNotes, "Liked notes fetched successfully"));
 });
 
 const updateNotesPdfFile = asyncHandler(async (req, res) => {
-  const Notes = await getNotes();
   const user = req?.user;
 
   const { notesId } = req.params;

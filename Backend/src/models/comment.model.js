@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongoDBManager from "../db/db.js";
+import { getNotesLibraryConnection } from "../db/db.js";
 
 const commentSchema = new mongoose.Schema(
   {
@@ -22,15 +22,16 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const getComment = async () => {
-  const notesLibraryConnection =
-    await mongoDBManager.getNotesLibraryConnection();
+let Comment;
+const getComment = () => {
+  try {
+    const notesLibraryConnection = getNotesLibraryConnection();
 
-  const CommentModel =
-    notesLibraryConnection.models.Comment ||
-    notesLibraryConnection.model("Comment", commentSchema);
-
-  return CommentModel;
+    Comment = notesLibraryConnection.model("Comment", commentSchema);
+  } catch (error) {
+    console.error("Failed to initialize User model:", error);
+    throw error;
+  }
 };
 
-export { getComment };
+export { Comment, getComment };

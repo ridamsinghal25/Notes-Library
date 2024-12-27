@@ -1,4 +1,4 @@
-import { getCourse } from "../models/course.model.js";
+import { Course } from "../models/course.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -27,8 +27,6 @@ function validateDate(dateStr) {
 }
 
 const createCourse = asyncHandler(async (req, res) => {
-  const Course = await getCourse();
-
   const { courseName, semester, startDate, endDate, subjects } = req.body;
 
   const isStartDateValid = validateDate(startDate);
@@ -71,8 +69,6 @@ const createCourse = asyncHandler(async (req, res) => {
 });
 
 const updateCourse = asyncHandler(async (req, res) => {
-  const Course = await getCourse();
-
   const { courseId } = req.params;
   const { courseName, semester, startDate, endDate, subjects } = req.body;
 
@@ -119,8 +115,6 @@ const updateCourse = asyncHandler(async (req, res) => {
 });
 
 const deleteCourse = asyncHandler(async (req, res) => {
-  const Course = await getCourse();
-
   const { courseId } = req.params;
 
   const isCourseExists = await Course.findById(courseId);
@@ -143,8 +137,6 @@ const deleteCourse = asyncHandler(async (req, res) => {
 });
 
 const getCourses = asyncHandler(async (req, res) => {
-  const Course = await getCourse();
-
   const courses = await Course.find();
 
   if (!courses) {

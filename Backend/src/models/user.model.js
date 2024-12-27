@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AvailableUserRoles, UserRolesEnum } from "../constants.js ";
-import mongoDBManager from "../db/db.js";
+import { getAuthConnection } from "../db/db.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -109,13 +109,16 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-const getUser = async () => {
-  const authConnection = await mongoDBManager.getAuthConnection();
+let User;
+const getUser = () => {
+  try {
+    const authConnection = getAuthConnection();
 
-  const UserModel =
-    authConnection.models.User || authConnection.model("User", userSchema);
-
-  return UserModel;
+    User = authConnection.model("User", userSchema);
+  } catch (error) {
+    console.error("Failed to initialize User model:", error);
+    throw error;
+  }
 };
 
-export { getUser };
+export { User, getUser };
