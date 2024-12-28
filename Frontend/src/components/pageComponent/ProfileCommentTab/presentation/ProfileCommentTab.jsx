@@ -2,10 +2,10 @@ import ProfilePageNotesSkeleton from "@/components/basic/ProfilePageNotesSkeleto
 import React from "react";
 import ProfileNotesCard from "../../ProfileNotesCard";
 
-function ProfileCommentsTab({ isFetchingNotes, userComments }) {
+function ProfileCommentsTab({ isFetchingComments, userComments }) {
   return (
     <div>
-      {isFetchingNotes ? (
+      {isFetchingComments ? (
         <ProfilePageNotesSkeleton />
       ) : (
         <>

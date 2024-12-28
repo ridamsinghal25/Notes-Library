@@ -4,11 +4,11 @@ import useCommentsByUser from "@/hooks/useCommentsByUser";
 import ProfileCommentsTab from "../presentation/ProfileCommentTab";
 
 function ProfileCommentsTabContainer() {
-  const { isFetchingNotes, userComments } = useCommentsByUser();
+  const { isFetchingComments, userComments } = useCommentsByUser();
 
   return (
     <ProfileCommentsTab
-      isFetchingNotes={isFetchingNotes}
+      isFetchingComments={isFetchingComments}
       userComments={userComments}
     />
   );
