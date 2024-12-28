@@ -8,7 +8,7 @@ const commentSchema = new mongoose.Schema(
       required: [true, "content is required"],
       trim: true,
     },
-    owner: {
+    commentedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "owner field is required"],

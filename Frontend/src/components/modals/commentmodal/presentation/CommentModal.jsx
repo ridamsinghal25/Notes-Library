@@ -67,19 +67,19 @@ function CommentModal({
                     <div className="flex items-start space-x-4">
                       <Avatar className="w-10 h-10">
                         <AvatarImage
-                          src={comment.owner.avatar.url || AVATAR_URL}
+                          src={comment.commentedBy.avatar.url || AVATAR_URL}
                         />
                         <AvatarFallback>
-                          {comment.owner.fullName}
+                          {comment.commentedBy.fullName}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 bg-muted p-4 rounded-lg">
                         <div className="flex justify-between items-center w-full">
                           <div className="font-semibold text-foreground">
-                            {comment.owner.fullName}
+                            {comment.commentedBy.fullName}
                           </div>
 
-                          {comment.owner._id === userId && (
+                          {comment.commentedBy._id === userId && (
                             <div className="flex space-x-2">
                               <Button
                                 variant="ghost"

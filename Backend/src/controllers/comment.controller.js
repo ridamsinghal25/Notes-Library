@@ -24,7 +24,7 @@ const createComment = asyncHandler(async (req, res) => {
 
   const newComment = await Comment.create({
     content,
-    owner: user?._id,
+    commentedBy: user?._id,
     notesId,
   });
 
@@ -32,7 +32,7 @@ const createComment = asyncHandler(async (req, res) => {
     throw new ApiError(500, "failed to create comment");
   }
 
-  newComment.owner = user;
+  newComment.commentedBy = user;
 
   return res
     .status(200)
@@ -55,7 +55,7 @@ const editComment = asyncHandler(async (req, res) => {
     throw new ApiError(404, "comment does not exists");
   }
 
-  if (comment.owner.toString() !== user._id.toString()) {
+  if (comment.commentedBy.toString() !== user._id.toString()) {
     throw new ApiError(403, "You are not allowed to edit this comment");
   }
 
@@ -67,7 +67,7 @@ const editComment = asyncHandler(async (req, res) => {
     throw new ApiError(500, "failed to update comment");
   }
 
-  updatedComment.owner = user;
+  updatedComment.commentedBy = user;
 
   return res
     .status(200)
@@ -89,7 +89,7 @@ const deleteComment = asyncHandler(async (req, res) => {
     throw new ApiError(404, "comment does not exists");
   }
 
-  if (comment.owner.toString() !== user._id.toString()) {
+  if (comment.commentedBy.toString() !== user._id.toString()) {
     throw new ApiError(403, "You are not allowed to delete this comment");
   }
 
@@ -115,9 +115,9 @@ const getComments = asyncHandler(async (req, res) => {
 
   const comments = await Comment.find({ notesId });
 
-  const ownerIds = comments.map((comment) => comment.owner);
+  const ownerIds = comments.map((comment) => comment.commentedBy);
   const users = await User.find({ _id: { $in: ownerIds } }).select(
-    "-password -emailVerificationToken -emailVerificationExpiry -refreshToken -forgotPasswordToken -forgotPasswordExpiry"
+    "fullName avatar _id role"
   );
 
   const userMap = users.reduce((map, user) => {
@@ -127,7 +127,7 @@ const getComments = asyncHandler(async (req, res) => {
 
   const commentsWithOwners = comments.map((comment) => ({
     ...comment.toObject(),
-    owner: userMap[comment.owner] || null,
+    commentedBy: userMap[comment.commentedBy] || null,
   }));
 
   if (!comments || comments.length === 0) {
@@ -145,7 +145,7 @@ const getCommentsByUser = asyncHandler(async (req, res) => {
   const comments = await Comment.aggregate([
     {
       $match: {
-        owner: new mongoose.Types.ObjectId(`${req.user?._id}`),
+        commentedBy: new mongoose.Types.ObjectId(`${req.user?._id}`),
       },
     },
     {
@@ -161,15 +161,15 @@ const getCommentsByUser = asyncHandler(async (req, res) => {
     },
     {
       $set: {
-        owner: req.user,
+        commentedBy: req.user,
       },
     },
     {
       $project: {
         content: 1,
-        "owner.fullName": 1,
-        "owner.role": 1,
-        "owner.avatar": 1,
+        "commentedBy.fullName": 1,
+        "commentedBy.role": 1,
+        "commentedBy.avatar": 1,
         "notes.subject": 1,
         "notes.chapterName": 1,
         "notes.pdf": 1,
