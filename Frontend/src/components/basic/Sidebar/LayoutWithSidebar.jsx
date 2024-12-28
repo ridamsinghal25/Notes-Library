@@ -10,7 +10,7 @@ function LayoutWithSidebar() {
       <Sidebar />
       <Container>
         <NewFeaturesModalContainer />
-        <main className="mx-5 mt-16 lgl:ml-[300px] lgl:mt-3">
+        <main className="mx-5 lgl:ml-[300px] lgl:mt-3">
           <div>
             <Outlet />
           </div>

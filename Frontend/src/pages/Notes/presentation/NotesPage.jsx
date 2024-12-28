@@ -22,7 +22,7 @@ function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
       </HelmetProvider>
       {userRole === UserRolesEnum.ADMIN ? (
         <>
-          <div className="fixed top-4 right-4">
+          <div className="absolute top-4 right-4 z-10">
             <Button onClick={toggleNotesModal}>
               <Upload />
             </Button>
@@ -31,7 +31,7 @@ function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
         </>
       ) : null}
 
-      <header className="p-4 lg:p-6">
+      <header className="mt-4 p-4 lg:p-6">
         <h1 className="text-lg font-semibold md:text-2xl">
           {NOTES_PAGE_HEADING}
         </h1>

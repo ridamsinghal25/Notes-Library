@@ -18,7 +18,7 @@ import ProfileCommentsTabContainer from "@/components/pageComponent/ProfileComme
 
 function ProfilePage({ userDetails, toggleAvatarUploadModal }) {
   return (
-    <div className="pt-6">
+    <div className="pt-6 mt-4">
       <HelmetProvider>
         <Helmet>
           <title>Profile</title>
