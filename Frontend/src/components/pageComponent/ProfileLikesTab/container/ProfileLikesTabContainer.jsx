@@ -3,11 +3,11 @@ import ProfileLikesTab from "../presentation/ProfileLikesTab";
 import useLikedNotesByUser from "@/hooks/useLikedNotesByUser";
 
 function ProfileLikesTabContainer() {
-  const { isFetchingNotes, userLikedNotes } = useLikedNotesByUser();
+  const { isFetchingLikes, userLikedNotes } = useLikedNotesByUser();
 
   return (
     <ProfileLikesTab
-      isFetchingNotes={isFetchingNotes}
+      isFetchingLikes={isFetchingLikes}
       userLikedNotes={userLikedNotes}
     />
   );

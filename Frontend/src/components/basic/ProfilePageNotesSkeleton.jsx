@@ -3,10 +3,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function ProfilePageNotesSkeleton() {
   return (
     <div className="w-full lg:w-11/12">
-      <div className="w-full flex justify-center flex-col items-center">
-        <Skeleton className="h-8 w-3/4 max-w-2xl mb-4" />
+      <div className="w-full flex justify-start flex-col ">
+        <Skeleton className="h-8 w-2/4 max-w-2xl mb-4" />
 
-        <Skeleton className="h-6 w-1/2 max-w-xl mb-8" />
+        <Skeleton className="h-6 w-1/4 max-w-xl mb-8" />
       </div>
 
       {[1, 2, 3].map((_, index) => (
