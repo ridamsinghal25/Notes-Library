@@ -57,6 +57,7 @@ const createCourse = asyncHandler(async (req, res) => {
     startDate,
     endDate,
     subjects,
+    createdBy: req.user._id,
   });
 
   if (!newCourse) {
@@ -83,28 +84,27 @@ const updateCourse = asyncHandler(async (req, res) => {
     throw new ApiError(422, "Enter date in YYYY-MM-DD format or invalid date");
   }
 
-  const isCourseExists = await Course.findById(courseId);
+  const course = await Course.findById(courseId);
 
-  if (!isCourseExists) {
+  if (!course) {
     throw new ApiError(404, "course not found");
   }
 
-  const newUpdatedCourse = await Course.findByIdAndUpdate(
-    isCourseExists._id,
-    {
-      $set: {
-        courseName,
-        semester,
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
-        subjects,
-      },
-    },
-    { new: true }
-  );
+  if (course.createdBy.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You are not allowed to update this course");
+  }
+
+  course.courseName = courseName;
+  course.semester = semester;
+  course.startDate = startDate;
+  course.endDate = endDate;
+  course.subjects = subjects;
+  course.createdBy = req.user._id;
+
+  const newUpdatedCourse = await course.save();
 
   if (!newUpdatedCourse) {
-    throw new ApiError(404, "course not found");
+    throw new ApiError(500, "Failed to update course");
   }
 
   return res
@@ -117,18 +117,20 @@ const updateCourse = asyncHandler(async (req, res) => {
 const deleteCourse = asyncHandler(async (req, res) => {
   const { courseId } = req.params;
 
-  const isCourseExists = await Course.findById(courseId);
+  const course = await Course.findById(courseId);
 
-  if (!isCourseExists) {
+  if (!course) {
     throw new ApiError(404, "course not found");
   }
 
-  const deleteRegisteredCourse = await Course.findByIdAndDelete(
-    isCourseExists._id
-  );
+  if (course.createdBy.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "You are not allowed to delete this course");
+  }
 
-  if (!deleteRegisteredCourse) {
-    throw new ApiError(500, "failed to delete");
+  const deleteRegisteredCourse = await course.deleteOne();
+
+  if (!deleteRegisteredCourse.deletedCount) {
+    throw new ApiError(500, "Failed to delete course");
   }
 
   return res

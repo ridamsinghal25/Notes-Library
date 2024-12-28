@@ -8,6 +8,7 @@ import { UserRolesEnum } from "@/constants/constants";
 function CourseContainer() {
   const courses = useSelector((state) => state.courses?.courses);
   const userRole = useSelector((state) => state.auth.userDetails?.role);
+  const userId = useSelector((state) => state.auth.userDetails?._id);
 
   const dispatch = useDispatch();
 
@@ -37,6 +38,7 @@ function CourseContainer() {
       toggleCourseModal={toggleCourseModal}
       toggleEditCourseModal={toggleEditCourseModal}
       toggelDeleteModal={toggelDeleteModal}
+      userId={userId}
     />
   );
 }

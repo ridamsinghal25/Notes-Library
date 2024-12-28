@@ -15,6 +15,11 @@ const courseSchema = new mongoose.Schema({
     type: [String],
     required: [true, "course subjects are required"],
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "created by field is required"],
+  },
   startDate: {
     type: Date,
     required: [true, "Start date is required"],

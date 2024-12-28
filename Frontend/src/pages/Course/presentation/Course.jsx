@@ -10,6 +10,7 @@ export default function Course({
   toggleCourseModal,
   toggleEditCourseModal,
   toggelDeleteModal,
+  userId,
 }) {
   return (
     <div className="container mx-auto p-6 space-y-8 mt-4">
@@ -83,17 +84,19 @@ export default function Course({
                   </span>
                 </div>
               </div>
-              <div className="flex justify-end space-x-2 pt-4">
-                <Button onClick={() => toggleEditCourseModal(course)}>
-                  Update
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => toggelDeleteModal(course)}
-                >
-                  Delete
-                </Button>
-              </div>
+              {course?.createdBy === userId && (
+                <div className="flex justify-end space-x-2 pt-4">
+                  <Button onClick={() => toggleEditCourseModal(course)}>
+                    Update
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => toggelDeleteModal(course)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
