@@ -29,8 +29,11 @@ function CommentModalContainer() {
     if (!selectedNotes?._id) {
       return;
     }
-    dispatch(fetchComments(selectedNotes?._id));
-  }, [dispatch, selectedNotes]);
+
+    if (comments.length === 0 && status === "idle") {
+      dispatch(fetchComments(selectedNotes?._id));
+    }
+  }, [dispatch, selectedNotes?._id]);
 
   const commentEditForm = useForm({
     resolver: zodResolver(editCommentFormValidation),

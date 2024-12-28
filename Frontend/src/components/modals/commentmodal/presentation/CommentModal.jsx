@@ -57,7 +57,7 @@ function CommentModal({
           <CommentModalSkeleton />
         ) : (
           <div>
-            <ScrollArea className="h-[400px] w-96 pr-4">
+            <ScrollArea className="h-[400px] pr-4">
               {comments?.length > 0 ? (
                 comments.map((comment) => (
                   <div
