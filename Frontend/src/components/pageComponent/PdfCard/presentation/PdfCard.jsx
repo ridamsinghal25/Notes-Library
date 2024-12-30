@@ -11,10 +11,6 @@ import { FilePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
-import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
-import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
-import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
-import CommentModalContainer from "@/components/modals/commentmodal/container/CommentModalContainer";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { UserRolesEnum } from "@/constants/constants";
 
@@ -96,14 +92,6 @@ const PDFCard = ({
         </div>
       </div>
 
-      <NotesModalContainer isUpdateMode={true} />
-
-      <DeleteModalContainer />
-
-      <UpdatePdfFileModalContainer />
-
-      <CommentModalContainer />
-
       <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
         <div className="flex items-center gap-1 cursor-pointer">
           <Button
@@ -124,7 +112,7 @@ const PDFCard = ({
           </span>
           <Button
             className="p-2 mr-1"
-            onClick={() => setShowCommentModal(notes)}
+            onClick={() => setShowCommentModal(notes?._id)}
           >
             <MessageCircle size={28} />
           </Button>

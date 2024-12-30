@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
+import { toggleModal } from "@/store/ModalSlice";
 import CommentModal from "../presentation/CommentModal";
 import { useForm } from "react-hook-form";
 import CommentService from "@/services/CommentService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
-import { fetchComments, updateComment } from "@/store/CommentSlice";
+import { fetchComments, setNotesId, updateComment } from "@/store/CommentSlice";
 import { addComment, deleteComment } from "@/store/CommentSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editCommentFormValidation } from "@/validation/zodValidation";
@@ -20,20 +20,17 @@ function CommentModalContainer() {
   const showCommentDialog = useSelector(
     (state) => state.modal.modals.commentModal
   );
-  const selectedNotes = useSelector((state) => state.modal.selectedNotes);
+  const selectedNoteId = useSelector((state) => state.comment.notesId);
 
   const comments = useSelector((state) => state.comment.comments);
   const status = useSelector((state) => state.comment.status);
 
   useEffect(() => {
-    if (!selectedNotes?._id) {
+    if (!selectedNoteId) {
       return;
     }
-
-    if (comments.length === 0 && status === "idle") {
-      dispatch(fetchComments(selectedNotes?._id));
-    }
-  }, [dispatch, showCommentDialog]);
+    dispatch(fetchComments(selectedNoteId));
+  }, [dispatch, selectedNoteId]);
 
   const commentEditForm = useForm({
     resolver: zodResolver(editCommentFormValidation),
@@ -47,7 +44,7 @@ function CommentModalContainer() {
 
     const response = await CommentService.createComment(
       data.comment,
-      selectedNotes?._id
+      selectedNoteId
     );
 
     setIsSubmitting(false);
@@ -107,7 +104,7 @@ function CommentModalContainer() {
 
   const setShowCommentModal = () => {
     dispatch(toggleModal({ modalType: "commentModal" }));
-    dispatch(setSelectedNotes({}));
+    dispatch(setNotesId(null));
   };
 
   return (

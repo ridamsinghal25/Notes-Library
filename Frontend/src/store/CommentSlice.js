@@ -19,6 +19,7 @@ export const fetchComments = createAsyncThunk(
 
 const initialState = {
   comments: [],
+  notesId: null,
   error: null,
   status: "idle",
 };
@@ -41,6 +42,9 @@ const CommentSlice = createSlice({
         comment._id === commentId ? newComment : comment
       );
     },
+    setNotesId: (state, action) => {
+      state.notesId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,7 +62,7 @@ const CommentSlice = createSlice({
   },
 });
 
-export const { addComment, deleteComment, updateComment } =
+export const { addComment, deleteComment, updateComment, setNotesId } =
   CommentSlice.actions;
 
 export default CommentSlice.reducer;

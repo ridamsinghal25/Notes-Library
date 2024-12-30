@@ -2,8 +2,11 @@ import { CircleAlert } from "lucide-react";
 import React from "react";
 import NotesSubjectPageSkeleton from "@/components/basic/NotesSubjectPageSkeleton";
 import PDFCardContainer from "@/components/pageComponent/PdfCard/container/PdfCardContainer";
-
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import CommentModalContainer from "@/components/modals/commentmodal/container/CommentModalContainer";
+import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
+import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
+import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 
 function NotesSubjectPage({ subject, notesData }) {
   return (
@@ -56,6 +59,14 @@ function NotesSubjectPage({ subject, notesData }) {
           </div>
         )}
       </div>
+
+      <NotesModalContainer isUpdateMode={true} />
+
+      <CommentModalContainer />
+
+      <DeleteModalContainer />
+
+      <UpdatePdfFileModalContainer />
 
       <footer className="text-center text-gray-500 mt-8 dark:text-gray-200">
         &copy; {new Date().getFullYear()} {subject.subject} Notes. All rights

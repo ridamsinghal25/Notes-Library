@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 import { toggleLikeState } from "@/store/NotesSlice";
+import { setNotesId } from "@/store/CommentSlice";
 
 const PDFCardContainer = ({ notes }) => {
   const navigate = useNavigate();
@@ -43,9 +44,9 @@ const PDFCardContainer = ({ notes }) => {
     }
   };
 
-  const setShowCommentModal = (notes) => {
+  const setShowCommentModal = (notesId) => {
     dispatch(toggleModal({ modalType: "commentModal" }));
-    dispatch(setSelectedNotes(notes));
+    dispatch(setNotesId(notesId));
   };
 
   return (
