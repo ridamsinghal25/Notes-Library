@@ -12,7 +12,8 @@ import { setNotesId } from "@/store/CommentSlice";
 const PDFCardContainer = ({ notes }) => {
   const navigate = useNavigate();
 
-  const userInfo = useSelector((state) => state.auth.userDetails);
+  const userRole = useSelector((state) => state.auth.userDetails?.role);
+  const userId = useSelector((state) => state.auth.userDetails?._id);
   const dispatch = useDispatch();
 
   const toggleModalOfPdfCard = (modalType, notes, displayPdf) => {
@@ -58,7 +59,8 @@ const PDFCardContainer = ({ notes }) => {
           handleLike={handleLike}
           toggleModalOfPdfCard={toggleModalOfPdfCard}
           setShowCommentModal={setShowCommentModal}
-          userInfo={userInfo}
+          userRole={userRole}
+          userId={userId}
         />
       ))}
     </div>

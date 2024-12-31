@@ -19,12 +19,12 @@ const PDFCard = ({
   handleLike,
   toggleModalOfPdfCard,
   setShowCommentModal,
-  userInfo,
+  userRole,
+  userId,
 }) => {
   const { owner, chapterName } = notes;
   const isAdmin =
-    userInfo?.role === UserRolesEnum.ADMIN &&
-    userInfo?._id === notes?.createdBy;
+    userRole === UserRolesEnum.ADMIN && userId === notes?.createdBy;
 
   return (
     <div className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black">
