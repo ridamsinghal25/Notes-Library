@@ -129,6 +129,22 @@ class NotesService {
       return response;
     }
   }
+
+  async deleteSubjectNotes(subject) {
+    const apiRequest = new ApiRequest(
+      `${this.NOTES_BASE_URL}/delete-subject-notes`
+    );
+
+    const response = await apiRequest.deleteRequest(subject);
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
 }
 
 export default new NotesService();

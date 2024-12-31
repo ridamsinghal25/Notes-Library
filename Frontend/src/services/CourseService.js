@@ -35,12 +35,12 @@ class CourseService {
     }
   }
 
-  async deleteCourse(courseId) {
+  async deleteCourse(courseId, data) {
     const apiRequest = new ApiRequest(
       `${this.COURSE_BASE_URL}/delete-course/${courseId}`
     );
 
-    const response = await apiRequest.deleteRequest();
+    const response = await apiRequest.deleteRequest(data);
 
     if (response instanceof ApiResponse && response.success) {
       return response;

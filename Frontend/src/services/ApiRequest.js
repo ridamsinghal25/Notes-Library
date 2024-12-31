@@ -29,9 +29,12 @@ class ApiRequest {
     );
   }
 
-  async deleteRequest(headers = {}) {
+  async deleteRequest(body, headers = {}) {
     return await asyncHandler(() =>
-      axios.delete(this.url, { headers: headers })
+      axios.delete(this.url, {
+        data: body,
+        headers: headers,
+      })
     );
   }
 
