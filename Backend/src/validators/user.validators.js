@@ -179,6 +179,17 @@ const checkRollNumberExistsValidator = () => {
   ];
 };
 
+const verifyPasswordValidator = () => {
+  return [
+    body("password")
+      .trim()
+      .notEmpty()
+      .withMessage("Password is required")
+      .isLength({ min: 6 })
+      .withMessage("Password must be atleast 6 characters"),
+  ];
+};
+
 export {
   userRegisterValidator,
   userLoginValidator,
@@ -190,4 +201,5 @@ export {
   userAssignRoleValidator,
   userUpdateCourseSemesterValidator,
   checkRollNumberExistsValidator,
+  verifyPasswordValidator,
 };

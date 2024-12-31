@@ -2,6 +2,7 @@ import { Course } from "../models/course.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { User } from "../models/user.model.js";
 
 function validateDate(dateStr) {
   // Regular expression to check the format YYYY-MM-DD
@@ -117,6 +118,20 @@ const updateCourse = asyncHandler(async (req, res) => {
 const deleteCourse = asyncHandler(async (req, res) => {
   const { courseId } = req.params;
 
+  const { password } = req.body;
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    throw new ApiError(404, "user not found");
+  }
+
+  const isPasswordValid = await user.isPasswordCorrect(password);
+
+  if (!isPasswordValid) {
+    throw new ApiError(400, "Invalid user password");
+  }
+
   const course = await Course.findById(courseId);
 
   if (!course) {
@@ -141,7 +156,7 @@ const deleteCourse = asyncHandler(async (req, res) => {
 const getCourses = asyncHandler(async (req, res) => {
   const courses = await Course.find();
 
-  if (!courses) {
+  if (!courses || !courses.length) {
     throw new ApiError(404, "No course is registered");
   }
 
