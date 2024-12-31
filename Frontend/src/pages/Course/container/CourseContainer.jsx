@@ -28,7 +28,7 @@ function CourseContainer() {
   };
 
   const toggelDeleteModal = (course) => {
-    dispatch(toggleModal({ modalType: "deleteModal" }));
+    dispatch(toggleModal({ modalType: "deleteCourseModal" }));
     dispatch(setSelectedCourse(course));
   };
 

@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CourseModalContainer from "@/components/modals/coursemodal/container/CourseModalContainer";
-import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
 import { BookOpen, Calendar, GraduationCap, PlusCircle } from "lucide-react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import DeleteCourseModalContainer from "@/components/modals/deletecoursemodal/container/DeleteCourseModalContainer";
 
 export default function Course({
   courses,
@@ -36,7 +36,7 @@ export default function Course({
 
       <CourseModalContainer />
 
-      <DeleteModalContainer />
+      <DeleteCourseModalContainer />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses?.map((course) => (

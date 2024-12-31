@@ -227,3 +227,23 @@ export const editCommentFormValidation = z.object({
     .min(1, "Comment is required")
     .max(200, "Comment must not be more than 200 characters"),
 });
+
+export const deleteSubjectNotesFormValidation = z.object({
+  subject: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_'-]+$/,
+      "subjects must contain only alphabets and , . _ - ' characters"
+    )
+    .min(1, "Subject is required")
+    .max(20, "Subject must not be more than 20 characters"),
+});
+
+export const deleteCourseFormValidation = z.object({
+  password: z
+    .string()
+    .trim()
+    .min(8, "Password must be atleast 8 characters")
+    .max(40, "Password must not be more than 40 characters"),
+});
