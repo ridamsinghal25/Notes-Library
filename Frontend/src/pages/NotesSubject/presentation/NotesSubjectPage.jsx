@@ -1,4 +1,4 @@
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, Trash } from "lucide-react";
 import React from "react";
 import NotesSubjectPageSkeleton from "@/components/basic/NotesSubjectPageSkeleton";
 import PDFCardContainer from "@/components/pageComponent/PdfCard/container/PdfCardContainer";
@@ -7,8 +7,16 @@ import CommentModalContainer from "@/components/modals/commentmodal/container/Co
 import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
 import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
 import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
+import { Button } from "@/components/ui/button";
+import DeleteSubjectNotesModalContainer from "@/components/modals/deletesubjectnotesmodal/container/DeleteSubjectNotesModalContainer";
+import { UserRolesEnum } from "@/constants/constants";
 
-function NotesSubjectPage({ subject, notesData }) {
+function NotesSubjectPage({
+  subject,
+  notesData,
+  toggleDeleteSubjectModal,
+  userRole,
+}) {
   return (
     <div className="container mx-auto py-8 px-4">
       <HelmetProvider>
@@ -18,6 +26,13 @@ function NotesSubjectPage({ subject, notesData }) {
           <meta name="description" content="This is a notes subject page" />
         </Helmet>
       </HelmetProvider>
+      {userRole === UserRolesEnum.ADMIN && (
+        <div className="absolute top-4 right-4 z-10">
+          <Button onClick={toggleDeleteSubjectModal}>
+            <Trash />
+          </Button>
+        </div>
+      )}
       <h1 className="text-3xl font-bold mb-6 text-center dark:text-gray-200">
         Notes for the {subject.subject}
       </h1>
@@ -67,6 +82,8 @@ function NotesSubjectPage({ subject, notesData }) {
       <DeleteModalContainer />
 
       <UpdatePdfFileModalContainer />
+
+      <DeleteSubjectNotesModalContainer />
 
       <footer className="text-center text-gray-500 mt-8 dark:text-gray-200">
         &copy; {new Date().getFullYear()} {subject.subject} Notes. All rights
