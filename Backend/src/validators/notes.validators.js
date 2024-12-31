@@ -32,16 +32,16 @@ const uploadUpdateNoteValidator = () => {
   ];
 };
 
-const getNotesBySubjectValidator = () => {
+const notesSubjectValidator = () => {
   return [
     body("subject")
       .trim()
       .notEmpty()
       .withMessage("subject is required")
       .isLength({ min: 3, max: 30 })
-      .withMessage("Chapter name must be between 3 and 30 characters")
+      .withMessage("subject name must be between 3 and 30 characters")
       .escape(),
   ];
 };
 
-export { uploadUpdateNoteValidator, getNotesBySubjectValidator };
+export { uploadUpdateNoteValidator, notesSubjectValidator };

@@ -42,6 +42,8 @@ const deleteFromCloudinary = async (publicId) => {
     // delete from cloudinary
     const response = await cloudinary.uploader.destroy(publicId);
 
+    await cloudinary.api.delete_resources;
+
     return response;
   } catch (error) {
     console.log(error);
@@ -49,4 +51,22 @@ const deleteFromCloudinary = async (publicId) => {
   }
 };
 
-export { uploadOnCloudinary, deleteFromCloudinary };
+const deleteMultipleAssestsFromCloudinary = async (publicId) => {
+  try {
+    if (!publicId.length) return null;
+
+    // delete from cloudinary
+    const response = await await cloudinary.api.delete_resources(publicId);
+
+    return response;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+  deleteMultipleAssestsFromCloudinary,
+};

@@ -541,7 +541,7 @@ const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, `Your semester ends on ${formattedCourseEndDate}`);
   }
 
-  const newCourse = await Course.find({
+  const newCourse = await Course.findOne({
     courseName: course.courseName,
     semester,
   });

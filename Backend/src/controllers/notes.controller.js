@@ -6,9 +6,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
 import {
   deleteFromCloudinary,
+  deleteMultipleAssestsFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
 import { Like } from "../models/like.model.js";
+import { Comment } from "../models/comment.model.js";
 
 const uploadNotes = asyncHandler(async (req, res) => {
   const { chapterNumber, chapterName, subject, owner } = req.body;
@@ -120,6 +122,22 @@ const deleteNotes = await asyncHandler(async (req, res) => {
 
   if (!deleteNotesPdf || deleteNotesPdf.result === "not found") {
     throw new ApiError(500, "Failed to delete notes PDF");
+  }
+
+  const notesLikes = await Like.find({ notesId: notesExists._id });
+
+  if (notesLikes.length) {
+    await Like.deleteMany({
+      notesId: notesExists._id,
+    });
+  }
+
+  const notesComments = await Comment.find({ notesId: notesExists._id });
+
+  if (notesComments.length) {
+    await Comment.deleteMany({
+      notesId: notesExists._id,
+    });
   }
 
   const deleteNotes = await notesExists.deleteOne();
@@ -401,6 +419,58 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
     );
 });
 
+const deleteSubjectNotes = asyncHandler(async (req, res) => {
+  const { subject } = req.body;
+
+  const notes = await Notes.find({ subject });
+
+  if (!notes || notes?.length === 0) {
+    throw new ApiError(404, "notes does not exists");
+  }
+
+  const notesIds = notes.map((note) => note._id);
+
+  const notesPdfFilesPublicIds = notes.map((note) => note.pdf.public_id);
+
+  const deleteNotesPdf = await deleteMultipleAssestsFromCloudinary(
+    notesPdfFilesPublicIds
+  );
+
+  const deletedNotesPublicIds = Object.keys(deleteNotesPdf.deleted);
+
+  const fileNotDeleted = notesPdfFilesPublicIds.filter(
+    (pdf) => !deletedNotesPublicIds.includes(pdf)
+  );
+
+  if (fileNotDeleted.length) {
+    throw new ApiError(500, "Internal server error. Please try again");
+  }
+
+  const notesLikes = await Like.find({ notesId: { $in: notesIds } });
+
+  if (notesLikes.length) {
+    await Like.deleteMany({
+      notesId: { $in: notesIds },
+    });
+  }
+
+  const notesComments = await Comment.find({ notesId: { $in: notesIds } });
+
+  if (notesComments.length) {
+    await Comment.deleteMany({ notesId: { $in: notesIds } });
+  }
+
+  const notesDeleteResponse = await Notes.deleteMany({ subject });
+
+  if (!notesDeleteResponse.deletedCount) {
+    throw new ApiError(500, "Failed to delete notes");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "notes deleted successfully"));
+});
+
 export {
   uploadNotes,
   updateNotesDetails,
@@ -409,4 +479,5 @@ export {
   getNotesUploadedByUser,
   getNotesLikedByUser,
   updateNotesPdfFile,
+  deleteSubjectNotes,
 };

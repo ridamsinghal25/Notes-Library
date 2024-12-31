@@ -3,7 +3,7 @@ import { verifyJWT, verifyPermission } from "../middlewares/auth.middleware.js";
 import { validate } from "../validators/validate.js";
 import { UserRolesEnum } from "../constants.js";
 import {
-  getNotesBySubjectValidator,
+  notesSubjectValidator,
   uploadUpdateNoteValidator,
 } from "../validators/notes.validators.js";
 import {
@@ -12,6 +12,7 @@ import {
 } from "../middlewares/multer.middleware.js";
 import {
   deleteNotes,
+  deleteSubjectNotes,
   getNotesBySubject,
   getNotesLikedByUser,
   getNotesUploadedByUser,
@@ -62,7 +63,7 @@ router
 
 router
   .route("/get-subject-notes")
-  .post(getNotesBySubjectValidator(), validate, getNotesBySubject);
+  .post(notesSubjectValidator(), validate, getNotesBySubject);
 
 router
   .route("/get-user-notes")
@@ -79,6 +80,15 @@ router
     mongoIdPathVariableValidator("notesId"),
     validate,
     updateNotesPdfFile
+  );
+
+router
+  .route("/delete-subject-notes")
+  .delete(
+    verifyPermission([UserRolesEnum.ADMIN]),
+    notesSubjectValidator(),
+    validate,
+    deleteSubjectNotes
   );
 
 export default router;
