@@ -26,7 +26,7 @@ function ProfileCommentsTab({ isFetchingComments, userComments }) {
             <ProfileNotesCard
               key={commentsInfo?._id}
               notesInfo={commentsInfo.notes}
-              userDetails={commentsInfo.owner}
+              userDetails={commentsInfo.commentedBy}
               commentContent={commentsInfo.content}
               isNotesTab={false}
             />
