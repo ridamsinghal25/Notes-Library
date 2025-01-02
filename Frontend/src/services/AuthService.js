@@ -158,7 +158,7 @@ class AuthService {
   async updateCourseByUser(semester) {
     const apiRequest = new ApiRequest(`${this.USER_BASE_URL}/update-course`);
 
-    const response = await apiRequest.postRequest({ semester });
+    const response = await apiRequest.postRequest(semester);
 
     if (response instanceof ApiResponse && response.success) {
       return response;

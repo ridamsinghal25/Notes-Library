@@ -84,6 +84,7 @@ function CourseModalContainer() {
           newCourse: response?.data,
         })
       );
+      dispatch(setSelectedCourse({}));
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);
     }

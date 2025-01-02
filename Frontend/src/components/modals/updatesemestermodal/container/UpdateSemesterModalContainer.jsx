@@ -31,6 +31,7 @@ function UpdateSemesterModalContainer() {
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message);
+      dispatch(toggleModal({ modalType: "updateSemesterModal" }));
 
       const LogoutResponse = await AuthService.logoutService();
 

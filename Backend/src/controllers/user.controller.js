@@ -552,7 +552,7 @@ const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
 
   if (
     !(
-      new Date() > new Date(newCourse.startDate) &&
+      new Date() > new Date(newCourse.startDate) ||
       new Date() < new Date(newCourse.endDate)
     )
   ) {
@@ -577,7 +577,9 @@ const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(200, updatedUserDetails, "course updated successfully");
+    .json(
+      new ApiResponse(200, updatedUserDetails, "course updated successfully")
+    );
 });
 
 const checkRollNumberExists = asyncHandler(async (req, res) => {
