@@ -1,6 +1,7 @@
 import React from "react";
 import {
   CircleUser,
+  Download,
   ExternalLink,
   FileText,
   MessageCircle,
@@ -21,6 +22,7 @@ const PDFCard = ({
   setShowCommentModal,
   userRole,
   userId,
+  handleDownload,
 }) => {
   const { owner, chapterName } = notes;
   const isAdmin =
@@ -78,6 +80,15 @@ const PDFCard = ({
             className="absolute w-64 h-full inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />
+          </Button>
+
+          <Button
+            title="Download Pdf"
+            variant="outline"
+            className="absolute -right-1 -bottom-6 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
+            onClick={() => handleDownload(notes?.pdf.url, chapterName)}
+          >
+            <Download className="text-gray-600 w-5 h-5" />
           </Button>
           {isAdmin && (
             <Button

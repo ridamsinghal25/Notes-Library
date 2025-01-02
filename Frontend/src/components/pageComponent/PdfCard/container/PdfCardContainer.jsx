@@ -45,6 +45,20 @@ const PDFCardContainer = ({ notes }) => {
     }
   };
 
+  const handleDownload = async (url, chapterName) => {
+    const newPdfUrl = url.replace(
+      /\/upload/,
+      `/upload/fl_attachment:${encodeURIComponent(chapterName)}`
+    );
+
+    const link = document.createElement("a");
+    link.href = newPdfUrl;
+    link.download = `${chapterName}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const setShowCommentModal = (notesId) => {
     dispatch(toggleModal({ modalType: "commentModal" }));
     dispatch(setNotesId(notesId));
@@ -61,6 +75,7 @@ const PDFCardContainer = ({ notes }) => {
           setShowCommentModal={setShowCommentModal}
           userRole={userRole}
           userId={userId}
+          handleDownload={handleDownload}
         />
       ))}
     </div>
