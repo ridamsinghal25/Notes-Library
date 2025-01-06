@@ -276,6 +276,7 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
     },
     {
       $addFields: {
+        createdBy: req?.user,
         likesCount: {
           $size: "$likes",
         },
@@ -295,8 +296,14 @@ const getNotesUploadedByUser = asyncHandler(async (req, res) => {
     },
     {
       $project: {
-        likes: 0,
-        comments: 0,
+        chapterName: 1,
+        subject: 1,
+        pdf: 1,
+        likesCount: 1,
+        commentsCount: 1,
+        "createdBy.fullName": 1,
+        "createdBy.role": 1,
+        "createdBy.avatar": 1,
       },
     },
   ]);
