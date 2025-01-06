@@ -55,7 +55,7 @@ export default PdfPageContainer;
 //     // Initialize WebViewer only once
 //     WebViewer(
 //       {
-//         path: "../../../../../webviewer",
+//         path: "../../../../../webviewer", // place webviewer in react public directory(for production) and root frontend directory(for localhost)
 //         initialDoc: pdfUrl,
 //         licenseKey: "dGiXN50WjhorEDQUkX93",
 //       },
