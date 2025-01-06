@@ -9,6 +9,7 @@ import {
 import {
   createCourse,
   deleteCourse,
+  getAllUsersEnrolledInCourse,
   getCourses,
   updateCourse,
 } from "../controllers/course.controller.js";
@@ -43,5 +44,13 @@ router
   );
 
 router.route("/get-courses").get(getCourses);
+
+router
+  .route("/users/:courseId")
+  .get(
+    mongoIdPathVariableValidator("courseId"),
+    validate,
+    getAllUsersEnrolledInCourse
+  );
 
 export default router;

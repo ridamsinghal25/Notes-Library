@@ -132,6 +132,17 @@ const deleteCourse = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid user password");
   }
 
+  const areUserExistsWithThisCourse = await User.find({
+    course: req.user?.course,
+  });
+
+  if (areUserExistsWithThisCourse.length) {
+    throw new ApiError(
+      400,
+      "Please make sure you moved all your users to new course first"
+    );
+  }
+
   const course = await Course.findById(courseId);
 
   if (!course) {
@@ -165,4 +176,50 @@ const getCourses = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, courses, "course fetched successfully"));
 });
 
-export { createCourse, updateCourse, deleteCourse, getCourses };
+const getAllUsersEnrolledInCourse = asyncHandler(async (req, res) => {
+  const { courseId } = req.params;
+  const { page = 1, limit = 10 } = req.query;
+
+  const course = await Course.findById(courseId);
+
+  if (!course) {
+    throw new ApiError(404, "course does not exists");
+  }
+
+  const [totalUsers, users] = await Promise.all([
+    User.countDocuments({ course: course._id }), // Count total users
+    User.find({ course: course._id })
+      .select("fullName avatar email") // Fetch only required fields
+      .skip((page - 1) * limit)
+      .limit(Number(limit))
+      .lean(), // Fetch paginated users
+  ]);
+
+  if (!users.length && page <= 1) {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "No users are enrolled in this course"));
+  }
+
+  if (!users.length) {
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, [], "No more users are enrolled in this course")
+      );
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, { users, totalUsers }, "users fetched successfully")
+    );
+});
+
+export {
+  createCourse,
+  updateCourse,
+  deleteCourse,
+  getCourses,
+  getAllUsersEnrolledInCourse,
+};
