@@ -64,6 +64,22 @@ class CourseService {
       return response;
     }
   }
+
+  async getCourseUsers(courseId, page) {
+    const apiRequest = new ApiRequest(
+      `${this.COURSE_BASE_URL}/users/${courseId}`
+    );
+
+    const response = await apiRequest.getRequest({ page });
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
 }
 
 export default new CourseService();

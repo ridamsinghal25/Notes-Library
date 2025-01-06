@@ -14,6 +14,7 @@ export const fetchCourse = createAsyncThunk("course/fetchCourse", async () => {
 
 const initialState = {
   courses: [],
+  users: [],
   error: null,
   status: "idle",
 };
@@ -39,6 +40,9 @@ const CourseSlice = createSlice({
         state.courses[courseIndex] = newCourse;
       }
     },
+    setUsers: (state, action) => {
+      state.users = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -56,6 +60,7 @@ const CourseSlice = createSlice({
   },
 });
 
-export const { addCourse, deleteCourse, updateCourse } = CourseSlice.actions;
+export const { addCourse, deleteCourse, updateCourse, setUsers } =
+  CourseSlice.actions;
 
 export default CourseSlice.reducer;

@@ -14,6 +14,7 @@ const initialState = {
     updateSemesterModal: false,
     commentModal: false,
     courseModal: false,
+    courseUsersModal: false,
   },
   selectedNotes: {},
   selectedCourse: {},
