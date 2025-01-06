@@ -139,7 +139,7 @@ function CommentModal({
                             </form>
                           </Form>
                         ) : (
-                          <p className="text-muted-foreground mt-1 break-normal">
+                          <p className="text-muted-foreground mt-1 break-all">
                             {comment.content}
                           </p>
                         )}

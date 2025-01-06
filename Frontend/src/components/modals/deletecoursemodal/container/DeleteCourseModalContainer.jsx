@@ -42,6 +42,7 @@ function DeleteCourseModalContainer() {
   const toggelDeleteCourseModal = () => {
     dispatch(toggleModal({ modalType: "deleteCourseModal" }));
     dispatch(setSelectedNotes({}));
+    dispatch(setSelectedCourse({}));
   };
 
   return (
