@@ -32,12 +32,18 @@ function CourseContainer() {
     dispatch(setSelectedCourse(course));
   };
 
+  const toggleCourseUsersModal = (courseId) => {
+    dispatch(toggleModal({ modalType: "courseUsersModal" }));
+    dispatch(setSelectedCourse({ courseId }));
+  };
+
   return (
     <Course
       courses={courses}
       toggleCourseModal={toggleCourseModal}
       toggleEditCourseModal={toggleEditCourseModal}
       toggelDeleteModal={toggelDeleteModal}
+      toggleCourseUsersModal={toggleCourseUsersModal}
       userId={userId}
     />
   );

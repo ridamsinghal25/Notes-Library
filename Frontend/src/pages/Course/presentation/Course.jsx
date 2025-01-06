@@ -1,15 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CourseModalContainer from "@/components/modals/coursemodal/container/CourseModalContainer";
-import { BookOpen, Calendar, GraduationCap, PlusCircle } from "lucide-react";
+import {
+  BookOpen,
+  Calendar,
+  GraduationCap,
+  PlusCircle,
+  Users,
+} from "lucide-react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import DeleteCourseModalContainer from "@/components/modals/deletecoursemodal/container/DeleteCourseModalContainer";
+import CourseUsersModalContainer from "@/components/modals/courseusersmodal/container/CourseUsersModalContainer";
 
 export default function Course({
   courses,
   toggleCourseModal,
   toggleEditCourseModal,
   toggelDeleteModal,
+  toggleCourseUsersModal,
   userId,
 }) {
   return (
@@ -37,6 +45,8 @@ export default function Course({
       <CourseModalContainer />
 
       <DeleteCourseModalContainer />
+
+      <CourseUsersModalContainer />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses?.map((course) => (
@@ -85,16 +95,23 @@ export default function Course({
                 </div>
               </div>
               {course?.createdBy === userId && (
-                <div className="flex justify-end space-x-2 pt-4">
-                  <Button onClick={() => toggleEditCourseModal(course)}>
-                    Update
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    onClick={() => toggelDeleteModal(course)}
-                  >
-                    Delete
-                  </Button>
+                <div className="flex justify-between">
+                  <div className="space-x-2 pt-4">
+                    <Button onClick={() => toggleCourseUsersModal(course._id)}>
+                      <Users />
+                    </Button>
+                  </div>
+                  <div className="flex justify-end space-x-2 pt-4">
+                    <Button onClick={() => toggleEditCourseModal(course)}>
+                      Update
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => toggelDeleteModal(course)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               )}
             </CardContent>
