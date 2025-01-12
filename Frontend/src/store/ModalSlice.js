@@ -2,14 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   modals: {
-    notesModal: false,
     forgotPasswordEmailModal: false,
     verificationEmailModal: false,
     avatarUploadModal: false,
     deleteCourseModal: false,
     deleteModal: false,
     deleteSubjectNotesModal: false,
-    updatePdfFileModal: false,
     showPdfModal: false,
     updateSemesterModal: false,
     commentModal: false,
