@@ -133,7 +133,7 @@ const deleteCourse = asyncHandler(async (req, res) => {
   }
 
   const areUserExistsWithThisCourse = await User.find({
-    course: req.user?.course,
+    course: courseId,
   });
 
   if (areUserExistsWithThisCourse.length) {
