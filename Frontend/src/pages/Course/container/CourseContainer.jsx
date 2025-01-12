@@ -4,12 +4,14 @@ import Course from "../presentation/Course";
 import { useEffect } from "react";
 import { fetchCourse } from "@/store/CourseSlice";
 import { UserRolesEnum } from "@/constants/constants";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/constants/route";
 
 function CourseContainer() {
   const courses = useSelector((state) => state.courses?.courses);
   const userRole = useSelector((state) => state.auth.userDetails?.role);
   const userId = useSelector((state) => state.auth.userDetails?._id);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,15 +19,6 @@ function CourseContainer() {
       dispatch(fetchCourse());
     }
   }, [dispatch, userRole]);
-
-  const toggleCourseModal = () => {
-    dispatch(toggleModal({ modalType: "courseModal" }));
-  };
-
-  const toggleEditCourseModal = (editingCourse) => {
-    dispatch(toggleModal({ modalType: "courseModal" }));
-    dispatch(setSelectedCourse(editingCourse));
-  };
 
   const toggelDeleteModal = (course) => {
     dispatch(toggleModal({ modalType: "deleteCourseModal" }));
@@ -37,14 +30,22 @@ function CourseContainer() {
     dispatch(setSelectedCourse({ courseId }));
   };
 
+  const navigateToManageCourse = (course) => {
+    if (course?._id) {
+      navigate(ROUTES.MANAGE_COURSE);
+      dispatch(setSelectedCourse(course));
+      return;
+    }
+    navigate(ROUTES.MANAGE_COURSE);
+  };
+
   return (
     <Course
       courses={courses}
-      toggleCourseModal={toggleCourseModal}
-      toggleEditCourseModal={toggleEditCourseModal}
       toggelDeleteModal={toggelDeleteModal}
       toggleCourseUsersModal={toggleCourseUsersModal}
       userId={userId}
+      navigateToManageCourse={navigateToManageCourse}
     />
   );
 }

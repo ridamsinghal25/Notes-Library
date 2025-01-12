@@ -16,4 +16,5 @@ export const ROUTES = {
   COURSE: "/course",
   UPLOAD_NOTES: "/upload-notes",
   UPDATE_NOTES: "/update-notes",
+  MANAGE_COURSE: "/manage-course",
 };

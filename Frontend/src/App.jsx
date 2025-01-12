@@ -23,6 +23,7 @@ import ForAdminUsers from "./protectedRoutes/ForAdminUsers";
 import UploadNotesContainer from "./pages/UploadNotes/container/UploadNotesContainer";
 import LayoutWithoutSidebar from "./components/basic/Sidebar/LayoutWithoutSidebar";
 import UpdateNotesContainer from "./pages/UpdateNotes/container/UpdateNotesContainer";
+import ManageCourseContainer from "./pages/ManageCourse/container/ManageCourseContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -61,6 +62,10 @@ function App() {
               <Route
                 path={ROUTES.UPDATE_NOTES}
                 element={<UpdateNotesContainer />}
+              />
+              <Route
+                path={ROUTES.MANAGE_COURSE}
+                element={<ManageCourseContainer />}
               />
             </Route>
           </Route>

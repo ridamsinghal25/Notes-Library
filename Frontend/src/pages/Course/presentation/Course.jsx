@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CourseModalContainer from "@/components/modals/coursemodal/container/CourseModalContainer";
 import {
   BookOpen,
   Calendar,
@@ -14,11 +13,10 @@ import CourseUsersModalContainer from "@/components/modals/courseusersmodal/cont
 
 export default function Course({
   courses,
-  toggleCourseModal,
-  toggleEditCourseModal,
   toggelDeleteModal,
   toggleCourseUsersModal,
   userId,
+  navigateToManageCourse,
 }) {
   return (
     <div className="container mx-auto p-6 space-y-8 mt-4">
@@ -33,7 +31,7 @@ export default function Course({
         <h1 className="text-3xl font-bold">Course Management</h1>
         <div className="flex justify-start w-full sm:w-auto sm:justify-normal">
           <Button
-            onClick={toggleCourseModal}
+            onClick={() => navigateToManageCourse()}
             className="flex items-center space-x-2"
           >
             <PlusCircle className="w-5 h-5" />
@@ -41,8 +39,6 @@ export default function Course({
           </Button>
         </div>
       </div>
-
-      <CourseModalContainer />
 
       <DeleteCourseModalContainer />
 
@@ -102,7 +98,7 @@ export default function Course({
                     </Button>
                   </div>
                   <div className="flex justify-end space-x-2 pt-4">
-                    <Button onClick={() => toggleEditCourseModal(course)}>
+                    <Button onClick={() => navigateToManageCourse(course)}>
                       Update
                     </Button>
                     <Button
