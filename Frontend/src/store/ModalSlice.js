@@ -10,7 +10,6 @@ const initialState = {
     deleteSubjectNotesModal: false,
     updateSemesterModal: false,
     commentModal: false,
-    courseModal: false,
     courseUsersModal: false,
   },
   selectedNotes: {},
