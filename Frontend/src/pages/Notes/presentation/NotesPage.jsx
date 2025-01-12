@@ -6,11 +6,12 @@ import {
   NOTES_PAGE_HEADING,
 } from "@/constants/constants";
 import { UserRolesEnum } from "@/constants/constants";
-import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 import NotesCardContainer from "@/components/pageComponent/NotesCard/container/NotesCardContainer";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import { ROUTES } from "@/constants/route";
 
-function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
+function NotesPage({ userSubjects, userRole }) {
   return (
     <div className="min-h-screen w-full flex flex-col">
       <HelmetProvider>
@@ -23,11 +24,12 @@ function NotesPage({ userSubjects, userRole, toggleNotesModal }) {
       {userRole === UserRolesEnum.ADMIN ? (
         <>
           <div className="absolute top-4 right-4 z-10">
-            <Button onClick={toggleNotesModal}>
-              <Upload />
-            </Button>
+            <Link to={ROUTES.UPLOAD_NOTES}>
+              <Button>
+                <Upload />
+              </Button>
+            </Link>
           </div>
-          <NotesModalContainer />
         </>
       ) : null}
 
