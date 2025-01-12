@@ -23,6 +23,7 @@ const PDFCard = ({
   userId,
   handleDownload,
   navigateToUpdateNotesPage,
+  navigateToPdfPage,
 }) => {
   const { owner, chapterName } = notes;
   const isAdmin =
@@ -76,7 +77,7 @@ const PDFCard = ({
           />
           <Button
             variant="outline"
-            onClick={() => toggleModalOfPdfCard("showPdfModal", notes, true)}
+            onClick={() => navigateToPdfPage(notes)}
             className="absolute w-64 h-full inset-0 flex items-center justify-center bg-black dark:bg-gray-300 text-white opacity-0 hover:opacity-50 dark:hover:opacity-50 transition-opacity duration-300 rounded"
           >
             <ExternalLink className="w-10 h-10" />

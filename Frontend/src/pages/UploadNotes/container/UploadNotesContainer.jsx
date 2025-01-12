@@ -35,7 +35,6 @@ function UploadNotesContainer() {
       userSubjects={userSubjects}
       isSubmitting={isSubmitting}
       onSubmit={onNotesUpload}
-      navigate={navigate}
     />
   );
 }

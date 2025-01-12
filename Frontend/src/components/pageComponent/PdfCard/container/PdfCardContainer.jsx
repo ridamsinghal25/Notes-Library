@@ -16,14 +16,10 @@ const PDFCardContainer = ({ notes }) => {
   const userId = useSelector((state) => state.auth.userDetails?._id);
   const dispatch = useDispatch();
 
-  const toggleModalOfPdfCard = (modalType, notes, displayPdf) => {
+  const toggleModalOfPdfCard = (modalType, notes) => {
     dispatch(toggleModal({ modalType }));
     if (notes) {
       dispatch(setSelectedNotes(notes));
-    }
-
-    if (displayPdf) {
-      navigate(ROUTES.PDF);
     }
   };
 
@@ -69,6 +65,11 @@ const PDFCardContainer = ({ notes }) => {
     navigate(ROUTES.UPDATE_NOTES);
   };
 
+  const navigateToPdfPage = (notes) => {
+    dispatch(setSelectedNotes(notes));
+    navigate(ROUTES.PDF);
+  };
+
   return (
     <div>
       {notes.mergedNotes?.map((note) => (
@@ -82,6 +83,7 @@ const PDFCardContainer = ({ notes }) => {
           userId={userId}
           handleDownload={handleDownload}
           navigateToUpdateNotesPage={navigateToUpdateNotesPage}
+          navigateToPdfPage={navigateToPdfPage}
         />
       ))}
     </div>

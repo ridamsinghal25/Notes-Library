@@ -8,7 +8,6 @@ const initialState = {
     deleteCourseModal: false,
     deleteModal: false,
     deleteSubjectNotesModal: false,
-    showPdfModal: false,
     updateSemesterModal: false,
     commentModal: false,
     courseModal: false,

@@ -7,8 +7,9 @@ import { Form } from "@/components/ui/form";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { uploadNotesValidation } from "@/validation/zodValidation";
 import { ROUTES } from "@/constants/route";
+import { Link } from "react-router-dom";
 
-function UploadNotes({ userSubjects, isSubmitting, onSubmit, navigate }) {
+function UploadNotes({ userSubjects, isSubmitting, onSubmit }) {
   const uploadNotesForm = useForm({
     resolver: zodResolver(uploadNotesValidation),
     defaultValues: {
@@ -25,15 +26,16 @@ function UploadNotes({ userSubjects, isSubmitting, onSubmit, navigate }) {
       <div className="max-w-4xl mx-auto bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-xl backdrop-blur-sm p-6">
         <div className="flex items-center justify-between mb-8 pb-4 border-b dark:border-gray-700">
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(ROUTES.NOTES)}
-              className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
-              aria-label="Go back"
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </Button>
+            <Link to={ROUTES.NOTES}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="h-6 w-6" />
+              </Button>
+            </Link>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Upload Notes
             </h1>
