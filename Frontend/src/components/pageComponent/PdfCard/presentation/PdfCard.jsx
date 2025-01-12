@@ -8,7 +8,6 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-import { FilePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThumbsUpDark } from "@/assets/ThumbsUpDark";
 import { ThumbsUpLight } from "@/assets/ThumbsUpLight";
@@ -23,6 +22,7 @@ const PDFCard = ({
   userRole,
   userId,
   handleDownload,
+  navigateToUpdateNotesPage,
 }) => {
   const { owner, chapterName } = notes;
   const isAdmin =
@@ -49,20 +49,20 @@ const PDFCard = ({
           {isAdmin && (
             <div className="flex items-center gap-2 absolute top-0 right-0">
               <Button
-                title="Update Notes"
-                variant="outline"
-                className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-                onClick={() => toggleModalOfPdfCard("notesModal", notes)}
-              >
-                <FilePen className="text-gray-600 w-5 h-5" />
-              </Button>
-              <Button
                 title="Delete Notes"
                 variant="outline"
                 className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
                 onClick={() => toggleModalOfPdfCard("deleteModal", notes)}
               >
                 <Trash2 className="text-red-600 w-5 h-5" />
+              </Button>
+              <Button
+                title="Update Notes"
+                variant="outline"
+                className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
+                onClick={() => navigateToUpdateNotesPage(notes)}
+              >
+                <Pencil className="text-gray-600 w-5 h-5" />
               </Button>
             </div>
           )}
@@ -90,16 +90,6 @@ const PDFCard = ({
           >
             <Download className="text-gray-600 w-5 h-5" />
           </Button>
-          {isAdmin && (
-            <Button
-              title="Update Pdf"
-              variant="outline"
-              className="absolute -right-1 top-3 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
-              onClick={() => toggleModalOfPdfCard("updatePdfFileModal", notes)}
-            >
-              <Pencil className="text-gray-600 w-5 h-5" />
-            </Button>
-          )}
         </div>
       </div>
 

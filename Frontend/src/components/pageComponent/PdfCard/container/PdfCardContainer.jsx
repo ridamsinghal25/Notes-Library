@@ -64,6 +64,11 @@ const PDFCardContainer = ({ notes }) => {
     dispatch(setNotesId(notesId));
   };
 
+  const navigateToUpdateNotesPage = (notes) => {
+    dispatch(setSelectedNotes(notes));
+    navigate(ROUTES.UPDATE_NOTES);
+  };
+
   return (
     <div>
       {notes.mergedNotes?.map((note) => (
@@ -76,6 +81,7 @@ const PDFCardContainer = ({ notes }) => {
           userRole={userRole}
           userId={userId}
           handleDownload={handleDownload}
+          navigateToUpdateNotesPage={navigateToUpdateNotesPage}
         />
       ))}
     </div>

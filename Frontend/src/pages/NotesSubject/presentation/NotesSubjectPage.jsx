@@ -5,8 +5,6 @@ import PDFCardContainer from "@/components/pageComponent/PdfCard/container/PdfCa
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import CommentModalContainer from "@/components/modals/commentmodal/container/CommentModalContainer";
 import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
-import UpdatePdfFileModalContainer from "@/components/modals/updatepdffilemodal/container/UpdatePdfFileModalContainer";
-import NotesModalContainer from "@/components/modals/notesmodal/container/NotesModalContainer";
 import { Button } from "@/components/ui/button";
 import DeleteSubjectNotesModalContainer from "@/components/modals/deletesubjectnotesmodal/container/DeleteSubjectNotesModalContainer";
 import { UserRolesEnum } from "@/constants/constants";
@@ -75,13 +73,9 @@ function NotesSubjectPage({
         )}
       </div>
 
-      <NotesModalContainer isUpdateMode={true} />
-
       <CommentModalContainer />
 
       <DeleteModalContainer />
-
-      <UpdatePdfFileModalContainer />
 
       <DeleteSubjectNotesModalContainer />
 
