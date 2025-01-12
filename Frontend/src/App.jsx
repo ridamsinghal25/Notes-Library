@@ -20,6 +20,9 @@ import FeedbackPageContainer from "./pages/Feedback/container/FeedbackPageContai
 import PdfPageContainer from "./pages/PdfPage/container/PdfPageContainer";
 import CourseContainer from "./pages/Course/container/CourseContainer";
 import ForAdminUsers from "./protectedRoutes/ForAdminUsers";
+import UploadNotesContainer from "./pages/UploadNotes/container/UploadNotesContainer";
+import LayoutWithoutSidebar from "./components/basic/Sidebar/LayoutWithoutSidebar";
+import UpdateNotesContainer from "./pages/UpdateNotes/container/UpdateNotesContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -47,6 +50,18 @@ function App() {
             <Route path={ROUTES.PDF} element={<PdfPageContainer />} />
             <Route element={<ForAdminUsers />}>
               <Route path={ROUTES.COURSE} element={<CourseContainer />} />
+            </Route>
+          </Route>
+          <Route element={<ForAdminUsers />}>
+            <Route element={<LayoutWithoutSidebar />}>
+              <Route
+                path={ROUTES.UPLOAD_NOTES}
+                element={<UploadNotesContainer />}
+              />
+              <Route
+                path={ROUTES.UPDATE_NOTES}
+                element={<UpdateNotesContainer />}
+              />
             </Route>
           </Route>
         </Route>

@@ -14,4 +14,6 @@ export const ROUTES = {
   FEEDBACK: "/feedback",
   PDF: "/pdf",
   COURSE: "/course",
+  UPLOAD_NOTES: "/upload-notes",
+  UPDATE_NOTES: "/update-notes",
 };
