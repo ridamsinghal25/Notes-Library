@@ -42,8 +42,6 @@ const deleteFromCloudinary = async (publicId) => {
     // delete from cloudinary
     const response = await cloudinary.uploader.destroy(publicId);
 
-    await cloudinary.api.delete_resources;
-
     return response;
   } catch (error) {
     console.log(error);
