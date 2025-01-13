@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   modals: {
-    forgotPasswordEmailModal: false,
-    verificationEmailModal: false,
+    emailModal: false,
     avatarUploadModal: false,
     deleteCourseModal: false,
     deleteModal: false,
