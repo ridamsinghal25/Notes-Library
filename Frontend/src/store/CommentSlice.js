@@ -4,7 +4,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchComments = createAsyncThunk(
   "comments/fetchComments",
-  async (notesId) => {
+  async (notesId, { getState }) => {
+    const { comment } = getState();
+
+    const previousNotesId = comment.comments?.[0]?.notesId;
+
+    if (previousNotesId === notesId) {
+      return comment.comments;
+    }
+
     const response = await CommentService.getComments(notesId);
 
     if (!(response instanceof ApiError)) {
@@ -25,7 +33,7 @@ const initialState = {
 };
 
 const CommentSlice = createSlice({
-  name: "comments",
+  name: "comment",
   initialState,
   reducers: {
     addComment: (state, action) => {

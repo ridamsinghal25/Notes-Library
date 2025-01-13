@@ -2,15 +2,26 @@ import ApiError from "../services/ApiError";
 import CourseService from "@/services/CourseService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const fetchCourse = createAsyncThunk("course/fetchCourse", async () => {
-  const response = await CourseService.getCourse();
+export const fetchCourse = createAsyncThunk(
+  "course/fetchCourse",
+  async (_, { getState }) => {
+    const { courses } = getState();
 
-  if (!(response instanceof ApiError)) {
-    return response?.data;
-  } else {
-    throw new Error(response?.errorResponse?.message || response?.errorMessage);
+    if (courses?.courses.length) {
+      return courses?.courses;
+    }
+
+    const response = await CourseService.getCourse();
+
+    if (!(response instanceof ApiError)) {
+      return response?.data;
+    } else {
+      throw new Error(
+        response?.errorResponse?.message || response?.errorMessage
+      );
+    }
   }
-});
+);
 
 const initialState = {
   courses: [],

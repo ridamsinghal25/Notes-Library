@@ -4,7 +4,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchNotes = createAsyncThunk(
   "notes/fetchNotes",
-  async (subject) => {
+  async (subject, { getState }) => {
+    const { notes } = getState();
+
+    const previousSubjectNotes = notes.userNotes?.[0]?.subject;
+
+    if (previousSubjectNotes === subject?.subject) {
+      return notes.userNotes;
+    }
+
     const response = await NotesService.getNotesBySubject(subject);
 
     if (!(response instanceof ApiError)) {
