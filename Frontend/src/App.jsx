@@ -24,6 +24,7 @@ import UploadNotesContainer from "./pages/UploadNotes/container/UploadNotesConta
 import LayoutWithoutSidebar from "./components/basic/Sidebar/LayoutWithoutSidebar";
 import UpdateNotesContainer from "./pages/UpdateNotes/container/UpdateNotesContainer";
 import ManageCourseContainer from "./pages/ManageCourse/container/ManageCourseContainer";
+import CourseUsersContainer from "./pages/CourseUsers/container/CourseUsersContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -66,6 +67,10 @@ function App() {
               <Route
                 path={ROUTES.MANAGE_COURSE}
                 element={<ManageCourseContainer />}
+              />
+              <Route
+                path={ROUTES.COURSE_USERS}
+                element={<CourseUsersContainer />}
               />
             </Route>
           </Route>

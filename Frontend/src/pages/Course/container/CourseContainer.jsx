@@ -25,9 +25,8 @@ function CourseContainer() {
     dispatch(setSelectedCourse(course));
   };
 
-  const toggleCourseUsersModal = (courseId) => {
-    dispatch(toggleModal({ modalType: "courseUsersModal" }));
-    dispatch(setSelectedCourse({ courseId }));
+  const navigateToCourseUsers = (courseId) => {
+    navigate(ROUTES.COURSE_USERS, { state: { courseId } });
   };
 
   const navigateToManageCourse = (course) => {
@@ -43,9 +42,9 @@ function CourseContainer() {
     <Course
       courses={courses}
       toggelDeleteModal={toggelDeleteModal}
-      toggleCourseUsersModal={toggleCourseUsersModal}
       userId={userId}
       navigateToManageCourse={navigateToManageCourse}
+      navigateToCourseUsers={navigateToCourseUsers}
     />
   );
 }

@@ -9,14 +9,13 @@ import {
 } from "lucide-react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import DeleteCourseModalContainer from "@/components/modals/deletecoursemodal/container/DeleteCourseModalContainer";
-import CourseUsersModalContainer from "@/components/modals/courseusersmodal/container/CourseUsersModalContainer";
 
 export default function Course({
   courses,
   toggelDeleteModal,
-  toggleCourseUsersModal,
   userId,
   navigateToManageCourse,
+  navigateToCourseUsers,
 }) {
   return (
     <div className="container mx-auto p-6 space-y-8 mt-4">
@@ -41,8 +40,6 @@ export default function Course({
       </div>
 
       <DeleteCourseModalContainer />
-
-      <CourseUsersModalContainer />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses?.map((course) => (
@@ -93,7 +90,7 @@ export default function Course({
               {course?.createdBy === userId && (
                 <div className="flex justify-between">
                   <div className="space-x-2 pt-4">
-                    <Button onClick={() => toggleCourseUsersModal(course._id)}>
+                    <Button onClick={() => navigateToCourseUsers(course._id)}>
                       <Users />
                     </Button>
                   </div>
