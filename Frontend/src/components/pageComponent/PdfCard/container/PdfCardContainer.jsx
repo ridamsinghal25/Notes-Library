@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 import { toggleLikeState } from "@/store/NotesSlice";
-import { setNotesId } from "@/store/CommentSlice";
 
 const PDFCardContainer = ({ notes }) => {
   const navigate = useNavigate();
@@ -55,9 +54,8 @@ const PDFCardContainer = ({ notes }) => {
     document.body.removeChild(link);
   };
 
-  const setShowCommentModal = (notesId) => {
-    dispatch(toggleModal({ modalType: "commentModal" }));
-    dispatch(setNotesId(notesId));
+  const navigateToComment = (notesId) => {
+    navigate(`${ROUTES.COMMENT}/${notesId}`);
   };
 
   const navigateToUpdateNotesPage = (notes) => {
@@ -78,7 +76,7 @@ const PDFCardContainer = ({ notes }) => {
           notes={note}
           handleLike={handleLike}
           toggleModalOfPdfCard={toggleModalOfPdfCard}
-          setShowCommentModal={setShowCommentModal}
+          navigateToComment={navigateToComment}
           userRole={userRole}
           userId={userId}
           handleDownload={handleDownload}

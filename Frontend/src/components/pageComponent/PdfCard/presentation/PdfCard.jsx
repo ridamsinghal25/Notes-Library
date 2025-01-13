@@ -18,7 +18,7 @@ const PDFCard = ({
   notes,
   handleLike,
   toggleModalOfPdfCard,
-  setShowCommentModal,
+  navigateToComment,
   userRole,
   userId,
   handleDownload,
@@ -114,7 +114,7 @@ const PDFCard = ({
           </span>
           <Button
             className="p-2 mr-1"
-            onClick={() => setShowCommentModal(notes?._id)}
+            onClick={() => navigateToComment(notes?._id)}
           >
             <MessageCircle size={28} />
           </Button>

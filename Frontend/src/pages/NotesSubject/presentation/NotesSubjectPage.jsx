@@ -3,7 +3,6 @@ import React from "react";
 import NotesSubjectPageSkeleton from "@/components/basic/NotesSubjectPageSkeleton";
 import PDFCardContainer from "@/components/pageComponent/PdfCard/container/PdfCardContainer";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import CommentModalContainer from "@/components/modals/commentmodal/container/CommentModalContainer";
 import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
 import { Button } from "@/components/ui/button";
 import DeleteSubjectNotesModalContainer from "@/components/modals/deletesubjectnotesmodal/container/DeleteSubjectNotesModalContainer";
@@ -72,8 +71,6 @@ function NotesSubjectPage({
           </div>
         )}
       </div>
-
-      <CommentModalContainer />
 
       <DeleteModalContainer />
 
