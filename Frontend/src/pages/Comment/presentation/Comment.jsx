@@ -107,7 +107,7 @@ function Comment({
                           <Form {...commentEditForm}>
                             <form
                               onSubmit={commentEditForm.handleSubmit((data) =>
-                                editComment(comment._id, data)
+                                editComment(comment._id, data.newEditedComment)
                               )}
                               className="flex flex-col sm:flex-row items-start gap-2 w-full mt-2"
                             >
@@ -116,6 +116,17 @@ function Comment({
                                   form={commentEditForm}
                                   name="newEditedComment"
                                   className="w-full border-[1px] border-purple-500"
+                                  onKeyDown={(event) => {
+                                    if (event.key === "Enter") {
+                                      event.preventDefault();
+                                      editComment(
+                                        comment._id,
+                                        event.target.value
+                                      ).then(() => {
+                                        handleCancelCommentEdit();
+                                      });
+                                    }
+                                  }}
                                 />
                               </div>
                               <div className="flex sm:flex-col justify-end space-y-0 space-x-2 sm:space-x-0 sm:space-y-2 mt-2 w-full sm:w-auto">
@@ -157,7 +168,7 @@ function Comment({
             <Form {...commentForm}>
               <form
                 onSubmit={commentForm.handleSubmit((data) =>
-                  createComment(data).then(() => commentForm.reset())
+                  createComment(data.comment).then(() => commentForm.reset())
                 )}
                 className="mt-4"
               >
@@ -168,6 +179,14 @@ function Comment({
                       name="comment"
                       placeholder="Add a comment..."
                       className="border-[1px] border-black"
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          event.preventDefault();
+                          createComment(event.target.value).then(() =>
+                            commentForm.reset()
+                          );
+                        }
+                      }}
                     />
                   </div>
                   <Button

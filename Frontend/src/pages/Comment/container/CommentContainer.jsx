@@ -37,10 +37,10 @@ function CommentContainer() {
     },
   });
 
-  const createComment = async (data) => {
+  const createComment = async (comment) => {
     setIsSubmitting(true);
 
-    const response = await CommentService.createComment(data.comment, notesId);
+    const response = await CommentService.createComment(comment, notesId);
 
     setIsSubmitting(false);
 
@@ -62,12 +62,12 @@ function CommentContainer() {
     }
   };
 
-  const editComment = async (commentId, data) => {
+  const editComment = async (commentId, newEditedComment) => {
     setIsSubmitting(true);
 
     const response = await CommentService.editComment(
       commentId,
-      data.newEditedComment
+      newEditedComment
     );
 
     setIsSubmitting(false);
