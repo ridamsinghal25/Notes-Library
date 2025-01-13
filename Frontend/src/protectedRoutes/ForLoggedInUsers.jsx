@@ -2,7 +2,6 @@ import { ROUTES } from "@/constants/route";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 function ForLoggedInUsers() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -13,7 +12,6 @@ function ForLoggedInUsers() {
   useEffect(() => {
     if (isLoginCheckDone && !isLoggedIn) {
       navigate(`${ROUTES.OVERVIEW}`);
-      toast.info("Please sign in again");
     }
   }, [isLoggedIn, isLoginCheckDone, navigate]);
 
