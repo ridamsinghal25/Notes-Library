@@ -4,6 +4,7 @@ export const AUTH_DB = "auth-db";
 export const UserRolesEnum = {
   ADMIN: "ADMIN",
   USER: "USER",
+  MODERATOR: "MODERATOR",
 };
 
 export const AvailableUserRoles = Object.values(UserRolesEnum);

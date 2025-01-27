@@ -165,6 +165,7 @@ export const AVATAR_URL = "https://github.com/shadcn.png";
 export const UserRolesEnum = {
   ADMIN: "ADMIN",
   USER: "USER",
+  MODERATOR: "MODERATOR",
 };
 
 /**
