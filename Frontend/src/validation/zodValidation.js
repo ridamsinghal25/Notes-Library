@@ -247,3 +247,10 @@ export const deleteCourseFormValidation = z.object({
     .min(8, "Password must be atleast 8 characters")
     .max(40, "Password must not be more than 40 characters"),
 });
+
+export const dailyNotesFormValidation = z.object({
+  files: z
+    .array(z.instanceof(File))
+    .min(1, "At least one file is required")
+    .max(5, "Only 5 files are allowed"),
+});
