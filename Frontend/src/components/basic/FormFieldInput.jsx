@@ -35,7 +35,8 @@ function FormFieldInput({
                   {...props}
                   onChange={(e) => {
                     const file = e.target.files;
-                    field.onChange(file[0]);
+
+                    field.onChange(file);
 
                     if (props.onChange) {
                       props.onChange(e);

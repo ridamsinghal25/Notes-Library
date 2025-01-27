@@ -132,6 +132,12 @@ function UpdateNotes({
                   name="pdfFile"
                   placeholder="Upload your updated notes"
                   type="file"
+                  onChange={() =>
+                    updatePdfFileForm.setValue(
+                      "pdfFile",
+                      ...updatePdfFileForm.getValues("pdfFile")
+                    )
+                  }
                   accept=".pdf"
                   className="dark:bg-gray-300 dark:text-black"
                 />

@@ -79,6 +79,12 @@ function UploadNotes({ userSubjects, isSubmitting, onSubmit }) {
               placeholder="Upload your notes"
               type="file"
               accept=".pdf"
+              onChange={() =>
+                uploadNotesForm.setValue(
+                  "pdfFile",
+                  ...uploadNotesForm.getValues("pdfFile")
+                )
+              }
               className="dark:bg-gray-300 dark:text-black"
             />
             <FormFieldInput

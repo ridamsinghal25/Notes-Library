@@ -79,7 +79,16 @@ function AvatarUploadModal({
                 id="avatar-upload"
                 type="file"
                 accept="image/*"
-                onChange={handleFileChange}
+                onChange={(event) => {
+                  handleFileChange(event);
+
+                  avatarForm.setValue(
+                    "avatar",
+                    ...avatarForm.getValues("avatar")
+                  );
+
+                  return;
+                }}
                 className="hidden"
               />
 
