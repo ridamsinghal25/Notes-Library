@@ -4,12 +4,12 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 
-function ForAdminUsers() {
+function ForModeratorUsers() {
   const userRole = useSelector((state) => state.auth.userDetails?.role);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userRole !== UserRolesEnum.ADMIN) {
+    if (userRole === UserRolesEnum.USER) {
       navigate(ROUTES.HOME);
     }
   }, [userRole, navigate]);
@@ -17,4 +17,4 @@ function ForAdminUsers() {
   return <Outlet />;
 }
 
-export default ForAdminUsers;
+export default ForModeratorUsers;
