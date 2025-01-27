@@ -26,6 +26,9 @@ import UpdateNotesContainer from "./pages/UpdateNotes/container/UpdateNotesConta
 import ManageCourseContainer from "./pages/ManageCourse/container/ManageCourseContainer";
 import CourseUsersContainer from "./pages/CourseUsers/container/CourseUsersContainer";
 import CommentContainer from "./pages/Comment/container/CommentContainer";
+import ForModeratorUsers from "./protectedRoutes/ForModeratorUsers";
+import DailyNotesFormContainer from "./pages/DailyNotesForm/container/DailyNotesFormContainer";
+import DailyNotesPageContainer from "./pages/DailyNotesPage/container/DailyNotesPageContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -38,8 +41,11 @@ function App() {
         <Route element={<ForLoggedInUsers />}>
           <Route element={<LayoutWithSidebar />}>
             <Route path={ROUTES.HOME} element={<HomePageContainer />} />
+
             <Route path={ROUTES.SETTING} element={<AccountPageContainer />} />
+
             <Route path={ROUTES.NOTES} element={<NotesPageContainer />} />
+
             <Route
               path={ROUTES.NOTES_SUBJECT}
               element={
@@ -48,15 +54,20 @@ function App() {
                 </Suspense>
               }
             />
+
             <Route path={ROUTES.PROFILE} element={<ProfilePageContainer />} />
+
             <Route path={ROUTES.FEEDBACK} element={<FeedbackPageContainer />} />
+
             <Route path={ROUTES.PDF} element={<PdfPageContainer />} />
+
             <Route element={<ForAdminUsers />}>
               <Route path={ROUTES.COURSE} element={<CourseContainer />} />
             </Route>
           </Route>
-          <Route element={<ForAdminUsers />}>
-            <Route element={<LayoutWithoutSidebar />}>
+
+          <Route element={<LayoutWithoutSidebar />}>
+            <Route element={<ForAdminUsers />}>
               <Route
                 path={ROUTES.UPLOAD_NOTES}
                 element={<UploadNotesContainer />}
@@ -73,11 +84,24 @@ function App() {
                 path={ROUTES.COURSE_USERS}
                 element={<CourseUsersContainer />}
               />
+            </Route>
+
+            <Route element={<ForModeratorUsers />}>
               <Route
-                path={`${ROUTES.COMMENT}/:notesId`}
-                element={<CommentContainer />}
+                path={ROUTES.DAILY_NOTES_FORM}
+                element={<DailyNotesFormContainer />}
+              />
+
+              <Route
+                path={ROUTES.DAILY_NOTES_PAGE}
+                element={<DailyNotesPageContainer />}
               />
             </Route>
+
+            <Route
+              path={`${ROUTES.COMMENT}/:notesId`}
+              element={<CommentContainer />}
+            />
           </Route>
         </Route>
 

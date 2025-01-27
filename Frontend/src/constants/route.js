@@ -19,4 +19,6 @@ export const ROUTES = {
   MANAGE_COURSE: "/manage-course",
   COURSE_USERS: "/course-users",
   COMMENT: "/comment",
+  DAILY_NOTES_FORM: "/daily-notes-form",
+  DAILY_NOTES_PAGE: "/daily-notes",
 };
