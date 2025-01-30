@@ -43,9 +43,16 @@ const createCourseValidator = () => {
           throw new Error("Subjects cannot be an empty array");
         }
         subjects.forEach((subject) => {
-          if (typeof subject !== "string") {
+          if (typeof subject.subjectName !== "string") {
             throw new ApiError(400, "Each subject must be a string");
+          } else if (subject.chapters.length === 0) {
+            throw new Error("Each subject must have at least one chapter");
           }
+          subject.chapters.forEach((chapter) => {
+            if (typeof chapter !== "string") {
+              throw new ApiError(400, "Each chapter must be a string");
+            }
+          });
         });
         return true;
       }),
@@ -94,9 +101,16 @@ const updateCourseValidator = () => {
           throw new Error("Subjects cannot be an empty array");
         }
         subjects.forEach((subject) => {
-          if (typeof subject !== "string") {
+          if (typeof subject.subjectName !== "string") {
             throw new ApiError(400, "Each subject must be a string");
+          } else if (subject.chapters.length === 0) {
+            throw new Error("Each subject must have at least one chapter");
           }
+          subject.chapters.forEach((chapter) => {
+            if (typeof chapter !== "string") {
+              throw new ApiError(400, "Each chapter must be a string");
+            }
+          });
         });
         return true;
       }),

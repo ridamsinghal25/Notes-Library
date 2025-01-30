@@ -1,6 +1,18 @@
 import mongoose from "mongoose";
 import { getAuthConnection } from "../db/db.js";
 
+const subjectSchema = new mongoose.Schema({
+  subjectName: {
+    type: String,
+    required: [true, "Subject name is required"],
+    trim: true,
+  },
+  chapters: {
+    type: [String],
+    required: [true, "Subject chapters are required"],
+  },
+});
+
 const courseSchema = new mongoose.Schema({
   courseName: {
     type: String,
@@ -11,10 +23,7 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, "Course semester is required"],
   },
-  subjects: {
-    type: [String],
-    required: [true, "course subjects are required"],
-  },
+  subjects: [subjectSchema],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
