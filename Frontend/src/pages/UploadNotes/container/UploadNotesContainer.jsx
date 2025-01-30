@@ -11,8 +11,10 @@ function UploadNotesContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const userSubjects = useSelector(
-    (state) => state.auth.userDetails?.course?.subjects
+  const userSubjects = useSelector((state) =>
+    state.auth.userDetails?.course?.subjects?.map(
+      (subject) => subject.subjectName
+    )
   );
 
   const onNotesUpload = async (data) => {

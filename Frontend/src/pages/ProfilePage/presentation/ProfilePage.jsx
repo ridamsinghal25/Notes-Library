@@ -124,7 +124,7 @@ function ProfilePage({ userDetails, toggleAvatarUploadModal }) {
                       <span className="w-3 h-3 bg-indigo-500 rounded-full"></span>
                     </div>
                     <span className="text-gray-800 font-medium text-base text-start dark:text-gray-200">
-                      {subject}
+                      {subject.subjectName}
                     </span>
                   </Button>
                 ))}

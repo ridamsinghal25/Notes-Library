@@ -16,8 +16,10 @@ function DeleteSubjectNotesModalContainer() {
   const showDeleteSubjectNotesModal = useSelector(
     (state) => state.modal.modals.deleteSubjectNotesModal
   );
-  const userSubjects = useSelector(
-    (state) => state.auth.userDetails?.course?.subjects
+  const userSubjects = useSelector((state) =>
+    state.auth.userDetails?.course?.subjects?.map(
+      (subject) => subject.subjectName
+    )
   );
 
   const navigate = useNavigate();
@@ -38,6 +40,7 @@ function DeleteSubjectNotesModalContainer() {
       toast.success(response?.message || "Notes deleted successfully");
 
       toggelDeleteSubjectNotesModal();
+      setSelectedNotes({});
       navigate(`${ROUTES.NOTES}`);
     } else {
       toast.error(response?.errorResponse?.message || response?.errorMessage);

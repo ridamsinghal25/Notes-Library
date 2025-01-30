@@ -27,7 +27,9 @@ const uploadNotes = asyncHandler(async (req, res) => {
     throw new ApiError(404, "course does not exists");
   }
 
-  if (!course.subjects.includes(subject)) {
+  if (
+    !course?.subjects?.map((subject) => subject.subjectName)?.includes(subject)
+  ) {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
@@ -73,7 +75,9 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Course does not exists");
   }
 
-  if (!course.subjects.includes(subject)) {
+  if (
+    !course?.subjects?.map((subject) => subject.subjectName)?.includes(subject)
+  ) {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
@@ -153,11 +157,13 @@ const deleteNotes = await asyncHandler(async (req, res) => {
 
 const getNotesBySubject = asyncHandler(async (req, res) => {
   const { subject } = req.body;
+  const courseId = req.user.course;
 
   const notes = await Notes.aggregate([
     {
       $match: {
         subject,
+        course: new mongoose.Types.ObjectId(`${courseId}`),
       },
     },
     {

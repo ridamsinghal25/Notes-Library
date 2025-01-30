@@ -18,8 +18,10 @@ function UpdateNotesContainer() {
   }, []);
 
   const selectedNotes = useSelector((state) => state.modal.selectedNotes);
-  const userSubjects = useSelector(
-    (state) => state.auth.userDetails?.course?.subjects
+  const userSubjects = useSelector((state) =>
+    state.auth.userDetails?.course?.subjects?.map(
+      (subject) => subject.subjectName
+    )
   );
 
   const onNotesUpdate = async (data) => {
