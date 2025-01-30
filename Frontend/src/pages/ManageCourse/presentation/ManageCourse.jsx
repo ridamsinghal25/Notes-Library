@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { Loader2, ArrowLeft, X } from "lucide-react";
+import { Loader2, ArrowLeft, X, Plus } from "lucide-react";
 import FormFieldInput from "@/components/basic/FormFieldInput";
-import { useForm } from "react-hook-form";
-import { courseFormValidation } from "@/validation/zodValidation";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 
 export default function ManageCourse({
   selectedCourse,
@@ -12,24 +10,19 @@ export default function ManageCourse({
   onSubmit,
   currentSubject,
   setCurrentSubject,
-  subjects,
-  setSubjects,
   addSubject,
   removeSubject,
   handleKeyPress,
   navigateBackToCourse,
+  currentChapter,
+  setCurrentChapter,
+  addChapter,
+  removeChapter,
+  editingSubject,
+  setEditingSubject,
+  courseForm,
+  fields,
 }) {
-  const courseForm = useForm({
-    resolver: zodResolver(courseFormValidation),
-    defaultValues: {
-      courseName: selectedCourse?.courseName || "",
-      semester: selectedCourse?.semester || "",
-      subjects: [],
-      startDate: selectedCourse?.startDate?.split("T")[0] || "",
-      endDate: selectedCourse?.endDate?.split("T")[0] || "",
-    },
-  });
-
   return (
     <div className="min-h-screen p-6 md:p-8 mt-7">
       <div className="max-w-3xl mx-auto bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-xl backdrop-blur-sm p-6">
@@ -55,12 +48,8 @@ export default function ManageCourse({
         <Form {...courseForm}>
           <form
             onSubmit={courseForm.handleSubmit((data) =>
-              onSubmit({
-                ...data,
-                subjects,
-              }).then(() => {
+              onSubmit(data).then(() => {
                 courseForm.reset();
-                setSubjects([]);
               })
             )}
             className="space-y-6"
@@ -78,39 +67,89 @@ export default function ManageCourse({
               placeholder="Enter course semester"
             />
             <div>
-              <FormFieldInput
-                form={courseForm}
-                label="Subjects"
-                name="subjects"
-                value={currentSubject}
-                onChange={(e) => setCurrentSubject(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter course subjects"
-              />
-              <div className="flex justify-end mt-2">
-                <Button type="button" onClick={addSubject}>
-                  Add
-                </Button>
-              </div>
-            </div>
-            {subjects.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {subjects.map((subject) => (
-                  <div
-                    key={subject}
-                    className="flex items-center bg-gray-300 text-black px-2 py-1 rounded-sm"
-                  >
-                    {subject}
-                    <div>
-                      <X
-                        className="ml-2 h-4 w-4 cursor-pointer"
-                        onClick={() => removeSubject(subject)}
-                      />
+              <div className="space-y-4">
+                <div>
+                  <FormFieldInput
+                    form={courseForm}
+                    label="Subjects"
+                    name="subjects"
+                    type="text"
+                    value={currentSubject}
+                    onChange={(e) => setCurrentSubject(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Enter course subjects"
+                  />
+                  <div className="flex justify-end mt-2">
+                    <Button type="button" onClick={() => addSubject()}>
+                      Add
+                    </Button>
+                  </div>
+                </div>
+                {fields?.map((subject, subjectIndex) => (
+                  <div key={subject.id} className="border p-4 rounded">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold">{subject.subjectName}</h3>
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setEditingSubject(subject.subjectName)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => removeSubject(subjectIndex)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
+                    {editingSubject === subject.subjectName && (
+                      <div className="space-y-2 mt-2">
+                        <div className="flex items-center space-x-2">
+                          <Input
+                            type="text"
+                            value={currentChapter}
+                            onChange={(e) => setCurrentChapter(e.target.value)}
+                            placeholder="Enter chapter name"
+                            className="flex-grow p-2 border rounded"
+                          />
+                          <Button
+                            type="button"
+                            size="sm"
+                            onClick={() => addChapter(subjectIndex)}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        {subject?.chapters?.map((chapter, chapterIndex) => (
+                          <div
+                            key={chapterIndex}
+                            className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded"
+                          >
+                            <span>{chapter}</span>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                removeChapter(subjectIndex, chapterIndex)
+                              }
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-            )}
+            </div>
             <FormFieldInput
               form={courseForm}
               label="Start Date"

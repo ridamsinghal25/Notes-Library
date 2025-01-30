@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCourse } from "@/store/ModalSlice";
 import CourseService from "@/services/CourseService";
@@ -8,28 +8,46 @@ import { addCourse, updateCourse } from "@/store/CourseSlice";
 import ManageCourse from "../presentation/ManageCourse";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
+import { courseFormValidation } from "@/validation/zodValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
 
 function ManageCourseContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currentSubject, setCurrentSubject] = useState("");
+  const [currentChapter, setCurrentChapter] = useState("");
+  const [editingSubject, setEditingSubject] = useState(null);
 
   const selectedCourse = useSelector((state) => state.modal.selectedCourse);
-  const [subjects, setSubjects] = useState(selectedCourse?.subjects || []);
 
-  useEffect(() => {
-    setSubjects(selectedCourse?.subjects || []);
-  }, [selectedCourse]);
+  const courseForm = useForm({
+    // resolver: zodResolver(courseFormValidation),
+    defaultValues: {
+      courseName: selectedCourse?.courseName || "",
+      semester: selectedCourse?.semester || "",
+      subjects: selectedCourse?.subjects || [],
+      startDate: selectedCourse?.startDate?.split("T")[0] || "",
+      endDate: selectedCourse?.endDate?.split("T")[0] || "",
+    },
+  });
+
+  const { fields, append, remove, update } = useFieldArray({
+    control: courseForm.control,
+    name: "subjects",
+  });
 
   const addSubject = () => {
     if (!currentSubject) return;
-    setSubjects([...subjects, currentSubject]);
+
+    append({ subjectName: currentSubject.trim(), chapters: [] });
+
     setCurrentSubject("");
   };
 
-  const removeSubject = (subject) => {
-    setSubjects(subjects.filter((s) => s !== subject));
+  const removeSubject = (subjectIndex) => {
+    remove(subjectIndex);
   };
 
   const handleKeyPress = (e) => {
@@ -37,6 +55,23 @@ function ManageCourseContainer() {
       e.preventDefault();
       addSubject();
     }
+  };
+
+  const addChapter = (subjectIndex) => {
+    if (currentChapter.trim()) {
+      const updatedSubject = { ...fields[subjectIndex] };
+      updatedSubject.chapters.push(currentChapter.trim());
+
+      update(subjectIndex, updatedSubject);
+      setCurrentChapter("");
+    }
+  };
+
+  const removeChapter = (subjectIndex, chapterIndex) => {
+    const updatedSubject = { ...fields[subjectIndex] };
+
+    updatedSubject.chapters.splice(chapterIndex, 1);
+    update(subjectIndex, updatedSubject);
   };
 
   const onCourseUpload = async (data) => {
@@ -52,7 +87,13 @@ function ManageCourseContainer() {
       toast.success(response?.message);
       navigate(ROUTES.COURSE);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      const errorMessage = Object.values(response?.errorResponse?.errors?.[0]);
+
+      toast.error(
+        errorMessage[0] ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 
@@ -77,7 +118,13 @@ function ManageCourseContainer() {
       toast.success(response?.message);
       navigate(ROUTES.COURSE);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      const errorMessage = Object.values(response?.errorResponse?.errors?.[0]);
+
+      toast.error(
+        errorMessage[0] ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 
@@ -94,12 +141,18 @@ function ManageCourseContainer() {
         onSubmit={selectedCourse?._id ? onCourseUpdate : onCourseUpload}
         currentSubject={currentSubject}
         setCurrentSubject={setCurrentSubject}
-        subjects={subjects}
-        setSubjects={setSubjects}
         addSubject={addSubject}
         removeSubject={removeSubject}
         handleKeyPress={handleKeyPress}
         navigateBackToCourse={navigateBackToCourse}
+        currentChapter={currentChapter}
+        setCurrentChapter={setCurrentChapter}
+        removeChapter={removeChapter}
+        addChapter={addChapter}
+        editingSubject={editingSubject}
+        setEditingSubject={setEditingSubject}
+        courseForm={courseForm}
+        fields={fields}
       />
     </div>
   );
