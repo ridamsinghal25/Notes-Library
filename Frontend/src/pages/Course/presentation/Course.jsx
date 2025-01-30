@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   BookOpen,
   Calendar,
+  ChevronDown,
+  ChevronUp,
   GraduationCap,
   PlusCircle,
   Users,
@@ -16,6 +18,8 @@ export default function Course({
   userId,
   navigateToManageCourse,
   navigateToCourseUsers,
+  toggleChapters,
+  expandedSubjects,
 }) {
   return (
     <div className="container mx-auto p-6 space-y-8 mt-4">
@@ -60,18 +64,36 @@ export default function Course({
               </div>
               <div>
                 <h3 className="font-semibold mb-2">Subjects:</h3>
-                {course.subjects.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {course.subjects.map((subject) => (
-                      <span
-                        key={subject}
-                        className="bg-secondary text-secondary-foreground px-2 py-1 rounded-full text-sm"
+                <div className="space-y-2">
+                  {course.subjects.map((subject, subjectIndex) => (
+                    <div
+                      key={subjectIndex}
+                      className="bg-secondary text-secondary-foreground p-2 rounded-md"
+                    >
+                      <Button
+                        variant="ghost"
+                        className="w-full flex justify-between items-center p-0 h-auto"
+                        onClick={() => toggleChapters(course._id, subjectIndex)}
                       >
-                        {subject}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                        <span className="font-semibold">
+                          {subject.subjectName}
+                        </span>
+                        {expandedSubjects[`${course._id}-${subjectIndex}`] ? (
+                          <ChevronUp className="w-4 h-4" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4" />
+                        )}
+                      </Button>
+                      {expandedSubjects[`${course._id}-${subjectIndex}`] && (
+                        <ul className="list-disc list-inside text-sm mt-2 space-y-1">
+                          {subject.chapters.map((chapter, chapterIndex) => (
+                            <li key={chapterIndex}>{chapter}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="flex justify-between items-center text-sm text-muted-foreground">
                 <div className="flex items-center space-x-1">

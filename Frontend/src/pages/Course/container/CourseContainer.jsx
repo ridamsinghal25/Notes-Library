@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 
 function CourseContainer() {
+  const [expandedSubjects, setExpandedSubjects] = useState({});
   const courses = useSelector((state) => state.courses?.courses);
   const userRole = useSelector((state) => state.auth.userDetails?.role);
   const userId = useSelector((state) => state.auth.userDetails?._id);
@@ -38,6 +39,13 @@ function CourseContainer() {
     navigate(ROUTES.MANAGE_COURSE);
   };
 
+  const toggleChapters = (courseId, subjectIndex) => {
+    setExpandedSubjects((prev) => ({
+      ...prev,
+      [`${courseId}-${subjectIndex}`]: !prev[`${courseId}-${subjectIndex}`],
+    }));
+  };
+
   return (
     <Course
       courses={courses}
@@ -45,6 +53,8 @@ function CourseContainer() {
       userId={userId}
       navigateToManageCourse={navigateToManageCourse}
       navigateToCourseUsers={navigateToCourseUsers}
+      toggleChapters={toggleChapters}
+      expandedSubjects={expandedSubjects}
     />
   );
 }
