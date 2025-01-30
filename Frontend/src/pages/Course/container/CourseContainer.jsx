@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCourse, toggleModal } from "@/store/ModalSlice";
 import Course from "../presentation/Course";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchCourse } from "@/store/CourseSlice";
 import { UserRolesEnum } from "@/constants/constants";
 import { useNavigate } from "react-router-dom";

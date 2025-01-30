@@ -23,7 +23,7 @@ function ManageCourseContainer() {
   const selectedCourse = useSelector((state) => state.modal.selectedCourse);
 
   const courseForm = useForm({
-    // resolver: zodResolver(courseFormValidation),
+    resolver: zodResolver(courseFormValidation),
     defaultValues: {
       courseName: selectedCourse?.courseName || "",
       semester: selectedCourse?.semester || "",
