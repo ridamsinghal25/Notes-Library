@@ -2,6 +2,8 @@ import { z } from "zod";
 
 const MAX_PDF_SIZE = 10 * 1024 * 1024; // 10MB in bytes
 
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+
 const ALLOWED_AVATAR_TYPES = ["image/png", "image/jpg", "image/jpeg"];
 
 const MAX_AVATAR_SIZE = 5 * 1024 * 1024; // 5MB in bytes
@@ -11,11 +13,11 @@ export const signupFormValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "Full name must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "Full name must contain only alphabets and , . _ - characters"
     )
     .min(6, "Full name must be atleast 6 characters")
-    .max(20, "Full name must not be more than 20 characters"),
+    .max(40, "Full name must not be more than 40 characters"),
   email: z.string().trim().email("Invalid email address"),
   rollNumber: z
     .string()
@@ -37,7 +39,7 @@ export const signupFormValidation = z.object({
     .trim()
     .regex(/^[a-zA-Z\s]+$/, "semester must contain only alphabets")
     .min(1, "Semester is required")
-    .max(20, "Semester must not be more than 20 characters"),
+    .max(40, "Semester must not be more than 40 characters"),
 });
 
 export const signinFormValidation = z.object({
@@ -75,11 +77,11 @@ export const uploadNotesValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "subjects must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "subjects must contain only alphabets and , . _ - characters"
     )
     .min(1, "Subject is required")
-    .max(20, "Subject must not be more than 20 characters"),
+    .max(40, "Subject must not be more than 40 characters"),
   chapterNumber: z
     .string()
     .trim()
@@ -89,21 +91,21 @@ export const uploadNotesValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "chapter name must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "chapter name must contain only alphabets and , . _ - characters"
     )
     .min(1, "Chapter name is required")
-    .max(20, "Chapter name must not be more than 20 characters"),
+    .max(40, "Chapter name must not be more than 40 characters"),
   pdfFile: pdfFileSchema,
   owner: z
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "owner name must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "owner name must contain only alphabets and , . _ - characters"
     )
     .min(1, "owner name is required")
-    .max(20, "owner name must not be more than 20 characters"),
+    .max(40, "owner name must not be more than 40 characters"),
 });
 
 export const updateNotesValidation = z.object({
@@ -111,11 +113,11 @@ export const updateNotesValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "subjects must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "subjects must contain only alphabets and , . _ - characters"
     )
     .min(1, "Subject is required")
-    .max(20, "Subject must not be more than 20 characters"),
+    .max(40, "Subject must not be more than 40 characters"),
   chapterNumber: z
     .string()
     .trim()
@@ -125,20 +127,20 @@ export const updateNotesValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "chapter name must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "chapter name must contain only alphabets and , . _ - characters"
     )
     .min(1, "Chapter name is required")
-    .max(20, "Chapter name must not be more than 20 characters"),
+    .max(40, "Chapter name must not be more than 40 characters"),
   owner: z
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "owner name must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "owner name must contain only alphabets and , . _ - characters"
     )
     .min(1, "owner name is required")
-    .max(20, "owner name must not be more than 20 characters"),
+    .max(40, "owner name must not be more than 40 characters"),
 });
 
 export const newPasswordFormValidation = z.object({
@@ -160,7 +162,7 @@ export const updateSemesterFormValidation = z.object({
     .trim()
     .regex(/^[a-zA-Z\s]+$/, "semester must contain only alphabets")
     .min(1, "Semester is required")
-    .max(20, "Semester must not be more than 20 characters"),
+    .max(40, "Semester must not be more than 40 characters"),
 });
 
 export const emailModalValidation = z.object({
@@ -196,18 +198,37 @@ export const courseFormValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "course name must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "course name must contain only alphabets and , . _ - characters"
     )
     .min(1, "Course name is required")
-    .max(20, "Course name must not be more than 20 characters"),
+    .max(40, "Course name must not be more than 40 characters"),
   semester: z
     .string()
     .trim()
     .regex(/^[a-zA-Z\s]+$/, "semester must contain only alphabets")
     .min(1, "Semester is required")
-    .max(20, "Semester must not be more than 20 characters"),
-  subjects: z.array(z.string().trim()),
+    .max(40, "Semester must not be more than 40 characters"),
+  subjects: z
+    .array(
+      z.object({
+        subjectName: z
+          .string()
+          .trim()
+          .min(1, "subject name is required")
+          .max(40, "subject name must not be more than 40 characters"),
+        chapters: z
+          .array(
+            z
+              .string()
+              .trim()
+              .min(1, "Chapter name must be a non-empty string")
+              .max(40, "Chapter name must not be more than 40 characters")
+          )
+          .min(1, "At least one chapter is required"),
+      })
+    )
+    .min(1, "At least one subject is required"),
   startDate: z.string().trim().min(1, "Start date is required"),
   endDate: z.string().trim().min(1, "End date is required"),
 });
@@ -233,11 +254,11 @@ export const deleteSubjectNotesFormValidation = z.object({
     .string()
     .trim()
     .regex(
-      /^[a-zA-Z\s.,_'-]+$/,
-      "subjects must contain only alphabets and , . _ - ' characters"
+      /^[a-zA-Z\s.,_-]+$/,
+      "subjects must contain only alphabets and , . _ - characters"
     )
     .min(1, "Subject is required")
-    .max(20, "Subject must not be more than 20 characters"),
+    .max(40, "Subject must not be more than 40 characters"),
 });
 
 export const deleteCourseFormValidation = z.object({
@@ -249,8 +270,34 @@ export const deleteCourseFormValidation = z.object({
 });
 
 export const dailyNotesFormValidation = z.object({
+  subject: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_-]+$/,
+      "subjects must contain only alphabets and , . _ - characters"
+    )
+    .min(1, "Subject is required")
+    .max(40, "Subject must not be more than 40 characters"),
+  chapterNumber: z
+    .string()
+    .trim()
+    .regex(/^\d+$/, "Chapter number must contain only digits")
+    .max(2, "Chapter number must not be more than 2 digits"),
+  chapterName: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_-]+$/,
+      "chapter name must contain only alphabets and , . _ - characters"
+    )
+    .min(1, "Chapter name is required")
+    .max(40, "Chapter name must not be more than 40 characters"),
   files: z
     .array(z.instanceof(File))
     .min(1, "At least one file is required")
-    .max(5, "Only 5 files are allowed"),
+    .max(5, "Only 5 files are allowed")
+    .refine((files) => files.every((file) => file.size <= MAX_IMAGE_SIZE), {
+      message: "File size must not exceed 5MB",
+    }),
 });

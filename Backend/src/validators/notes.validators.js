@@ -19,15 +19,15 @@ const uploadUpdateNoteValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("subject is required")
-      .isLength({ min: 3, max: 30 })
-      .withMessage("Chapter name must be between 3 and 30 characters")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("Chapter name must be between 3 and 50 characters")
       .escape(),
     body("owner")
       .trim()
       .notEmpty()
       .withMessage("owner is required")
-      .isLength({ min: 3, max: 30 })
-      .withMessage("Chapter name must be between 3 and 30 characters")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("Chapter name must be between 3 and 50 characters")
       .escape(),
   ];
 };
@@ -38,8 +38,8 @@ const notesSubjectValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("subject is required")
-      .isLength({ min: 3, max: 30 })
-      .withMessage("subject name must be between 3 and 30 characters")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("subject name must be between 3 and 50 characters")
       .escape(),
   ];
 };

@@ -20,6 +20,8 @@ const userRegisterValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("Fullname is required")
+      .isLength({ min: 6, max: 50 })
+      .withMessage("Fullname must be between 6 and 50 characters")
       .escape(),
     body("rollNumber")
       .trim()
@@ -39,6 +41,8 @@ const userRegisterValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("course semester is required")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("semester name must be between 3 and 50 characters")
       .escape(),
   ];
 };
@@ -161,6 +165,8 @@ const userUpdateCourseSemesterValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("course semester is required")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("semester name must be between 3 and 50 characters")
       .escape(),
   ];
 };

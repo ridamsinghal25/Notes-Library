@@ -14,6 +14,8 @@ const createCourseValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("course semester is required")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("semester name must be between 3 and 50 characters")
       .escape(),
     body("startDate")
       .trim()
@@ -72,6 +74,8 @@ const updateCourseValidator = () => {
       .trim()
       .notEmpty()
       .withMessage("new course semester is required")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("semester name must be between 3 and 50 characters")
       .escape(),
     body("startDate")
       .trim()
