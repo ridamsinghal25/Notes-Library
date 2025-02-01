@@ -11,7 +11,9 @@ function ProfileNotesCard({
   commentContent,
 }) {
   return (
-    <Link to={`/notes/${notesInfo?.subject}`}>
+    <Link
+      to={`${ROUTES.NOTES_SUBJECT?.replace(":subject", notesInfo?.subject)}`}
+    >
       <article className="border border-gray-200 dark:border-gray-400 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 pb-8 mt-4 flex justify-between items-start px-6 sm:p-6 cursor-pointer">
         <div className="w-3/4">
           <div className="flex items-center mb-4 mt-4">

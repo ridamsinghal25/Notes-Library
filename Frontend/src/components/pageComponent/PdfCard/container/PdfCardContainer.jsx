@@ -55,7 +55,7 @@ const PDFCardContainer = ({ notes }) => {
   };
 
   const navigateToComment = (notesId) => {
-    navigate(`${ROUTES.COMMENT}/${notesId}`);
+    navigate(`${ROUTES.COMMENT?.replace(":notesId", notesId)}`);
   };
 
   const navigateToUpdateNotesPage = (notes) => {
