@@ -27,8 +27,9 @@ import ManageCourseContainer from "./pages/ManageCourse/container/ManageCourseCo
 import CourseUsersContainer from "./pages/CourseUsers/container/CourseUsersContainer";
 import CommentContainer from "./pages/Comment/container/CommentContainer";
 import ForModeratorUsers from "./protectedRoutes/ForModeratorUsers";
-import DailyNotesFormContainer from "./pages/DailyNotesForm/container/DailyNotesFormContainer";
-import DailyNotesPageContainer from "./pages/DailyNotesPage/container/DailyNotesPageContainer";
+import AddDailyNotesContainer from "./pages/AddDailyNotes/container/AddDailyNotesContainer";
+import ListDailyNotesContainer from "./pages/ListDailyNotes/container/ListDailyNotesContainer";
+import DailyNotesContainer from "./pages/DailyNotes/container/DailyNotesContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -39,13 +40,18 @@ function App() {
     <Routes>
       <Route path="/" element={<PageLayout />}>
         <Route element={<ForLoggedInUsers />}>
+          {/* With sidebar */}
           <Route element={<LayoutWithSidebar />}>
+            {/* Home Routes */}
             <Route path={ROUTES.HOME} element={<HomePageContainer />} />
 
+            {/* Settings Routes */}
             <Route path={ROUTES.SETTING} element={<AccountPageContainer />} />
 
+            {/* Notes Routes */}
             <Route path={ROUTES.NOTES} element={<NotesPageContainer />} />
 
+            {/* Notes Subject Routes */}
             <Route
               path={ROUTES.NOTES_SUBJECT}
               element={
@@ -55,53 +61,77 @@ function App() {
               }
             />
 
+            {/* Profile Routes */}
             <Route path={ROUTES.PROFILE} element={<ProfilePageContainer />} />
 
+            {/* Feedback Routes */}
             <Route path={ROUTES.FEEDBACK} element={<FeedbackPageContainer />} />
 
+            {/* PDF Routes */}
             <Route path={ROUTES.PDF} element={<PdfPageContainer />} />
 
+            {/* For Admin User Routes */}
             <Route element={<ForAdminUsers />}>
+              {/* Course Routes */}
               <Route path={ROUTES.COURSE} element={<CourseContainer />} />
+            </Route>
+
+            {/* For Moderator User Routes */}
+            <Route element={<ForModeratorUsers />}>
+              {/* List Daily Notes */}
+              <Route
+                path={ROUTES.LIST_DAILY_NOTES}
+                element={<ListDailyNotesContainer />}
+              />
+
+              {/* Daily Notes Routes */}
+              <Route
+                path={ROUTES.DAILY_NOTES}
+                element={<DailyNotesContainer />}
+              />
             </Route>
           </Route>
 
+          {/* Without sidebar */}
           <Route element={<LayoutWithoutSidebar />}>
+            {/* For Admin User Routes */}
             <Route element={<ForAdminUsers />}>
+              {/* Upload Notes Routes */}
               <Route
                 path={ROUTES.UPLOAD_NOTES}
                 element={<UploadNotesContainer />}
               />
+
+              {/* Update Notes Routes */}
               <Route
                 path={ROUTES.UPDATE_NOTES}
                 element={<UpdateNotesContainer />}
               />
+
+              {/* Manage Course Routes */}
               <Route
                 path={ROUTES.MANAGE_COURSE}
                 element={<ManageCourseContainer />}
               />
+
+              {/* Course Users Routes */}
               <Route
                 path={ROUTES.COURSE_USERS}
                 element={<CourseUsersContainer />}
               />
             </Route>
 
-            <Route element={<ForModeratorUsers />}>
-              <Route
-                path={ROUTES.DAILY_NOTES_FORM}
-                element={<DailyNotesFormContainer />}
-              />
+            {/* Comment Routes */}
+            <Route path={`${ROUTES.COMMENT}`} element={<CommentContainer />} />
 
+            {/* For Moderator User Routes */}
+            <Route element={<ForModeratorUsers />}>
+              {/* Add Daily Notes Routes */}
               <Route
-                path={ROUTES.DAILY_NOTES_PAGE}
-                element={<DailyNotesPageContainer />}
+                path={ROUTES.ADD_DAILY_NOTES}
+                element={<AddDailyNotesContainer />}
               />
             </Route>
-
-            <Route
-              path={`${ROUTES.COMMENT}/:notesId`}
-              element={<CommentContainer />}
-            />
           </Route>
         </Route>
 

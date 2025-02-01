@@ -69,6 +69,17 @@ export const NOTES_PAGE_DESCRIPTION_TWO =
   "You can start learning as soon as you download the notes.";
 
 /**
+ * @DailyNotes
+ */
+
+export const DAILY_NOTES_PAGE_HEADING = "Daily Notes";
+
+export const DAILY_NOTES_PAGE_DESCRIPTION_ONE =
+  "Choose a chapter to access its notes.";
+
+export const DAILY_NOTES_PAGE_DESCRIPTION_TWO =
+  "Find the most recent daily notes here.";
+/**
  * @InputOTP
  */
 export const INPUT_OTP_FORM_TITLE = "One-Time Password";

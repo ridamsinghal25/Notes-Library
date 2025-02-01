@@ -18,7 +18,8 @@ export const ROUTES = {
   UPDATE_NOTES: "/update-notes",
   MANAGE_COURSE: "/manage-course",
   COURSE_USERS: "/course-users",
-  COMMENT: "/comment",
-  DAILY_NOTES_FORM: "/daily-notes-form",
-  DAILY_NOTES_PAGE: "/daily-notes",
+  COMMENT: "/comment/:notesId",
+  ADD_DAILY_NOTES: "/add-daily-notes",
+  LIST_DAILY_NOTES: "/list-daily-notes",
+  DAILY_NOTES: "/daily-notes/:subject",
 };
