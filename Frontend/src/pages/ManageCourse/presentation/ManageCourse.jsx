@@ -25,7 +25,7 @@ export default function ManageCourse({
 }) {
   return (
     <div className="min-h-screen p-6 md:p-8 mt-7">
-      <div className="max-w-3xl mx-auto bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-xl backdrop-blur-sm p-6">
+      <div className="max-w-3xl mx-auto border border-gray-400 dark:border-gray-200 rounded-lg shadow-xl backdrop-blur-sm p-6">
         <div className="flex items-center justify-between mb-8 pb-4 border-b dark:border-gray-700">
           <div className="flex items-center space-x-4">
             <Button
