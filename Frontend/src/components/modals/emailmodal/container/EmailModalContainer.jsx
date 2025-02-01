@@ -30,7 +30,11 @@ function EmailModalContainer({ isPasswordUpdateMode }) {
       toggleEmailModal();
       navigate(`${ROUTES.RESET_PASSWORD}`);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 
@@ -47,7 +51,11 @@ function EmailModalContainer({ isPasswordUpdateMode }) {
       );
       toggleEmailModal();
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 

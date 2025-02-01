@@ -31,11 +31,17 @@ function PasswordTabContainer() {
         navigate(`${ROUTES.SIGNIN}`);
       } else {
         toast.error(
-          LogoutResponse?.errorResponse?.message || LogoutResponse?.errorMessage
+          LogoutResponse?.formError ||
+            LogoutResponse?.errorResponse?.message ||
+            LogoutResponse?.errorMessage
         );
       }
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 

@@ -87,10 +87,8 @@ function ManageCourseContainer() {
       toast.success(response?.message);
       navigate(ROUTES.COURSE);
     } else {
-      const errorMessage = Object.values(response?.errorResponse?.errors?.[0]);
-
       toast.error(
-        errorMessage[0] ||
+        response?.formError ||
           response?.errorResponse?.message ||
           response?.errorMessage
       );
@@ -118,10 +116,8 @@ function ManageCourseContainer() {
       toast.success(response?.message);
       navigate(ROUTES.COURSE);
     } else {
-      const errorMessage = Object.values(response?.errorResponse?.errors?.[0]);
-
       toast.error(
-        errorMessage[0] ||
+        response?.formError ||
           response?.errorResponse?.message ||
           response?.errorMessage
       );

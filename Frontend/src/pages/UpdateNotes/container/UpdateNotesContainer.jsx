@@ -42,7 +42,11 @@ function UpdateNotesContainer() {
       toast.success(response?.message);
       navigate(ROUTES.NOTES);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 
@@ -67,7 +71,11 @@ function UpdateNotesContainer() {
       toast.success(response?.message);
       navigate(ROUTES.NOTES);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 

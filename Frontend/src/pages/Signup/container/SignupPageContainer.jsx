@@ -56,7 +56,11 @@ function SignupPageContainer() {
       toast.success(response?.message || "User registered successfully");
       navigate(`${ROUTES.VERIFYCODE}`);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 

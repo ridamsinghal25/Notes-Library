@@ -49,7 +49,11 @@ function AvatarUploadModalContainer({ avatarUrl }) {
 
       dispatch(updateUserDetails(response?.data));
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 

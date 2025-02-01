@@ -48,7 +48,11 @@ function CommentContainer() {
       toast.success(response?.message);
       dispatch(addComment(response?.data));
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 
@@ -58,7 +62,11 @@ function CommentContainer() {
       toast.success(response?.message);
       dispatch(deleteComment(commentId));
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 
@@ -77,7 +85,11 @@ function CommentContainer() {
       dispatch(updateComment({ commentId, newComment: response?.data }));
       setEditingCommentId(null);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 

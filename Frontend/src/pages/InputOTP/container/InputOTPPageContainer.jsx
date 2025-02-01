@@ -25,7 +25,11 @@ function InputOTPPageContainer() {
 
       navigate(`${ROUTES.SIGNIN}`);
     } else {
-      toast.error(response?.errorResponse?.message || response?.errorMessage);
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
     }
   };
 

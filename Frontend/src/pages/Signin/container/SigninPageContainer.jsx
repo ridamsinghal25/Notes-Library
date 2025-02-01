@@ -32,8 +32,9 @@ function SigninPageContainer() {
       navigate(`${ROUTES.HOME}`);
     } else {
       toast.error(
-        // current user service toast error
-        response?.errorResponse?.message || response?.errorMessage
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
       );
     }
   };

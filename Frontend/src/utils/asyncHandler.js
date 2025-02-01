@@ -14,6 +14,22 @@ export const asyncHandler = async (func) => {
       );
     })
     .catch((error) => {
+      if (
+        (error?.status === 422 || error?.response?.status === 422) &&
+        error?.response?.data?.errors.length > 0
+      ) {
+        const formErrorMessage = Object.values(
+          error?.response?.data?.errors?.[0]
+        );
+
+        return new ApiError(
+          error.message,
+          error,
+          error?.response?.data,
+          formErrorMessage[0]
+        );
+      }
+
       return new ApiError(error.message, error, error?.response?.data);
     });
 };
