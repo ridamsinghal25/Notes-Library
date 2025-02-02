@@ -10,7 +10,7 @@ const initialState = {
     updateSemesterModal: false,
   },
   selectedNotesId: null,
-  selectedCourse: {},
+  selectedCourseId: null,
 };
 
 const ModalSlice = createSlice({
@@ -26,7 +26,7 @@ const ModalSlice = createSlice({
       state.selectedNotesId = action.payload;
     },
     setSelectedCourse: (state, action) => {
-      state.selectedCourse = action.payload;
+      state.selectedCourseId = action.payload;
     },
   },
 });

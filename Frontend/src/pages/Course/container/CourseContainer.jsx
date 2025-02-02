@@ -21,19 +21,18 @@ function CourseContainer() {
     }
   }, [dispatch, userRole]);
 
-  const toggelDeleteModal = (course) => {
+  const toggelDeleteModal = (courseId) => {
     dispatch(toggleModal({ modalType: "deleteCourseModal" }));
-    dispatch(setSelectedCourse(course));
+    dispatch(setSelectedCourse(courseId));
   };
 
   const navigateToCourseUsers = (courseId) => {
     navigate(ROUTES.COURSE_USERS, { state: { courseId } });
   };
 
-  const navigateToManageCourse = (course) => {
-    if (course?._id) {
-      navigate(ROUTES.MANAGE_COURSE);
-      dispatch(setSelectedCourse(course));
+  const navigateToManageCourse = (courseId) => {
+    if (courseId) {
+      navigate(`${ROUTES.MANAGE_COURSE}/?courseId=${courseId}`);
       return;
     }
     navigate(ROUTES.MANAGE_COURSE);

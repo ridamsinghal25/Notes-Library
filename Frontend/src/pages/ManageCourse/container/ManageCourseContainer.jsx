@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedCourse } from "@/store/ModalSlice";
 import CourseService from "@/services/CourseService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { addCourse, updateCourse } from "@/store/CourseSlice";
 import ManageCourse from "../presentation/ManageCourse";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 import { courseFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +19,12 @@ function ManageCourseContainer() {
   const [currentChapter, setCurrentChapter] = useState("");
   const [editingSubject, setEditingSubject] = useState(null);
 
-  const selectedCourse = useSelector((state) => state.modal.selectedCourse);
+  const [serachParams] = useSearchParams();
+  const courseId = serachParams.get("courseId");
+
+  const selectedCourse = useSelector((state) =>
+    state.courses.courses?.find((course) => course._id === courseId)
+  );
 
   const courseForm = useForm({
     resolver: zodResolver(courseFormValidation),
@@ -112,7 +116,6 @@ function ManageCourseContainer() {
           newCourse: response?.data,
         })
       );
-      dispatch(setSelectedCourse({}));
       toast.success(response?.message);
       navigate(ROUTES.COURSE);
     } else {
@@ -126,7 +129,6 @@ function ManageCourseContainer() {
 
   const navigateBackToCourse = () => {
     navigate(ROUTES.COURSE);
-    dispatch(setSelectedCourse({}));
   };
 
   return (

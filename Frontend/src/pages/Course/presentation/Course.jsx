@@ -117,12 +117,12 @@ export default function Course({
                     </Button>
                   </div>
                   <div className="flex justify-end space-x-2 pt-4">
-                    <Button onClick={() => navigateToManageCourse(course)}>
+                    <Button onClick={() => navigateToManageCourse(course?._id)}>
                       Update
                     </Button>
                     <Button
                       variant="destructive"
-                      onClick={() => toggelDeleteModal(course)}
+                      onClick={() => toggelDeleteModal(course?._id)}
                     >
                       Delete
                     </Button>

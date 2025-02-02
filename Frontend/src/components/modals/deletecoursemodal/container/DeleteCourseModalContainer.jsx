@@ -13,21 +13,21 @@ function DeleteCourseModalContainer() {
     (state) => state.modal.modals.deleteCourseModal
   );
 
-  const selectedCourse = useSelector((state) => state.modal.selectedCourse);
+  const selectedCourseId = useSelector((state) => state.modal.selectedCourseId);
   const dispatch = useDispatch();
 
   const onDeleteHandler = async (data) => {
     setIsDeleting(true);
 
-    let response = await CourseService.deleteCourse(selectedCourse?._id, data);
+    let response = await CourseService.deleteCourse(selectedCourseId, data);
 
     setIsDeleting(false);
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "Notes deleted successfully");
 
-      dispatch(deleteCourse(selectedCourse?._id));
-      dispatch(setSelectedCourse({}));
+      dispatch(deleteCourse(selectedCourseId));
+      dispatch(setSelectedCourse(null));
 
       toggelDeleteCourseModal();
     } else {
@@ -41,7 +41,7 @@ function DeleteCourseModalContainer() {
 
   const toggelDeleteCourseModal = () => {
     dispatch(toggleModal({ modalType: "deleteCourseModal" }));
-    dispatch(setSelectedCourse({}));
+    dispatch(setSelectedCourse(null));
   };
 
   return (
