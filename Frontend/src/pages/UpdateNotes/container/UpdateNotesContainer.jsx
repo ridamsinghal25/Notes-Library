@@ -5,7 +5,7 @@ import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { updateNotesState } from "@/store/NotesSlice";
 import UpdateNotes from "../presentation/UpdateNotes";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 
 function UpdateNotesContainer() {
@@ -13,11 +13,19 @@ function UpdateNotesContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!selectedNotes?._id) navigate(ROUTES.NOTES);
-  }, []);
+  const [searchParmas] = useSearchParams();
+  const notesId = searchParmas.get("notesId");
 
-  const selectedNotes = useSelector((state) => state.modal.selectedNotes);
+  const selectedNotes = useSelector((state) =>
+    state.notes.userNotes
+      ?.flatMap((chapterNotes) => chapterNotes.mergedNotes)
+      ?.find((note) => note._id === notesId)
+  );
+
+  useEffect(() => {
+    if (!notesId || !selectedNotes) navigate(ROUTES.NOTES);
+  }, [notesId, selectedNotes]);
+
   const userSubjects = useSelector((state) =>
     state.auth.userDetails?.course?.subjects?.map(
       (subject) => subject.subjectName

@@ -3,13 +3,11 @@ import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
-import { deleteNotes } from "@/store/NotesSlice";
-import CourseService from "@/services/CourseService";
-import { deleteCourse } from "@/store/CourseSlice";
+import { toggleModal } from "@/store/ModalSlice";
 import DeleteSubjectNotesModal from "../presentation/DeleteSubjectNotesModal";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
+import { resetNotesState } from "@/store/NotesSlice";
 
 function DeleteSubjectNotesModalContainer() {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -40,7 +38,7 @@ function DeleteSubjectNotesModalContainer() {
       toast.success(response?.message || "Notes deleted successfully");
 
       toggelDeleteSubjectNotesModal();
-      setSelectedNotes({});
+      dispatch(resetNotesState());
       navigate(`${ROUTES.NOTES}`);
     } else {
       toast.error(

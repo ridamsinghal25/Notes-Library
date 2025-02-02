@@ -2,11 +2,7 @@ import { useState } from "react";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setSelectedCourse,
-  setSelectedNotes,
-  toggleModal,
-} from "@/store/ModalSlice";
+import { setSelectedCourse, toggleModal } from "@/store/ModalSlice";
 import CourseService from "@/services/CourseService";
 import { deleteCourse } from "@/store/CourseSlice";
 import DeleteCourseModal from "../presentation/DeleteCourseModal";
@@ -45,7 +41,6 @@ function DeleteCourseModalContainer() {
 
   const toggelDeleteCourseModal = () => {
     dispatch(toggleModal({ modalType: "deleteCourseModal" }));
-    dispatch(setSelectedNotes({}));
     dispatch(setSelectedCourse({}));
   };
 

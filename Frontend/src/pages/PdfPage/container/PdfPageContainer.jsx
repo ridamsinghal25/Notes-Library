@@ -1,14 +1,22 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import PDFPage from "../presentation/PdfPage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 
 function PdfPageContainer() {
-  const selectedNotes = useSelector((state) => state.modal.selectedNotes);
   const theme = useSelector((state) => state.theme?.theme);
-
   const navigate = useNavigate();
+
+  const [searchParmas] = useSearchParams();
+  const notesId = searchParmas.get("notesId");
+
+  const selectedNotes = useSelector((state) =>
+    state.notes.userNotes
+      ?.flatMap((chapterNotes) => chapterNotes.mergedNotes)
+      ?.find((note) => note._id === notesId)
+  );
+
   const pdfUrl = selectedNotes?.pdf?.url;
 
   useEffect(() => {

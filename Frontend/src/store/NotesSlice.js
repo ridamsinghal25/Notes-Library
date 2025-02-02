@@ -35,6 +35,7 @@ const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
+    resetNotesState: () => initialState,
     updateNotesState: (state, action) => {
       const { noteId, newNotes } = action.payload;
 
@@ -109,7 +110,11 @@ const notesSlice = createSlice({
   },
 });
 
-export const { updateNotesState, deleteNotes, toggleLikeState } =
-  notesSlice.actions;
+export const {
+  resetNotesState,
+  updateNotesState,
+  deleteNotes,
+  toggleLikeState,
+} = notesSlice.actions;
 
 export default notesSlice.reducer;

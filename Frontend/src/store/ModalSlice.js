@@ -9,7 +9,7 @@ const initialState = {
     deleteSubjectNotesModal: false,
     updateSemesterModal: false,
   },
-  selectedNotes: {},
+  selectedNotesId: null,
   selectedCourse: {},
 };
 
@@ -23,7 +23,7 @@ const ModalSlice = createSlice({
       state.modals[modalType] = !state.modals[modalType];
     },
     setSelectedNotes: (state, action) => {
-      state.selectedNotes = action.payload;
+      state.selectedNotesId = action.payload;
     },
     setSelectedCourse: (state, action) => {
       state.selectedCourse = action.payload;

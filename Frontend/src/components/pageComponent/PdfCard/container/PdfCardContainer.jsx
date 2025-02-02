@@ -15,10 +15,11 @@ const PDFCardContainer = ({ notes }) => {
   const userId = useSelector((state) => state.auth.userDetails?._id);
   const dispatch = useDispatch();
 
-  const toggleModalOfPdfCard = (modalType, notes) => {
+  const toggleModalOfPdfCard = (modalType, notesId) => {
     dispatch(toggleModal({ modalType }));
-    if (notes) {
-      dispatch(setSelectedNotes(notes));
+
+    if (notesId) {
+      dispatch(setSelectedNotes(notesId));
     }
   };
 
@@ -62,14 +63,12 @@ const PDFCardContainer = ({ notes }) => {
     navigate(`${ROUTES.COMMENT?.replace(":notesId", notesId)}`);
   };
 
-  const navigateToUpdateNotesPage = (notes) => {
-    dispatch(setSelectedNotes(notes));
-    navigate(ROUTES.UPDATE_NOTES);
+  const navigateToUpdateNotesPage = (notesId) => {
+    navigate(`${ROUTES.UPDATE_NOTES}/?notesId=${notesId}`);
   };
 
-  const navigateToPdfPage = (notes) => {
-    dispatch(setSelectedNotes(notes));
-    navigate(ROUTES.PDF);
+  const navigateToPdfPage = (notesId) => {
+    navigate(`${ROUTES.PDF}/?notesId=${notesId}`);
   };
 
   return (

@@ -124,7 +124,7 @@ const deleteNotes = await asyncHandler(async (req, res) => {
 
   const deleteNotesPdf = await deleteFromCloudinary(notesExists?.pdf.public_id);
 
-  if (!deleteNotesPdf || deleteNotesPdf.result === "not found") {
+  if (!deleteNotesPdf) {
     throw new ApiError(500, "Failed to delete notes PDF");
   }
 
@@ -402,7 +402,7 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
 
   const deleteOldNotesPdf = await deleteFromCloudinary(notes?.pdf?.public_id);
 
-  if (!deleteOldNotesPdf || deleteOldNotesPdf.result === "not found") {
+  if (!deleteOldNotesPdf) {
     throw new ApiError(500, "Internal server error. Please try again");
   }
 
