@@ -4,6 +4,7 @@ import { Form } from "@/components/ui/form";
 import { ChevronUp, ChevronDown, X, Upload, ArrowLeft } from "lucide-react";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import FormFieldSelect from "@/components/basic/FormFieldSelect";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function AddDailyNotes({
   dailyNotesForm,
@@ -22,6 +23,13 @@ function AddDailyNotes({
 
   return (
     <div className="min-h-screen p-4 sm:p-6 md:p-8">
+      <HelmetProvider>
+        <Helmet>
+          <title>Add Daily Notes</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a add daily notes page" />
+        </Helmet>
+      </HelmetProvider>
       <div className="max-w-4xl mx-auto rounded-lg border border-gray-400 dark:border-gray-200 shadow-lg">
         <div className="flex items-center justify-between p-4 sm:p-6 border-b dark:border-gray-700">
           <div className="flex items-center space-x-4">

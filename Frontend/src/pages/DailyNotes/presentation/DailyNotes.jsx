@@ -8,10 +8,19 @@ import {
   UserRolesEnum,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/route";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function DailyNotes({ subjectChapters, userRole }) {
   return (
     <div>
+      <HelmetProvider>
+        <Helmet>
+          <title>Daily Notes</title>
+          <meta charset="UTF-8" />
+          <meta name="description" content="This is a daily notes page" />
+        </Helmet>
+      </HelmetProvider>
+
       {userRole === UserRolesEnum.ADMIN || UserRolesEnum.MODERATOR ? (
         <>
           <div className="absolute top-4 right-4 z-10">

@@ -12,17 +12,20 @@ import { ROUTES } from "@/constants/route";
 function NotesCard({ subject, isOpen, setIsOpen }) {
   return (
     <div className="border border-gray-400 rounded-lg p-4 shadow-md transition-transform transform hover:shadow-lg block">
-      <h4 className="font-semibold text-lg text-gray-800 mb-2 dark:text-gray-200">
-        {subject}
-      </h4>
-      <p className="text-sm text-gray-600 dark:text-gray-200 mb-4">
-        Comprehensive {subject.toLowerCase()} notes for effective learning.
-      </p>
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
-          <Button className="justify-between">View Notes</Button>
+          <div>
+            <h4 className="font-semibold text-lg text-gray-800 mb-2 dark:text-gray-200">
+              {subject}
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-200 mb-4">
+              Comprehensive {subject.toLowerCase()} notes for effective
+              learning.
+            </p>
+            <Button className="justify-between">View Notes</Button>
+          </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
+        <DropdownMenuContent className="w-80">
           <DropdownMenuItem>
             <Link
               to={`${ROUTES.DAILY_NOTES?.replace(":subject", subject)}`}
