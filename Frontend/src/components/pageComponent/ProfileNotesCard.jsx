@@ -1,4 +1,5 @@
 import { AVATAR_URL } from "@/constants/constants";
+import { ROUTES } from "@/constants/route";
 import { getPreviewImageUrl } from "@/utils/getImageUrl";
 import { MessageCircle, ThumbsUp } from "lucide-react";
 import React from "react";

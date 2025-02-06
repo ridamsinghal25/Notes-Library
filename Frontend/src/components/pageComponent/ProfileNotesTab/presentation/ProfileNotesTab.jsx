@@ -3,8 +3,8 @@ import React from "react";
 import ProfileNotesCard from "../../ProfileNotesCard";
 import { UserRolesEnum } from "@/constants/constants";
 
-function ProfileNotesTab({ isFetchingNotes, userNotesInfo }) {
-  return userNotesInfo[0]?.createdBy?.role === UserRolesEnum.ADMIN ? (
+function ProfileNotesTab({ isFetchingNotes, userRole, userNotesInfo }) {
+  return userRole === UserRolesEnum.ADMIN ? (
     <div>
       {isFetchingNotes ? (
         <ProfilePageNotesSkeleton />
