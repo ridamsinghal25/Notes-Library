@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 import { toggleLikeState } from "@/store/NotesSlice";
+import { cloudinaryPdfUrl } from "@/utils/cloudinaryPdfUrl";
 
 const PDFCardContainer = ({ notes }) => {
   const navigate = useNavigate();
@@ -45,11 +46,8 @@ const PDFCardContainer = ({ notes }) => {
     }
   };
 
-  const handleDownload = async (url, chapterName) => {
-    const newPdfUrl = url.replace(
-      /\/upload/,
-      `/upload/fl_attachment:${encodeURIComponent(chapterName)}`
-    );
+  const handleDownload = async (url, chapterName, index) => {
+    const newPdfUrl = cloudinaryPdfUrl(url, chapterName, index);
 
     const link = document.createElement("a");
     link.href = newPdfUrl;
@@ -73,20 +71,17 @@ const PDFCardContainer = ({ notes }) => {
 
   return (
     <div>
-      {notes.mergedNotes?.map((note) => (
-        <PDFCard
-          key={note._id}
-          notes={note}
-          handleLike={handleLike}
-          toggleModalOfPdfCard={toggleModalOfPdfCard}
-          navigateToComment={navigateToComment}
-          userRole={userRole}
-          userId={userId}
-          handleDownload={handleDownload}
-          navigateToUpdateNotesPage={navigateToUpdateNotesPage}
-          navigateToPdfPage={navigateToPdfPage}
-        />
-      ))}
+      <PDFCard
+        notes={notes}
+        handleLike={handleLike}
+        toggleModalOfPdfCard={toggleModalOfPdfCard}
+        navigateToComment={navigateToComment}
+        userRole={userRole}
+        userId={userId}
+        handleDownload={handleDownload}
+        navigateToUpdateNotesPage={navigateToUpdateNotesPage}
+        navigateToPdfPage={navigateToPdfPage}
+      />
     </div>
   );
 };

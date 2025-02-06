@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import PDFPage from "../presentation/PdfPage";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
+import { cloudinaryPdfUrl } from "@/utils/cloudinaryPdfUrl";
 
 function PdfPageContainer() {
   const theme = useSelector((state) => state.theme?.theme);
@@ -17,7 +18,10 @@ function PdfPageContainer() {
       ?.find((note) => note._id === notesId)
   );
 
-  const pdfUrl = selectedNotes?.pdf?.url;
+  const pdfUrl = cloudinaryPdfUrl(
+    selectedNotes?.pdf?.url,
+    selectedNotes?.chapterName
+  );
 
   useEffect(() => {
     if (!pdfUrl) {
