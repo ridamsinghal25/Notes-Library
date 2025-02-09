@@ -16,7 +16,10 @@ import {
 import React from "react";
 
 const FormFieldSelect = React.forwardRef(
-  ({ form, label, name, description, placeholder, values = [] }, ref) => {
+  (
+    { form, label, name, description, placeholder, values = [], ...props },
+    ref
+  ) => {
     return (
       <FormField
         control={form.control}
@@ -27,7 +30,16 @@ const FormFieldSelect = React.forwardRef(
               {label}
             </FormLabel>
             <FormControl>
-              <Select {...field} ref={ref} onValueChange={field.onChange}>
+              <Select
+                {...field}
+                ref={ref}
+                onOpenChange={() => {
+                  if (props.onOpenChange) {
+                    props.onOpenChange();
+                  }
+                }}
+                onValueChange={field.onChange}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
