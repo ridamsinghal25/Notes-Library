@@ -27,10 +27,19 @@ const uploadNotes = asyncHandler(async (req, res) => {
     throw new ApiError(404, "course does not exists");
   }
 
-  if (
-    !course?.subjects?.map((subject) => subject.subjectName)?.includes(subject)
-  ) {
+  const isSubjectExists = course.subjects?.find(
+    (sub) => sub.subjectName === subject
+  );
+
+  if (!isSubjectExists) {
     throw new ApiError(400, "Your course does not have this subject");
+  }
+
+  const isChapterExistsInTheSubject =
+    isSubjectExists?.chapters?.includes(chapterName);
+
+  if (!isChapterExistsInTheSubject) {
+    throw new ApiError(400, "This subject does not have this chapter");
   }
 
   const pdfFile = await uploadOnCloudinary(pdfFileLocalPath);
@@ -73,10 +82,19 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Course does not exists");
   }
 
-  if (
-    !course?.subjects?.map((subject) => subject.subjectName)?.includes(subject)
-  ) {
+  const isSubjectExists = course.subjects?.find(
+    (sub) => sub.subjectName === subject
+  );
+
+  if (!isSubjectExists) {
     throw new ApiError(400, "Your course does not have this subject");
+  }
+
+  const isChapterExistsInTheSubject =
+    isSubjectExists?.chapters?.includes(chapterName);
+
+  if (!isChapterExistsInTheSubject) {
+    throw new ApiError(400, "This subject does not have this chapter");
   }
 
   const notes = await Notes.findById(notesId);

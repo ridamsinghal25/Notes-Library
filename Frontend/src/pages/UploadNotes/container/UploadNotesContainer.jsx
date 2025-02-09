@@ -9,12 +9,12 @@ import { ROUTES } from "@/constants/route";
 
 function UploadNotesContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentSubjectChapters, setCurrentSubjectChapters] = useState([]);
+
   const navigate = useNavigate();
 
-  const userSubjects = useSelector((state) =>
-    state.auth.userDetails?.course?.subjects?.map(
-      (subject) => subject.subjectName
-    )
+  const userSubjects = useSelector(
+    (state) => state.auth.userDetails?.course?.subjects
   );
 
   const onNotesUpload = async (data) => {
@@ -36,11 +36,21 @@ function UploadNotesContainer() {
     }
   };
 
+  const getSubjectChapters = (subject) => {
+    const currentSubject = userSubjects.find(
+      (sub) => sub.subjectName === subject
+    );
+
+    setCurrentSubjectChapters(currentSubject.chapters);
+  };
+
   return (
     <UploadNotes
       userSubjects={userSubjects}
       isSubmitting={isSubmitting}
       onSubmit={onNotesUpload}
+      getSubjectChapters={getSubjectChapters}
+      currentSubjectChapters={currentSubjectChapters}
     />
   );
 }

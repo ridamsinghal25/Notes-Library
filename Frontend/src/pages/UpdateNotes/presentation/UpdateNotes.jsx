@@ -18,6 +18,8 @@ function UpdateNotes({
   onNotesUpdate,
   onPdfFileUpdate,
   navigate,
+  getSubjectChapters,
+  currentSubjectChapters,
 }) {
   const updateNotesForm = useForm({
     resolver: zodResolver(updateNotesValidation),
@@ -79,7 +81,7 @@ function UpdateNotes({
                   form={updateNotesForm}
                   label="Subject Name"
                   name="subject"
-                  values={userSubjects}
+                  values={userSubjects?.map((subject) => subject.subjectName)}
                   placeholder="Enter the subject name"
                 />
                 <FormFieldInput
@@ -88,11 +90,17 @@ function UpdateNotes({
                   name="chapterNumber"
                   placeholder="Enter the chapter number"
                 />
-                <FormFieldInput
+                <FormFieldSelect
                   form={updateNotesForm}
                   label="Chapter Name"
                   name="chapterName"
                   placeholder="Enter the chapter name"
+                  values={currentSubjectChapters}
+                  onOpenChange={() =>
+                    getSubjectChapters(updateNotesForm.getValues("subject"))
+                  }
+                  disabled={!updateNotesForm.getValues("subject")}
+                  description="Select a subject first"
                 />
                 <FormFieldInput
                   form={updateNotesForm}
@@ -119,8 +127,9 @@ function UpdateNotes({
           <TabsContent value="updatePdf">
             <Form {...updatePdfFileForm}>
               <form
-                onSubmit={updatePdfFileForm.handleSubmit((data) =>
+                onSubmit={updatePdfFileForm.handleSubmit((data, event) =>
                   onPdfFileUpdate(data).then(() => {
+                    event.target.reset();
                     updatePdfFileForm.reset();
                   })
                 )}

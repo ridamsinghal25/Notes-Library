@@ -10,6 +10,8 @@ import { ROUTES } from "@/constants/route";
 
 function UpdateNotesContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentSubjectChapters, setCurrentSubjectChapters] = useState([]);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,11 +28,17 @@ function UpdateNotesContainer() {
     if (!notesId || !selectedNotes) navigate(ROUTES.NOTES);
   }, [notesId, selectedNotes]);
 
-  const userSubjects = useSelector((state) =>
-    state.auth.userDetails?.course?.subjects?.map(
-      (subject) => subject.subjectName
-    )
+  const userSubjects = useSelector(
+    (state) => state.auth.userDetails?.course?.subjects
   );
+
+  const getSubjectChapters = (subject) => {
+    const currentSubject = userSubjects.find(
+      (sub) => sub.subjectName === subject
+    );
+
+    setCurrentSubjectChapters(currentSubject.chapters);
+  };
 
   const onNotesUpdate = async (data) => {
     setIsSubmitting(true);
@@ -95,6 +103,8 @@ function UpdateNotesContainer() {
       onNotesUpdate={onNotesUpdate}
       onPdfFileUpdate={onPdfFileUpdate}
       navigate={navigate}
+      getSubjectChapters={getSubjectChapters}
+      currentSubjectChapters={currentSubjectChapters}
     />
   );
 }

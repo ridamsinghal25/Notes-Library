@@ -9,7 +9,13 @@ import { uploadNotesValidation } from "@/validation/zodValidation";
 import { ROUTES } from "@/constants/route";
 import { Link } from "react-router-dom";
 
-function UploadNotes({ userSubjects, isSubmitting, onSubmit }) {
+function UploadNotes({
+  userSubjects,
+  isSubmitting,
+  onSubmit,
+  currentSubjectChapters,
+  getSubjectChapters,
+}) {
   const uploadNotesForm = useForm({
     resolver: zodResolver(uploadNotesValidation),
     defaultValues: {
@@ -46,8 +52,9 @@ function UploadNotes({ userSubjects, isSubmitting, onSubmit }) {
         </div>
         <Form {...uploadNotesForm}>
           <form
-            onSubmit={uploadNotesForm.handleSubmit((data) =>
+            onSubmit={uploadNotesForm.handleSubmit((data, event) =>
               onSubmit(data).then(() => {
+                event.target.reset();
                 uploadNotesForm.reset();
               })
             )}
@@ -57,7 +64,7 @@ function UploadNotes({ userSubjects, isSubmitting, onSubmit }) {
               form={uploadNotesForm}
               label="Subject Name"
               name="subject"
-              values={userSubjects}
+              values={userSubjects?.map((subject) => subject.subjectName)}
               placeholder="Enter the subject name"
             />
             <FormFieldInput
@@ -66,11 +73,17 @@ function UploadNotes({ userSubjects, isSubmitting, onSubmit }) {
               name="chapterNumber"
               placeholder="Enter the chapter number"
             />
-            <FormFieldInput
+            <FormFieldSelect
               form={uploadNotesForm}
               label="Chapter Name"
               name="chapterName"
               placeholder="Enter the chapter name"
+              values={currentSubjectChapters}
+              onOpenChange={() =>
+                getSubjectChapters(uploadNotesForm.getValues("subject"))
+              }
+              disabled={!uploadNotesForm.getValues("subject")}
+              description="Select a subject first"
             />
             <FormFieldInput
               form={uploadNotesForm}
