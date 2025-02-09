@@ -23,7 +23,13 @@ function DailyNotesContainer() {
 
   const userRole = useSelector((state) => state.auth.userDetails?.role);
 
-  return <DailyNotes subjectChapters={subjectChapters} userRole={userRole} />;
+  return (
+    <DailyNotes
+      subjectChapters={subjectChapters}
+      userRole={userRole}
+      subject={subject}
+    />
+  );
 }
 
 export default DailyNotesContainer;

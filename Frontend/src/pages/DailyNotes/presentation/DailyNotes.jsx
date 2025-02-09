@@ -10,7 +10,7 @@ import {
 import { ROUTES } from "@/constants/route";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-function DailyNotes({ subjectChapters, userRole }) {
+function DailyNotes({ subjectChapters, userRole, subject }) {
   return (
     <div>
       <HelmetProvider>
@@ -21,7 +21,8 @@ function DailyNotes({ subjectChapters, userRole }) {
         </Helmet>
       </HelmetProvider>
 
-      {userRole === UserRolesEnum.ADMIN || UserRolesEnum.MODERATOR ? (
+      {userRole === UserRolesEnum.ADMIN ||
+      userRole === UserRolesEnum.MODERATOR ? (
         <>
           <div className="absolute top-4 right-4 z-10">
             <Link to={ROUTES.ADD_DAILY_NOTES}>
@@ -55,7 +56,7 @@ function DailyNotes({ subjectChapters, userRole }) {
                 return (
                   <div key={chapter} className="space-y-6">
                     <Link
-                      to={`/notes/${chapter}`}
+                      to={`${ROUTES.LIST_DAILY_NOTES}?subject=${subject}&chapterName=${chapter}`}
                       className="border border-gray-400 rounded-lg p-4 shadow-md transition-transform transform hover:scale-105 hover:shadow-lg block"
                     >
                       <h4 className="font-semibold text-lg text-gray-800 mb-2 dark:text-gray-200 truncate">
