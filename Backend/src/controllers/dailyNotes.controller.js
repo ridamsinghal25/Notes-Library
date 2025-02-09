@@ -23,10 +23,19 @@ const createDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(404, "This course does not exists");
   }
 
-  if (
-    !course?.subjects?.map((subject) => subject.subjectName)?.includes(subject)
-  ) {
+  const isSubjectExists = course.subjects?.find(
+    (sub) => sub.subjectName === subject
+  );
+
+  if (!isSubjectExists) {
     throw new ApiError(400, "Your course does not have this subject");
+  }
+
+  const isChapterExistsInTheSubject =
+    isSubjectExists?.chapters?.includes(chapterName);
+
+  if (!isChapterExistsInTheSubject) {
+    throw new ApiError(400, "This subject does not have this chapter");
   }
 
   const promisesOfUploadFiles = req.files?.map((file) =>
@@ -58,12 +67,25 @@ const createDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to create notes");
   }
 
+  const dailyNotesWithCreatedByDetails = {
+    ...dailyNotes.toObject(),
+    createdBy: {
+      fullName: req.user?.fullName,
+      rollNumber: req.user?.rollNumber,
+    },
+  };
+
   return res
     .status(200)
-    .json(new ApiResponse(200, dailyNotes, "notes uploaded successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        dailyNotesWithCreatedByDetails,
+        "notes uploaded successfully"
+      )
+    );
 });
 
-// update karne pe username show kare
 const updateDailyNotes = asyncHandler(async (req, res) => {
   const { chapterNumber, chapterName, subject } = req.body;
   const { dailyNotesId } = req.params;
@@ -84,22 +106,25 @@ const updateDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Course does not exists");
   }
 
-  if (
-    !course?.subjects?.map((subject) => subject.subjectName)?.includes(subject)
-  ) {
+  const isSubjectExists = course.subjects?.find(
+    (sub) => sub.subjectName === subject
+  );
+
+  if (!isSubjectExists) {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
-  /**
-   *
-   * *************************
-   * Add condition for chapter exists in subject
-   * **************************
-   */
+  const isChapterExistsInTheSubject =
+    isSubjectExists?.chapters?.includes(chapterName);
+
+  if (!isChapterExistsInTheSubject) {
+    throw new ApiError(400, "This subject does not have this chapter");
+  }
 
   dailyNotes.chapterName = chapterName;
   dailyNotes.chapterNumber = chapterNumber;
   dailyNotes.subject = subject;
+  dailyNotes.updatedBy = req.user?._id;
 
   const newDailyNotes = await dailyNotes.save();
 
@@ -107,9 +132,23 @@ const updateDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to update notes");
   }
 
+  const newDailyNotesWithUpdatedByDetails = {
+    ...newDailyNotes.toObject(),
+    updatedBy: {
+      fullName: req.user?.fullName,
+      rollNumber: req.user?.rollNumber,
+    },
+  };
+
   return res
     .status(200)
-    .json(new ApiResponse(200, newDailyNotes, "notes updated successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        newDailyNotesWithUpdatedByDetails,
+        "notes updated successfully"
+      )
+    );
 });
 
 const updatePDFFilesOfDailyNotes = asyncHandler(async (req, res) => {
@@ -127,9 +166,11 @@ const updatePDFFilesOfDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(404, "This course does not exists");
   }
 
-  if (
-    !course?.subjects?.map((subject) => subject.subjectName)?.includes(subject)
-  ) {
+  const isSubjectExists = course.subjects?.find(
+    (sub) => sub.subjectName === subject
+  );
+
+  if (!isSubjectExists) {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
@@ -174,6 +215,7 @@ const updatePDFFilesOfDailyNotes = asyncHandler(async (req, res) => {
   }));
 
   dailyNotes.notes = [...dailyNotes.notes, ...notes];
+  dailyNotes.updatedBy = req.user?._id;
 
   const newDailyNotes = await dailyNotes.save();
 
@@ -181,9 +223,23 @@ const updatePDFFilesOfDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to update notes");
   }
 
+  const newDailyNotesWithUpdatedByDetails = {
+    ...newDailyNotes.toObject(),
+    updatedBy: {
+      fullName: req.user?.fullName,
+      rollNumber: req.user?.rollNumber,
+    },
+  };
+
   return res
     .status(200)
-    .json(new ApiResponse(200, newDailyNotes, "notes uploaded successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        newDailyNotesWithUpdatedByDetails,
+        "notes uploaded successfully"
+      )
+    );
 });
 
 const deleteChapterAllDailyNotes = asyncHandler(async (req, res) => {
@@ -195,14 +251,14 @@ const deleteChapterAllDailyNotes = asyncHandler(async (req, res) => {
   }).lean();
 
   if (!dailyNotes || !dailyNotes.length) {
-    throw new ApiError(200, "No notes found");
+    throw new ApiError(400, "No notes found");
   }
 
   const notesCourse = [
     ...new Set(dailyNotes.map((note) => note.course.toString())),
   ];
 
-  if (notesCourse.length !== 1) {
+  if (!notesCourse.length) {
     throw new ApiError(400, "You are not allowed to delete these notes");
   }
 
@@ -294,16 +350,22 @@ const getDailyNotes = asyncHandler(async (req, res) => {
   const dailyNotes = await DailyNotes.find({
     chapterName,
     subject,
-  }).lean();
+  })
+    .sort({ createdAt: -1 })
+    .lean();
 
   if (!dailyNotes || !dailyNotes.length) {
     throw new ApiError(200, "No notes found");
   }
 
-  const ownerIds = [...new Set(dailyNotes.map((notes) => notes.createdBy))];
+  const ownerIds = [
+    ...new Set(
+      dailyNotes.map((notes) => [notes.createdBy, notes?.updatedBy])?.flat(1)
+    ),
+  ];
 
   const users = await User.find({ _id: { $in: ownerIds } })
-    .select("fullName avatar _id role")
+    .select("fullName rollNumber")
     .lean();
 
   const userMap = users.reduce((map, user) => {
@@ -314,6 +376,7 @@ const getDailyNotes = asyncHandler(async (req, res) => {
   const dailyNotesWithOwners = dailyNotes.map((notes) => ({
     ...notes,
     createdBy: userMap[notes.createdBy] || null,
+    updatedBy: userMap[notes.updatedBy] || null,
   }));
 
   return res

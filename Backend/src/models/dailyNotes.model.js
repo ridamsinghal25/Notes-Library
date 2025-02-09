@@ -35,6 +35,11 @@ const dailyNotesSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "created by field is required"],
     },
+    updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   { timestamps: true }
 );
