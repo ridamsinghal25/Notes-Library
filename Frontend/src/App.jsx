@@ -30,6 +30,7 @@ import ForModeratorUsers from "./protectedRoutes/ForModeratorUsers";
 import AddDailyNotesContainer from "./pages/AddDailyNotes/container/AddDailyNotesContainer";
 import ListDailyNotesContainer from "./pages/ListDailyNotes/container/ListDailyNotesContainer";
 import DailyNotesContainer from "./pages/DailyNotes/container/DailyNotesContainer";
+import UpdateDailyNotesContainer from "./pages/UpdateDailyNotes/container/UpdateDailyNotesContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -76,20 +77,17 @@ function App() {
               <Route path={ROUTES.COURSE} element={<CourseContainer />} />
             </Route>
 
-            {/* For Moderator User Routes */}
-            <Route element={<ForModeratorUsers />}>
-              {/* List Daily Notes */}
-              <Route
-                path={ROUTES.LIST_DAILY_NOTES}
-                element={<ListDailyNotesContainer />}
-              />
+            {/* List Daily Notes */}
+            <Route
+              path={ROUTES.LIST_DAILY_NOTES}
+              element={<ListDailyNotesContainer />}
+            />
 
-              {/* Daily Notes Routes */}
-              <Route
-                path={ROUTES.DAILY_NOTES}
-                element={<DailyNotesContainer />}
-              />
-            </Route>
+            {/* Daily Notes Routes */}
+            <Route
+              path={ROUTES.DAILY_NOTES}
+              element={<DailyNotesContainer />}
+            />
           </Route>
 
           {/* Without sidebar */}
@@ -130,6 +128,11 @@ function App() {
               <Route
                 path={ROUTES.ADD_DAILY_NOTES}
                 element={<AddDailyNotesContainer />}
+              />
+
+              <Route
+                path={ROUTES.UPDATE_DAILY_NOTES}
+                element={<UpdateDailyNotesContainer />}
               />
             </Route>
           </Route>

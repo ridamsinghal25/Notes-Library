@@ -299,3 +299,39 @@ export const dailyNotesFormValidation = z.object({
       message: "File size must not exceed 5MB",
     }),
 });
+
+export const updateDailyNotesFormValidation = z.object({
+  subject: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_-]+$/,
+      "subjects must contain only alphabets and , . _ - characters"
+    )
+    .min(1, "Subject is required")
+    .max(40, "Subject must not be more than 40 characters"),
+  chapterNumber: z
+    .string()
+    .trim()
+    .regex(/^\d+$/, "Chapter number must contain only digits")
+    .max(2, "Chapter number must not be more than 2 digits"),
+  chapterName: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_-]+$/,
+      "chapter name must contain only alphabets and , . _ - characters"
+    )
+    .min(1, "Chapter name is required")
+    .max(40, "Chapter name must not be more than 40 characters"),
+});
+
+export const updateFilesDailyNotesFormValidation = z.object({
+  files: z
+    .array(z.instanceof(File))
+    .min(1, "At least one file is required")
+    .max(5, "Only 5 files are allowed")
+    .refine((files) => files.every((file) => file.size <= MAX_IMAGE_SIZE), {
+      message: "File size must not exceed 5MB",
+    }),
+});
