@@ -1,57 +1,39 @@
 import React, { useEffect, useState } from "react";
 import ListDailyNotes from "../presentation/ListDailyNotes";
-const sampleNotes = [
-  {
-    id: 1,
-    src: [
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1736685563/Software_Engineering_New_1736685561093.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-    ],
-    date: "2023-01-15",
-    alt: "Note 1",
-  },
-  {
-    id: 2,
-    src: [
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-    ],
-    date: "2023-01-16",
-    alt: "Note 2",
-  },
-  {
-    id: 3,
-    src: [
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-    ],
-    date: "2023-01-17",
-    alt: "Note 3",
-  },
-  {
-    id: 4,
-    src: [
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-      "https://res.cloudinary.com/manusinghal119/image/upload/v1737885601/Compiler_Design_OOP_1737885599175.jpg",
-    ],
-    date: "2023-01-18",
-    alt: "Note 4",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { ROUTES } from "@/constants/route";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { deleteNotes, fetchDailyNotes } from "@/store/DailyNotesSlice";
+import { setSelectedNotes, toggleModal } from "@/store/ModalSlice";
+import DailyNotesService from "@/services/DailyNotesService";
+import ApiError from "@/services/ApiError";
+import { toast } from "react-toastify";
+import { cloudinaryFilesUrl } from "@/utils/cloudinaryPdfUrl";
 
 function ListDailyNotesContainer() {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [selectedNote, setSelectedNote] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const subject = {
-    subject: "OOP",
-    chapterNumber: 1,
-    chapterName: "Chapter 1",
-  };
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const selectedNotesId = useSelector((state) => state.modal.selectedNotesId);
+  const userRole = useSelector((state) => state.auth.userDetails?.role);
+  const dailyNotes = useSelector((state) => state.dailyNotes?.notes);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [searchParmams] = useSearchParams();
+
+  const subject = searchParmams.get("subject");
+  const chapterName = searchParmams.get("chapterName");
+
+  useEffect(() => {
+    if (!subject || !chapterName) {
+      return;
+    }
+    dispatch(fetchDailyNotes({ subject, chapterName }));
+  }, [dispatch, subject, chapterName]);
 
   useEffect(() => {
     if (selectedNote) {
@@ -79,6 +61,56 @@ function ListDailyNotesContainer() {
       prev < selectedNote?.length - 1 ? prev + 1 : 0
     );
   };
+
+  const navigateToUpdateDailyNotesPage = (dailyNotesId) => {
+    navigate(`${ROUTES.UPDATE_DAILY_NOTES}/?dailyNotesId=${dailyNotesId}`);
+  };
+
+  const toggleModalOfPdfCard = (modalType, notesId) => {
+    dispatch(toggleModal({ modalType }));
+
+    if (notesId) {
+      dispatch(setSelectedNotes(notesId));
+    }
+  };
+
+  const toggelDeleteModal = () => {
+    dispatch(toggleModal({ modalType: "deleteModal" }));
+    dispatch(setSelectedNotes(null));
+  };
+
+  const onDeleteHandler = async () => {
+    setIsDeleting(true);
+    const response = await DailyNotesService.deleteNotes(selectedNotesId);
+
+    setIsDeleting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message || "Notes deleted successfully");
+
+      dispatch(deleteNotes(selectedNotesId));
+
+      toggelDeleteModal();
+    } else {
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
+    }
+  };
+
+  const handleDownload = async (url, date, index) => {
+    const newPdfUrl = cloudinaryFilesUrl(url, date, chapterName, index);
+
+    const link = document.createElement("a");
+    link.href = newPdfUrl;
+    link.download = `${chapterName}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <ListDailyNotes
       zoomLevel={zoomLevel}
@@ -87,12 +119,19 @@ function ListDailyNotesContainer() {
       currentImageIndex={currentImageIndex}
       setCurrentImageIndex={setCurrentImageIndex}
       subject={subject}
+      chapterName={chapterName}
+      dailyNotes={dailyNotes}
       zoomIn={zoomIn}
       zoomOut={zoomOut}
       resetZoom={resetZoom}
       handlePrevImage={handlePrevImage}
       handleNextImage={handleNextImage}
-      sampleNotes={sampleNotes}
+      userRole={userRole}
+      navigateToUpdateDailyNotesPage={navigateToUpdateDailyNotesPage}
+      toggleModalOfPdfCard={toggleModalOfPdfCard}
+      onDeleteHandler={onDeleteHandler}
+      isDeleting={isDeleting}
+      handleDownload={handleDownload}
     />
   );
 }

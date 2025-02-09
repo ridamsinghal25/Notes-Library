@@ -13,6 +13,8 @@ function NotesSubjectPage({
   notesData,
   toggleDeleteSubjectModal,
   userRole,
+  onDeleteHandler,
+  isDeleting,
 }) {
   return (
     <div className="container mx-auto py-8 px-4">
@@ -72,7 +74,10 @@ function NotesSubjectPage({
         )}
       </div>
 
-      <DeleteModalContainer />
+      <DeleteModalContainer
+        onDeleteHandler={onDeleteHandler}
+        isDeleting={isDeleting}
+      />
 
       <DeleteSubjectNotesModalContainer />
 
