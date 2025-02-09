@@ -7,6 +7,7 @@ import PasswordSlice from "./PasswordSlice";
 import CourseSlice from "./CourseSlice";
 import CommentSlice from "./CommentSlice";
 import ProfileSlice from "./ProfileSlice";
+import DailyNotesSlice from "./DailyNotesSlice";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     courses: CourseSlice,
     comment: CommentSlice,
     profile: ProfileSlice,
+    dailyNotes: DailyNotesSlice,
   },
 });
 
