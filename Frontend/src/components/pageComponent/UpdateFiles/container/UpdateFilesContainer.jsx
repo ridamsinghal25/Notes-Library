@@ -78,7 +78,39 @@ function UpdateFilesContainer({ selectedNotes }) {
     );
   };
 
-  const handlePermanentDelete = (pdfId) => {};
+  const handlePermanentDelete = async () => {
+    setIsSubmitting(true);
+
+    const publicIds = deletedfiles?.map((file) => file.public_id);
+
+    const response = await DailyNotesService.deleteFiles(
+      selectedNotes?._id,
+      publicIds
+    );
+
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      dispatch(
+        updateNotes({
+          dailyNotesId: response?.data?._id,
+          newUpdatedNotes: response?.data,
+        })
+      );
+
+      toast.success(response?.message);
+
+      navigate(
+        `${ROUTES.LIST_DAILY_NOTES}?subject=${response.data?.subject}&chapterName=${response.data?.chapterName}`
+      );
+    } else {
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
+    }
+  };
 
   const handleFileChange = useCallback(
     (event) => {

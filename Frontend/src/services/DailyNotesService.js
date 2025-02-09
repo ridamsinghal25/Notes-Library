@@ -88,6 +88,24 @@ class DailyNotesService {
     }
   }
 
+  async deleteFiles(dailyNotesId, publicIds) {
+    const apiRequest = new ApiRequest(
+      `${this.DAILYNOTES_BASE_URL}/delete-files/${dailyNotesId}`
+    );
+
+    const response = await apiRequest.deleteRequest({
+      publicIds: publicIds,
+    });
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
+
   async getNotes(fields) {
     const apiRequest = new ApiRequest(`${this.DAILYNOTES_BASE_URL}/get-notes`);
 

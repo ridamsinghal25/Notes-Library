@@ -173,10 +173,19 @@ function UpdateFiles({
                 variant="destructive"
                 size="sm"
                 onClick={() => handlePermanentDelete()}
+                disabled={isSubmitting}
               >
-                Delete
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    Wait
+                  </>
+                ) : (
+                  "Delete Files"
+                )}
               </Button>
             </div>
+
             {deletedfiles.map((fileInfo, index) => (
               <div
                 key={index}
