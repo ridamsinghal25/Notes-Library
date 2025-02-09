@@ -113,12 +113,18 @@ const getComments = asyncHandler(async (req, res) => {
     throw new ApiError(404, "These notes does not exists");
   }
 
-  const comments = await Comment.find({ notesId });
+  const comments = await Comment.find({ notesId }).lean();
 
+  if (!comments || comments.length === 0) {
+    return res.status(200).json(new ApiResponse(200, [], "No comments posted"));
+  }
   const ownerIds = comments.map((comment) => comment.commentedBy);
-  const users = await User.find({ _id: { $in: ownerIds } }).select(
-    "fullName avatar _id role"
-  );
+
+  const uniqueOwnerIds = [...new Set(ownerIds)];
+
+  const users = await User.find({ _id: { $in: uniqueOwnerIds } })
+    .select("fullName avatar _id role")
+    .lean();
 
   const userMap = users.reduce((map, user) => {
     map[user._id] = user;
@@ -126,13 +132,9 @@ const getComments = asyncHandler(async (req, res) => {
   }, {});
 
   const commentsWithOwners = comments.map((comment) => ({
-    ...comment.toObject(),
+    ...comment,
     commentedBy: userMap[comment.commentedBy] || null,
   }));
-
-  if (!comments || comments.length === 0) {
-    return res.status(200).json(new ApiResponse(200, [], "No comments posted"));
-  }
 
   return res
     .status(200)

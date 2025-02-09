@@ -33,9 +33,7 @@ const uploadNotes = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Your course does not have this subject");
   }
 
-  const publicId = `${subject.replace(/\s+/g, "_")}_${chapterName.replace(/\s+/g, "_")}_${Date.now()}`;
-
-  const pdfFile = await uploadOnCloudinary(pdfFileLocalPath, publicId);
+  const pdfFile = await uploadOnCloudinary(pdfFileLocalPath);
 
   if (!pdfFile) {
     throw new ApiError(500, "Failed to upload pdf file");
@@ -87,6 +85,10 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Notes does not exists");
   }
 
+  if (notes.course.toString() !== req.user?.course.toString()) {
+    throw new ApiError(400, "You are not allowed to update this notes");
+  }
+
   if (notes.createdBy.toString() !== user._id.toString()) {
     throw new ApiError(403, "You are not allowed to update this notes");
   }
@@ -116,6 +118,10 @@ const deleteNotes = await asyncHandler(async (req, res) => {
 
   if (!notesExists) {
     throw new ApiError(404, "notes not found");
+  }
+
+  if (notesExists.course.toString() !== req.user?.course.toString()) {
+    throw new ApiError(400, "You are not allowed to update this notes");
   }
 
   if (notesExists.createdBy.toString() !== user._id.toString()) {
@@ -396,6 +402,10 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
     throw new ApiError(404, "notes does not exists");
   }
 
+  if (notes.course.toString() !== req.user?.course.toString()) {
+    throw new ApiError(400, "You are not allowed to update this notes");
+  }
+
   if (notes.createdBy.toString() !== user._id.toString()) {
     throw new ApiError(403, "You are not allowed to update this notes");
   }
@@ -406,9 +416,7 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Internal server error. Please try again");
   }
 
-  const publicId = `${notes?.subject.replace(/\s+/g, "_")}_${notes?.chapterName.replace(/\s+/g, "_")}_${Date.now()}`;
-
-  const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath, publicId);
+  const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath);
 
   if (!uploadNewPdfFile) {
     throw new ApiError(500, "Failed to upload pdf file");
@@ -439,6 +447,16 @@ const deleteSubjectNotes = asyncHandler(async (req, res) => {
 
   if (!notes || notes?.length === 0) {
     throw new ApiError(404, "notes does not exists");
+  }
+
+  const notesCourse = [...new Set(notes.map((note) => note.course.toString()))];
+
+  if (notesCourse.length !== 1) {
+    throw new ApiError(400, "You are not allowed to delete these notes");
+  }
+
+  if (notesCourse[0] !== req.user?.course.toString()) {
+    throw new ApiError(400, "You are not allowed to delete these notes");
   }
 
   const notesIds = notes.map((note) => note._id);
