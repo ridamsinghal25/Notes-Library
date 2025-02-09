@@ -33,6 +33,7 @@ const FormFieldSelect = React.forwardRef(
               <Select
                 {...field}
                 ref={ref}
+                {...props}
                 onOpenChange={() => {
                   if (props.onOpenChange) {
                     props.onOpenChange();

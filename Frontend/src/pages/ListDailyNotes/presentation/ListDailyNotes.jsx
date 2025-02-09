@@ -9,11 +9,14 @@ import {
   Pencil,
   Trash2,
   Download,
+  Trash,
 } from "lucide-react";
 import { getDayOfWeek } from "@/utils/getDayOfWeek";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { UserRolesEnum } from "@/constants/constants";
 import DeleteModalContainer from "@/components/modals/deletemodal/container/DeleteModalContainer";
+import DeleteChapterNotesModalContainer from "@/components/modals/deletechapternotesmodal/container/DeleteChapterNotesModalContainer";
+import ListDailyNotesSkeleton from "@/components/basic/ListDailyNotesSkeleton";
 
 function ListDailyNotes({
   zoomLevel,
@@ -35,9 +38,14 @@ function ListDailyNotes({
   onDeleteHandler,
   isDeleting,
   handleDownload,
+  toggelDeleteChapterNotesModal,
 }) {
   const isAdminOrModerator =
     userRole === UserRolesEnum.ADMIN || userRole === UserRolesEnum.MODERATOR;
+
+  if (dailyNotes?.status === "loading") {
+    return <ListDailyNotesSkeleton />;
+  }
 
   return (
     <div className="min-h-screen p-4 md:p-8 transition-colors duration-200 ">
@@ -48,6 +56,14 @@ function ListDailyNotes({
           <meta name="description" content="This is a list daily notes page" />
         </Helmet>
       </HelmetProvider>
+      {userRole === UserRolesEnum.ADMIN && (
+        <div className="absolute top-4 right-4 z-10">
+          <Button onClick={toggelDeleteChapterNotesModal}>
+            <Trash />
+          </Button>
+        </div>
+      )}
+
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">
         Notes for {subject}
       </h1>
@@ -60,92 +76,98 @@ function ListDailyNotes({
         </div>
       </div>
       <div className="max-w-6xl mx-auto">
-        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
-          My Image Notes
-        </h3>
-
         <DeleteModalContainer
           onDeleteHandler={onDeleteHandler}
           isDeleting={isDeleting}
         />
 
-        {dailyNotes.map((notes) => (
-          <div key={notes._id} className="mb-8">
-            <div className="flex items-center mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-              <div className="flex-shrink-0 mr-4">
-                <CalendarIcon className="w-8 h-8 text-violet-600 dark:text-violet-400" />
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  {new Date(notes?.createdAt)?.toDateString()}
-                </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {notes?.notes.length} page{notes?.notes.length > 1 ? "s" : ""}{" "}
-                  of notes
-                </p>
-              </div>
-              <div className="ml-auto">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800 dark:bg-violet-700 dark:text-violet-100">
-                  {getDayOfWeek(notes?.createdAt)}
-                </span>
-              </div>
-            </div>
+        <DeleteChapterNotesModalContainer />
 
-            <div className="flex flex-wrap justify-start gap-4 p-4">
-              {isAdminOrModerator && (
-                <div className="w-full flex justify-end items-start gap-4 relative -mt-6">
-                  <Button
-                    title="Update Notes"
-                    variant="outline"
-                    className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-                    onClick={() => navigateToUpdateDailyNotesPage(notes?._id)}
-                  >
-                    <Pencil className="text-gray-600 w-5 h-5" />
-                  </Button>
-                  <Button
-                    title="Delete Notes"
-                    variant="outline"
-                    className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
-                    onClick={() =>
-                      toggleModalOfPdfCard("deleteModal", notes?._id)
-                    }
-                  >
-                    <Trash2 className="text-red-600 w-5 h-5" />
-                  </Button>
+        {!dailyNotes?.notes.length ? (
+          <div className="flex items-center justify-center h-40">
+            <p className="text-gray-600 text-xl font-semibold dark:text-gray-400">
+              No notes available for this chapter
+            </p>
+          </div>
+        ) : (
+          dailyNotes?.notes.map((notes) => (
+            <div key={notes._id} className="mb-8">
+              <div className="flex items-center mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+                <div className="flex-shrink-0 mr-4">
+                  <CalendarIcon className="w-8 h-8 text-violet-600 dark:text-violet-400" />
                 </div>
-              )}
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    {new Date(notes?.createdAt)?.toDateString()}
+                  </h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {notes?.notes.length} page
+                    {notes?.notes.length > 1 ? "s" : ""} of notes
+                  </p>
+                </div>
+                <div className="ml-auto">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800 dark:bg-violet-700 dark:text-violet-100">
+                    {getDayOfWeek(notes?.createdAt)}
+                  </span>
+                </div>
+              </div>
 
-              {notes?.notes.map((item, index) => (
-                <div key={item.public_id} className="relative group">
-                  <img
-                    src={item?.url || "/placeholder.svg"}
-                    alt={item.fileName}
-                    className="rounded-lg shadow-md w-[200px] h-[150px] object-cover cursor-pointer transition-transform duration-200 ease-in-out group-hover:scale-105"
-                    onClick={() => {
-                      setSelectedNote(notes?.notes);
-                      setCurrentImageIndex(index);
-                    }}
-                  />
-                  <div>
+              <div className="flex flex-wrap justify-start gap-4 p-4">
+                {isAdminOrModerator && (
+                  <div className="w-full flex justify-end items-start gap-4 relative -mt-6">
                     <Button
-                      title="Download Pdf"
+                      title="Update Notes"
                       variant="outline"
-                      className="absolute bottom-1 left-2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
+                      className="flex items-center justify-center p-2 rounded-full bg-gray-200 hover:bg-gray-300"
+                      onClick={() => navigateToUpdateDailyNotesPage(notes?._id)}
+                    >
+                      <Pencil className="text-gray-600 w-5 h-5" />
+                    </Button>
+                    <Button
+                      title="Delete Notes"
+                      variant="outline"
+                      className="flex items-center justify-center p-2 rounded-full bg-red-200 hover:bg-red-300"
                       onClick={() =>
-                        handleDownload(item?.url, notes?.createdAt, index)
+                        toggleModalOfPdfCard("deleteModal", notes?._id)
                       }
                     >
-                      <Download className="text-gray-600 w-5 h-5" />
+                      <Trash2 className="text-red-600 w-5 h-5" />
                     </Button>
                   </div>
-                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-md text-xs">
-                    Page {index + 1}
+                )}
+
+                {notes?.notes.map((item, index) => (
+                  <div key={item.public_id} className="relative group">
+                    <img
+                      src={item?.url || "/placeholder.svg"}
+                      alt={item.fileName}
+                      className="rounded-lg shadow-md w-[200px] h-[150px] object-cover cursor-pointer transition-transform duration-200 ease-in-out group-hover:scale-105"
+                      onClick={() => {
+                        setSelectedNote(notes?.notes);
+                        setCurrentImageIndex(index);
+                      }}
+                    />
+                    <div>
+                      <Button
+                        title="Download Pdf"
+                        variant="outline"
+                        className="absolute bottom-1 left-2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
+                        onClick={() =>
+                          handleDownload(item?.url, notes?.createdAt, index)
+                        }
+                      >
+                        <Download className="text-gray-600 w-5 h-5" />
+                      </Button>
+                    </div>
+                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-md text-xs">
+                      Page {index + 1}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
 
         {selectedNote && (
           <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50">

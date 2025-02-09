@@ -7,6 +7,7 @@ const initialState = {
     deleteCourseModal: false,
     deleteModal: false,
     deleteSubjectNotesModal: false,
+    deleteChapterNotesModal: false,
     updateSemesterModal: false,
   },
   selectedNotesId: null,

@@ -18,7 +18,7 @@ function ListDailyNotesContainer() {
 
   const selectedNotesId = useSelector((state) => state.modal.selectedNotesId);
   const userRole = useSelector((state) => state.auth.userDetails?.role);
-  const dailyNotes = useSelector((state) => state.dailyNotes?.notes);
+  const dailyNotes = useSelector((state) => state.dailyNotes);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -111,6 +111,10 @@ function ListDailyNotesContainer() {
     document.body.removeChild(link);
   };
 
+  const toggelDeleteChapterNotesModal = () => {
+    dispatch(toggleModal({ modalType: "deleteChapterNotesModal" }));
+  };
+
   return (
     <ListDailyNotes
       zoomLevel={zoomLevel}
@@ -131,6 +135,7 @@ function ListDailyNotesContainer() {
       toggleModalOfPdfCard={toggleModalOfPdfCard}
       onDeleteHandler={onDeleteHandler}
       isDeleting={isDeleting}
+      toggelDeleteChapterNotesModal={toggelDeleteChapterNotesModal}
       handleDownload={handleDownload}
     />
   );

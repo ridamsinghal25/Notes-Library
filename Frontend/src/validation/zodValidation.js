@@ -335,3 +335,24 @@ export const updateFilesDailyNotesFormValidation = z.object({
       message: "File size must not exceed 5MB",
     }),
 });
+
+export const deleteChapterNotesFormValidation = z.object({
+  subject: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_-]+$/,
+      "subjects must contain only alphabets and , . _ - characters"
+    )
+    .min(1, "Subject is required")
+    .max(40, "Subject must not be more than 40 characters"),
+  chapterName: z
+    .string()
+    .trim()
+    .regex(
+      /^[a-zA-Z\s.,_-]+$/,
+      "chapter name must contain only alphabets and , . _ - characters"
+    )
+    .min(1, "Chapter name is required")
+    .max(40, "Chapter name must not be more than 40 characters"),
+});
