@@ -1,19 +1,30 @@
 import { useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { ChevronUp, ChevronDown, X, Upload, ArrowLeft } from "lucide-react";
+import {
+  ChevronUp,
+  ChevronDown,
+  X,
+  Upload,
+  ArrowLeft,
+  Loader2,
+} from "lucide-react";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import FormFieldSelect from "@/components/basic/FormFieldSelect";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function AddDailyNotes({
   dailyNotesForm,
-  onSubmit,
+  onNotesCreate,
   handleFileChange,
   moveFile,
   removeFile,
   files,
   userSubjects,
+  getSubjectChapters,
+  currentSubjectChapters,
+  isSubmitting,
+  navigate,
 }) {
   const fileInputRef = useRef(null);
 
@@ -36,7 +47,7 @@ function AddDailyNotes({
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => {}}
+              onClick={() => navigate(-1)}
               className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
               aria-label="Go back"
             >
@@ -50,7 +61,9 @@ function AddDailyNotes({
 
         <Form {...dailyNotesForm}>
           <form
-            onSubmit={dailyNotesForm.handleSubmit(onSubmit)}
+            onSubmit={dailyNotesForm.handleSubmit((data) =>
+              onNotesCreate(data).then(() => dailyNotesForm.reset())
+            )}
             className="space-y-6"
           >
             <div className="space-y-6 p-4 sm:p-6">
@@ -58,7 +71,7 @@ function AddDailyNotes({
                 form={dailyNotesForm}
                 label="Subject Name"
                 name="subject"
-                values={userSubjects}
+                values={userSubjects?.map((subject) => subject.subjectName)}
                 placeholder="Enter the subject name"
               />
               <FormFieldInput
@@ -67,12 +80,17 @@ function AddDailyNotes({
                 name="chapterNumber"
                 placeholder="Enter the chapter number"
               />
-              <FormFieldInput
+              <FormFieldSelect
                 form={dailyNotesForm}
                 label="Chapter Name"
                 name="chapterName"
-                placeholder="Enter the chapter name"
-                className="md:col-span-2"
+                values={currentSubjectChapters}
+                onOpenChange={() =>
+                  getSubjectChapters(dailyNotesForm.getValues("subject"))
+                }
+                placeholder="Enter the subject name"
+                disabled={!dailyNotesForm.getValues("subject")}
+                description="Select a subject first"
               />
             </div>
 
@@ -82,7 +100,7 @@ function AddDailyNotes({
                 id="upload-files"
                 name="files"
                 type="file"
-                accept="image/*"
+                accept="image/png, image/jpg, image/jpeg"
                 multiple
                 onChange={handleFileChange}
                 className="hidden"
@@ -114,9 +132,12 @@ function AddDailyNotes({
                         key={file.id}
                         className="flex items-center justify-between p-3 hover:bg-gray-200 dark:hover:bg-gray-700 gap-2"
                       >
-                        <span className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-300">
+                        <div className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-300">
                           {file.file.name}
-                        </span>
+                          <p>
+                            ({(file.file.size / (1024 * 1024)).toFixed(2)} MB)
+                          </p>
+                        </div>
                         <div className="flex items-center gap-1 flex-shrink-0">
                           <Button
                             type="button"
@@ -143,7 +164,7 @@ function AddDailyNotes({
                             variant="ghost"
                             size="icon"
                             onClick={() => removeFile(file.id)}
-                            className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                            className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/70"
                           >
                             <X className="h-4 w-4" />
                           </Button>
@@ -156,7 +177,16 @@ function AddDailyNotes({
             </div>
 
             <div className="flex justify-end p-4 sm:p-6 border-t dark:border-gray-700">
-              <Button type="submit">Upload Files</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    Wait
+                  </>
+                ) : (
+                  "Submit"
+                )}
+              </Button>
             </div>
           </form>
         </Form>

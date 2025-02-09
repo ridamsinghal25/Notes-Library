@@ -5,14 +5,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import AddDailyNotes from "../presentation/AddDailyNotes";
 import { useSelector } from "react-redux";
+import DailyNotesService from "@/services/DailyNotesService";
+import ApiError from "@/services/ApiError";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/constants/route";
 
 function AddDailyNotesContainer() {
   const [files, setFiles] = useState([]);
-  const userSubjects = useSelector((state) =>
-    state.auth.userDetails?.course?.subjects?.map(
-      (subject) => subject.subjectName
-    )
+  const [currentSubjectChapters, setCurrentSubjectChapters] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const navigate = useNavigate();
+
+  const userSubjects = useSelector(
+    (state) => state.auth.userDetails?.course?.subjects
   );
+
   const dailyNotesForm = useForm({
     resolver: zodResolver(dailyNotesFormValidation),
     defaultValues: {
@@ -82,25 +90,47 @@ function AddDailyNotesContainer() {
     [dailyNotesForm, files]
   );
 
-  const onSubmit = (data) => {
-    toast({
-      title: "Form submitted",
-      description: `Uploaded ${data.files.length} file(s)`,
-    });
-    console.log("data", data);
-    console.log("formdata data.files", data.files);
-    console.log("setState files", files);
-    // Here you would typically send the files to your server
+  const onNotesCreate = async (data) => {
+    setIsSubmitting(true);
+
+    const response = await DailyNotesService.createNotes(data);
+
+    setIsSubmitting(false);
+
+    if (!(response instanceof ApiError)) {
+      toast.success(response?.message || "Notes uploaded successfully");
+
+      navigate(`${ROUTES.DAILY_NOTES?.replace(":subject", data.subject)}`);
+    } else {
+      toast.error(
+        response?.formError ||
+          response?.errorResponse?.message ||
+          response?.errorMessage
+      );
+    }
   };
+
+  const getSubjectChapters = (subject) => {
+    const currentSubject = userSubjects.find(
+      (sub) => sub.subjectName === subject
+    );
+
+    setCurrentSubjectChapters(currentSubject.chapters);
+  };
+
   return (
     <AddDailyNotes
       dailyNotesForm={dailyNotesForm}
       handleFileChange={handleFileChange}
       moveFile={moveFile}
       removeFile={removeFile}
-      onSubmit={onSubmit}
+      onNotesCreate={onNotesCreate}
       files={files}
       userSubjects={userSubjects}
+      getSubjectChapters={getSubjectChapters}
+      currentSubjectChapters={currentSubjectChapters}
+      isSubmitting={isSubmitting}
+      navigate={navigate}
     />
   );
 }
