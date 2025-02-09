@@ -24,7 +24,7 @@ function AddDailyNotesContainer() {
   );
 
   const dailyNotesForm = useForm({
-    // resolver: zodResolver(dailyNotesFormValidation),
+    resolver: zodResolver(dailyNotesFormValidation),
     defaultValues: {
       subject: "",
       chapterNumber: "",
