@@ -35,6 +35,10 @@ const DailyNotesSlice = createSlice({
   name: "dailyNotes",
   initialState,
   reducers: {
+    resetDailyNotesState: () => initialState,
+    addNotes: (state, action) => {
+      state.notes.unshift(action.payload);
+    },
     deleteNotes: (state, action) => {
       state.notes = state.notes.filter((note) => note._id !== action.payload);
     },
@@ -63,6 +67,7 @@ const DailyNotesSlice = createSlice({
   },
 });
 
-export const { deleteNotes, updateNotes } = DailyNotesSlice.actions;
+export const { deleteNotes, updateNotes, resetDailyNotesState, addNotes } =
+  DailyNotesSlice.actions;
 
 export default DailyNotesSlice.reducer;

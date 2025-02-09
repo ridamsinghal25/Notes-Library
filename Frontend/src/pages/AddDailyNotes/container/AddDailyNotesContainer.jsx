@@ -4,11 +4,12 @@ import { dailyNotesFormValidation } from "@/validation/zodValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import AddDailyNotes from "../presentation/AddDailyNotes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DailyNotesService from "@/services/DailyNotesService";
 import ApiError from "@/services/ApiError";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
+import { addNotes } from "@/store/DailyNotesSlice";
 
 function AddDailyNotesContainer() {
   const [files, setFiles] = useState([]);
@@ -16,13 +17,14 @@ function AddDailyNotesContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const userSubjects = useSelector(
     (state) => state.auth.userDetails?.course?.subjects
   );
 
   const dailyNotesForm = useForm({
-    resolver: zodResolver(dailyNotesFormValidation),
+    // resolver: zodResolver(dailyNotesFormValidation),
     defaultValues: {
       subject: "",
       chapterNumber: "",
@@ -100,6 +102,7 @@ function AddDailyNotesContainer() {
     if (!(response instanceof ApiError)) {
       toast.success(response?.message || "Notes uploaded successfully");
 
+      dispatch(addNotes(response?.data));
       navigate(`${ROUTES.DAILY_NOTES?.replace(":subject", data.subject)}`);
     } else {
       toast.error(

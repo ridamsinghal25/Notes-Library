@@ -37,11 +37,7 @@ function UpdateFiles({
       <div className="space-y-6">
         <Form {...updateFilesForm}>
           <form
-            onSubmit={updateFilesForm.handleSubmit((data) =>
-              onDailyNotesFileUpdate(data).then(() => {
-                updateFilesForm.reset();
-              })
-            )}
+            onSubmit={updateFilesForm.handleSubmit(onDailyNotesFileUpdate)}
             className="space-y-10 mt-10"
           >
             <div className="p-4 sm:p-6">
