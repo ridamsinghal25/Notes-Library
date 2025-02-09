@@ -22,9 +22,7 @@ export const removeUnusedMulterImageFilesOnError = (req) => {
       const filesValueArray = Object.values(multerFiles);
 
       filesValueArray.map((fileFields) => {
-        fileFields.map((fileObject) => {
-          removeLocalFile(fileObject.path);
-        });
+        removeLocalFile(fileFields.path);
       });
     }
   } catch (error) {

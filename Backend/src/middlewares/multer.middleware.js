@@ -14,6 +14,11 @@ export const handleMulterError = (err, req, res, next) => {
   if (err) {
     if (err.code === "LIMIT_FILE_SIZE") {
       throw new ApiError(400, "File size too large. Max size is 10MB.");
+    } else if (err.code === "LIMIT_UNEXPECTED_FILE") {
+      throw new ApiError(
+        400,
+        "The field name might be incorrect, or you've exceeded the maximum number of allowed files."
+      );
     }
     throw new ApiError(400, err.message);
   }
