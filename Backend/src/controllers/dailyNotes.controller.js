@@ -151,7 +151,7 @@ const updateDailyNotes = asyncHandler(async (req, res) => {
     );
 });
 
-const updatePDFFilesOfDailyNotes = asyncHandler(async (req, res) => {
+const updateFilesOfDailyNotes = asyncHandler(async (req, res) => {
   const { dailyNotesId } = req.params;
 
   const { subject } = req.body;
@@ -386,11 +386,86 @@ const getDailyNotes = asyncHandler(async (req, res) => {
     );
 });
 
+const deleteFilesOfDailyNotes = asyncHandler(async (req, res) => {
+  const { dailyNotesId } = req.params;
+
+  const { publicIds } = req.body;
+
+  const dailyNotes = await DailyNotes.findById(dailyNotesId);
+
+  if (!dailyNotes) {
+    throw new ApiError(404, "notes does not exists");
+  }
+
+  if (dailyNotes.course.toString() !== req.user?.course.toString()) {
+    throw new ApiError(400, "You are not allowed to update this notes");
+  }
+
+  const dailyNotesPublicIdsOfCloudinary = dailyNotes?.notes?.map(
+    (note) => note.public_id
+  );
+
+  const isAllFilesExistsInDB = publicIds?.every((id) =>
+    dailyNotesPublicIdsOfCloudinary.includes(id)
+  );
+
+  if (!isAllFilesExistsInDB) {
+    throw new ApiError(400, "Some of the files does not exists");
+  }
+
+  const deletedDailyNotesFiles =
+    await deleteMultipleAssestsFromCloudinary(publicIds);
+
+  const deletedDailyNotesPublicIds = Object.keys(
+    deletedDailyNotesFiles.deleted
+  );
+
+  const fileNotDeletedIds = publicIds.filter(
+    (id) => !deletedDailyNotesPublicIds.includes(id)
+  );
+
+  if (fileNotDeletedIds.length) {
+    throw new ApiError(500, "Internal server error. Please try again");
+  }
+
+  const updatedNotesFiles = dailyNotes?.notes?.filter(
+    (note) => !publicIds.includes(note?.public_id)
+  );
+
+  dailyNotes.notes = updatedNotesFiles;
+  dailyNotes.updatedBy = req.user?._id;
+
+  const updatedDailyNotes = await dailyNotes.save();
+
+  if (!updatedDailyNotes) {
+    throw new ApiError(500, "Failed to update notes");
+  }
+
+  const newDailyNotesWithUpdatedByDetails = {
+    ...updatedDailyNotes.toObject(),
+    updatedBy: {
+      fullName: req.user?.fullName,
+      rollNumber: req.user?.rollNumber,
+    },
+  };
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        newDailyNotesWithUpdatedByDetails,
+        "notes updated successfully"
+      )
+    );
+});
+
 export {
   createDailyNotes,
   updateDailyNotes,
-  updatePDFFilesOfDailyNotes,
+  updateFilesOfDailyNotes,
   deleteChapterAllDailyNotes,
+  deleteFilesOfDailyNotes,
   deleteDailyNotes,
   getDailyNotes,
 };

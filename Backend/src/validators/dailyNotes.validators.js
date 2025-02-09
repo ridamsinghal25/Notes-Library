@@ -63,8 +63,25 @@ const dailyNotesChapterAndSubjectValidator = () => {
   ];
 };
 
+const dailyNotePublicIdsValidator = () => {
+  return [
+    body("publicIds")
+      .isArray({ min: 1 })
+      .withMessage("Atleast one public id is required"),
+
+    body("publicIds.*")
+      .trim()
+      .notEmpty()
+      .withMessage("public id must not be empty")
+      .isString()
+      .withMessage("public id must be a string")
+      .escape(),
+  ];
+};
+
 export {
   commonDailyNotesValidator,
   getDailyNotesValidator,
   dailyNotesChapterAndSubjectValidator,
+  dailyNotePublicIdsValidator,
 };

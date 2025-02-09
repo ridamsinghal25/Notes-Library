@@ -9,6 +9,7 @@ import {
 import { mongoIdPathVariableValidator } from "../validators/mongodb.validators.js";
 import {
   commonDailyNotesValidator,
+  dailyNotePublicIdsValidator,
   dailyNotesChapterAndSubjectValidator,
   getDailyNotesValidator,
 } from "../validators/dailyNotes.validators.js";
@@ -16,9 +17,10 @@ import {
   createDailyNotes,
   deleteChapterAllDailyNotes,
   deleteDailyNotes,
+  deleteFilesOfDailyNotes,
   getDailyNotes,
   updateDailyNotes,
-  updatePDFFilesOfDailyNotes,
+  updateFilesOfDailyNotes,
 } from "../controllers/dailyNotes.controller.js";
 import { notesSubjectValidator } from "../validators/notes.validators.js";
 
@@ -61,7 +63,7 @@ router
     notesSubjectValidator(),
     mongoIdPathVariableValidator("dailyNotesId"),
     validate,
-    updatePDFFilesOfDailyNotes
+    updateFilesOfDailyNotes
   );
 
 router
@@ -80,6 +82,16 @@ router
     mongoIdPathVariableValidator("dailyNotesId"),
     validate,
     deleteDailyNotes
+  );
+
+router
+  .route("/delete-files/:dailyNotesId")
+  .delete(
+    verifyPermission([UserRolesEnum.ADMIN, UserRolesEnum.MODERATOR]),
+    dailyNotePublicIdsValidator(),
+    mongoIdPathVariableValidator("dailyNotesId"),
+    validate,
+    deleteFilesOfDailyNotes
   );
 
 router
