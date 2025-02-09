@@ -10,6 +10,7 @@ import { getUser } from "./models/user.model.js";
 import { getCourse } from "./models/course.model.js";
 import { getNotes } from "./models/notes.model.js";
 import { getLike } from "./models/like.model.js";
+import { getDailyNotes } from "./models/dailyNotes.model.js";
 
 dotenv.config({
   path: "./.env",
@@ -28,6 +29,7 @@ const startServer = async () => {
     getComment();
     getNotes();
     getLike();
+    getDailyNotes();
 
     app.on("error", (error) => {
       console.log("Error in app:", error);
