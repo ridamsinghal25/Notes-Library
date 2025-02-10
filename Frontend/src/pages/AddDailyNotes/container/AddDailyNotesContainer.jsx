@@ -34,7 +34,7 @@ function AddDailyNotesContainer() {
   });
 
   const handleFileChange = useCallback(
-    (event) => {
+    (event, previousFiles) => {
       if (event.target.files) {
         const newFiles = Array.from(event.target.files).map((file) => {
           return {
@@ -43,10 +43,12 @@ function AddDailyNotesContainer() {
           };
         });
 
-        setFiles(() => [...newFiles]);
+        setFiles((prev) => {
+          return [...prev, ...newFiles];
+        });
 
         dailyNotesForm.setValue("files", [
-          ...dailyNotesForm.getValues("files"),
+          ...previousFiles.concat(newFiles).map((file) => file.file),
         ]);
       }
     },
@@ -103,8 +105,12 @@ function AddDailyNotesContainer() {
       toast.success(response?.message || "Notes uploaded successfully");
 
       dispatch(addNotes(response?.data));
+
+      setFiles([]);
       navigate(`${ROUTES.DAILY_NOTES?.replace(":subject", data.subject)}`);
     } else {
+      setFiles([]);
+
       toast.error(
         response?.formError ||
           response?.errorResponse?.message ||

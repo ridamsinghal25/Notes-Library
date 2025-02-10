@@ -22,7 +22,7 @@ function UpdateFilesContainer({ selectedNotes }) {
   const updateFilesForm = useForm({
     resolver: zodResolver(updateFilesDailyNotesFormValidation),
     defaultValues: {
-      files: null,
+      files: [],
     },
   });
 
@@ -46,10 +46,13 @@ function UpdateFilesContainer({ selectedNotes }) {
 
       toast.success(response?.message);
 
+      setFormFiles([]);
+
       navigate(
         `${ROUTES.LIST_DAILY_NOTES}?subject=${response.data?.subject}&chapterName=${response.data?.chapterName}`
       );
     } else {
+      setFormFiles([]);
       toast.error(
         response?.formError ||
           response?.errorResponse?.message ||
@@ -113,7 +116,7 @@ function UpdateFilesContainer({ selectedNotes }) {
   };
 
   const handleFileChange = useCallback(
-    (event) => {
+    (event, previousFiles) => {
       if (event.target.files) {
         const newFiles = Array.from(event.target.files).map((file) => {
           return {
@@ -122,10 +125,10 @@ function UpdateFilesContainer({ selectedNotes }) {
           };
         });
 
-        setFormFiles(() => [...newFiles]);
+        setFormFiles((prev) => [...prev, ...newFiles]);
 
         updateFilesForm.setValue("files", [
-          ...updateFilesForm.getValues("files"),
+          ...previousFiles.concat(newFiles).map((file) => file.file),
         ]);
       }
     },

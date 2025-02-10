@@ -61,8 +61,11 @@ function AddDailyNotes({
 
         <Form {...dailyNotesForm}>
           <form
-            onSubmit={dailyNotesForm.handleSubmit((data) =>
-              onNotesCreate(data).then(() => dailyNotesForm.reset())
+            onSubmit={dailyNotesForm.handleSubmit((data, event) =>
+              onNotesCreate(data).then(() => {
+                event.target.reset();
+                dailyNotesForm.reset();
+              })
             )}
             className="space-y-6"
           >
@@ -102,7 +105,7 @@ function AddDailyNotes({
                 type="file"
                 accept="image/png, image/jpg, image/jpeg"
                 multiple
-                onChange={handleFileChange}
+                onChange={(event) => handleFileChange(event, files)}
                 className="hidden"
               />
 

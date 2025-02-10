@@ -37,7 +37,12 @@ function UpdateFiles({
       <div className="space-y-6">
         <Form {...updateFilesForm}>
           <form
-            onSubmit={updateFilesForm.handleSubmit(onDailyNotesFileUpdate)}
+            onSubmit={updateFilesForm.handleSubmit((data, event) =>
+              onDailyNotesFileUpdate(data).then(() => {
+                event.target.reset();
+                updateFilesForm.reset();
+              })
+            )}
             className="space-y-10 mt-10"
           >
             <div className="p-4 sm:p-6">
@@ -48,7 +53,7 @@ function UpdateFiles({
                 type="file"
                 accept="image/png, image/jpg, image/jpeg"
                 multiple
-                onChange={handleFileChange}
+                onChange={(event) => handleFileChange(event, formFiles)}
                 className="hidden"
               />
 
