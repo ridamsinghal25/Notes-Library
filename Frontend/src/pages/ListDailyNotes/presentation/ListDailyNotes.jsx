@@ -11,6 +11,7 @@ import {
   Download,
   Trash,
   Info,
+  FileText,
 } from "lucide-react";
 import { getDayOfWeek } from "@/utils/getDayOfWeek";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -98,44 +99,46 @@ function ListDailyNotes({
             )
             .map((notes) => (
               <div key={notes._id} className="mb-8">
-                <div className="flex items-center mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-                  <div className="flex-shrink-0 mr-4">
-                    <CalendarIcon className="w-8 h-8 text-violet-600 dark:text-violet-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                      {new Date(notes?.createdAt)?.toDateString()}
-                    </h4>
-                    <p className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                      <Info className="w-4 h-4" />
-                      {notes?.updatedBy ? (
-                        <>
-                          Updated by{" "}
-                          <span className="font-semibold text-gray-200 bg-violet-700 px-2 rounded">
-                            {notes?.updatedBy?.fullName}
+                <div className="mb-6 overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl">
+                  <div className="p-6 space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
+                    <div className="flex items-start space-x-4">
+                      <div className="flex-shrink-0">
+                        <div className="p-2">
+                          <CalendarIcon className="w-6 h-6 sm:w-8 sm:h-8 text-violet-600 dark:text-violet-400" />
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
+                          {new Date(notes?.createdAt)?.toLocaleDateString()}
+                        </h4>
+                        <p className="mt-1 flex items-center space-x-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                          <Info className="w-4 h-4 text-violet-500" />
+                          <span>
+                            {notes?.updatedBy ? "Updated" : "Created"} by{" "}
+                            <span className="font-medium text-violet-700 dark:text-violet-400">
+                              {(notes?.updatedBy || notes.createdBy)?.fullName}
+                            </span>
                           </span>
-                        </>
-                      ) : (
-                        <>
-                          Created by{" "}
-                          <span className="font-semibold text-gray-200 bg-violet-700 px-2 rounded">
-                            {notes.createdBy?.fullName}
-                          </span>
-                        </>
-                      )}
-                    </p>
-                  </div>
-                  <div className="ml-auto flex flex-col items-center">
-                    <div>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800 dark:bg-violet-700 dark:text-violet-100">
-                        {getDayOfWeek(notes?.createdAt)}
-                      </span>
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {notes?.notes.length} page
-                      {notes?.notes.length > 1 ? "s" : ""} of notes
-                    </p>
+                    <div className="flex items-center space-x-4 mt-4 sm:mt-0">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          {getDayOfWeek(notes?.createdAt)}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <FileText className="w-4 h-4 text-violet-500" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          {notes?.notes.length} page
+                          {notes?.notes.length > 1 ? "s" : ""}
+                        </span>
+                      </div>
+                    </div>
                   </div>
+                  <div className="h-1 bg-gradient-to-r from-violet-500 to-purple-600"></div>
                 </div>
 
                 <div className="flex flex-wrap justify-start gap-4 p-4">
