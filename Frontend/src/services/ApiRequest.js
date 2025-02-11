@@ -15,10 +15,11 @@ class ApiRequest {
     );
   }
 
-  async postRequest(body, headers = {}) {
+  async postRequest(body, headers = {}, config = { timeout: 120000 }) {
     return await asyncHandler(() =>
       axios.post(this.url, body, {
         headers: headers,
+        timeout: config?.timeout,
       })
     );
   }
@@ -38,9 +39,12 @@ class ApiRequest {
     );
   }
 
-  async patchRequest(body, headers = {}) {
+  async patchRequest(body, headers = {}, config = { timeout: 120000 }) {
     return await asyncHandler(() =>
-      axios.patch(this.url, body, { headers: headers })
+      axios.patch(this.url, body, {
+        headers: headers,
+        timeout: config?.timeout,
+      })
     );
   }
 }

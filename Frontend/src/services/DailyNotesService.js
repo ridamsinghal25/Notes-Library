@@ -19,9 +19,15 @@ class DailyNotesService {
       formData.append("notesFiles", file);
     });
 
-    const response = await apiRequest.postRequest(formData, {
-      "Content-Type": "multipart/form-data",
-    });
+    const response = await apiRequest.postRequest(
+      formData,
+      {
+        "Content-Type": "multipart/form-data",
+      },
+      {
+        timeout: 180000, // 3 minutes
+      }
+    );
 
     if (response instanceof ApiResponse && response.success) {
       return response;
@@ -135,9 +141,15 @@ class DailyNotesService {
       formData.append("notesFiles", file);
     });
 
-    const response = await apiRequest.patchRequest(formData, {
-      "Content-Type": "multipart/form-data",
-    });
+    const response = await apiRequest.patchRequest(
+      formData,
+      {
+        "Content-Type": "multipart/form-data",
+      },
+      {
+        timeout: 180000, // 3 minutes
+      }
+    );
 
     if (response instanceof ApiResponse && response.success) {
       return response;
