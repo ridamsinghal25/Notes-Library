@@ -109,7 +109,7 @@ function ListDailyNotes({
                       </div>
                       <div>
                         <h4 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-200">
-                          {new Date(notes?.createdAt)?.toLocaleDateString()}
+                          {new Date(notes?.createdAt)?.toDateString()}
                         </h4>
                         <p className="mt-1 flex items-center space-x-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">
                           <Info className="w-4 h-4 text-violet-500" />

@@ -135,6 +135,13 @@ function AddDailyNotes({
                         key={file.id}
                         className="flex items-center justify-between p-3 hover:bg-gray-200 dark:hover:bg-gray-700 gap-2"
                       >
+                        <div>
+                          <img
+                            src={file.file && URL.createObjectURL(file?.file)}
+                            alt="📂File"
+                            className="h-12 w-12 object-cover rounded-md"
+                          />
+                        </div>
                         <div className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-300">
                           {file.file.name}
                           <p>
