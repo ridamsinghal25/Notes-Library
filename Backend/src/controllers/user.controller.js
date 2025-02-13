@@ -538,7 +538,10 @@ const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
   }).format(courseEndDate);
 
   if (!(new Date() > courseEndDate)) {
-    throw new ApiError(400, `Your semester ends on ${formattedCourseEndDate}`);
+    throw new ApiError(
+      400,
+      `You cannot update your semester until ${formattedCourseEndDate}`
+    );
   }
 
   const newCourse = await Course.findOne({

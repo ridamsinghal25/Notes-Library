@@ -3,6 +3,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
+import { Notes } from "../models/notes.model.js";
+import { DailyNotes } from "../models/dailyNotes.model.js";
 
 function validateDate(dateStr) {
   // Regular expression to check the format YYYY-MM-DD
@@ -130,6 +132,28 @@ const deleteCourse = asyncHandler(async (req, res) => {
 
   if (!isPasswordValid) {
     throw new ApiError(400, "Invalid user password");
+  }
+
+  const isNotesPDFExistsWithThisCourse = await Notes.find({
+    course: courseId,
+  });
+
+  if (isNotesPDFExistsWithThisCourse.length) {
+    throw new ApiError(
+      400,
+      "Please make sure you moved or delete all your notes PDF first"
+    );
+  }
+
+  const isDailyNotesExistsWithThisCourse = await DailyNotes.find({
+    course: courseId,
+  });
+
+  if (isDailyNotesExistsWithThisCourse.length) {
+    throw new ApiError(
+      400,
+      "Please make sure you moved or delete all your daily notes first"
+    );
   }
 
   const areUserExistsWithThisCourse = await User.find({

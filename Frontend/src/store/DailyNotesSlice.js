@@ -8,8 +8,9 @@ export const fetchDailyNotes = createAsyncThunk(
     const { dailyNotes } = getState();
 
     const previousChapterNotes = dailyNotes.notes?.[0]?.chapterName;
+    const previousSubject = dailyNotes.notes?.[0]?.subject;
 
-    if (previousChapterNotes === chapterName) {
+    if (previousChapterNotes === chapterName && previousSubject === subject) {
       return dailyNotes.notes;
     }
 
