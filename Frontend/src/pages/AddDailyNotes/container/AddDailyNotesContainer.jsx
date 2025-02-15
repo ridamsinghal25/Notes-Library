@@ -55,7 +55,11 @@ function AddDailyNotesContainer() {
             newFiles.map(async ({ file, id }) => {
               const compressedImage = await imageCompression(file, options);
 
-              return { id, file: compressedImage };
+              const fileObject = new File([compressedImage], file.name, {
+                type: file.type,
+              });
+
+              return { id, file: fileObject };
             })
           );
 
@@ -125,10 +129,10 @@ function AddDailyNotesContainer() {
 
       dispatch(addNotes(response?.data));
 
-      setFiles([]);
-      navigate(`${ROUTES.DAILY_NOTES?.replace(":subject", data.subject)}`);
+      // setFiles([]);
+      // navigate(`${ROUTES.DAILY_NOTES?.replace(":subject", data.subject)}`);
     } else {
-      setFiles([]);
+      // setFiles([]);
 
       toast.error(
         response?.formError ||
