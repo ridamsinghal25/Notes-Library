@@ -129,10 +129,10 @@ function AddDailyNotesContainer() {
 
       dispatch(addNotes(response?.data));
 
-      // setFiles([]);
-      // navigate(`${ROUTES.DAILY_NOTES?.replace(":subject", data.subject)}`);
+      setFiles([]);
+      navigate(`${ROUTES.DAILY_NOTES?.replace(":subject", data.subject)}`);
     } else {
-      // setFiles([]);
+      setFiles([]);
 
       toast.error(
         response?.formError ||

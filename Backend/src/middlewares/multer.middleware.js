@@ -3,6 +3,9 @@ import { ApiError } from "../utils/ApiError.js";
 
 const storage = multer.diskStorage({
   destination: function (_, file, cb) {
+    if (process.env.DEPLOYED_PLATFORM === "vercel") {
+      return cb(null, "/tmp/");
+    }
     cb(null, "./public/temp");
   },
   filename: function (_, file, cb) {
