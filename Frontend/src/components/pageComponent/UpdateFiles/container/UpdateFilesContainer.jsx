@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useCallback, useState } from "react";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { updateFilesDailyNotesFormValidation } from "@/validation/zodValidation";
 import UpdateFiles from "../presentation/UpdateFiles";
 import { updateNotes } from "@/store/DailyNotesSlice";
+import imageCompression from "browser-image-compression";
 
 function UpdateFilesContainer({ selectedNotes }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -116,7 +117,7 @@ function UpdateFilesContainer({ selectedNotes }) {
   };
 
   const handleFileChange = useCallback(
-    (event, previousFiles) => {
+    async (event, previousFiles) => {
       if (event.target.files) {
         const newFiles = Array.from(event.target.files).map((file) => {
           return {
@@ -125,11 +126,31 @@ function UpdateFilesContainer({ selectedNotes }) {
           };
         });
 
-        setFormFiles((prev) => [...prev, ...newFiles]);
+        const options = {
+          maxSizeMB: 1, // Target size per image
+          maxWidthOrHeight: 1200, // Resize dimensions if necessary
+          useWebWorker: true,
+        };
 
-        updateFilesForm.setValue("files", [
-          ...previousFiles.concat(newFiles).map((file) => file.file),
-        ]);
+        try {
+          const compressedFiles = await Promise.all(
+            newFiles.map(async ({ file, id }) => {
+              const compressedImage = await imageCompression(file, options);
+
+              return { id, file: compressedImage };
+            })
+          );
+
+          setFormFiles((prev) => {
+            return [...prev, ...compressedFiles];
+          });
+
+          updateFilesForm.setValue("files", [
+            ...previousFiles.concat(compressedFiles).map((file) => file.file),
+          ]);
+        } catch (error) {
+          return null;
+        }
       }
     },
     [updateFilesForm]

@@ -10,6 +10,7 @@ import ApiError from "@/services/ApiError";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
 import { addNotes } from "@/store/DailyNotesSlice";
+import imageCompression from "browser-image-compression";
 
 function AddDailyNotesContainer() {
   const [files, setFiles] = useState([]);
@@ -34,7 +35,7 @@ function AddDailyNotesContainer() {
   });
 
   const handleFileChange = useCallback(
-    (event, previousFiles) => {
+    async (event, previousFiles) => {
       if (event.target.files) {
         const newFiles = Array.from(event.target.files).map((file) => {
           return {
@@ -43,13 +44,31 @@ function AddDailyNotesContainer() {
           };
         });
 
-        setFiles((prev) => {
-          return [...prev, ...newFiles];
-        });
+        const options = {
+          maxSizeMB: 1, // Target size per image
+          maxWidthOrHeight: 1200, // Resize dimensions if necessary
+          useWebWorker: true,
+        };
 
-        dailyNotesForm.setValue("files", [
-          ...previousFiles.concat(newFiles).map((file) => file.file),
-        ]);
+        try {
+          const compressedFiles = await Promise.all(
+            newFiles.map(async ({ file, id }) => {
+              const compressedImage = await imageCompression(file, options);
+
+              return { id, file: compressedImage };
+            })
+          );
+
+          setFiles((prev) => {
+            return [...prev, ...compressedFiles];
+          });
+
+          dailyNotesForm.setValue("files", [
+            ...previousFiles.concat(compressedFiles).map((file) => file.file),
+          ]);
+        } catch (error) {
+          return null;
+        }
       }
     },
     [dailyNotesForm]

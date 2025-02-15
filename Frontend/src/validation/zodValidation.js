@@ -292,7 +292,7 @@ export const dailyNotesFormValidation = z.object({
     .min(1, "Chapter name is required")
     .max(40, "Chapter name must not be more than 40 characters"),
   files: z
-    .array(z.instanceof(File))
+    .array(z.instanceof(Blob))
     .min(1, "At least one file is required")
     .max(5, "Only 5 files are allowed")
     .refine((files) => files.every((file) => file.size <= MAX_IMAGE_SIZE), {
@@ -328,7 +328,7 @@ export const updateDailyNotesFormValidation = z.object({
 
 export const updateFilesDailyNotesFormValidation = z.object({
   files: z
-    .array(z.instanceof(File))
+    .array(z.instanceof(Blob))
     .min(1, "At least one file is required")
     .max(5, "Only 5 files are allowed")
     .refine((files) => files.every((file) => file.size <= MAX_IMAGE_SIZE), {
