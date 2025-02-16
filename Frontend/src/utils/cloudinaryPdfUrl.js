@@ -1,7 +1,9 @@
 export function cloudinaryPdfUrl(url, fileName, index) {
   const newUrl = url?.replace(
     /\/upload/,
-    `/upload/fl_attachment:${encodeURIComponent(fileName)}${index ? index : ""}`
+    `/upload/fl_attachment:${encodeURIComponent(
+      fileName.replace(/[.,_-]/g, "").trim()
+    )}${index ? index : ""}`
   );
 
   return newUrl;
@@ -28,9 +30,9 @@ export function cloudinaryFilesUrl(url, date, chapterName, index) {
 
   const newUrl = url?.replace(
     /\/upload/,
-    `/upload/fl_attachment:${notesDate}-${dateMonth}-${chapterName}${
-      index ? index : ""
-    }`
+    `/upload/fl_attachment:${notesDate}-${dateMonth}-${chapterName
+      .replace(/[.,_-]/g, "")
+      .trim()}${index ? index : ""}`
   );
 
   return newUrl;
