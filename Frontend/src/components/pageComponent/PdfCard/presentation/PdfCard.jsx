@@ -103,7 +103,7 @@ const PDFCard = ({
           <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
             <div className="flex items-center gap-1 cursor-pointer">
               <Button
-                onClick={() => handleLike(notes)}
+                onClick={() => handleLike(note)}
                 className="p-2 mr-1"
                 variant="ghost"
               >

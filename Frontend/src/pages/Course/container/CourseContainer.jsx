@@ -10,6 +10,7 @@ import { ROUTES } from "@/constants/route";
 function CourseContainer() {
   const [expandedSubjects, setExpandedSubjects] = useState({});
   const courses = useSelector((state) => state.courses?.courses);
+  const status = useSelector((state) => state.courses?.status);
   const userRole = useSelector((state) => state.auth.userDetails?.role);
   const userId = useSelector((state) => state.auth.userDetails?._id);
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ function CourseContainer() {
   return (
     <Course
       courses={courses}
+      status={status}
       toggelDeleteModal={toggelDeleteModal}
       userId={userId}
       navigateToManageCourse={navigateToManageCourse}
