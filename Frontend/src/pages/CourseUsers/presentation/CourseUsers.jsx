@@ -26,7 +26,7 @@ export default function CourseUsers({
   return (
     <div className="min-h-screen p-6 md:p-8 mt-7">
       <div className="max-w-3xl mx-auto border border-gray-400 dark:border-gray-200 rounded-lg shadow-xl backdrop-blur-sm p-6">
-        <div className="flex items-center justify-between mb-8 pb-4 border-b dark:border-gray-700">
+        <div className="flex flex-wrap items-center justify-between mb-8 pb-4 border-b dark:border-gray-700">
           <div className="flex items-center space-x-4">
             <Link to={ROUTES.COURSE}>
               <Button
@@ -38,11 +38,11 @@ export default function CourseUsers({
                 <ArrowLeft className="h-6 w-6" />
               </Button>
             </Link>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
               Enrolled Users
             </h1>
           </div>
-          <div className="hidden sm:block text-sm text-gray-500 dark:text-gray-400">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
             Page {currentPage} of {totalPages}
           </div>
         </div>
