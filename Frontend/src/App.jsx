@@ -31,6 +31,7 @@ import AddDailyNotesContainer from "./pages/AddDailyNotes/container/AddDailyNote
 import ListDailyNotesContainer from "./pages/ListDailyNotes/container/ListDailyNotesContainer";
 import DailyNotesContainer from "./pages/DailyNotes/container/DailyNotesContainer";
 import UpdateDailyNotesContainer from "./pages/UpdateDailyNotes/container/UpdateDailyNotesContainer";
+import CreatePDFContainer from "./pages/CreatePDF/container/CreatePDFContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -116,6 +117,12 @@ function App() {
               <Route
                 path={ROUTES.COURSE_USERS}
                 element={<CourseUsersContainer />}
+              />
+
+              {/* Create PDF Routes */}
+              <Route
+                path={ROUTES.CREATE_PDF}
+                element={<CreatePDFContainer />}
               />
             </Route>
 

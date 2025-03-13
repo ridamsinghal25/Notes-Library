@@ -23,4 +23,5 @@ export const ROUTES = {
   LIST_DAILY_NOTES: "/list-daily-notes",
   DAILY_NOTES: "/daily-notes/:subject",
   UPDATE_DAILY_NOTES: "/update-daily-notes",
+  CREATE_PDF: "/create-pdf",
 };
