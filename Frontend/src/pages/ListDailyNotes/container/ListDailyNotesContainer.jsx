@@ -66,6 +66,10 @@ function ListDailyNotesContainer() {
     navigate(`${ROUTES.UPDATE_DAILY_NOTES}/?dailyNotesId=${dailyNotesId}`);
   };
 
+  const navigateToCreatePDFPage = () => {
+    navigate(ROUTES.CREATE_PDF);
+  };
+
   const toggleModalOfPdfCard = (modalType, notesId) => {
     dispatch(toggleModal({ modalType }));
 
@@ -132,6 +136,7 @@ function ListDailyNotesContainer() {
       handleNextImage={handleNextImage}
       userRole={userRole}
       navigateToUpdateDailyNotesPage={navigateToUpdateDailyNotesPage}
+      navigateToCreatePDFPage={navigateToCreatePDFPage}
       toggleModalOfPdfCard={toggleModalOfPdfCard}
       onDeleteHandler={onDeleteHandler}
       isDeleting={isDeleting}

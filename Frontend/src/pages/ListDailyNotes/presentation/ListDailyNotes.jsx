@@ -12,6 +12,7 @@ import {
   Trash,
   Info,
   FileText,
+  Files,
 } from "lucide-react";
 import { getDayOfWeek } from "@/utils/getDayOfWeek";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -36,6 +37,7 @@ function ListDailyNotes({
   handleNextImage,
   userRole,
   navigateToUpdateDailyNotesPage,
+  navigateToCreatePDFPage,
   toggleModalOfPdfCard,
   onDeleteHandler,
   isDeleting,
@@ -59,7 +61,10 @@ function ListDailyNotes({
         </Helmet>
       </HelmetProvider>
       {userRole === UserRolesEnum.ADMIN && (
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-4 right-4 z-10 flex gap-4">
+          <Button onClick={navigateToCreatePDFPage}>
+            <Files />
+          </Button>
           <Button onClick={toggelDeleteChapterNotesModal}>
             <Trash />
           </Button>

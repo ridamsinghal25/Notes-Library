@@ -36,9 +36,7 @@ function DailyNotes({ subjectChapters, userRole, subject }) {
       ) : null}
 
       <header className="mt-4 p-4 lg:p-6">
-        <h1 className="text-lg font-semibold md:text-2xl">
-          {DAILY_NOTES_PAGE_HEADING}
-        </h1>
+        <h1 className="text-lg font-semibold md:text-2xl">{subject} notes</h1>
       </header>
 
       <main className="flex-grow flex p-4 lg:p-6">
