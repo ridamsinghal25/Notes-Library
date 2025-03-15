@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import CreatePDF from "../presentation/CreatePDF";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PDFDocument } from "pdf-lib";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { CircleArrowLeft } from "lucide-react";
+import { setSelectedImageFile, toggleModal } from "@/store/ModalSlice";
 
 function CreatePDFContainer() {
   const [imageFiles, setImageFiles] = useState([]);
   const dailyNotes = useSelector((state) => state.dailyNotes.notes);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (dailyNotes.length === 0) {
@@ -35,14 +37,16 @@ function CreatePDFContainer() {
     const pdfDocs = await PDFDocument.create();
 
     const imgBuffers = await Promise.all(
-      imageFiles.map(({ url }) =>
-        axios
+      imageFiles.map(({ url, base64Url }) => {
+        if (!url) return base64Url;
+
+        return axios
           .get(url, {
             withCredentials: false,
             responseType: "arraybuffer",
           })
-          .then((response) => response.data)
-      )
+          .then((response) => response.data);
+      })
     );
 
     if (imgBuffers.length > 0) {
@@ -71,6 +75,21 @@ function CreatePDFContainer() {
     link.click();
   };
 
+  const toggleImageCropModal = (file) => {
+    dispatch(toggleModal({ modalType: "imageCropModal" }));
+    dispatch(setSelectedImageFile(file));
+  };
+
+  const editFile = (publicId, croppedImageUrl) => {
+    setImageFiles((prev) =>
+      prev.map((file) =>
+        file.public_id === publicId
+          ? { ...file, url: "", base64Url: croppedImageUrl }
+          : file
+      )
+    );
+  };
+
   return (
     <div>
       <div className="container mx-auto pt-8 px-4">
@@ -87,6 +106,8 @@ function CreatePDFContainer() {
         imageFiles={imageFiles}
         removeFile={removeFile}
         createAndDownloadPdf={createAndDownloadPdf}
+        toggleImageCropModal={toggleImageCropModal}
+        editFile={editFile}
       />
     </div>
   );

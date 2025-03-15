@@ -1,8 +1,15 @@
+import ImageCropModalContainer from "@/components/modals/imagecropmodal/container/ImageCropModalContainer";
 import { Button } from "@/components/ui/button";
 import { Crop, Download, Trash2 } from "lucide-react";
 import React from "react";
 
-function CreatePDF({ imageFiles, removeFile, createAndDownloadPdf }) {
+function CreatePDF({
+  imageFiles,
+  removeFile,
+  createAndDownloadPdf,
+  toggleImageCropModal,
+  editFile,
+}) {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between">
@@ -20,7 +27,7 @@ function CreatePDF({ imageFiles, removeFile, createAndDownloadPdf }) {
           >
             <div className="aspect-square relative">
               <img
-                src={note.url || "/placeholder.svg"}
+                src={note.base64Url || note.url || "/placeholder.svg"}
                 alt={note.name}
                 className="w-full h-full object-cover"
               />
@@ -41,10 +48,7 @@ function CreatePDF({ imageFiles, removeFile, createAndDownloadPdf }) {
                   <Button
                     variant="secondary"
                     size="icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCrop(note);
-                    }}
+                    onClick={() => toggleImageCropModal(note)}
                     className="rounded-full"
                   >
                     <Crop className="h-4 w-4" />
@@ -62,6 +66,8 @@ function CreatePDF({ imageFiles, removeFile, createAndDownloadPdf }) {
           </div>
         ))}
       </div>
+
+      <ImageCropModalContainer editFile={editFile} />
     </div>
   );
 }
