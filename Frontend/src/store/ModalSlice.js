@@ -9,9 +9,11 @@ const initialState = {
     deleteSubjectNotesModal: false,
     deleteChapterNotesModal: false,
     updateSemesterModal: false,
+    imageCropModal: false,
   },
   selectedNotesId: null,
   selectedCourseId: null,
+  selectedImageFile: null,
 };
 
 const ModalSlice = createSlice({
@@ -29,10 +31,17 @@ const ModalSlice = createSlice({
     setSelectedCourse: (state, action) => {
       state.selectedCourseId = action.payload;
     },
+    setSelectedImageFile: (state, action) => {
+      state.selectedImageFile = action.payload;
+    },
   },
 });
 
-export const { toggleModal, setSelectedNotes, setSelectedCourse } =
-  ModalSlice.actions;
+export const {
+  toggleModal,
+  setSelectedNotes,
+  setSelectedCourse,
+  setSelectedImageFile,
+} = ModalSlice.actions;
 
 export default ModalSlice.reducer;
