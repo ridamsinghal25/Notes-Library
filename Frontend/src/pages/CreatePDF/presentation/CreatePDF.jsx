@@ -56,13 +56,6 @@ function CreatePDF({
                 </div>
               </div>
             </div>
-
-            {/* Image caption */}
-            <div className="p-3 bg-white dark:bg-gray-950">
-              <p className="text-sm font-medium truncate">
-                {note.name?.replace(/^\d+-/, "") || note.name}
-              </p>
-            </div>
           </div>
         ))}
       </div>
