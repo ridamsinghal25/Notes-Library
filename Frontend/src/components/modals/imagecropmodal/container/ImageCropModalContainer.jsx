@@ -9,6 +9,7 @@ import {
   makeAspectCrop,
 } from "react-image-crop";
 import { getCroppedImage } from "@/utils/canvas";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const ASPECT_RATIO = 1;
 
@@ -27,13 +28,18 @@ function ImageCropModalContainer({ editFile }) {
     (state) => state.modal.selectedImageFile
   );
 
+  const onCropChange = (percentCrop) => {
+    setImageCrop(percentCrop);
+  };
+
   const dispatch = useDispatch();
+  const debouncedCropChange = useDebounce(onCropChange, 70);
 
   useEffect(() => {
     if (showImageCropModal && selectedImageFile?.url) {
       getImageAsDataUrl();
     }
-  }, [showImageCropModal]);
+  }, [showImageCropModal, selectedImageFile?.url]);
 
   useEffect(() => {
     if (
@@ -114,6 +120,7 @@ function ImageCropModalContainer({ editFile }) {
             previewCanvasRef={previewCanvasRef}
             croppedImageUrl={croppedImageUrl}
             applyCrop={applyCrop}
+            debouncedCropChange={debouncedCropChange}
           />
         )}
       </div>

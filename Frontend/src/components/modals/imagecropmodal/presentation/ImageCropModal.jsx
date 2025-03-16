@@ -12,6 +12,7 @@ const ImageCropModal = ({
   previewCanvasRef,
   croppedImageUrl,
   applyCrop,
+  debouncedCropChange,
 }) => {
   return (
     <div
@@ -53,7 +54,7 @@ const ImageCropModal = ({
                     <ReactCrop
                       crop={imageCrop}
                       onChange={(pixelCrop, percentCrop) =>
-                        setImageCrop(percentCrop)
+                        debouncedCropChange(percentCrop)
                       }
                       aspect={undefined}
                     >
