@@ -33,7 +33,7 @@ function ImageCropModalContainer({ editFile }) {
   };
 
   const dispatch = useDispatch();
-  const debouncedCropChange = useDebounce(onCropChange, 70);
+  const debouncedCropChange = useDebounce(onCropChange, 50);
 
   useEffect(() => {
     if (showImageCropModal && selectedImageFile?.url) {
