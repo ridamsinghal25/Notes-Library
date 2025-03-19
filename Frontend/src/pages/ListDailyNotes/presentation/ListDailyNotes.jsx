@@ -61,15 +61,18 @@ function ListDailyNotes({
         </Helmet>
       </HelmetProvider>
       {userRole === UserRolesEnum.ADMIN && (
-        <div className="absolute top-4 right-4 z-10 flex gap-4">
-          <Button onClick={navigateToCreatePDFPage}>
-            <Files />
-          </Button>
+        <div className="absolute top-4 right-20 z-10 flex gap-4">
           <Button onClick={toggelDeleteChapterNotesModal}>
             <Trash />
           </Button>
         </div>
       )}
+
+      <div className="absolute top-4 right-4 z-10 flex gap-4">
+        <Button onClick={navigateToCreatePDFPage}>
+          <Files />
+        </Button>
+      </div>
 
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">
         Notes for {subject}
