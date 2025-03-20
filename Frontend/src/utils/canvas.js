@@ -3,12 +3,9 @@ export function getCroppedImage(image, canvas, crop) {
   const scaleY = image.naturalHeight / image.height;
   const ctx = canvas.getContext("2d");
 
-  const pixelRatio = window.devicePixelRatio;
+  canvas.width = crop.width * scaleX;
+  canvas.height = crop.height * scaleY;
 
-  canvas.width = crop.width * scaleX * pixelRatio;
-  canvas.height = crop.height * scaleY * pixelRatio;
-
-  ctx.scale(pixelRatio, pixelRatio);
   ctx.imageSmoothingQuality = "high";
 
   ctx.save();
