@@ -75,7 +75,7 @@ const PDFCard = ({
 
             <div className="relative aspect-w-3 aspect-h-4 flex justify-center items-center">
               <img
-                src={getPreviewImageUrl(note.pdf.url)}
+                src={getPreviewImageUrl(note?.pdf?.url)}
                 alt="PDF Preview"
                 className="object-contain w-64 h-56 rounded-lg shadow-md"
               />

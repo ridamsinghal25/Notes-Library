@@ -77,7 +77,7 @@ const ImageCropModal = ({
                       <img
                         src={croppedImageUrl || "/placeholder.svg"}
                         alt="Cropped"
-                        className="max-h-[540px] max-w-full object-contain"
+                        className="max-h-[800px] max-w-full object-contain"
                       />
                     ) : (
                       <p className="text-muted-foreground">

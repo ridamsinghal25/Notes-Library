@@ -13,10 +13,18 @@ function CreatePDF({
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between">
-        <h2 className="text-2xl font-bold mb-6">Convert to PDF</h2>
-        <Button onClick={createAndDownloadPdf}>
-          <Download />
-        </Button>
+        <div className="flex flex-col gap-2 mb-6">
+          <h2 className="text-2xl font-bold">Convert to PDF</h2>
+          <p className="text-purple-400">
+            If your image appears rotated, please click the Crop button to
+            adjust it
+          </p>
+        </div>
+        <div>
+          <Button onClick={createAndDownloadPdf}>
+            <Download />
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

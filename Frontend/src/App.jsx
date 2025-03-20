@@ -118,16 +118,13 @@ function App() {
                 path={ROUTES.COURSE_USERS}
                 element={<CourseUsersContainer />}
               />
-
-              {/* Create PDF Routes */}
-              <Route
-                path={ROUTES.CREATE_PDF}
-                element={<CreatePDFContainer />}
-              />
             </Route>
 
             {/* Comment Routes */}
             <Route path={`${ROUTES.COMMENT}`} element={<CommentContainer />} />
+
+            {/* Create PDF Routes */}
+            <Route path={ROUTES.CREATE_PDF} element={<CreatePDFContainer />} />
 
             {/* For Moderator User Routes */}
             <Route element={<ForModeratorUsers />}>
