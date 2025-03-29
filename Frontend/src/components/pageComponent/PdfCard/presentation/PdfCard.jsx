@@ -27,7 +27,7 @@ const PDFCard = ({
 }) => {
   return (
     <div>
-      {notes.mergedNotes?.map((note, index) => (
+      {notes.notes?.map((note, index) => (
         <div
           key={note?._id}
           className="w-72 mx-auto my-8 bg-gray-100 rounded-lg shadow-md overflow-hidden dark:shadow-gray-300 dark:border-t-2 dark:bg-black"
@@ -38,7 +38,7 @@ const PDFCard = ({
               <div className="flex-1 min-w-0 items-start justify-between">
                 <div className="flex flex-col pr-20">
                   <h2 className="text-lg font-semibold text-gray-800 truncate dark:text-gray-200">
-                    {note?.chapterName}
+                    {notes?.chapterName}
                   </h2>
                   <div className="flex gap-1 items-end text-sm text-gray-500 dark:text-gray-200 truncate">
                     <div className="text-purple-600">
@@ -103,7 +103,7 @@ const PDFCard = ({
           <div className="p-3 border-t border-gray-200 flex justify-between items-center dark:text-gray-200">
             <div className="flex items-center gap-1 cursor-pointer">
               <Button
-                onClick={() => handleLike(note)}
+                onClick={() => handleLike(note, notes.chapterNumber)}
                 className="p-2 mr-1"
                 variant="ghost"
               >

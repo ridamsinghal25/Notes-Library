@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
@@ -18,15 +18,26 @@ function UpdateNotesContainer() {
   const [searchParmas] = useSearchParams();
   const notesId = searchParmas.get("notesId");
 
-  const selectedNotes = useSelector((state) =>
-    state.notes.userNotes
-      ?.flatMap((chapterNotes) => chapterNotes.mergedNotes)
-      ?.find((note) => note._id === notesId)
+  const userNotes = useSelector((state) =>
+    state.notes.userNotes?.find((chap) =>
+      chap.notes.some((note) => note._id === notesId)
+    )
   );
 
   useEffect(() => {
-    if (!notesId || !selectedNotes) navigate(ROUTES.NOTES);
-  }, [notesId, selectedNotes]);
+    if (!notesId || !userNotes) {
+      navigate(ROUTES.NOTES);
+    }
+  }, [notesId, userNotes]);
+
+  const selectedNotes = useMemo(() => {
+    if (!userNotes) return null;
+
+    return {
+      ...userNotes,
+      notes: userNotes?.notes?.filter((note) => note._id === notesId),
+    };
+  }, [userNotes, notesId]);
 
   const userSubjects = useSelector(
     (state) => state.auth.userDetails?.course?.subjects
@@ -43,20 +54,29 @@ function UpdateNotesContainer() {
   const onNotesUpdate = async (data) => {
     setIsSubmitting(true);
 
-    const response = await NotesService.updateNotes(selectedNotes?._id, data);
+    const response = await NotesService.updateNotes(
+      selectedNotes.notes[0]?._id,
+      data
+    );
 
     setIsSubmitting(false);
 
     if (!(response instanceof ApiError)) {
       dispatch(
         updateNotesState({
-          noteId: selectedNotes?._id,
+          noteId: selectedNotes.notes[0]?._id,
           newNotes: response?.data,
         })
       );
 
+      if (response?.data?.chapterNumber !== selectedNotes.chapterNumber) {
+        toast.success(response?.message);
+        navigate(ROUTES.NOTES);
+        return;
+      }
+
       toast.success(response?.message);
-      navigate(ROUTES.NOTES);
+      navigate(-1 || ROUTES.NOTES);
     } else {
       toast.error(
         response?.formError ||
@@ -70,7 +90,7 @@ function UpdateNotesContainer() {
     setIsSubmitting(true);
 
     const response = await NotesService.updateNotesPdfFile(
-      selectedNotes?._id,
+      selectedNotes.notes[0]?._id,
       data?.pdfFile
     );
 
@@ -79,13 +99,13 @@ function UpdateNotesContainer() {
     if (!(response instanceof ApiError)) {
       dispatch(
         updateNotesState({
-          noteId: selectedNotes?._id,
+          noteId: selectedNotes.notes[0]?._id,
           newNotes: response?.data,
         })
       );
 
       toast.success(response?.message);
-      navigate(ROUTES.NOTES);
+      navigate(-1 || ROUTES.NOTES);
     } else {
       toast.error(
         response?.formError ||

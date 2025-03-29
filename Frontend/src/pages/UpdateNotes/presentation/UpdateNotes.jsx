@@ -27,7 +27,7 @@ function UpdateNotes({
       subject: selectedNotes?.subject || "",
       chapterNumber: `${selectedNotes?.chapterNumber}` || "",
       chapterName: selectedNotes?.chapterName || "",
-      owner: selectedNotes?.owner || "",
+      owner: selectedNotes?.notes[0]?.owner || "",
     },
   });
 

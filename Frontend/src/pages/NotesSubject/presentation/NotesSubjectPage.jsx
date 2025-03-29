@@ -16,6 +16,11 @@ function NotesSubjectPage({
   onDeleteHandler,
   isDeleting,
 }) {
+  if (notesData?.status === "loading") {
+    return <NotesSubjectPageSkeleton isCard={false} />;
+  }
+
+  const userNotes = notesData?.userNotes;
   return (
     <div className="container mx-auto py-8 px-4">
       <HelmetProvider>
@@ -37,17 +42,15 @@ function NotesSubjectPage({
       </h1>
 
       <div className="flex flex-col items-center sm:block">
-        {notesData?.status === "loading" ? (
-          <NotesSubjectPageSkeleton isCard={true} />
-        ) : notesData?.userNotes?.length > 0 ? (
-          notesData?.userNotes?.map((notes) => (
-            <div key={notes.chapterNumber} className="mb-8 sm:ml-8">
+        {userNotes.length > 0 ? (
+          userNotes.map((notes) => (
+            <div key={notes?.chapterNumber} className="mb-8 sm:ml-8">
               <div className="flex items-center mb-4 flex-col sm:flex-row justify-center sm:justify-normal">
                 <div className="bg-violet-600 text-white font-bold py-2 px-4 rounded-lg mr-4 dark:text-gray-200">
-                  Unit {notes.chapterNumber}
+                  Unit {notes?.chapterNumber}
                 </div>
                 <h2 className="text-2xl mt-3 text-center font-semibold underline dark:text-gray-200">
-                  {notes.chapterName}
+                  {notes?.chapterName}
                 </h2>
               </div>
               <div className="border-b-2 lg:border-r-2 dark:border-gray-400"></div>
@@ -66,10 +69,10 @@ function NotesSubjectPage({
           ))
         ) : (
           <div
-            className="flex items-center p-4 mb-4 text-sm text-red-700 dark:text-white dark:font-semibold bg-red-100 dark:bg-red-500 border border-red-300 rounded-lg gap-2"
+            className="flex items-center p-4 mb-4 text-sm text-green-700 dark:text-white dark:font-semibold bg-green-100 dark:bg-green-500 border border-green-300 rounded-lg gap-2"
             role="alert"
           >
-            <CircleAlert /> <span>{notesData?.error}</span>
+            <CircleAlert /> <span>{notesData?.error || "No notes found"}</span>
           </div>
         )}
       </div>

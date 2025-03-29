@@ -39,57 +39,65 @@ const notesSlice = createSlice({
     updateNotesState: (state, action) => {
       const { noteId, newNotes } = action.payload;
 
+      // Find the chapter
       let currentChapter = state.userNotes.find((ch) =>
-        ch.mergedNotes.some((note) => note._id === noteId)
+        ch.notes.some((note) => note._id === noteId)
       );
 
+      // Find the note
       if (!currentChapter) return;
 
-      const noteIndex = currentChapter.mergedNotes.findIndex(
-        (note) => note._id === noteId
+      // Update the note
+      const notes = currentChapter.notes.filter((note) => note._id === noteId);
+
+      notes[0].owner = newNotes.owner;
+      notes[0].pdf = newNotes.pdf;
+
+      const updatedNotes = currentChapter.notes.map((note) =>
+        note._id === noteId ? notes[0] : note
       );
 
-      const noteToUpdate = currentChapter.mergedNotes[noteIndex];
+      currentChapter.notes = updatedNotes;
 
-      const updatedNote = {
-        ...noteToUpdate,
-        ...newNotes,
-      };
+      // If the subject is changed
+      if (newNotes.subject !== state.userNotes[0]?.subject) {
+        const updatedChapter = currentChapter.notes.filter(
+          (note) => note._id !== noteId
+        );
 
-      currentChapter.mergedNotes[noteIndex] = updatedNote;
+        currentChapter.notes = updatedChapter;
+        return;
+      }
     },
     deleteNotes: (state, action) => {
       const noteId = action.payload;
 
       let currentChapter = state.userNotes.find((ch) =>
-        ch.mergedNotes.some((note) => note._id === noteId)
+        ch.notes.some((note) => note._id === noteId)
       );
 
       if (!currentChapter) return;
 
-      const updatedNotes = currentChapter.mergedNotes.filter(
+      const updatedNotes = currentChapter.notes.filter(
         (note) => note._id !== noteId
       );
 
-      currentChapter.mergedNotes = updatedNotes;
+      currentChapter.notes = updatedNotes;
     },
     toggleLikeState: (state, action) => {
-      const { chapterNumber, subject, noteId, isLiked } = action.payload;
+      const { chapterNumber, noteId, isLiked } = action.payload;
 
-      // Find the chapter
       const chapter = state.userNotes.find(
-        (ch) => ch.chapterNumber === chapterNumber && ch.subject === subject
+        (chap) => chap.chapterNumber === chapterNumber
       );
 
-      if (chapter) {
-        // Find the note in mergedNotes
-        const note = chapter.mergedNotes.find((note) => note._id === noteId);
+      // Find the chapter
+      const pdfNote = chapter.notes?.find((note) => note._id === noteId);
 
-        if (note) {
-          // Update note's like state and count
-          note.isLiked = isLiked;
-          note.likesCount += isLiked ? 1 : -1;
-        }
+      if (pdfNote) {
+        // Update pdfNote's like state and count
+        pdfNote.isLiked = isLiked;
+        pdfNote.likesCount += isLiked ? 1 : -1;
       }
     },
   },

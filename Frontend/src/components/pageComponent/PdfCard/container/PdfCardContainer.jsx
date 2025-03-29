@@ -24,15 +24,14 @@ const PDFCardContainer = ({ notes }) => {
     }
   };
 
-  const handleLike = async (notes) => {
+  const handleLike = async (notes, chapterNumber) => {
     const response = await LikeService.likeOrUnlikeNotes(notes._id);
 
     if (!(response instanceof ApiError)) {
       toast.success(response?.message);
       dispatch(
         toggleLikeState({
-          chapterNumber: notes.chapterNumber,
-          subject: notes.subject,
+          chapterNumber: chapterNumber,
           noteId: notes._id,
           isLiked: response?.data?.isLiked,
         })
