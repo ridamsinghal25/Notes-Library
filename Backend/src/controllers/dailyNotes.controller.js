@@ -17,25 +17,18 @@ const createDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(400, "At least one file is required");
   }
 
-  const course = await Course.findById(req.user?.course);
+  const course = await Course.findOne({
+    _id: req.user?.course,
+    subjects: {
+      $elemMatch: {
+        subjectName: subject,
+        chapters: { $in: [chapterName] },
+      },
+    },
+  });
 
   if (!course) {
     throw new ApiError(404, "This course does not exists");
-  }
-
-  const isSubjectExists = course.subjects?.find(
-    (sub) => sub.subjectName === subject
-  );
-
-  if (!isSubjectExists) {
-    throw new ApiError(400, "Your course does not have this subject");
-  }
-
-  const isChapterExistsInTheSubject =
-    isSubjectExists?.chapters?.includes(chapterName);
-
-  if (!isChapterExistsInTheSubject) {
-    throw new ApiError(400, "This subject does not have this chapter");
   }
 
   const promisesOfUploadFiles = req.files?.map((file) =>
@@ -90,50 +83,42 @@ const updateDailyNotes = asyncHandler(async (req, res) => {
   const { chapterNumber, chapterName, subject } = req.body;
   const { dailyNotesId } = req.params;
 
-  const dailyNotes = await DailyNotes.findById(dailyNotesId);
+  const course = await Course.findOne({
+    _id: req.user?.course,
+    subjects: {
+      $elemMatch: {
+        subjectName: subject,
+        chapters: { $in: [chapterName] },
+      },
+    },
+  });
+
+  if (!course) {
+    throw new ApiError(404, "Invalid subject or chapter for this course");
+  }
+
+  const dailyNotes = await DailyNotes.findOneAndUpdate(
+    {
+      _id: dailyNotesId,
+      course: req.user?.course,
+    },
+    {
+      $set: {
+        chapterName,
+        chapterNumber,
+        subject,
+        updatedBy: req.user?._id,
+      },
+    },
+    { new: true }
+  );
 
   if (!dailyNotes) {
     throw new ApiError(404, "notes does not exists");
   }
 
-  if (dailyNotes.course.toString() !== req.user?.course.toString()) {
-    throw new ApiError(400, "You are not allowed to update this notes");
-  }
-
-  const course = await Course.findById(req.user?.course);
-
-  if (!course) {
-    throw new ApiError(404, "Course does not exists");
-  }
-
-  const isSubjectExists = course.subjects?.find(
-    (sub) => sub.subjectName === subject
-  );
-
-  if (!isSubjectExists) {
-    throw new ApiError(400, "Your course does not have this subject");
-  }
-
-  const isChapterExistsInTheSubject =
-    isSubjectExists?.chapters?.includes(chapterName);
-
-  if (!isChapterExistsInTheSubject) {
-    throw new ApiError(400, "This subject does not have this chapter");
-  }
-
-  dailyNotes.chapterName = chapterName;
-  dailyNotes.chapterNumber = chapterNumber;
-  dailyNotes.subject = subject;
-  dailyNotes.updatedBy = req.user?._id;
-
-  const newDailyNotes = await dailyNotes.save();
-
-  if (!newDailyNotes?._id) {
-    throw new ApiError(500, "Failed to update notes");
-  }
-
   const newDailyNotesWithUpdatedByDetails = {
-    ...newDailyNotes.toObject(),
+    ...dailyNotes.toObject(),
     updatedBy: {
       fullName: req.user?.fullName,
       rollNumber: req.user?.rollNumber,
@@ -160,28 +145,26 @@ const updateFilesOfDailyNotes = asyncHandler(async (req, res) => {
     throw new ApiError(400, "At least one file is required");
   }
 
-  const course = await Course.findById(req.user?.course);
+  const course = await Course.findOne({
+    _id: req.user?.course,
+    subjects: {
+      $elemMatch: {
+        subjectName: subject,
+      },
+    },
+  });
 
   if (!course) {
     throw new ApiError(404, "This course does not exists");
   }
 
-  const isSubjectExists = course.subjects?.find(
-    (sub) => sub.subjectName === subject
-  );
-
-  if (!isSubjectExists) {
-    throw new ApiError(400, "Your course does not have this subject");
-  }
-
-  const dailyNotes = await DailyNotes.findById(dailyNotesId);
+  const dailyNotes = await DailyNotes.findOne({
+    _id: dailyNotesId,
+    course: req.user?.course,
+  });
 
   if (!dailyNotes) {
     throw new ApiError(404, "notes does not exists");
-  }
-
-  if (dailyNotes.course.toString() !== req.user?.course.toString()) {
-    throw new ApiError(400, "You are not allowed to update this notes");
   }
 
   if (dailyNotes.notes?.length >= MAX_DAILY_NOTES) {
@@ -303,14 +286,13 @@ const deleteChapterAllDailyNotes = asyncHandler(async (req, res) => {
 const deleteDailyNotes = asyncHandler(async (req, res) => {
   const { dailyNotesId } = req.params;
 
-  const dailyNotes = await DailyNotes.findById(dailyNotesId);
+  const dailyNotes = await DailyNotes.findOne({
+    _id: dailyNotesId,
+    course: req.user?.course,
+  });
 
   if (!dailyNotes) {
     throw new ApiError(404, "notes does not exists");
-  }
-
-  if (dailyNotes.course.toString() !== req.user?.course.toString()) {
-    throw new ApiError(400, "You are not allowed to update this notes");
   }
 
   const dailyNotesPublicIdsOfCloudinary = dailyNotes?.notes?.map(
@@ -391,14 +373,13 @@ const deleteFilesOfDailyNotes = asyncHandler(async (req, res) => {
 
   const { publicIds } = req.body;
 
-  const dailyNotes = await DailyNotes.findById(dailyNotesId);
+  const dailyNotes = await DailyNotes.findOne({
+    _id: dailyNotesId,
+    course: req.user?.course,
+  });
 
   if (!dailyNotes) {
     throw new ApiError(404, "notes does not exists");
-  }
-
-  if (dailyNotes.course.toString() !== req.user?.course.toString()) {
-    throw new ApiError(400, "You are not allowed to update this notes");
   }
 
   const dailyNotesPublicIdsOfCloudinary = dailyNotes?.notes?.map(

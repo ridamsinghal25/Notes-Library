@@ -19,19 +19,27 @@ const toggleNotesLike = asyncHandler(async (req, res) => {
   });
 
   if (!isAlreadyLiked) {
-    await Like.create({
+    const like = await Like.create({
       notesId,
       likedBy: req.user?._id,
     });
+
+    if (!like) {
+      throw new ApiError(500, "Internal server error. Please try again");
+    }
 
     return res
       .status(200)
       .json(new ApiResponse(200, { isLiked: true }, "Liked successfully"));
   } else {
-    await Like.findOneAndDelete({
+    const unlike = await Like.findOneAndDelete({
       notesId,
       likedBy: req.user?._id,
     });
+
+    if (!unlike) {
+      throw new ApiError(500, "Internal server error. Please try again");
+    }
 
     return res
       .status(200)

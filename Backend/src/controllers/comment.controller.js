@@ -49,29 +49,28 @@ const editComment = asyncHandler(async (req, res) => {
     throw new ApiError(404, "user does not exists");
   }
 
-  const comment = await Comment.findById(commentId);
+  const comment = await Comment.findOneAndUpdate(
+    {
+      _id: commentId,
+      commentedBy: user._id,
+    },
+    {
+      $set: {
+        content,
+      },
+    },
+    { new: true }
+  );
 
-  if (!comment._id) {
+  if (!comment) {
     throw new ApiError(404, "comment does not exists");
   }
 
-  if (comment.commentedBy.toString() !== user._id.toString()) {
-    throw new ApiError(403, "You are not allowed to edit this comment");
-  }
-
-  comment.content = content;
-
-  const updatedComment = await comment.save();
-
-  if (!updatedComment._id) {
-    throw new ApiError(500, "failed to update comment");
-  }
-
-  updatedComment.commentedBy = user;
+  comment.commentedBy = user;
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedComment, "comment updated successfully"));
+    .json(new ApiResponse(200, comment, "comment updated successfully"));
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
@@ -83,20 +82,13 @@ const deleteComment = asyncHandler(async (req, res) => {
     throw new ApiError(404, "user does not exists");
   }
 
-  const comment = await Comment.findById(commentId);
+  const comment = await Comment.findOneAndDelete({
+    _id: commentId,
+    commentedBy: user._id,
+  });
 
-  if (!comment._id) {
+  if (!comment) {
     throw new ApiError(404, "comment does not exists");
-  }
-
-  if (comment.commentedBy.toString() !== user._id.toString()) {
-    throw new ApiError(403, "You are not allowed to delete this comment");
-  }
-
-  const deletedComment = await comment.deleteOne();
-
-  if (!deletedComment.deletedCount) {
-    throw new ApiError(500, "Failed to delete comment");
   }
 
   return res

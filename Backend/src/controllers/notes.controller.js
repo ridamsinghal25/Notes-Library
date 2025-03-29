@@ -21,25 +21,18 @@ const uploadNotes = asyncHandler(async (req, res) => {
     throw new ApiError(400, "PDF file is required");
   }
 
-  const course = await Course.findById(req.user?.course);
+  const isValidSubject = await Course.findOne({
+    _id: req.user.course,
+    subjects: {
+      $elemMatch: {
+        subjectName: subject,
+        chapters: { $in: [chapterName] },
+      },
+    },
+  });
 
-  if (!course) {
-    throw new ApiError(404, "course does not exists");
-  }
-
-  const isSubjectExists = course.subjects?.find(
-    (sub) => sub.subjectName === subject
-  );
-
-  if (!isSubjectExists) {
-    throw new ApiError(400, "Your course does not have this subject");
-  }
-
-  const isChapterExistsInTheSubject =
-    isSubjectExists?.chapters?.includes(chapterName);
-
-  if (!isChapterExistsInTheSubject) {
-    throw new ApiError(400, "This subject does not have this chapter");
+  if (!isValidSubject) {
+    throw new ApiError(400, "Invalid subject or chapter for this course");
   }
 
   const pdfFile = await uploadOnCloudinary(pdfFileLocalPath);
@@ -76,12 +69,12 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const courseId = req.user.course;
 
-  const isValidSubject = await Course.exists({
+  const isValidSubject = await Course.findOne({
     _id: courseId,
     subjects: {
       $elemMatch: {
         subjectName: subject,
-        chapters: chapterName,
+        chapters: { $in: [chapterName] },
       },
     },
   });
@@ -91,8 +84,19 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
   }
 
   const updatedNotes = await Notes.findOneAndUpdate(
-    { _id: notesId, course: courseId, createdBy: userId },
-    { chapterName, chapterNumber, subject, owner },
+    {
+      _id: notesId,
+      course: courseId,
+      createdBy: userId,
+    },
+    {
+      $set: {
+        chapterName,
+        chapterNumber,
+        subject,
+        owner,
+      },
+    },
     { new: true }
   );
 
@@ -110,18 +114,14 @@ const deleteNotes = await asyncHandler(async (req, res) => {
 
   const { notesId } = req.params;
 
-  const notesExists = await Notes.findById(notesId);
+  const notesExists = await Notes.findOne({
+    _id: notesId,
+    createdBy: user._id,
+    course: user.course,
+  });
 
   if (!notesExists) {
     throw new ApiError(404, "notes not found");
-  }
-
-  if (notesExists.course.toString() !== req.user?.course.toString()) {
-    throw new ApiError(400, "You are not allowed to update this notes");
-  }
-
-  if (notesExists.createdBy.toString() !== user._id.toString()) {
-    throw new ApiError(403, "You are not allowed to delete this notes");
   }
 
   const deleteNotesPdf = await deleteFromCloudinary(notesExists?.pdf.public_id);
@@ -401,18 +401,14 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
     throw new ApiError(400, "PDF file is required");
   }
 
-  const notes = await Notes.findById(notesId);
+  const notes = await Notes.findOne({
+    _id: notesId,
+    createdBy: user._id,
+    course: user.course,
+  });
 
   if (!notes) {
     throw new ApiError(404, "notes does not exists");
-  }
-
-  if (notes.course.toString() !== req.user?.course.toString()) {
-    throw new ApiError(400, "You are not allowed to update this notes");
-  }
-
-  if (notes.createdBy.toString() !== user._id.toString()) {
-    throw new ApiError(403, "You are not allowed to update this notes");
   }
 
   const deleteOldNotesPdf = await deleteFromCloudinary(notes?.pdf?.public_id);

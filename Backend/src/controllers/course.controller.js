@@ -87,34 +87,31 @@ const updateCourse = asyncHandler(async (req, res) => {
     throw new ApiError(422, "Enter date in YYYY-MM-DD format or invalid date");
   }
 
-  const course = await Course.findById(courseId);
+  const course = await Course.findOneAndUpdate(
+    {
+      _id: courseId,
+      createdBy: req.user._id,
+    },
+    {
+      $set: {
+        courseName,
+        semester,
+        startDate,
+        endDate,
+        subjects,
+        createdBy: req.user._id,
+      },
+    },
+    { new: true }
+  );
 
   if (!course) {
     throw new ApiError(404, "course not found");
   }
 
-  if (course.createdBy.toString() !== req.user._id.toString()) {
-    throw new ApiError(403, "You are not allowed to update this course");
-  }
-
-  course.courseName = courseName;
-  course.semester = semester;
-  course.startDate = startDate;
-  course.endDate = endDate;
-  course.subjects = subjects;
-  course.createdBy = req.user._id;
-
-  const newUpdatedCourse = await course.save();
-
-  if (!newUpdatedCourse) {
-    throw new ApiError(500, "Failed to update course");
-  }
-
   return res
     .status(200)
-    .json(
-      new ApiResponse(200, newUpdatedCourse, "course updated successfully")
-    );
+    .json(new ApiResponse(200, course, "course updated successfully"));
 });
 
 const deleteCourse = asyncHandler(async (req, res) => {
@@ -167,20 +164,13 @@ const deleteCourse = asyncHandler(async (req, res) => {
     );
   }
 
-  const course = await Course.findById(courseId);
+  const course = await Course.findOneAndDelete({
+    _id: courseId,
+    createdBy: req.user._id,
+  });
 
   if (!course) {
     throw new ApiError(404, "course not found");
-  }
-
-  if (course.createdBy.toString() !== req.user._id.toString()) {
-    throw new ApiError(403, "You are not allowed to delete this course");
-  }
-
-  const deleteRegisteredCourse = await course.deleteOne();
-
-  if (!deleteRegisteredCourse.deletedCount) {
-    throw new ApiError(500, "Failed to delete course");
   }
 
   return res
