@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import PDFPage from "../presentation/PdfPage";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -12,14 +12,29 @@ function PdfPageContainer() {
   const [searchParmas] = useSearchParams();
   const notesId = searchParmas.get("notesId");
 
-  const selectedNotes = useSelector((state) =>
-    state.notes.userNotes
-      ?.flatMap((chapterNotes) => chapterNotes.mergedNotes)
-      ?.find((note) => note._id === notesId)
+  const userNotes = useSelector((state) =>
+    state.notes.userNotes?.find((chap) =>
+      chap.notes.some((note) => note._id === notesId)
+    )
   );
 
+  useEffect(() => {
+    if (!notesId || !userNotes) {
+      navigate(ROUTES.NOTES);
+    }
+  }, [notesId, userNotes]);
+
+  const selectedNotes = useMemo(() => {
+    if (!userNotes) return null;
+
+    return {
+      ...userNotes,
+      notes: userNotes?.notes?.filter((note) => note._id === notesId),
+    };
+  }, [userNotes, notesId]);
+
   const pdfUrl = cloudinaryPdfUrl(
-    selectedNotes?.pdf?.url,
+    selectedNotes?.notes[0].pdf?.url,
     selectedNotes?.chapterName
   );
 
