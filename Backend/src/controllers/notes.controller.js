@@ -71,60 +71,38 @@ const uploadNotes = asyncHandler(async (req, res) => {
 });
 
 const updateNotesDetails = asyncHandler(async (req, res) => {
-  const user = req?.user;
-
   const { notesId } = req.params;
   const { chapterNumber, chapterName, subject, owner } = req.body;
+  const userId = req.user._id;
+  const courseId = req.user.course;
 
-  const course = await Course.findById(req.user?.course);
+  const isValidSubject = await Course.exists({
+    _id: courseId,
+    subjects: {
+      $elemMatch: {
+        subjectName: subject,
+        chapters: chapterName,
+      },
+    },
+  });
 
-  if (!course) {
-    throw new ApiError(404, "Course does not exists");
+  if (!isValidSubject) {
+    throw new ApiError(400, "Invalid subject or chapter for this course");
   }
 
-  const isSubjectExists = course.subjects?.find(
-    (sub) => sub.subjectName === subject
+  const updatedNotes = await Notes.findOneAndUpdate(
+    { _id: notesId, course: courseId, createdBy: userId },
+    { chapterName, chapterNumber, subject, owner },
+    { new: true }
   );
 
-  if (!isSubjectExists) {
-    throw new ApiError(400, "Your course does not have this subject");
-  }
-
-  const isChapterExistsInTheSubject =
-    isSubjectExists?.chapters?.includes(chapterName);
-
-  if (!isChapterExistsInTheSubject) {
-    throw new ApiError(400, "This subject does not have this chapter");
-  }
-
-  const notes = await Notes.findById(notesId);
-
-  if (!notes) {
-    throw new ApiError(404, "Notes does not exists");
-  }
-
-  if (notes.course.toString() !== req.user?.course.toString()) {
-    throw new ApiError(400, "You are not allowed to update this notes");
-  }
-
-  if (notes.createdBy.toString() !== user._id.toString()) {
-    throw new ApiError(403, "You are not allowed to update this notes");
-  }
-
-  notes.chapterName = chapterName;
-  notes.chapterNumber = chapterNumber;
-  notes.subject = subject;
-  notes.owner = owner;
-
-  const newNotes = await notes.save();
-
-  if (!newNotes._id) {
-    throw new ApiError(500, "Failed to update notes details");
+  if (!updatedNotes) {
+    throw new ApiError(403, "Unauthorized or Notes not found");
   }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, newNotes, "notes updated successfully"));
+    .json(new ApiResponse(200, updatedNotes, "Notes updated successfully"));
 });
 
 const deleteNotes = await asyncHandler(async (req, res) => {
@@ -231,6 +209,42 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
         comments: 0,
       },
     },
+    {
+      $group: {
+        _id: {
+          chapterName: "$chapterName",
+          subject: "$subject",
+          course: "$course",
+          chapterNumber: "$chapterNumber",
+        },
+        notes: {
+          $push: {
+            _id: "$_id",
+            owner: "$owner",
+            createdBy: "$createdBy",
+            pdf: "$pdf",
+            isLiked: "$isLiked",
+            likesCount: "$likesCount",
+            commentsCount: "$commentsCount",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        chapterName: "$_id.chapterName",
+        chapterNumber: "$_id.chapterNumber",
+        subject: "$_id.subject",
+        course: "$_id.course",
+        notes: 1,
+      },
+    },
+    {
+      $sort: {
+        chapterNumber: 1,
+      },
+    },
   ]);
 
   if (!notes) {
@@ -239,46 +253,19 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
 
   if (notes.length === 0) {
     return res
-      .status(404)
+      .status(200)
       .json(
         new ApiResponse(
-          404,
+          200,
           {},
           "Notes does not exists with the following subject"
         )
       );
   }
 
-  let notesMap = new Map();
-
-  notes.forEach((note) => {
-    const key = `${note.chapterNumber}-${note.subject}`;
-
-    if (!notesMap.has(key)) {
-      // Create a new entry in the map
-      notesMap.set(key, {
-        chapterNumber: note.chapterNumber,
-        subject: note.subject,
-        mergedNotes: [note],
-      });
-    } else {
-      // Update the existing entry
-      const entry = notesMap.get(key);
-
-      // Avoid duplicates in mergedNotes
-      if (
-        !entry.mergedNotes.some((existingNote) => existingNote._id === note._id)
-      ) {
-        entry.mergedNotes.push(note);
-      }
-    }
-  });
-
-  const newNotes = Array.from(notesMap.values());
-
   return res
     .status(200)
-    .json(new ApiResponse(200, newNotes, "notes fetched successfully"));
+    .json(new ApiResponse(200, notes, "notes fetched successfully"));
 });
 
 const getNotesUploadedByUser = asyncHandler(async (req, res) => {
