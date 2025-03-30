@@ -299,20 +299,21 @@ const deleteDailyNotes = asyncHandler(async (req, res) => {
     (note) => note.public_id
   );
 
-  const deletedDailyNotesFiles = await deleteMultipleAssestsFromCloudinary(
-    dailyNotesPublicIdsOfCloudinary
-  );
+  if (dailyNotesPublicIdsOfCloudinary?.length) {
+    const deletedDailyNotesFiles = await deleteMultipleAssestsFromCloudinary(
+      dailyNotesPublicIdsOfCloudinary
+    );
+    const deletedDailyNotesPublicIds = Object.keys(
+      deletedDailyNotesFiles.deleted
+    );
 
-  const deletedDailyNotesPublicIds = Object.keys(
-    deletedDailyNotesFiles.deleted
-  );
+    const fileNotDeletedIds = dailyNotesPublicIdsOfCloudinary.filter(
+      (id) => !deletedDailyNotesPublicIds.includes(id)
+    );
 
-  const fileNotDeletedIds = dailyNotesPublicIdsOfCloudinary.filter(
-    (id) => !deletedDailyNotesPublicIds.includes(id)
-  );
-
-  if (fileNotDeletedIds.length) {
-    throw new ApiError(500, "Internal server error. Please try again");
+    if (fileNotDeletedIds.length) {
+      throw new ApiError(500, "Internal server error. Please try again");
+    }
   }
 
   const notesDeleteResponse = await dailyNotes.deleteOne();
