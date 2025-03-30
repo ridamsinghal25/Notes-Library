@@ -1,17 +1,11 @@
 import { useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import {
-  ChevronUp,
-  ChevronDown,
-  X,
-  Upload,
-  ArrowLeft,
-  Loader2,
-} from "lucide-react";
+import { Upload, ArrowLeft, Loader2 } from "lucide-react";
 import FormFieldInput from "@/components/basic/FormFieldInput";
 import FormFieldSelect from "@/components/basic/FormFieldSelect";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import UploadFileList from "@/components/pageComponent/UploadFileList/presentation/UploadFileList";
 
 function AddDailyNotes({
   dailyNotesForm,
@@ -108,7 +102,6 @@ function AddDailyNotes({
                 onChange={(event) => handleFileChange(event, files)}
                 className="hidden"
               />
-
               <div
                 className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
                 onClick={handleUploadClick}
@@ -124,66 +117,11 @@ function AddDailyNotes({
                 </label>
               </div>
 
-              {files.length > 0 && (
-                <div className="mt-6">
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
-                    Uploaded Files ({files.length})
-                  </h3>
-                  <ul className="">
-                    {files.map((file, index) => (
-                      <li
-                        key={file.id}
-                        className="flex items-center justify-between p-3 hover:bg-gray-200 dark:hover:bg-gray-700 gap-2"
-                      >
-                        <div>
-                          <img
-                            src={file.file && URL.createObjectURL(file?.file)}
-                            alt="📂File"
-                            className="h-12 w-12 object-cover rounded-md"
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-300">
-                          {file.file.name}
-                          <p>
-                            ({(file.file.size / (1024 * 1024)).toFixed(2)} MB)
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-1 flex-shrink-0">
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => moveFile(file.id, "up")}
-                            disabled={index === 0}
-                            className="h-8 w-8"
-                          >
-                            <ChevronUp className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => moveFile(file.id, "down")}
-                            disabled={index === files.length - 1}
-                            className="h-8 w-8"
-                          >
-                            <ChevronDown className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => removeFile(file.id)}
-                            className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/70"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <UploadFileList
+                formFiles={files}
+                moveFile={moveFile}
+                removeFile={removeFile}
+              />
             </div>
 
             <div className="flex justify-end p-4 sm:p-6 border-t dark:border-gray-700">

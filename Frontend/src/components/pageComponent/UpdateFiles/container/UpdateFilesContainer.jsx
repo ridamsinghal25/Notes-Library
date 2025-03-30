@@ -14,7 +14,7 @@ import imageCompression from "browser-image-compression";
 
 function UpdateFilesContainer({ selectedNotes }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [files, setFiles] = useState(selectedNotes?.notes || []);
+  const [currentFiles, setCurrentFiles] = useState(selectedNotes?.notes || []);
   const [formFiles, setFormFiles] = useState([]);
   const [deletedfiles, setDeletedfiles] = useState([]);
   const dispatch = useDispatch();
@@ -63,9 +63,13 @@ function UpdateFilesContainer({ selectedNotes }) {
   };
 
   const handleDeleteFile = (publicId) => {
-    const deletedFile = files.find((file) => file.public_id === publicId);
+    const deletedFile = currentFiles.find(
+      (file) => file.public_id === publicId
+    );
 
-    setFiles((prev) => prev.filter((file) => file.public_id !== publicId));
+    setCurrentFiles((prev) =>
+      prev.filter((file) => file.public_id !== publicId)
+    );
 
     setDeletedfiles((prev) => [...prev, deletedFile]);
   };
@@ -75,7 +79,7 @@ function UpdateFilesContainer({ selectedNotes }) {
       (file) => file.public_id === publicId
     );
 
-    setFiles((prev) => [...prev, restoreFile]);
+    setCurrentFiles((prev) => [...prev, restoreFile]);
 
     setDeletedfiles((prev) =>
       prev.filter((file) => file.public_id !== publicId)
@@ -207,8 +211,8 @@ function UpdateFilesContainer({ selectedNotes }) {
     <UpdateFiles
       isSubmitting={isSubmitting}
       onDailyNotesFileUpdate={onDailyNotesFileUpdate}
-      files={files}
-      setFiles={setFiles}
+      currentFiles={currentFiles}
+      setCurrentFiles={setCurrentFiles}
       deletedfiles={deletedfiles}
       handleDeleteFile={handleDeleteFile}
       handleRestoreFile={handleRestoreFile}

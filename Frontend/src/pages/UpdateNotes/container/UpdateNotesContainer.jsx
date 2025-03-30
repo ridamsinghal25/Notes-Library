@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import NotesService from "@/services/NotesService";
 import ApiError from "@/services/ApiError";
 import { toast } from "react-toastify";
-import { updateNotesState } from "@/store/NotesSlice";
+import { resetNotesState, updateNotesState } from "@/store/NotesSlice";
 import UpdateNotes from "../presentation/UpdateNotes";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
@@ -62,18 +62,20 @@ function UpdateNotesContainer() {
     setIsSubmitting(false);
 
     if (!(response instanceof ApiError)) {
+      if (response?.data?.chapterNumber !== selectedNotes.chapterNumber) {
+        dispatch(resetNotesState());
+
+        toast.success(response?.message);
+        navigate(ROUTES.NOTES);
+        return;
+      }
+
       dispatch(
         updateNotesState({
           noteId: selectedNotes.notes[0]?._id,
           newNotes: response?.data,
         })
       );
-
-      if (response?.data?.chapterNumber !== selectedNotes.chapterNumber) {
-        toast.success(response?.message);
-        navigate(ROUTES.NOTES);
-        return;
-      }
 
       toast.success(response?.message);
       navigate(-1 || ROUTES.NOTES);
