@@ -201,4 +201,4 @@ export const UPDATE_PDF_DESCRIPTION =
  */
 
 export const NOTES_FEEDBACK_LINK =
-  "https://notes-feedback.vercel.app/feedback/MjIwMTQxNjgwNjI";
+  "https://notesfeedback.vercel.app/feedback/MjIwMTQxNjgwNjI";
