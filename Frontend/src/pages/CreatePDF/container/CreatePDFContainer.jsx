@@ -71,7 +71,7 @@ function CreatePDFContainer() {
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = dailyNotes[0].chapterName;
+    link.download = dailyNotes[0].chapterName?.replace(/[.,_-]/g, "").trim();
     link.click();
   };
 

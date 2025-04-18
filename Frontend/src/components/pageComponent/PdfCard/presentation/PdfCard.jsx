@@ -92,7 +92,7 @@ const PDFCard = ({
                 variant="outline"
                 className="absolute -right-1 -bottom-6 -translate-y-1/2 flex items-center justify-center p-2 rounded-full bg-white hover:bg-blue-100 cursor-pointer shadow-md"
                 onClick={() =>
-                  handleDownload(note?.pdf.url, note?.chapterName, index)
+                  handleDownload(note?.pdf.url, notes?.chapterName, index)
                 }
               >
                 <Download className="text-gray-600 w-5 h-5" />

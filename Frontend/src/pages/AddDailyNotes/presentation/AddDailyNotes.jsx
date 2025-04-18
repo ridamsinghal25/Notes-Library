@@ -97,7 +97,7 @@ function AddDailyNotes({
                 id="upload-files"
                 name="files"
                 type="file"
-                accept="image/png, image/jpg, image/jpeg"
+                accept=" image/jpg, image/jpeg"
                 multiple
                 onChange={(event) => handleFileChange(event, files)}
                 className="hidden"
