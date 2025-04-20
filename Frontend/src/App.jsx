@@ -32,6 +32,7 @@ import ListDailyNotesContainer from "./pages/ListDailyNotes/container/ListDailyN
 import DailyNotesContainer from "./pages/DailyNotes/container/DailyNotesContainer";
 import UpdateDailyNotesContainer from "./pages/UpdateDailyNotes/container/UpdateDailyNotesContainer";
 import CreatePDFContainer from "./pages/CreatePDF/container/CreatePDFContainer";
+import EditPDFContainer from "./pages/EditPDF/container/EditPDFContainer";
 
 const NotesSubjectPageContainer = lazy(() =>
   import("./pages/NotesSubject/container/NotesSubjectPageContainer")
@@ -125,6 +126,8 @@ function App() {
 
             {/* Create PDF Routes */}
             <Route path={ROUTES.CREATE_PDF} element={<CreatePDFContainer />} />
+
+            <Route path={ROUTES.EDIT_PDF} element={<EditPDFContainer />} />
 
             {/* For Moderator User Routes */}
             <Route element={<ForModeratorUsers />}>

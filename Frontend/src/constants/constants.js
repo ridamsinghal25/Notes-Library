@@ -151,6 +151,7 @@ export const SIDEBAR_TABS = {
   HOME: "Home",
   SETTINGS: "Settings",
   FEEDBACK: "Feedback",
+  "EDIT PDF": "Edit PDF",
 };
 
 export const PROJECT_NAME = "Notes Library";
