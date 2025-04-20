@@ -1,5 +1,6 @@
 import {
   CircleUserIcon,
+  FilePen,
   Home,
   MessageSquareText,
   NotebookPen,
@@ -32,6 +33,11 @@ const sideBarItems = [
     label: `${SIDEBAR_TABS.FEEDBACK}`,
     href: `${ROUTES.FEEDBACK}`,
     icon: MessageSquareText,
+  },
+  {
+    label: `${SIDEBAR_TABS["EDIT PDF"]}`,
+    href: `${ROUTES.EDIT_PDF}`,
+    icon: FilePen,
   },
 ];
 
