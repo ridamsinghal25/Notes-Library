@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { degrees, PDFDocument } from "pdf-lib";
+import { degrees, PDFDocument, rgb } from "pdf-lib";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import EditPDF from "../presentation/EditPDF";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const EditPDFContainer = () => {
   const [pdfDoc, setPdfDoc] = useState(null);
@@ -36,6 +37,8 @@ const EditPDFContainer = () => {
       setIsLoading(false);
     }
   };
+
+  const debouncedUpdatePdfPreview = useDebounce(updatePdfPreview, 500);
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -87,15 +90,28 @@ const EditPDFContainer = () => {
       const newPage = pdfDoc.addPage();
       const { width, height } = newPage.getSize();
 
+      const imgDims = image.scale(1); // get natural image dimensions
+
+      const imgWidth = imgDims.width;
+      const imgHeight = imgDims.height;
+
+      const scale = Math.min(width / imgWidth, height / imgHeight);
+
+      const scaledWidth = imgWidth * scale;
+      const scaledHeight = imgHeight * scale;
+
+      const x = (width - scaledWidth) / 2;
+      const y = (height - scaledHeight) / 2;
+
       newPage.drawImage(image, {
-        x: 0,
-        y: 0,
-        width: width,
-        height: height,
+        x,
+        y,
+        width: scaledWidth,
+        height: scaledHeight,
       });
 
       setPages([...pages, pages.length]);
-      updatePdfPreview();
+      debouncedUpdatePdfPreview();
     }
   };
 
@@ -141,15 +157,28 @@ const EditPDFContainer = () => {
     const newInsertedPage = pdfDoc.insertPage(index - 1);
     const { width, height } = newInsertedPage.getSize();
 
+    const imgDims = image.scale(1); // get natural image dimensions
+
+    const imgWidth = imgDims.width;
+    const imgHeight = imgDims.height;
+
+    const scale = Math.min(width / imgWidth, height / imgHeight);
+
+    const scaledWidth = imgWidth * scale;
+    const scaledHeight = imgHeight * scale;
+
+    const x = (width - scaledWidth) / 2;
+    const y = (height - scaledHeight) / 2;
+
     newInsertedPage.drawImage(image, {
-      x: 0,
-      y: 0,
-      width: width,
-      height: height,
+      x,
+      y,
+      width: scaledWidth,
+      height: scaledHeight,
     });
 
     setPages([...pages, pages.length]);
-    updatePdfPreview();
+    debouncedUpdatePdfPreview();
   };
 
   const removePage = async (index) => {
@@ -167,7 +196,7 @@ const EditPDFContainer = () => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "edited_pdf.pdf";
+      link.download = "Edited_PDF";
       link.click();
       URL.revokeObjectURL(url);
     }
@@ -182,7 +211,7 @@ const EditPDFContainer = () => {
 
     page.setRotation(degrees((pageRotation + 90) % 360));
 
-    updatePdfPreview();
+    debouncedUpdatePdfPreview();
   };
 
   const removeSelectedInsertFile = () => {
