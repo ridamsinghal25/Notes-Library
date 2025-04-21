@@ -56,14 +56,15 @@ const PDFViewer = ({
                   title="Remove page"
                   variant="outline"
                   className="flex items-center justify-center p-2.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
-                  onClick={() => removePage(pageNumber > 0 && pageNumber)}
+                  onClick={() => removePage(pageNumber)}
+                  disabled={numPages?.length === 1}
                 >
                   <X className="text-white w-4 h-4" />
                 </Button>
                 <Button
                   className="flex items-center justify-center p-2.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
                   title="Rotate page"
-                  onClick={() => rotatePage(pageNumber > 0 && pageNumber)}
+                  onClick={() => rotatePage(pageNumber)}
                 >
                   <RotateCcw className="h-4 w-4" />
                 </Button>
