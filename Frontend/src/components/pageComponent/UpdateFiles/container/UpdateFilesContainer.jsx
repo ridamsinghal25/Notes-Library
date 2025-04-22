@@ -131,7 +131,7 @@ function UpdateFilesContainer({ selectedNotes }) {
         });
 
         const options = {
-          maxSizeMB: 0.75, // Target size per image
+          maxSizeMB: 1, // Target size per image
           maxWidthOrHeight: 1200, // Resize dimensions if necessary
           useWebWorker: true,
         };

@@ -12,6 +12,7 @@ const EditPDFContainer = () => {
   const [pdfDataUrl, setPdfDataUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [insertImageFile, setInsertImageFile] = useState(null);
+  const [dragPageIndex, setDragPageIndex] = useState("");
 
   const pdfInputRef = useRef(null);
   const addImageInputRef = useRef(null);
@@ -38,7 +39,7 @@ const EditPDFContainer = () => {
     }
   };
 
-  const debouncedUpdatePdfPreview = useDebounce(updatePdfPreview, 500);
+  const debouncedUpdatePdfPreview = useDebounce(updatePdfPreview, 300);
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -134,12 +135,17 @@ const EditPDFContainer = () => {
 
     if (index === "" || !file) {
       toast.error("Please select a page and image");
-      return;
+      return Promise.reject();
     }
 
-    if (index > pages.length || index < 1) {
+    if (index < 1) {
       toast.error("Please select a valid page");
-      return;
+      return Promise.reject();
+    }
+
+    if (index > pages.length) {
+      toast.error("Please use Add Image button to add more pages at the end");
+      return Promise.reject();
     }
 
     const arrayBuffer = await file.arrayBuffer();
@@ -226,6 +232,31 @@ const EditPDFContainer = () => {
     addImageInputRef.current?.click();
   };
 
+  const handleDragStart = (e, index) => {
+    e.target.style.opacity = "0.5";
+    setDragPageIndex(index);
+  };
+
+  const handleDragEnd = (e) => {
+    e.target.style.opacity = "1";
+    setDragPageIndex("");
+  };
+
+  const handleDropPage = async (dropIndex) => {
+    if (!pdfDoc) return;
+
+    if (dragPageIndex === dropIndex) {
+      return;
+    }
+
+    const [dropPage] = await pdfDoc.copyPages(pdfDoc, [dragPageIndex]);
+
+    pdfDoc.removePage(dragPageIndex);
+    pdfDoc.insertPage(dropIndex, dropPage);
+
+    debouncedUpdatePdfPreview();
+  };
+
   return (
     <EditPDF
       pdfDoc={pdfDoc}
@@ -245,6 +276,9 @@ const EditPDFContainer = () => {
       removeSelectedInsertFile={removeSelectedInsertFile}
       triggerPdfUpload={triggerPdfUpload}
       triggerAddImageUpload={triggerAddImageUpload}
+      handleDragStart={handleDragStart}
+      handleDragEnd={handleDragEnd}
+      handleDropPage={handleDropPage}
     />
   );
 };

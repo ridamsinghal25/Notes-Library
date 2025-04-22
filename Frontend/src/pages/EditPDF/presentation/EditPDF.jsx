@@ -36,6 +36,9 @@ const EditPDF = ({
   removeSelectedInsertFile,
   triggerPdfUpload,
   triggerAddImageUpload,
+  handleDragStart,
+  handleDragEnd,
+  handleDropPage,
 }) => {
   const insertUploadedImageForm = useForm({
     defaultValues: {
@@ -256,6 +259,9 @@ const EditPDF = ({
                   fileUrl={pdfDataUrl}
                   rotatePage={rotatePage}
                   removePage={removePage}
+                  handleDragStart={handleDragStart}
+                  handleDragEnd={handleDragEnd}
+                  handleDropPage={handleDropPage}
                 />
               ) : (
                 <div className="flex justify-center items-center h-64 text-gray-500">
