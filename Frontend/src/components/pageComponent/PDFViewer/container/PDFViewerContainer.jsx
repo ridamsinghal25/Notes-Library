@@ -6,6 +6,7 @@ const PDFViewerContainer = ({
   fileUrl,
   rotatePage,
   removePage,
+  downloadSelectedPage,
   handleDragStart,
   handleDragEnd,
   handleDropPage,
@@ -32,6 +33,7 @@ const PDFViewerContainer = ({
       numPages={numPages}
       dragOverPage={dragOverPage}
       setDragOverPage={setDragOverPage}
+      downloadSelectedPage={downloadSelectedPage}
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
       handleDropPage={handleDropPage}

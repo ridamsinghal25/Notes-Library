@@ -3,7 +3,7 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import { pdfjs } from "react-pdf";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, X } from "lucide-react";
+import { DownloadCloud, RotateCcw, X } from "lucide-react";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
@@ -17,6 +17,7 @@ const PDFViewer = ({
   numPages,
   dragOverPage,
   setDragOverPage,
+  downloadSelectedPage,
   handleDragStart,
   handleDragEnd,
   handleDropPage,
@@ -74,6 +75,16 @@ const PDFViewer = ({
               {dragOverPage === pageNumber && (
                 <div className="absolute inset-0 bg-violet-100 bg-opacity-40 rounded-md z-0 animate-pulse"></div>
               )}
+              <div className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-1">
+                <Button
+                  title="Download page"
+                  variant="outline"
+                  className="flex items-center justify-center p-2 rounded-lg bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
+                  onClick={() => downloadSelectedPage(pageNumber)}
+                >
+                  <DownloadCloud className="text-white w-5 h-5" />
+                </Button>
+              </div>
               <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-1">
                 <Button
                   title="Remove page"

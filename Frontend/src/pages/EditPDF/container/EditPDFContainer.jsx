@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { degrees, PDFDocument, rgb } from "pdf-lib";
+import { degrees, PDFDocument } from "pdf-lib";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import EditPDF from "../presentation/EditPDF";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDebounce } from "@/hooks/useDebounce";
+import { pdfFileValidation } from "@/validation/zodValidation";
 
 const EditPDFContainer = () => {
   const [pdfDoc, setPdfDoc] = useState(null);
@@ -232,6 +233,25 @@ const EditPDFContainer = () => {
     addImageInputRef.current?.click();
   };
 
+  const downloadSelectedPage = async (pageIndex) => {
+    const newPdfDoc = await PDFDocument.create();
+
+    const [page] = await newPdfDoc.copyPages(pdfDoc, [pageIndex]);
+
+    newPdfDoc.addPage(page);
+
+    if (newPdfDoc) {
+      const pdfBytes = await newPdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Edited_PDF";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
   const handleDragStart = (e, index) => {
     e.target.style.opacity = "0.5";
     setDragPageIndex(index);
@@ -276,6 +296,7 @@ const EditPDFContainer = () => {
       removeSelectedInsertFile={removeSelectedInsertFile}
       triggerPdfUpload={triggerPdfUpload}
       triggerAddImageUpload={triggerAddImageUpload}
+      downloadSelectedPage={downloadSelectedPage}
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
       handleDropPage={handleDropPage}

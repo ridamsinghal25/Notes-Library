@@ -36,6 +36,7 @@ const EditPDF = ({
   removeSelectedInsertFile,
   triggerPdfUpload,
   triggerAddImageUpload,
+  downloadSelectedPage,
   handleDragStart,
   handleDragEnd,
   handleDropPage,
@@ -259,6 +260,7 @@ const EditPDF = ({
                   fileUrl={pdfDataUrl}
                   rotatePage={rotatePage}
                   removePage={removePage}
+                  downloadSelectedPage={downloadSelectedPage}
                   handleDragStart={handleDragStart}
                   handleDragEnd={handleDragEnd}
                   handleDropPage={handleDropPage}
