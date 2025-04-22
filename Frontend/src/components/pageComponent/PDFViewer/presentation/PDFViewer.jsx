@@ -15,6 +15,11 @@ const PDFViewer = ({
   removePage,
   onDocumentLoadSuccess,
   numPages,
+  dragOverPage,
+  setDragOverPage,
+  handleDragStart,
+  handleDragEnd,
+  handleDropPage,
 }) => {
   return (
     <div className="p-5 rounded-lg shadow-sm">
@@ -49,8 +54,26 @@ const PDFViewer = ({
           {numPages?.map((pageNumber) => (
             <div
               key={pageNumber}
-              className="relative group transition-all duration-200 hover:shadow-lg"
+              className={`relative group transition-all duration-200 ${
+                dragOverPage === pageNumber
+                  ? "scale-105 shadow-xl z-10"
+                  : "hover:shadow-lg"
+              }`}
+              draggable
+              onDragStart={(e) => handleDragStart(e, pageNumber)}
+              onDragEnd={handleDragEnd}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOverPage(pageNumber);
+              }}
+              onDragLeave={() => {
+                setDragOverPage(null);
+              }}
+              onDrop={() => handleDropPage(pageNumber)}
             >
+              {dragOverPage === pageNumber && (
+                <div className="absolute inset-0 bg-violet-100 bg-opacity-40 rounded-md z-0 animate-pulse"></div>
+              )}
               <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-1">
                 <Button
                   title="Remove page"
@@ -74,15 +97,20 @@ const PDFViewer = ({
                 Page {pageNumber + 1}
               </div>
 
-              <div className="bg-gray-100 p-1 rounded-md shadow-md overflow-hidden">
-                <Page
-                  pageNumber={pageNumber + 1}
-                  height={200}
-                  width={150}
-                  className="transition-all duration-300"
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                />
+              <div
+                className="bg-gray-100 border border-gray-200 rounded-md shadow-sm overflow-hidden flex items-center justify-center"
+                style={{ width: "160px", height: "220px" }}
+              >
+                <div className="flex items-center justify-center w-full h-full">
+                  <Page
+                    pageNumber={pageNumber + 1}
+                    height={200}
+                    width={150}
+                    className="transition-all duration-300"
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                  />
+                </div>
               </div>
             </div>
           ))}

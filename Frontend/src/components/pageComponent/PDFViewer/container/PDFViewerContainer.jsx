@@ -2,8 +2,16 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import PDFViewer from "../presentation/PDFViewer";
 
-const PDFViewerContainer = ({ fileUrl, rotatePage, removePage }) => {
+const PDFViewerContainer = ({
+  fileUrl,
+  rotatePage,
+  removePage,
+  handleDragStart,
+  handleDragEnd,
+  handleDropPage,
+}) => {
   const [numPages, setNumPages] = useState([]);
+  const [dragOverPage, setDragOverPage] = useState(null);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     if (!numPages) {
@@ -22,6 +30,11 @@ const PDFViewerContainer = ({ fileUrl, rotatePage, removePage }) => {
       removePage={removePage}
       onDocumentLoadSuccess={onDocumentLoadSuccess}
       numPages={numPages}
+      dragOverPage={dragOverPage}
+      setDragOverPage={setDragOverPage}
+      handleDragStart={handleDragStart}
+      handleDragEnd={handleDragEnd}
+      handleDropPage={handleDropPage}
     />
   );
 };
