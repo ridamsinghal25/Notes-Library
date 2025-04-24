@@ -5,7 +5,6 @@ import EditPDF from "../presentation/EditPDF";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDebounce } from "@/hooks/useDebounce";
-import { pdfFileValidation } from "@/validation/zodValidation";
 
 const EditPDFContainer = () => {
   const [pdfDoc, setPdfDoc] = useState(null);
@@ -217,8 +216,6 @@ const EditPDFContainer = () => {
     const pageRotation = page.getRotation().angle;
 
     page.setRotation(degrees((pageRotation + 90) % 360));
-
-    debouncedUpdatePdfPreview();
   };
 
   const removeSelectedInsertFile = () => {

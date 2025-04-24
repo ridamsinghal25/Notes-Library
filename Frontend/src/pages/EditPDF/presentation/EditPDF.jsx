@@ -84,18 +84,18 @@ const EditPDF = ({
 
       {/* Upload section */}
       {!pdfDoc && (
-        <div className="flex justify-center items-center h-screen -mt-20">
+        <div className="flex justify-center items-center min-h-screen -mt-20">
           <div
-            className="p-10 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 cursor-pointer transition-colors w-[50vw] max-w-xl rounded-2xl hover:border-violet-500"
+            className="p-4 sm:p-6 md:p-10 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 cursor-pointer transition-colors w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[50vw] max-w-xl rounded-2xl hover:border-violet-500 mx-2"
             onClick={triggerPdfUpload}
           >
-            <div className="bg-violet-100 dark:bg-violet-800 p-4 rounded-full mb-5">
-              <Upload className="h-12 w-12 text-violet-600 dark:text-violet-300" />
+            <div className="bg-violet-100 dark:bg-violet-800 p-3 md:p-4 rounded-full mb-3 md:mb-5">
+              <Upload className="h-8 w-8 md:h-12 md:w-12 text-violet-600 dark:text-violet-300" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2 text-center">
               Upload a PDF
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 text-center mb-4 max-w-sm">
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 text-center mb-3 md:mb-4 max-w-sm">
               Click or drag and drop your PDF file here to start editing or
               reviewing your document.
             </p>
@@ -105,12 +105,12 @@ const EditPDF = ({
                 e.stopPropagation();
                 triggerPdfUpload();
               }}
-              className="mt-2"
+              className="mt-1 md:mt-2"
             >
-              <FileUp className="mr-2 h-4 w-4" /> Select PDF
+              <FileUp className="mr-2 h-3 w-3 md:h-4 md:w-4" /> Select PDF
             </Button>
 
-            <div className="mt-6 text-sm text-gray-500 dark:text-gray-400 text-center space-y-1">
+            <div className="mt-4 md:mt-6 text-xs md:text-sm text-gray-500 dark:text-gray-400 text-center space-y-1">
               <p>📄 Only PDF files are supported</p>
               <p>📦 Max file size: 20MB</p>
               <p>🔐 Your files are processed securely</p>
@@ -245,7 +245,8 @@ const EditPDF = ({
 
           {/* PDF Viewer */}
           <div className="lg:col-span-9 rounded-lg shadow-sm overflow-hidden">
-            <ScrollArea className="h-screen">
+            <div className="block lg:hidden">
+              {/* Mobile view without ScrollArea */}
               {isLoading ? (
                 <div className="flex justify-center items-center h-64">
                   <div className="flex flex-col items-center">
@@ -270,7 +271,37 @@ const EditPDF = ({
                   <p>No PDF loaded. Please upload a PDF file.</p>
                 </div>
               )}
-            </ScrollArea>
+            </div>
+
+            <div className="hidden lg:block">
+              {/* Desktop view with ScrollArea */}
+              <ScrollArea className="h-screen">
+                {isLoading ? (
+                  <div className="flex justify-center items-center h-64">
+                    <div className="flex flex-col items-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500"></div>
+                      <p className="mt-4 text-gray-600 dark:text-gray-200">
+                        Processing PDF...
+                      </p>
+                    </div>
+                  </div>
+                ) : pdfDataUrl ? (
+                  <PDFViewerContainer
+                    fileUrl={pdfDataUrl}
+                    rotatePage={rotatePage}
+                    removePage={removePage}
+                    downloadSelectedPage={downloadSelectedPage}
+                    handleDragStart={handleDragStart}
+                    handleDragEnd={handleDragEnd}
+                    handleDropPage={handleDropPage}
+                  />
+                ) : (
+                  <div className="flex justify-center items-center h-64 text-gray-500">
+                    <p>No PDF loaded. Please upload a PDF file.</p>
+                  </div>
+                )}
+              </ScrollArea>
+            </div>
           </div>
         </div>
       )}
