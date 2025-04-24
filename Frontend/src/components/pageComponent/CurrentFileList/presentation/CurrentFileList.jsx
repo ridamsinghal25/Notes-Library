@@ -14,7 +14,10 @@ const CurrentFilesList = ({ currentFiles, handleDeleteFile }) => {
           className="flex items-center justify-between p-3 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 gap-2"
         >
           <div className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-300">
-            {fileInfo?.name}
+            {fileInfo?.name
+              .replace(/^\d+-/, "")
+              .replace(/^\d{3,}/, "")
+              .trim() || `Page-${index + 1}`}
             <p>({(fileInfo?.size / (1024 * 1024)).toFixed(2)} MB)</p>
           </div>
           <Button

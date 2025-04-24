@@ -35,7 +35,10 @@ const DeletedFilesList = ({
           className="flex items-center justify-between p-3 bg-red-100 dark:bg-red-900 rounded-md"
         >
           <div className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-300">
-            {fileInfo?.name}
+            {fileInfo?.name
+              .replace(/^\d+-/, "")
+              .replace(/^\d{3,}/, "")
+              .trim() || `Page-${index + 1}`}
             <p>({(fileInfo?.size / (1024 * 1024)).toFixed(2)} MB)</p>
           </div>
           <Button
