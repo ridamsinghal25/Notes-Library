@@ -141,9 +141,13 @@ function UpdateFilesContainer({ selectedNotes }) {
             newFiles.map(async ({ file, id }) => {
               const compressedImage = await imageCompression(file, options);
 
-              const fileObject = new File([compressedImage], file.name, {
-                type: file.type,
-              });
+              const fileObject = new File(
+                [compressedImage],
+                `Page-${previousFiles.length + 1}`,
+                {
+                  type: file.type,
+                }
+              );
 
               return { id, file: fileObject };
             })
