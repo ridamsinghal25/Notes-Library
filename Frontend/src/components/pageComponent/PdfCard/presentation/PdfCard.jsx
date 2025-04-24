@@ -30,7 +30,7 @@ const PDFCard = ({
       {notes.notes?.map((note, index) => (
         <div key={note?._id} className="group/card perspective">
           <div
-            className={`relative max-w-xs h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-500 transform hover:scale-[1.02] border border-gray-100 dark:border-gray-700 preserve-3d`}
+            className={`relative max-w-xs h-full rounded-xl shadow-lg overflow-hidden transition-all duration-500 transform hover:scale-[1.02] border border-gray-100 dark:border-gray-700 preserve-3d`}
           >
             <div className="p-5">
               <div className="flex items-start space-x-2 mb-4 relative">

@@ -64,9 +64,9 @@ function NotesSubjectPage({
                           <div className="flex flex-row items-start gap-6">
                             {/* Chapter number with animated background */}
                             <div className="relative group/number">
-                              <div className="relative flex items-center justify-center w-16 h-16 bg-gradient-to-br from-violet-600 to-purple-600 text-white text-xl font-bold rounded-lg shadow-md transform transition-all duration-500 group-hover/number:shadow-lg group-hover/number:shadow-violet-500/30 dark:group-hover/number:shadow-violet-700/40">
+                              <div className="relative flex items-center justify-center w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-600 to-purple-600 text-white text-base sm:text-xl font-bold rounded-lg shadow-md transform transition-all duration-500 group-hover/number:shadow-lg group-hover/number:shadow-violet-500/30 dark:group-hover/number:shadow-violet-700/40">
                                 {notes?.chapterNumber}
-                                <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-white dark:bg-gray-200 rounded-full opacity-70 animate-ping"></span>
+                                <span className="absolute -bottom-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-white dark:bg-gray-200 rounded-full opacity-70 animate-ping"></span>
                               </div>
                             </div>
 
