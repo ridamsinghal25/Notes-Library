@@ -11,10 +11,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const PDFViewer = ({
   fileUrl,
-  rotatePage,
+  rotatePageInReactPDF,
   removePage,
   onDocumentLoadSuccess,
-  numPages,
+  pages,
   dragOverPage,
   setDragOverPage,
   downloadSelectedPage,
@@ -37,7 +37,7 @@ const PDFViewer = ({
               Total pages:
             </span>
             <span className="bg-violet-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
-              {numPages?.length}
+              {pages?.length}
             </span>
           </div>
         </div>
@@ -52,7 +52,7 @@ const PDFViewer = ({
         }
       >
         <div className="flex flex-wrap justify-center gap-6">
-          {numPages?.map((pageNumber) => (
+          {pages?.map(({ pageNumber, rotate }) => (
             <div
               key={pageNumber}
               className={`relative group transition-all duration-200 ${
@@ -91,14 +91,14 @@ const PDFViewer = ({
                   variant="outline"
                   className="flex items-center justify-center p-2.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
                   onClick={() => removePage(pageNumber)}
-                  disabled={numPages?.length === 1}
+                  disabled={pages?.length === 1}
                 >
                   <X className="text-white w-4 h-4" />
                 </Button>
                 <Button
                   className="flex items-center justify-center p-2.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
                   title="Rotate page"
-                  onClick={() => rotatePage(pageNumber)}
+                  onClick={() => rotatePageInReactPDF(pageNumber)}
                 >
                   <RotateCcw className="h-4 w-4" />
                 </Button>
@@ -117,6 +117,7 @@ const PDFViewer = ({
                     pageNumber={pageNumber + 1}
                     height={200}
                     width={150}
+                    rotate={rotate}
                     className="transition-all duration-300"
                     renderTextLayer={false}
                     renderAnnotationLayer={false}

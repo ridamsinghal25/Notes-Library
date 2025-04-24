@@ -11,26 +11,46 @@ const PDFViewerContainer = ({
   handleDragEnd,
   handleDropPage,
 }) => {
-  const [numPages, setNumPages] = useState([]);
+  const [pages, setPages] = useState([]);
   const [dragOverPage, setDragOverPage] = useState(null);
 
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    if (!numPages) {
+  const onDocumentLoadSuccess = async (pagesData) => {
+    if (!pagesData.numPages) {
       toast.error("PDF not found");
       return;
     }
 
-    const numPagesArray = Array.from({ length: numPages }, (_, index) => index);
-    setNumPages(numPagesArray);
+    const pagesArray = Array.from(
+      { length: pagesData.numPages },
+      (_, index) => ({
+        pageNumber: index,
+        rotate: 0,
+      })
+    );
+
+    setPages(pagesArray);
+  };
+
+  const rotatePageInReactPDF = (pageIndex) => {
+    const updatedPages = pages.map((page) => {
+      if (page.pageNumber === pageIndex) {
+        page.rotate = (page.rotate + 90) % 360;
+        return page;
+      }
+      return page;
+    });
+
+    setPages(updatedPages);
+    rotatePage(pageIndex);
   };
 
   return (
     <PDFViewer
       fileUrl={fileUrl}
-      rotatePage={rotatePage}
+      rotatePageInReactPDF={rotatePageInReactPDF}
       removePage={removePage}
       onDocumentLoadSuccess={onDocumentLoadSuccess}
-      numPages={numPages}
+      pages={pages}
       dragOverPage={dragOverPage}
       setDragOverPage={setDragOverPage}
       downloadSelectedPage={downloadSelectedPage}
