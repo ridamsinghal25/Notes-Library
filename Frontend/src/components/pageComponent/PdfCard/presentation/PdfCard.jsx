@@ -40,7 +40,7 @@ const PDFCard = ({
 
                 <div className="flex-1 min-w-0">
                   <div className="pr-16">
-                    <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200 line-clamp-1 group-hover/card:text-violet-700 dark:group-hover/card:text-violet-400 transition-colors duration-300">
+                    <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200 truncate group-hover/card:text-violet-700 dark:group-hover/card:text-violet-400 transition-colors duration-300">
                       {notes?.chapterName}
                     </h2>
                     <div className="flex items-center gap-1.5 mt-1 text-sm text-gray-500 dark:text-gray-400">

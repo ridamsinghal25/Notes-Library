@@ -59,35 +59,57 @@ function NotesSubjectPage({
                     }`}
                   >
                     <div className="p-6">
-                      <div className="relative group overflow-hidden bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-500 transform hover:scale-[1.01] mb-8 border border-gray-100/80 dark:border-gray-700/80">
-                        <div className="p-6">
-                          <div className="flex flex-row items-start gap-6">
-                            {/* Chapter number with animated background */}
-                            <div className="relative group/number">
-                              <div className="relative flex items-center justify-center w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-600 to-purple-600 text-white text-base sm:text-xl font-bold rounded-lg shadow-md transform transition-all duration-500 group-hover/number:shadow-lg group-hover/number:shadow-violet-500/30 dark:group-hover/number:shadow-violet-700/40">
-                                {notes?.chapterNumber}
+                      <div className="relative group cursor-pointer overflow-hidden bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 mb-6 border border-gray-100/80 dark:border-gray-700/80">
+                        {/* Background gradient that intensifies on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-violet-600/5 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+
+                        <div className="relative p-4 sm:p-6">
+                          <div className="flex items-center gap-3 sm:gap-5">
+                            {/* Chapter number with enhanced animations */}
+                            <div className="relative flex-shrink-0 group/number">
+                              <div className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-600 to-purple-600 text-white text-lg sm:text-xl font-bold rounded-lg shadow-md transform transition-all duration-500 group-hover:scale-105 group-hover:rotate-2">
+                                {notes?.chapterNumber || "1"}
+                                {/* Animated dot indicator */}
                                 <span className="absolute -bottom-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-white dark:bg-gray-200 rounded-full opacity-70 animate-ping"></span>
                               </div>
+                              {/* Glow effect on hover */}
+                              <div className="absolute inset-0 bg-violet-500/20 rounded-lg opacity-0 group-hover:opacity-100 blur-md transition-all duration-500"></div>
                             </div>
 
-                            {/* Chapter details */}
-                            <div className="flex flex-col flex-grow">
-                              <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-violet-700 dark:group-hover:text-violet-400 transition-colors duration-300">
-                                {notes?.chapterName}
+                            {/* Content container with improved layout */}
+                            <div className="flex-grow flex flex-col">
+                              {/* Chapter title with better truncation handling */}
+                              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 line-clamp-1 group-hover:text-violet-700 dark:group-hover:text-violet-400 transition-colors duration-300">
+                                {notes?.chapterName || "Chapter Title"}
                               </h2>
 
-                              <div className="flex items-center space-x-3 mt-3 text-gray-600 dark:text-gray-400">
-                                <div className="bg-violet-100 dark:bg-violet-900/30 rounded-full p-2 shadow-sm">
-                                  <FileText className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+                              {/* Info row with improved spacing and placement */}
+                              <div className="mt-2 flex items-center flex-wrap gap-3">
+                                {/* Document count with icon */}
+                                <div className="flex items-center gap-2">
+                                  <div className="bg-violet-100 dark:bg-violet-900/30 rounded-full p-1.5 sm:p-2 shadow-sm group-hover:bg-violet-200 dark:group-hover:bg-violet-800/50 transition-colors duration-300">
+                                    <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-violet-600 dark:text-violet-400" />
+                                  </div>
+                                  <span className="text-xs sm:text-sm font-medium bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
+                                    {notes?.notes?.length || 0} Document
+                                    {notes?.notes?.length !== 1 ? "s" : ""}
+                                  </span>
                                 </div>
-                                <span className="text-sm font-medium bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                                  {notes?.notes?.length} Document
-                                  {notes?.notes?.length !== 1 ? "s" : ""}
-                                </span>
                               </div>
                             </div>
                           </div>
                         </div>
+
+                        {/* Progress indicator (optional feature) */}
+                        <div className="h-1 w-full bg-gray-100 dark:bg-gray-700/50 mt-auto">
+                          <div
+                            className="h-full bg-gradient-to-r from-violet-600 to-purple-500 transition-all duration-700 group-hover:from-violet-500 group-hover:to-fuchsia-500"
+                            style={{ width: "65%" }}
+                          ></div>
+                        </div>
+
+                        {/* Mobile touch feedback */}
+                        <div className="absolute inset-0 bg-violet-600/10 opacity-0 active:opacity-100 sm:hidden transition-opacity duration-150"></div>
                       </div>
 
                       <div className="mt-8">
