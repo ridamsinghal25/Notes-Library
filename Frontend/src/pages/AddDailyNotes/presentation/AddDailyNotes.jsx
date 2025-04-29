@@ -99,7 +99,7 @@ function AddDailyNotes({
                 type="file"
                 accept=" image/jpg, image/jpeg"
                 multiple
-                onChange={(event) => handleFileChange(event, files)}
+                onChange={(event) => handleFileChange(event)}
                 className="hidden"
               />
               <div
