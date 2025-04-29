@@ -34,6 +34,7 @@ const EditPDF = ({
   downloadPDF,
   rotatePage,
   removeSelectedInsertFile,
+  removeAllInsertFiles,
   triggerPdfUpload,
   triggerAddImageUpload,
   downloadSelectedPage,
@@ -153,7 +154,7 @@ const EditPDF = ({
                   onSubmit={insertUploadedImageForm.handleSubmit((data) =>
                     insertUploadedImage(data).then(() => {
                       insertUploadedImageForm.reset();
-                      removeSelectedInsertFile();
+                      removeAllInsertFiles();
                     })
                   )}
                   className="space-y-4 p-6 border rounded-xl shadow-sm"
@@ -194,37 +195,44 @@ const EditPDF = ({
                         </label>
                       </div>
                     )}
-                    <div className="border-2 rounded-lg">
-                      <ScrollArea className="h-40">
-                        {insertImageFiles.map((file, index) => (
-                          <div key={index} className=" border rounded-lg p-4">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-3">
-                                <div className="p-2 rounded-md">
-                                  <ImageIcon className="h-5 w-5 text-violet-600" />
+                    {insertImageFiles?.length > 0 && (
+                      <div className="border-2 rounded-lg">
+                        <ScrollArea className="h-40">
+                          {insertImageFiles.map((file, index) => (
+                            <div key={index} className=" border rounded-lg p-4">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                  <div className="p-2 rounded-md">
+                                    <ImageIcon className="h-5 w-5 text-violet-600" />
+                                  </div>
+                                  <div className="overflow-hidden">
+                                    <p className="text-xs text-gray-800 dark:text-gray-200 max-w-20 sm:max-w-60 lg:max-w-28 truncate">
+                                      {file.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-200">
+                                      {file.type}
+                                      <br /> · {(file.size / 1024).toFixed(
+                                        1
+                                      )}{" "}
+                                      KB
+                                    </p>
+                                  </div>
                                 </div>
-                                <div className="overflow-hidden">
-                                  <p className="text-xs text-gray-800 dark:text-gray-200 max-w-20 sm:max-w-60 lg:max-w-28 truncate">
-                                    {file.name}
-                                  </p>
-                                  <p className="text-xs text-gray-500 dark:text-gray-200">
-                                    {file.type}
-                                    <br /> · {(file.size / 1024).toFixed(1)} KB
-                                  </p>
-                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeSelectedInsertFile(index)
+                                  }
+                                  className="p-1 rounded-full hover:bg-violet-600"
+                                >
+                                  <X className="h-4 w-4" />
+                                </button>
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => removeSelectedInsertFile(index)}
-                                className="p-1 rounded-full hover:bg-violet-600"
-                              >
-                                <X className="h-4 w-4" />
-                              </button>
                             </div>
-                          </div>
-                        ))}
-                      </ScrollArea>
-                    </div>
+                          ))}
+                        </ScrollArea>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-col space-y-2">

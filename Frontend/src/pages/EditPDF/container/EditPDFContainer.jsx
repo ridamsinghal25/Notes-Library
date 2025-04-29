@@ -265,6 +265,10 @@ const EditPDFContainer = () => {
     setInsertImageFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const removeAllInsertFiles = () => {
+    setInsertImageFiles([]);
+  };
+
   const triggerPdfUpload = () => {
     pdfInputRef.current?.click();
   };
@@ -334,6 +338,7 @@ const EditPDFContainer = () => {
       downloadPDF={downloadPDF}
       rotatePage={rotatePage}
       removeSelectedInsertFile={removeSelectedInsertFile}
+      removeAllInsertFiles={removeAllInsertFiles}
       triggerPdfUpload={triggerPdfUpload}
       triggerAddImageUpload={triggerAddImageUpload}
       downloadSelectedPage={downloadSelectedPage}
