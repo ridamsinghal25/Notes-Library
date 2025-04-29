@@ -20,15 +20,31 @@ const PDFViewerContainer = ({
       return;
     }
 
+    // Either do this
     const pagesArray = Array.from(
       { length: pagesData.numPages },
-      (_, index) => ({
-        pageNumber: index,
-        rotate: 0,
-      })
+      async (_, index) => {
+        const page = await pagesData.getPage(index + 1);
+        return {
+          pageNumber: index,
+          rotate: page.rotate,
+        };
+      }
     );
 
-    setPages(pagesArray);
+    const pageData = await Promise.all(pagesArray);
+
+    // or this
+    // const pagePromises = Array.from(
+    //   { length: pagesData.numPages },
+    //   (_, index) =>
+    //     pagesData.getPage(index + 1).then((page) => ({
+    //       pageNumber: index + 1,
+    //       rotate: page.rotate,
+    //     }))
+    // );
+
+    setPages(pageData);
   };
 
   const rotatePageInReactPDF = (pageIndex) => {
