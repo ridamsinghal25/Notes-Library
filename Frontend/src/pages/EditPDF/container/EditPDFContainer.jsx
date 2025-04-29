@@ -11,7 +11,7 @@ const EditPDFContainer = () => {
   const [pages, setPages] = useState([]);
   const [pdfDataUrl, setPdfDataUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [insertImageFile, setInsertImageFile] = useState(null);
+  const [insertImageFiles, setInsertImageFiles] = useState([]);
   const [dragPageIndex, setDragPageIndex] = useState("");
 
   const pdfInputRef = useRef(null);
@@ -44,7 +44,7 @@ const EditPDFContainer = () => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
 
-    if (file.size > 20 * 1024 * 1024) {
+    if (file?.size > 20 * 1024 * 1024) {
       toast.error("File size should be less than 20MB");
       return;
     }
@@ -68,122 +68,163 @@ const EditPDFContainer = () => {
   const addUploadedImage = async (event) => {
     if (!pdfDoc) return;
 
-    const file = event.target.files[0];
+    const files = Array.from(event.target.files);
 
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error("File size should be less than 10MB");
+    if (files.length === 0) return;
+
+    if (files.length > 5) {
+      toast.error("You can only upload up to 5 files.");
+      event.target.value = ""; // Clear selected files
       return;
     }
 
-    if (file) {
-      const arrayBuffer = await file.arrayBuffer();
-
-      let image;
-      if (file.type === "image/png") {
-        image = await pdfDoc.embedPng(arrayBuffer);
-      } else if (file.type === "image/jpeg") {
-        image = await pdfDoc.embedJpg(arrayBuffer);
-      } else {
-        alert("Only JPG and PNG images are supported");
+    for (const file of files) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error("File size should be less than 10MB");
         return;
       }
 
-      const newPage = pdfDoc.addPage();
-      const { width, height } = newPage.getSize();
+      if (file) {
+        const arrayBuffer = await file.arrayBuffer();
 
-      const imgDims = image.scale(1); // get natural image dimensions
+        let image;
+        if (file.type === "image/png") {
+          image = await pdfDoc.embedPng(arrayBuffer);
+        } else if (file.type === "image/jpeg") {
+          image = await pdfDoc.embedJpg(arrayBuffer);
+        } else {
+          alert("Only JPG and PNG images are supported");
+          return;
+        }
 
-      const imgWidth = imgDims.width;
-      const imgHeight = imgDims.height;
+        const newPage = pdfDoc.addPage();
+        const { width, height } = newPage.getSize();
 
-      const scale = Math.min(width / imgWidth, height / imgHeight);
+        const imgDims = image.scale(1); // get natural image dimensions
 
-      const scaledWidth = imgWidth * scale;
-      const scaledHeight = imgHeight * scale;
+        const imgWidth = imgDims.width;
+        const imgHeight = imgDims.height;
 
-      const x = (width - scaledWidth) / 2;
-      const y = (height - scaledHeight) / 2;
+        const scale = Math.min(width / imgWidth, height / imgHeight);
 
-      newPage.drawImage(image, {
-        x,
-        y,
-        width: scaledWidth,
-        height: scaledHeight,
-      });
+        const scaledWidth = imgWidth * scale;
+        const scaledHeight = imgHeight * scale;
 
-      setPages([...pages, pages.length]);
-      debouncedUpdatePdfPreview();
+        const x = (width - scaledWidth) / 2;
+        const y = (height - scaledHeight) / 2;
+
+        newPage.drawImage(image, {
+          x,
+          y,
+          width: scaledWidth,
+          height: scaledHeight,
+        });
+      }
     }
+
+    const newPageLengths = Array.from(
+      { length: pdfDoc.getPageCount() },
+      (_, index) => index
+    );
+
+    setPages(newPageLengths);
+
+    debouncedUpdatePdfPreview();
   };
 
   const handleInsertImage = async (event) => {
-    const file = event.target?.files[0];
+    if (!pdfDoc) return;
 
-    if (file?.size > 10 * 1024 * 1024) {
-      toast.error("File size should be less than 10MB");
+    const files = Array.from(event.target.files);
+
+    if (files.length === 0) return;
+
+    if (files.length > 5) {
+      toast.error("You can only upload up to 5 files.");
+      event.target.value = ""; // Clear selected files
       return;
     }
 
-    if (file) {
-      setInsertImageFile(file);
-    }
+    setInsertImageFiles(files);
   };
 
   const insertUploadedImage = async (data) => {
-    const file = data?.insertImageFile?.[0];
+    const files = data?.insertImageFiles;
     const index = data?.pageIndex;
 
-    if (index === "" || !file) {
+    if (index === "" || !files.length < 0) {
       toast.error("Please select a page and image");
       return Promise.reject();
     }
+
+    if (files.length > 5) {
+      toast.error("You can only upload up to 5 files.");
+      return Promise.reject();
+    }
+
+    if (!pdfDoc) return;
 
     if (index < 1) {
       toast.error("Please select a valid page");
       return Promise.reject();
     }
 
-    if (index > pages.length) {
+    if (index > pages.length + 1) {
       toast.error("Please use Add Image button to add more pages at the end");
       return Promise.reject();
     }
 
-    const arrayBuffer = await file.arrayBuffer();
+    for (const [fileIndex, file] of Array.prototype.entries.call(files)) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error("File size should be less than 10MB");
+        return;
+      }
 
-    let image;
-    if (file.type === "image/png") {
-      image = await pdfDoc.embedPng(arrayBuffer);
-    } else if (file.type === "image/jpeg") {
-      image = await pdfDoc.embedJpg(arrayBuffer);
-    } else {
-      alert("Only JPG and PNG images are supported");
-      return;
+      if (file) {
+        const arrayBuffer = await file.arrayBuffer();
+
+        let image;
+        if (file.type === "image/png") {
+          image = await pdfDoc.embedPng(arrayBuffer);
+        } else if (file.type === "image/jpeg") {
+          image = await pdfDoc.embedJpg(arrayBuffer);
+        } else {
+          alert("Only JPG and PNG images are supported");
+          return;
+        }
+
+        const newInsertedPage = pdfDoc.insertPage(fileIndex + (index - 1));
+        const { width, height } = newInsertedPage.getSize();
+
+        const imgDims = image.scale(1); // get natural image dimensions
+
+        const imgWidth = imgDims.width;
+        const imgHeight = imgDims.height;
+
+        const scale = Math.min(width / imgWidth, height / imgHeight);
+
+        const scaledWidth = imgWidth * scale;
+        const scaledHeight = imgHeight * scale;
+
+        const x = (width - scaledWidth) / 2;
+        const y = (height - scaledHeight) / 2;
+
+        newInsertedPage.drawImage(image, {
+          x,
+          y,
+          width: scaledWidth,
+          height: scaledHeight,
+        });
+      }
     }
 
-    const newInsertedPage = pdfDoc.insertPage(index - 1);
-    const { width, height } = newInsertedPage.getSize();
+    const newPageLengths = Array.from(
+      { length: pdfDoc.getPageCount() },
+      (_, index) => index
+    );
 
-    const imgDims = image.scale(1); // get natural image dimensions
+    setPages(newPageLengths);
 
-    const imgWidth = imgDims.width;
-    const imgHeight = imgDims.height;
-
-    const scale = Math.min(width / imgWidth, height / imgHeight);
-
-    const scaledWidth = imgWidth * scale;
-    const scaledHeight = imgHeight * scale;
-
-    const x = (width - scaledWidth) / 2;
-    const y = (height - scaledHeight) / 2;
-
-    newInsertedPage.drawImage(image, {
-      x,
-      y,
-      width: scaledWidth,
-      height: scaledHeight,
-    });
-
-    setPages([...pages, pages.length]);
     debouncedUpdatePdfPreview();
   };
 
@@ -193,6 +234,8 @@ const EditPDFContainer = () => {
       setPages(pages.filter((_, i) => i !== index));
       updatePdfPreview();
     }
+
+    return pdfDoc.getPageCount();
   };
 
   const downloadPDF = async () => {
@@ -218,8 +261,8 @@ const EditPDFContainer = () => {
     page.setRotation(degrees((pageRotation + 90) % 360));
   };
 
-  const removeSelectedInsertFile = () => {
-    setInsertImageFile(null);
+  const removeSelectedInsertFile = (index) => {
+    setInsertImageFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const triggerPdfUpload = () => {
@@ -279,7 +322,7 @@ const EditPDFContainer = () => {
       pdfDoc={pdfDoc}
       pdfDataUrl={pdfDataUrl}
       isLoading={isLoading}
-      insertImageFile={insertImageFile}
+      insertImageFiles={insertImageFiles}
       pdfInputRef={pdfInputRef}
       navigate={navigate}
       addImageInputRef={addImageInputRef}
