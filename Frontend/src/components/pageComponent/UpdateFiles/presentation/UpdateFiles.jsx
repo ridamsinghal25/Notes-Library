@@ -48,7 +48,7 @@ function UpdateFiles({
                 type="file"
                 accept=" image/jpg, image/jpeg"
                 multiple
-                onChange={(event) => handleFileChange(event, formFiles)}
+                onChange={(event) => handleFileChange(event)}
                 className="hidden"
               />
               <div

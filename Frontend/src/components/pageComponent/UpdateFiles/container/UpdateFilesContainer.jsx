@@ -11,6 +11,7 @@ import { updateFilesDailyNotesFormValidation } from "@/validation/zodValidation"
 import UpdateFiles from "../presentation/UpdateFiles";
 import { updateNotes } from "@/store/DailyNotesSlice";
 import imageCompression from "browser-image-compression";
+import { renameFiles } from "@/utils/renameFiles";
 
 function UpdateFilesContainer({ selectedNotes }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -120,96 +121,96 @@ function UpdateFilesContainer({ selectedNotes }) {
     }
   };
 
-  const handleFileChange = useCallback(
-    async (event, previousFiles) => {
-      if (event.target.files) {
-        const newFiles = Array.from(event.target.files).map((file) => {
-          return {
-            id: Math.random().toString(36).substring(2),
-            file,
-          };
-        });
+  const handleFileChange = async (event) => {
+    const fileList = event.target.files;
 
-        const options = {
-          maxSizeMB: 1, // Target size per image
-          maxWidthOrHeight: 1200, // Resize dimensions if necessary
-          useWebWorker: true,
-        };
+    if (fileList.length < 0) {
+      toast.error("Please select a file");
+    }
 
-        try {
-          const compressedFiles = await Promise.all(
-            newFiles.map(async ({ file, id }) => {
-              const compressedImage = await imageCompression(file, options);
+    if (formFiles.length + fileList.length - 1 >= 5) {
+      toast.error("You can only upload up to 5 files.");
+      return Promise.reject();
+    }
 
-              const fileObject = new File(
-                [compressedImage],
-                `Page-${previousFiles.length + 1}`,
-                {
-                  type: file.type,
-                }
-              );
+    const newFiles = Array.from(fileList).map((file) => {
+      return {
+        id: Math.random().toString(36).substring(2),
+        file,
+      };
+    });
 
-              return { id, file: fileObject };
-            })
+    const options = {
+      maxSizeMB: 1, // Target size per image
+      maxWidthOrHeight: 1200, // Resize dimensions if necessary
+      useWebWorker: true,
+    };
+
+    try {
+      const compressedFiles = await Promise.all(
+        newFiles.map(async ({ file, id }, index) => {
+          const compressedImage = await imageCompression(file, options);
+
+          const fileObject = new File(
+            [compressedImage],
+            `Page-${currentFiles.length + formFiles.length + index + 1}`,
+            {
+              type: file.type,
+            }
           );
 
-          setFormFiles((prev) => {
-            return [...prev, ...compressedFiles];
-          });
-
-          updateFilesForm.setValue("files", [
-            ...previousFiles.concat(compressedFiles).map((file) => file.file),
-          ]);
-        } catch (error) {
-          return null;
-        }
-      }
-    },
-    [updateFilesForm]
-  );
-
-  const moveFile = useCallback(
-    (id, direction) => {
-      const index = formFiles.findIndex((file) => file.id === id);
-
-      if (
-        (direction === "up" && index === 0) ||
-        (direction === "down" && index === formFiles.length - 1)
-      ) {
-        return formFiles;
-      }
-
-      const [movedFile] = formFiles.splice(index, 1);
-
-      formFiles.splice(
-        direction === "up" ? index - 1 : index + 1,
-        0,
-        movedFile
+          return { id, file: fileObject };
+        })
       );
 
-      setFormFiles(() => [...formFiles]);
+      setFormFiles((prev) => {
+        return [...prev, ...compressedFiles];
+      });
 
-      updateFilesForm.setValue(
-        "files",
-        formFiles.map((item) => item.file)
-      );
-    },
-    [updateFilesForm, formFiles]
-  );
+      updateFilesForm.setValue("files", [
+        ...formFiles.concat(compressedFiles).map((file) => file.file),
+      ]);
+    } catch (error) {
+      return null;
+    }
+  };
 
-  const removeFile = useCallback(
-    (id) => {
-      const updatedFiles = formFiles.filter((file) => file.id !== id);
+  const moveFile = (id, direction) => {
+    const index = formFiles.findIndex((file) => file.id === id);
 
-      setFormFiles(updatedFiles);
+    if (
+      (direction === "up" && index === 0) ||
+      (direction === "down" && index === formFiles.length - 1)
+    ) {
+      return formFiles;
+    }
 
-      updateFilesForm.setValue(
-        "files",
-        updatedFiles.map((item) => item.file)
-      );
-    },
-    [updateFilesForm, formFiles]
-  );
+    const [movedFile] = formFiles.splice(index, 1);
+
+    formFiles.splice(direction === "up" ? index - 1 : index + 1, 0, movedFile);
+
+    const newRenamedFiles = renameFiles(formFiles, currentFiles.length);
+
+    setFormFiles(newRenamedFiles);
+
+    updateFilesForm.setValue(
+      "files",
+      newRenamedFiles.map((item) => item.file)
+    );
+  };
+
+  const removeFile = (id) => {
+    const updatedFiles = formFiles.filter((file) => file.id !== id);
+
+    const newRenamedFiles = renameFiles(updatedFiles, currentFiles.length);
+
+    setFormFiles(newRenamedFiles);
+
+    updateFilesForm.setValue(
+      "files",
+      newRenamedFiles.map((item) => item.file)
+    );
+  };
 
   return (
     <UpdateFiles
