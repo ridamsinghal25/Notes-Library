@@ -75,18 +75,23 @@ const PDFViewerContainer = ({
     setDragPageIndex("");
   };
 
-  const handleDropPageInReactPDF = (dropIndex) => {
+  const handleDropPageInReactPDF = async (dropIndex) => {
     if (dragPageIndex === dropIndex) {
       return;
     }
 
-    const [dropPage] = pages.splice(dragPageIndex, 1);
+    const isDropAllowed = await handleDropPage(dragPageIndex, dropIndex);
 
-    pages.splice(dropIndex, 0, dropPage);
+    if (!isDropAllowed) {
+      return;
+    }
 
-    setPages([...pages]);
+    const updatedPages = [...pages];
+    const [dropPage] = updatedPages.splice(dragPageIndex, 1);
 
-    handleDropPage(dragPageIndex, dropIndex);
+    updatedPages.splice(dropIndex, 0, dropPage);
+
+    setPages(updatedPages);
   };
 
   return (

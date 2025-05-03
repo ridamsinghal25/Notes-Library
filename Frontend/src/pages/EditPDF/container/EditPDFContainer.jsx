@@ -273,8 +273,11 @@ const EditPDFContainer = () => {
   const handleDropPage = async (dragPageIndex, dropIndex) => {
     if (!pdfDoc) return;
 
-    if (dragPageIndex === dropIndex) {
-      return;
+    if (pdfDoc.getPages().length !== pages.length) {
+      toast.error(
+        "Drag and drop is only available when all pages are uploaded"
+      );
+      return false;
     }
 
     const [dropPage] = await pdfDoc.copyPages(pdfDoc, [dragPageIndex]);
