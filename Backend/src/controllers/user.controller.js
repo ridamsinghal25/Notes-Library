@@ -540,7 +540,7 @@ const updateCourseSemesterByUser = asyncHandler(async (req, res) => {
   if (!(new Date() > courseEndDate)) {
     throw new ApiError(
       400,
-      `You cannot update your semester until ${formattedCourseEndDate}`
+      `Your ${course.semester} semester has not completed yet. Semester ends on ${formattedCourseEndDate}`
     );
   }
 
