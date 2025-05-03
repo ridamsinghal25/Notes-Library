@@ -6,6 +6,7 @@ const PDFViewerContainer = ({
   fileUrl,
   rotatePage,
   removePage,
+  downloadSelectedPage,
   handleDropPage,
 }) => {
   const [pages, setPages] = useState([]);
@@ -106,6 +107,7 @@ const PDFViewerContainer = ({
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
       handleDropPageInReactPDF={handleDropPageInReactPDF}
+      downloadSelectedPage={downloadSelectedPage}
     />
   );
 };

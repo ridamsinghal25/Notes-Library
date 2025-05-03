@@ -270,6 +270,25 @@ const EditPDFContainer = () => {
     addImageInputRef.current?.click();
   };
 
+  const downloadSelectedPage = async (pageIndexInOriginalDoc) => {
+    const newPdfDoc = await PDFDocument.create();
+
+    const [page] = await newPdfDoc.copyPages(pdfDoc, [pageIndexInOriginalDoc]);
+
+    newPdfDoc.addPage(page);
+
+    if (newPdfDoc) {
+      const pdfBytes = await newPdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Page-${pageIndexInOriginalDoc + 1}`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
   const handleDropPage = async (dragPageIndex, dropIndex) => {
     if (!pdfDoc) return;
 
@@ -306,6 +325,7 @@ const EditPDFContainer = () => {
       removeAllInsertFiles={removeAllInsertFiles}
       triggerPdfUpload={triggerPdfUpload}
       triggerAddImageUpload={triggerAddImageUpload}
+      downloadSelectedPage={downloadSelectedPage}
       handleDropPage={handleDropPage}
     />
   );
