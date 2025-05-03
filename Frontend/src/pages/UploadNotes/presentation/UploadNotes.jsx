@@ -72,6 +72,9 @@ function UploadNotes({
               label="Chapter No."
               name="chapterNumber"
               placeholder="Enter the chapter number"
+              type="number"
+              min={1}
+              max={10}
             />
             <FormFieldSelect
               form={uploadNotesForm}
