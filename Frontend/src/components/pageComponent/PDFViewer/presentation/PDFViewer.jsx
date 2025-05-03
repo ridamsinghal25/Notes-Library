@@ -12,15 +12,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const PDFViewer = ({
   fileUrl,
   rotatePageInReactPDF,
-  removePage,
+  removePageInReactPDF,
   onDocumentLoadSuccess,
   pages,
   dragOverPage,
   setDragOverPage,
-  downloadSelectedPage,
   handleDragStart,
   handleDragEnd,
-  handleDropPage,
+  handleDropPageInReactPDF,
 }) => {
   return (
     <div className="p-5 rounded-lg shadow-sm">
@@ -52,45 +51,35 @@ const PDFViewer = ({
         }
       >
         <div className="flex flex-wrap justify-center gap-6">
-          {pages?.map(({ pageNumber, rotate }) => (
+          {pages?.map(({ pageNumber, rotate }, index) => (
             <div
-              key={pageNumber}
+              key={index}
               className={`relative group transition-all duration-200 ${
-                dragOverPage === pageNumber
+                dragOverPage === index
                   ? "scale-105 shadow-xl z-10"
                   : "hover:shadow-lg"
               }`}
               draggable
-              onDragStart={(e) => handleDragStart(e, pageNumber)}
+              onDragStart={(e) => handleDragStart(e, index)}
               onDragEnd={handleDragEnd}
               onDragOver={(e) => {
                 e.preventDefault();
-                setDragOverPage(pageNumber);
+                setDragOverPage(index);
               }}
               onDragLeave={() => {
                 setDragOverPage(null);
               }}
-              onDrop={() => handleDropPage(pageNumber)}
+              onDrop={() => handleDropPageInReactPDF(index)}
             >
-              {dragOverPage === pageNumber && (
+              {dragOverPage === index && (
                 <div className="absolute inset-0 bg-violet-100 bg-opacity-40 rounded-md z-0 animate-pulse"></div>
               )}
-              <div className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-1">
-                <Button
-                  title="Download page"
-                  variant="outline"
-                  className="flex items-center justify-center p-2 rounded-lg bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
-                  onClick={() => downloadSelectedPage(pageNumber)}
-                >
-                  <DownloadCloud className="text-white w-5 h-5" />
-                </Button>
-              </div>
               <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-1">
                 <Button
                   title="Remove page"
                   variant="outline"
                   className="flex items-center justify-center p-2.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
-                  onClick={() => removePage(pageNumber)}
+                  onClick={() => removePageInReactPDF(index)}
                   disabled={pages?.length === 1}
                 >
                   <X className="text-white w-4 h-4" />
@@ -105,7 +94,7 @@ const PDFViewer = ({
               </div>
 
               <div className="absolute bottom-4 right-4 z-10 bg-gray-800 bg-opacity-75 text-white px-3 py-1 rounded-full text-xs font-medium shadow-md">
-                Page {pageNumber + 1}
+                Page {index + 1}
               </div>
 
               <div

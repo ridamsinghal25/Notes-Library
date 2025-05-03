@@ -4,7 +4,6 @@ import "@cyntler/react-doc-viewer/dist/index.css";
 import EditPDF from "../presentation/EditPDF";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useDebounce } from "@/hooks/useDebounce";
 
 const EditPDFContainer = () => {
   const [pdfDoc, setPdfDoc] = useState(null);
@@ -12,7 +11,6 @@ const EditPDFContainer = () => {
   const [pdfDataUrl, setPdfDataUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [insertImageFiles, setInsertImageFiles] = useState([]);
-  const [dragPageIndex, setDragPageIndex] = useState("");
 
   const pdfInputRef = useRef(null);
   const addImageInputRef = useRef(null);
@@ -38,8 +36,6 @@ const EditPDFContainer = () => {
       setIsLoading(false);
     }
   };
-
-  const debouncedUpdatePdfPreview = useDebounce(updatePdfPreview, 300);
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -129,7 +125,7 @@ const EditPDFContainer = () => {
 
     setPages(newPageLengths);
 
-    debouncedUpdatePdfPreview();
+    updatePdfPreview();
   };
 
   const handleInsertImage = async (event) => {
@@ -225,17 +221,14 @@ const EditPDFContainer = () => {
 
     setPages(newPageLengths);
 
-    debouncedUpdatePdfPreview();
+    updatePdfPreview();
   };
 
   const removePage = async (index) => {
     if (pdfDoc && pages.length > 1) {
       pdfDoc.removePage(index);
       setPages(pages.filter((_, i) => i !== index));
-      updatePdfPreview();
     }
-
-    return pdfDoc.getPageCount();
   };
 
   const downloadPDF = async () => {
@@ -277,36 +270,7 @@ const EditPDFContainer = () => {
     addImageInputRef.current?.click();
   };
 
-  const downloadSelectedPage = async (pageIndex) => {
-    const newPdfDoc = await PDFDocument.create();
-
-    const [page] = await newPdfDoc.copyPages(pdfDoc, [pageIndex]);
-
-    newPdfDoc.addPage(page);
-
-    if (newPdfDoc) {
-      const pdfBytes = await newPdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "Edited_PDF";
-      link.click();
-      URL.revokeObjectURL(url);
-    }
-  };
-
-  const handleDragStart = (e, index) => {
-    e.target.style.opacity = "0.5";
-    setDragPageIndex(index);
-  };
-
-  const handleDragEnd = (e) => {
-    e.target.style.opacity = "1";
-    setDragPageIndex("");
-  };
-
-  const handleDropPage = async (dropIndex) => {
+  const handleDropPage = async (dragPageIndex, dropIndex) => {
     if (!pdfDoc) return;
 
     if (dragPageIndex === dropIndex) {
@@ -317,8 +281,6 @@ const EditPDFContainer = () => {
 
     pdfDoc.removePage(dragPageIndex);
     pdfDoc.insertPage(dropIndex, dropPage);
-
-    debouncedUpdatePdfPreview();
   };
 
   return (
@@ -341,9 +303,6 @@ const EditPDFContainer = () => {
       removeAllInsertFiles={removeAllInsertFiles}
       triggerPdfUpload={triggerPdfUpload}
       triggerAddImageUpload={triggerAddImageUpload}
-      downloadSelectedPage={downloadSelectedPage}
-      handleDragStart={handleDragStart}
-      handleDragEnd={handleDragEnd}
       handleDropPage={handleDropPage}
     />
   );

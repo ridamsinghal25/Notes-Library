@@ -6,13 +6,11 @@ const PDFViewerContainer = ({
   fileUrl,
   rotatePage,
   removePage,
-  downloadSelectedPage,
-  handleDragStart,
-  handleDragEnd,
   handleDropPage,
 }) => {
   const [pages, setPages] = useState([]);
   const [dragOverPage, setDragOverPage] = useState(null);
+  const [dragPageIndex, setDragPageIndex] = useState("");
 
   const onDocumentLoadSuccess = async (pagesData) => {
     if (!pagesData.numPages) {
@@ -60,19 +58,49 @@ const PDFViewerContainer = ({
     rotatePage(pageIndex);
   };
 
+  const removePageInReactPDF = (pageIndex) => {
+    const updatedPages = pages.filter((_, index) => index !== pageIndex);
+    setPages(updatedPages);
+
+    removePage(pageIndex);
+  };
+
+  const handleDragStart = (e, index) => {
+    e.target.style.opacity = "0.5";
+    setDragPageIndex(index);
+  };
+
+  const handleDragEnd = (e) => {
+    e.target.style.opacity = "1";
+    setDragPageIndex("");
+  };
+
+  const handleDropPageInReactPDF = (dropIndex) => {
+    if (dragPageIndex === dropIndex) {
+      return;
+    }
+
+    const [dropPage] = pages.splice(dragPageIndex, 1);
+
+    pages.splice(dropIndex, 0, dropPage);
+
+    setPages([...pages]);
+
+    handleDropPage(dragPageIndex, dropIndex);
+  };
+
   return (
     <PDFViewer
       fileUrl={fileUrl}
       rotatePageInReactPDF={rotatePageInReactPDF}
-      removePage={removePage}
+      removePageInReactPDF={removePageInReactPDF}
       onDocumentLoadSuccess={onDocumentLoadSuccess}
       pages={pages}
       dragOverPage={dragOverPage}
       setDragOverPage={setDragOverPage}
-      downloadSelectedPage={downloadSelectedPage}
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
-      handleDropPage={handleDropPage}
+      handleDropPageInReactPDF={handleDropPageInReactPDF}
     />
   );
 };

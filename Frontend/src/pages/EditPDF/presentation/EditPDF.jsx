@@ -37,9 +37,6 @@ const EditPDF = ({
   removeAllInsertFiles,
   triggerPdfUpload,
   triggerAddImageUpload,
-  downloadSelectedPage,
-  handleDragStart,
-  handleDragEnd,
   handleDropPage,
 }) => {
   const insertUploadedImageForm = useForm({
@@ -275,9 +272,6 @@ const EditPDF = ({
                   fileUrl={pdfDataUrl}
                   rotatePage={rotatePage}
                   removePage={removePage}
-                  downloadSelectedPage={downloadSelectedPage}
-                  handleDragStart={handleDragStart}
-                  handleDragEnd={handleDragEnd}
                   handleDropPage={handleDropPage}
                 />
               ) : (
@@ -304,9 +298,6 @@ const EditPDF = ({
                     fileUrl={pdfDataUrl}
                     rotatePage={rotatePage}
                     removePage={removePage}
-                    downloadSelectedPage={downloadSelectedPage}
-                    handleDragStart={handleDragStart}
-                    handleDragEnd={handleDragEnd}
                     handleDropPage={handleDropPage}
                   />
                 ) : (
