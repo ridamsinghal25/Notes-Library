@@ -228,6 +228,14 @@ const EditPDFContainer = () => {
     if (pdfDoc && pages.length > 1) {
       pdfDoc.removePage(index);
       setPages(pages.filter((_, i) => i !== index));
+
+      pdfDoc.pageCache.value = undefined;
+
+      const entries = Array.from(pdfDoc.pageMap.entries());
+
+      const [targetLeaf, targetPage] = entries[index];
+
+      pdfDoc.pageMap.delete(targetLeaf);
     }
   };
 
@@ -270,10 +278,10 @@ const EditPDFContainer = () => {
     addImageInputRef.current?.click();
   };
 
-  const downloadSelectedPage = async (pageIndexInOriginalDoc) => {
+  const downloadSelectedPage = async (pageIndex) => {
     const newPdfDoc = await PDFDocument.create();
 
-    const [page] = await newPdfDoc.copyPages(pdfDoc, [pageIndexInOriginalDoc]);
+    const [page] = await newPdfDoc.copyPages(pdfDoc, [pageIndex]);
 
     newPdfDoc.addPage(page);
 
@@ -283,7 +291,7 @@ const EditPDFContainer = () => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `Page-${pageIndexInOriginalDoc + 1}`;
+      link.download = `Page-${pageIndex + 1}`;
       link.click();
       URL.revokeObjectURL(url);
     }
@@ -292,16 +300,9 @@ const EditPDFContainer = () => {
   const handleDropPage = async (dragPageIndex, dropIndex) => {
     if (!pdfDoc) return;
 
-    if (pdfDoc.getPages().length !== pages.length) {
-      toast.error(
-        "Drag and drop is only available when all pages are uploaded"
-      );
-      return false;
-    }
-
     const [dropPage] = await pdfDoc.copyPages(pdfDoc, [dragPageIndex]);
 
-    pdfDoc.removePage(dragPageIndex);
+    await removePage(dragPageIndex);
     pdfDoc.insertPage(dropIndex, dropPage);
   };
 

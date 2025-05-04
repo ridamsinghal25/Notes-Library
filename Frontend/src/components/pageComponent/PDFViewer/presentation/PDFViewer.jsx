@@ -80,7 +80,7 @@ const PDFViewer = ({
                   title="Download page"
                   variant="outline"
                   className="flex items-center justify-center p-2 rounded-lg bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-md"
-                  onClick={() => downloadSelectedPage(pageNumber)}
+                  onClick={() => downloadSelectedPage(index)}
                 >
                   <DownloadCloud className="text-white w-5 h-5" />
                 </Button>

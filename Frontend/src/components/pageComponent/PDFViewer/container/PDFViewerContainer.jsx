@@ -81,11 +81,7 @@ const PDFViewerContainer = ({
       return;
     }
 
-    const isDropAllowed = await handleDropPage(dragPageIndex, dropIndex);
-
-    if (!isDropAllowed) {
-      return;
-    }
+    await handleDropPage(dragPageIndex, dropIndex);
 
     const updatedPages = [...pages];
     const [dropPage] = updatedPages.splice(dragPageIndex, 1);
