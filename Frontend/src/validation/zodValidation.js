@@ -215,15 +215,19 @@ export const courseFormValidation = z.object({
         subjectName: z
           .string()
           .trim()
+          .regex(/^[a-zA-Z\s]+$/, "semester must contain only alphabets")
           .min(1, "subject name is required")
           .max(40, "subject name must not be more than 40 characters"),
-        chapters: z.array(
-          z
-            .string()
-            .trim()
-            .min(1, "Chapter name must be a non-empty string")
-            .max(40, "Chapter name must not be more than 40 characters")
-        ),
+        chapters: z
+          .array(
+            z
+              .string()
+              .trim()
+              .regex(/^[a-zA-Z\s]+$/, "semester must contain only alphabets")
+              .min(1, "Chapter name must be a non-empty string")
+              .max(40, "Chapter name must not be more than 40 characters")
+          )
+          .min(1, "At least one chapter is required"),
       })
     )
     .min(1, "At least one subject is required"),

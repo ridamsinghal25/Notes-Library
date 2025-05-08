@@ -70,7 +70,7 @@ export default function Course({
                 <div>
                   <h3 className="font-semibold mb-2">Subjects:</h3>
                   <div className="space-y-2">
-                    {course.subjects.map((subject, subjectIndex) => (
+                    {course.subjects?.map((subject, subjectIndex) => (
                       <div
                         key={subjectIndex}
                         className="bg-secondary text-secondary-foreground p-2 rounded-md"

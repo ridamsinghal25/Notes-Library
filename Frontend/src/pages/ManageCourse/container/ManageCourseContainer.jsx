@@ -7,17 +7,11 @@ import { addCourse, updateCourse } from "@/store/CourseSlice";
 import ManageCourse from "../presentation/ManageCourse";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ROUTES } from "@/constants/route";
-import { courseFormValidation } from "@/validation/zodValidation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
 
 function ManageCourseContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [currentSubject, setCurrentSubject] = useState("");
-  const [currentChapter, setCurrentChapter] = useState("");
-  const [editingSubject, setEditingSubject] = useState(null);
 
   const [serachParams] = useSearchParams();
   const courseId = serachParams.get("courseId");
@@ -25,58 +19,6 @@ function ManageCourseContainer() {
   const selectedCourse = useSelector((state) =>
     state.courses.courses?.find((course) => course._id === courseId)
   );
-
-  const courseForm = useForm({
-    resolver: zodResolver(courseFormValidation),
-    defaultValues: {
-      courseName: selectedCourse?.courseName || "",
-      semester: selectedCourse?.semester || "",
-      subjects: selectedCourse?.subjects || [],
-      startDate: selectedCourse?.startDate?.split("T")[0] || "",
-      endDate: selectedCourse?.endDate?.split("T")[0] || "",
-    },
-  });
-
-  const { fields, append, remove, update } = useFieldArray({
-    control: courseForm.control,
-    name: "subjects",
-  });
-
-  const addSubject = () => {
-    if (!currentSubject) return;
-
-    append({ subjectName: currentSubject.trim(), chapters: [] });
-
-    setCurrentSubject("");
-  };
-
-  const removeSubject = (subjectIndex) => {
-    remove(subjectIndex);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addSubject();
-    }
-  };
-
-  const addChapter = (subjectIndex) => {
-    if (currentChapter.trim()) {
-      const updatedSubject = { ...fields[subjectIndex] };
-      updatedSubject.chapters.push(currentChapter.trim());
-
-      update(subjectIndex, updatedSubject);
-      setCurrentChapter("");
-    }
-  };
-
-  const removeChapter = (subjectIndex, chapterIndex) => {
-    const updatedSubject = { ...fields[subjectIndex] };
-
-    updatedSubject.chapters.splice(chapterIndex, 1);
-    update(subjectIndex, updatedSubject);
-  };
 
   const onCourseUpload = async (data) => {
     setIsSubmitting(true);
@@ -137,20 +79,7 @@ function ManageCourseContainer() {
         selectedCourse={selectedCourse}
         isSubmitting={isSubmitting}
         onSubmit={selectedCourse?._id ? onCourseUpdate : onCourseUpload}
-        currentSubject={currentSubject}
-        setCurrentSubject={setCurrentSubject}
-        addSubject={addSubject}
-        removeSubject={removeSubject}
-        handleKeyPress={handleKeyPress}
         navigateBackToCourse={navigateBackToCourse}
-        currentChapter={currentChapter}
-        setCurrentChapter={setCurrentChapter}
-        removeChapter={removeChapter}
-        addChapter={addChapter}
-        editingSubject={editingSubject}
-        setEditingSubject={setEditingSubject}
-        courseForm={courseForm}
-        fields={fields}
       />
     </div>
   );
