@@ -7,10 +7,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoPlay from "embla-carousel-autoplay";
-import messages from "@/utils/message.json";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
+  MESSAGES,
   OVERVIEW_HEADER_SUBTITLE,
   OVERVIEW_HEADER_TITLE,
   OVERVIEW_TITLE,
@@ -18,7 +18,6 @@ import {
 import { ROUTES } from "@/constants/route";
 import Container from "@/components/basic/Container";
 import { ModeToggle } from "@/components/theme/ModeToggle";
-import image from "@/assets/overview-image.jpg";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function OverviewPage() {
@@ -59,7 +58,7 @@ function OverviewPage() {
           className="w-full max-w-sm mb-8"
         >
           <CarouselContent>
-            {messages.map((message, index) => (
+            {MESSAGES.map((message, index) => (
               <CarouselItem key={index}>
                 <div className="p-5">
                   <Card className="bg-gray-50 shadow-lg rounded-lg p-4">
@@ -69,9 +68,9 @@ function OverviewPage() {
                     <CardContent className="flex aspect-square items-center justify-center p-2">
                       <div className="relative aspect-w-4 aspect-h-4 flex justify-center items-center">
                         <img
-                          src={image}
+                          src={message.image}
                           alt="PDF Preview"
-                          className="object-contain w-64 h-56 rounded-lg shadow-md border border-gray-300"
+                          className="object-contain rounded-lg shadow-md border border-gray-300"
                         />
                       </div>
                     </CardContent>
@@ -80,8 +79,8 @@ function OverviewPage() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="text-black dark:text-white hidden sm:block" />
-          <CarouselNext className="text-black dark:text-white hidden sm:block" />
+          <CarouselPrevious className="text-black dark:text-white hidden sm:flex" />
+          <CarouselNext className="text-black dark:text-white hidden sm:flex" />
         </Carousel>
 
         <div className="flex flex-col items-center w-full max-w-sm gap-4">

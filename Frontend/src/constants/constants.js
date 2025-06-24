@@ -203,3 +203,25 @@ export const UPDATE_PDF_DESCRIPTION =
 
 export const NOTES_FEEDBACK_LINK =
   "https://notesfeedback.vercel.app/feedback/MjIwMTQxNjgwNjI";
+
+/**
+ * @OverviewPage_Carousel
+ */
+import EngineeringChemistry from "@/assets/EngineeringChemistry.png";
+import EngineeringMathematics from "@/assets/EngineeringMathematics.jpg";
+import EngineeringPhysics from "@/assets/EngineeringPhysics.png";
+
+export const MESSAGES = [
+  {
+    title: "Engineering Mathematics",
+    image: EngineeringMathematics,
+  },
+  {
+    title: "Engineering Chemistry",
+    image: EngineeringChemistry,
+  },
+  {
+    title: "Engineering Physics",
+    image: EngineeringPhysics,
+  },
+];

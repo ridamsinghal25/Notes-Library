@@ -121,7 +121,19 @@ function SigninPage({
 
               {/* Email Modal */}
               <EmailModalContainer isPasswordUpdateMode={true} />
-              <div className="w-full flex justify-end">
+              <div className="flex justify-between">
+                <Button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={() =>
+                    signinForm.reset({
+                      email: "user@gmail.com",
+                      password: "user1234",
+                    })
+                  }
+                >
+                  Demo Sign In
+                </Button>
                 <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
