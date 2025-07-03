@@ -5,6 +5,9 @@ import { rateLimit } from "express-rate-limit";
 import requestIp from "request-ip";
 import { ApiError } from "./utils/ApiError.js";
 import morganMiddleware from "./logger/morgan.logger.js";
+import { serve } from "inngest/express";
+import { inngest } from "./inngest/client.js";
+import { onNotesUpload } from "./inngest/functions/on-notes.upload.js";
 
 const app = express();
 
@@ -37,12 +40,20 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "16kb" }));
+app.use(express.json({ limit: "500kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
 app.use(morganMiddleware);
+
+app.use(
+  "/api/inngest",
+  serve({
+    client: inngest,
+    functions: [onNotesUpload],
+  })
+);
 
 import { errorHandler } from "./middlewares/error.middleware.js";
 // import routes
@@ -53,6 +64,7 @@ import notesRouter from "./routes/notes.route.js";
 import likeRouter from "./routes/like.route.js";
 import commentRouter from "./routes/comment.route.js";
 import dailyNotesRouter from "./routes/dailyNotes.routes.js";
+import { documentAnalyzer } from "./ai-agents/documentAnalyzer.js";
 
 app.use("/api/v1/healthcheck", healthcheckRouter);
 app.use("/api/v1/users", userRouter);
