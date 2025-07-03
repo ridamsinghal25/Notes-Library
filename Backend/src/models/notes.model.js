@@ -26,6 +26,14 @@ const notesSchema = new mongoose.Schema(
       public_id: String,
       url: String,
     },
+    summary: {
+      type: String,
+      default: "",
+    },
+    textFile: {
+      public_id: String,
+      url: String,
+    },
     subject: {
       type: String,
       required: [true, "subject is required"],

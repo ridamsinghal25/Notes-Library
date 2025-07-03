@@ -132,7 +132,7 @@ function SigninPage({
                     })
                   }
                 >
-                  Demo Sign In
+                  Demo
                 </Button>
                 <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? (

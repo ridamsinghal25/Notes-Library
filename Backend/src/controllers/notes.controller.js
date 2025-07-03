@@ -11,6 +11,7 @@ import {
 } from "../utils/cloudinary.js";
 import { Like } from "../models/like.model.js";
 import { Comment } from "../models/comment.model.js";
+import { inngest } from "../inngest/client.js";
 
 const uploadNotes = asyncHandler(async (req, res) => {
   const { chapterNumber, chapterName, subject, owner } = req.body;
@@ -57,6 +58,13 @@ const uploadNotes = asyncHandler(async (req, res) => {
   if (!notes) {
     throw new ApiError(500, "Failed to upload notes");
   }
+
+  await inngest.send({
+    name: "notes/upload",
+    data: {
+      notesId: notes._id,
+    },
+  });
 
   return res
     .status(200)
@@ -128,6 +136,17 @@ const deleteNotes = await asyncHandler(async (req, res) => {
 
   if (!deleteNotesPdf) {
     throw new ApiError(500, "Failed to delete notes PDF");
+  }
+
+  if (notesExists?.textFile?.public_id) {
+    const deleteNotesTextFile = await deleteFromCloudinary(
+      notesExists?.textFile.public_id,
+      "raw"
+    );
+
+    if (!deleteNotesTextFile) {
+      throw new ApiError(500, "Failed to delete notes text file");
+    }
   }
 
   const notesLikes = await Like.find({ notesId: notesExists._id });
@@ -226,6 +245,8 @@ const getNotesBySubject = asyncHandler(async (req, res) => {
             isLiked: "$isLiked",
             likesCount: "$likesCount",
             commentsCount: "$commentsCount",
+            textFile: "$textFile",
+            summary: "$summary",
           },
         },
       },
@@ -433,6 +454,13 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
   if (!newNotes._id) {
     throw new ApiError(500, "Failed to update notes");
   }
+
+  await inngest.send({
+    name: "notes/upload",
+    data: {
+      notesId: newNotes._id,
+    },
+  });
 
   return res
     .status(200)
