@@ -7,12 +7,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadOnCloudinary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath, resourceType = "auto") => {
   try {
     if (!localFilePath) return null;
 
     const uploadOptions = {
-      resource_type: "auto",
+      resource_type: resourceType,
     };
 
     // upload file on cloudinary
@@ -31,12 +31,14 @@ const uploadOnCloudinary = async (localFilePath) => {
   }
 };
 
-const deleteFromCloudinary = async (publicId) => {
+const deleteFromCloudinary = async (publicId, resourceType = "image") => {
   try {
     if (!publicId) return null;
 
     // delete from cloudinary
-    const response = await cloudinary.uploader.destroy(publicId);
+    const response = await cloudinary.uploader.destroy(publicId, {
+      resource_type: resourceType,
+    });
 
     return response;
   } catch (error) {
