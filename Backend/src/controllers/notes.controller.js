@@ -60,7 +60,7 @@ const uploadNotes = asyncHandler(async (req, res) => {
   }
 
   await inngest.send({
-    name: "notes/upload",
+    name: "notes/generateNoteSummaryAndTextFiles",
     data: {
       notesId: notes._id,
     },
@@ -438,6 +438,17 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Internal server error. Please try again");
   }
 
+  if (notes?.textFile?.public_id) {
+    const deleteNotesTextFile = await deleteFromCloudinary(
+      notes?.textFile.public_id,
+      "raw"
+    );
+
+    if (!deleteNotesTextFile) {
+      throw new ApiError(500, "Failed to delete notes text file");
+    }
+  }
+
   const uploadNewPdfFile = await uploadOnCloudinary(pdfFileLocalPath);
 
   if (!uploadNewPdfFile) {
@@ -456,7 +467,7 @@ const updateNotesPdfFile = asyncHandler(async (req, res) => {
   }
 
   await inngest.send({
-    name: "notes/upload",
+    name: "notes/generateNoteSummaryAndTextFiles",
     data: {
       notesId: newNotes._id,
     },
@@ -531,6 +542,31 @@ const deleteSubjectNotes = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "notes deleted successfully"));
 });
 
+const generateNotesSummaryAndTextFile = asyncHandler(async (req, res) => {
+  const { notesId } = req.params;
+
+  console.log("notesId", notesId);
+
+  await inngest.send({
+    name: "notes/generateNoteSummaryAndTextFiles",
+    data: {
+      notesId,
+    },
+  });
+
+  console.log("return");
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        {},
+        "Notes Summary and Text file generation has started. This may take a few minutes."
+      )
+    );
+});
+
 export {
   uploadNotes,
   updateNotesDetails,
@@ -540,4 +576,5 @@ export {
   getNotesLikedByUser,
   updateNotesPdfFile,
   deleteSubjectNotes,
+  generateNotesSummaryAndTextFile,
 };

@@ -8,7 +8,7 @@ import logger from "../../logger/winston.logger.js";
 
 export const onNotesUpload = inngest.createFunction(
   { id: "on-notes-upload", retries: 3 },
-  { event: "notes/upload" },
+  { event: "notes/generateNoteSummaryAndTextFiles" },
   async ({ event, step }) => {
     try {
       const { notesId } = event.data;

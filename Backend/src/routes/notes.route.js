@@ -13,6 +13,7 @@ import {
 import {
   deleteNotes,
   deleteSubjectNotes,
+  generateNotesSummaryAndTextFile,
   getNotesBySubject,
   getNotesLikedByUser,
   getNotesUploadedByUser,
@@ -89,6 +90,15 @@ router
     notesSubjectValidator(),
     validate,
     deleteSubjectNotes
+  );
+
+router
+  .route("/generate-summary-and-notes/:notesId")
+  .post(
+    verifyPermission([UserRolesEnum.ADMIN]),
+    mongoIdPathVariableValidator("notesId"),
+    validate,
+    generateNotesSummaryAndTextFile
   );
 
 export default router;
