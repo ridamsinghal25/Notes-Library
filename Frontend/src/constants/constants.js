@@ -225,3 +225,52 @@ export const MESSAGES = [
     image: EngineeringPhysics,
   },
 ];
+
+/**
+ * @PDFPage
+ */
+
+export const AI_PLATFORM_HEADING = "Choose Your AI Platform";
+
+export const LLM_PLATFORMS = [
+  {
+    name: "Notes Library",
+    provider: "Coming Soon",
+    color: "purple",
+    description:
+      "Our own integrated Notes Library AI platform is on the way. Stay tuned for updates!",
+    isComingSoon: true,
+    buttonLabel: "Coming Soon",
+    variant: "secondary",
+  },
+  {
+    name: "ChatGPT",
+    provider: "OpenAI GPT-4",
+    color: "green",
+    description:
+      "Upload your text file to ChatGPT and start an intelligent conversation about your document.",
+    url: "https://chat.openai.com/",
+    buttonLabel: "Open ChatGPT",
+    variant: "default",
+  },
+  {
+    name: "Claude",
+    provider: "Anthropic AI",
+    color: "orange",
+    description:
+      "Use Claude's advanced reasoning capabilities to analyze and discuss your document content.",
+    url: "https://claude.ai/",
+    buttonLabel: "Open Claude",
+    variant: "default",
+  },
+  {
+    name: "Gemini",
+    provider: "Google AI",
+    color: "blue",
+    description:
+      "Leverage Google's Gemini for comprehensive document analysis and Q&A sessions.",
+    url: "https://gemini.google.com/",
+    buttonLabel: "Open Gemini",
+    variant: "default",
+  },
+];

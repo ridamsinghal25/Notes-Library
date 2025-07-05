@@ -145,6 +145,22 @@ class NotesService {
       return response;
     }
   }
+
+  async generateSummaryAndNotesFile(notesId) {
+    const apiRequest = new ApiRequest(
+      `${this.NOTES_BASE_URL}/generate-summary-and-notes/${notesId}`
+    );
+
+    const response = await apiRequest.postRequest();
+
+    if (response instanceof ApiResponse && response.success) {
+      return response;
+    } else if (response instanceof ApiResponse) {
+      return new ApiError(response.message);
+    } else {
+      return response;
+    }
+  }
 }
 
 export default new NotesService();
