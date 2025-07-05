@@ -75,8 +75,6 @@ function PdfPageContainer() {
 
     setIsGenerating(false);
 
-    console.log("response", response);
-
     if (!(response instanceof ApiError)) {
       toast.success(
         response?.message ||

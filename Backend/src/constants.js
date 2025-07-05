@@ -17,11 +17,8 @@ export const USER_COOKIE_EXPIRY = 3 * 24 * 60 * 60 * 1000; // 3 days
 
 export const MAX_DAILY_NOTES = 10;
 
-export const TMP_EXTRACTED_TEXT_PATH = path.join(
-  process.cwd(),
-  "tmp",
-  "extractedText.txt"
-);
+export const TMP_EXTRACTED_TEXT_PATH = path.join("/tmp", "extractedText.txt");
+
 export const PUBLIC_EXTRACTED_TEXT_PATH = path.join(
   process.cwd(),
   "public",

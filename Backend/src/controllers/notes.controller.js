@@ -545,16 +545,12 @@ const deleteSubjectNotes = asyncHandler(async (req, res) => {
 const generateNotesSummaryAndTextFile = asyncHandler(async (req, res) => {
   const { notesId } = req.params;
 
-  console.log("notesId", notesId);
-
   await inngest.send({
     name: "notes/generateNoteSummaryAndTextFiles",
     data: {
       notesId,
     },
   });
-
-  console.log("return");
 
   return res
     .status(200)
