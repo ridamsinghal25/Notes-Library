@@ -80,7 +80,7 @@ export const onNotesUpload = inngest.createFunction(
               $set: {
                 summary: String(summary),
                 textFile: {
-                  url: uploadToCloudinary.url,
+                  url: uploadToCloudinary.secure_url,
                   public_id: uploadToCloudinary.public_id,
                 },
               },

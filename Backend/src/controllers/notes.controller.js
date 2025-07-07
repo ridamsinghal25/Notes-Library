@@ -36,6 +36,22 @@ const uploadNotes = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid subject or chapter for this course");
   }
 
+  const totalChapters = isValidSubject.subjects?.find(
+    (sub) => sub.subjectName === subject
+  )?.chapters?.length;
+
+  if (chapterNumber > totalChapters + 1) {
+    return res
+      .status(400)
+      .json(
+        new ApiResponse(
+          400,
+          {},
+          `Invalid chapter number. There are only ${totalChapters} chapters.`
+        )
+      );
+  }
+
   const pdfFile = await uploadOnCloudinary(pdfFileLocalPath);
 
   if (!pdfFile) {
@@ -89,6 +105,22 @@ const updateNotesDetails = asyncHandler(async (req, res) => {
 
   if (!isValidSubject) {
     throw new ApiError(400, "Invalid subject or chapter for this course");
+  }
+
+  const totalChapters = isValidSubject.subjects?.find(
+    (sub) => sub.subjectName === subject
+  )?.chapters?.length;
+
+  if (chapterNumber > totalChapters + 1) {
+    return res
+      .status(400)
+      .json(
+        new ApiResponse(
+          400,
+          {},
+          `Invalid chapter number. There are only ${totalChapters} chapters.`
+        )
+      );
   }
 
   const updatedNotes = await Notes.findOneAndUpdate(
