@@ -30,6 +30,8 @@ export const HOME_TEXT_CONTENT = {
 export const SEMESTER_OPTIONS = [
   { id: 1, name: "Fifth" },
   { id: 2, name: "Sixth" },
+  { id: 3, name: "Seventh" },
+  { id: 4, name: "Eighth" },
 ];
 
 export const COURSE_OPTIONS = [
