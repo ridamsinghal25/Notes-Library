@@ -20,14 +20,14 @@ const uploadUpdateNoteValidator = () => {
       .notEmpty()
       .withMessage("subject is required")
       .isLength({ min: 3, max: 50 })
-      .withMessage("Chapter name must be between 3 and 50 characters")
+      .withMessage("Subject name must be between 3 and 50 characters")
       .escape(),
     body("owner")
       .trim()
       .notEmpty()
       .withMessage("owner is required")
       .isLength({ min: 3, max: 50 })
-      .withMessage("Chapter name must be between 3 and 50 characters")
+      .withMessage("Owner name must be between 3 and 50 characters")
       .escape(),
   ];
 };

@@ -3,7 +3,7 @@ import { createAgent, gemini } from "@inngest/agent-kit";
 const summaryGenerator = async (text) => {
   const summaryAgent = createAgent({
     model: gemini({
-      model: "gemini-1.5-flash-8b",
+      model: "gemini-2.5-flash",
       apiKey: process.env.GEMINI_API_KEY,
     }),
     name: "AI Summary Agent",

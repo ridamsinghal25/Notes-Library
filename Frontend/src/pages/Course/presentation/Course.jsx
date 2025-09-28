@@ -82,7 +82,7 @@ export default function Course({
                             toggleChapters(course._id, subjectIndex)
                           }
                         >
-                          <span className="font-semibold">
+                          <span className="font-semibold truncate">
                             {subject.subjectName}
                           </span>
                           {expandedSubjects[`${course._id}-${subjectIndex}`] ? (
